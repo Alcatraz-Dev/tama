@@ -13,8 +13,12 @@ export function ProductDetails({ product }: any) {
     if (!media?.asset?._ref) return null;
     const ref = media.asset._ref; // e.g. file-<hash>-mp4
     const hash = ref.replace("file-", "").replace("-mp4", "");
-    return `${process.env.SANITY_FILES_URL}${hash}.mp4`;
+    const fullUrl = `${process.env.NEXT_PUBLIC_SANITY_ASSET_URL}/${hash}.mp4`;
+    //  console.log(fullUrl);
+    return fullUrl;
   };
+  const videoUrl = getVideoUrl(selectedMedia);
+  // console.log(videoUrl);
 
   return (
     <section className="max-w-7xl mx-auto py-12 px-6 sm:px-12">
@@ -56,7 +60,7 @@ export function ProductDetails({ product }: any) {
           </div>
 
           {/* Main Media */}
-          <div className="relative w-full aspect-square rounded-3xl overflow-hidden shadow-lg">
+                <div className="relative w-full aspect-square rounded-3xl overflow-hidden shadow-lg">
             {selectedMedia?._type === "image" ? (
               <Image
                 src={selectedMedia.asset.url}
@@ -64,9 +68,9 @@ export function ProductDetails({ product }: any) {
                 fill
                 className="object-cover rounded-3xl transition-transform duration-500 hover:scale-105"
               />
-            ) : selectedMedia?._type === "file" ? (
+            ) : videoUrl ? (
               <video
-                src={getVideoUrl(selectedMedia) || ""}
+                src={videoUrl || ""}
                 className="w-full h-full object-cover rounded-3xl"
                 controls
                 autoPlay
@@ -74,7 +78,7 @@ export function ProductDetails({ product }: any) {
                 loop
                 playsInline
               />
-            ) : null}
+            ) : null }
           </div>
         </div>
 
@@ -107,7 +111,7 @@ export function ProductDetails({ product }: any) {
           )}
 
           {/* Sizes */}
-          {product.sizes?.length > 0 && (
+        {product.sizes?.length > 0 && (
             <div className="flex gap-2 mt-4 flex-wrap">
               {product.sizes.map((size: string, i: number) => (
                 <button
@@ -116,7 +120,9 @@ export function ProductDetails({ product }: any) {
                   className={`px-4 py-2 border rounded-lg text-sm font-medium transition-transform duration-300 ${
                     selectedSize === size ? "bg-black text-white scale-105" : "border-gray-300 hover:bg-gray-100"
                   }`}
-                />
+                >
+                  {size}
+                </button>
               ))}
             </div>
           )}
