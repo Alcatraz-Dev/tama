@@ -20,8 +20,7 @@ export default async function HomePage() {
       <div className="mt-5">
         <SubHero categories={categories} />
       </div>
-
-      {/* <Hero /> */}
+      {/* Hero  */}
       <Hero />
       <SubcategoryGrid />
       {/* <CategoryGrid /> */}

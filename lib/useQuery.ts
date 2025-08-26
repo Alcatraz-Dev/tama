@@ -70,9 +70,35 @@ export async function getProducts() {
 
   return results;
 }
-export async function getBanner () {
-
-const query = `
+export async function getProductBySlug(slug: string) {
+  const query = `
+*[_type == "product" && slug.current == $slug][0]{
+  _id,
+  title,
+  description,
+  price,
+  inStock,
+  gallery[]{
+   ...,
+    _key,
+    _type,
+    _type == "image" => {
+      asset->{_id, url}
+    },
+    _type == "file" => {
+     ...,
+      asset->{_id, url, originalFilename, mimeType}
+    }
+  },
+  colors[]{hex, name},
+  sizes
+}
+`;
+  const product = await client.fetch(query, { slug });
+  return product;
+}
+export async function getBanner() {
+  const query = `
 *[_type == "banner"][0]{
   title,
   subtitle,
@@ -82,7 +108,7 @@ const query = `
 }
 `;
 
-const results = await client.fetch(query);
+  const results = await client.fetch(query);
 
-return results;
+  return results;
 }
