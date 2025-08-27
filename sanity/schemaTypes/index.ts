@@ -6,9 +6,10 @@ import collection from "./collection";
 import heroCard from "./heroCard";
 import subcategory from "./subcategory";
 import banner from "./banner";
+import order from "./order";
 
 
 export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [heroCard, product , category , subcategory, collection , banner, lookbook
+  types: [heroCard, product , category , subcategory, collection , banner, lookbook , order
   ],
 };
