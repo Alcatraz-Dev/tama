@@ -281,18 +281,18 @@ export function ProductDetails({ product }: any) {
               </div>
             </div>
           )}
-          <div className="w-full mt-4 flex flex-col sm:flex-row gap-2 justify-center items-center">
+          <div className="w-full  mt-4 flex flex-col sm:flex-row gap-2 justify-center items-center">
             {/* Add to Cart */}
             <Button
               disabled={!product.inStock}
-              className="flex-1 rounded-lg hover:cursor-pointer"
+             className="w-full sm:flex-1 rounded-lg hover:cursor-pointer"
             >
               Add to Cart
             </Button>
 
             {/* Shop Now / Cancel */}
             <Button
-              className="flex-1 rounded-lg hover:cursor-pointer"
+               className="w-full sm:flex-1 rounded-lg hover:cursor-pointer"
               onClick={() => setShowShopForm((prev) => !prev)}
               disabled={!product.inStock}
             >
