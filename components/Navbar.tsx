@@ -6,7 +6,7 @@ import { useCartStore } from "@/store/cart";
 import { useState, useEffect } from "react";
 
 const links = [
-  { href: "/shop", label: "Shop" },
+  { href: "/products", label: "Products" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ];

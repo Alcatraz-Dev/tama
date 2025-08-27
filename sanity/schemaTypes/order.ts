@@ -44,23 +44,56 @@ export default defineType({
       type: "string",
       validation: (Rule) => Rule.required(),
     }),
+
+    // Multi-item array
     defineField({
-      name: "product",
-      title: "Product",
-      type: "reference",
-      to: [{ type: "product" }],
-      validation: (Rule) => Rule.required(),
+      name: "items",
+      title: "Items",
+      type: "array",
+      of: [
+        {
+          type: "object",
+          name: "orderItem",
+          title: "Order Item",
+          fields: [
+            {
+              name: "product",
+              title: "Product",
+              type: "reference",
+              to: [{ type: "product" }],
+            },
+            {
+              name: "quantity",
+              title: "Quantity",
+              type: "number",
+              validation: (Rule) => Rule.required(),
+            },
+            { name: "selectedColor", title: "Selected Color", type: "string" },
+            { name: "selectedSize", title: "Selected Size", type: "string" },
+          ],
+          preview: {
+            select: {
+              productTitle: "product.title", // title of the product
+               productImage: "product.gallery.0.asset", // first image in product's gallery array
+              quantity: "quantity",
+              color: "selectedColor",
+            },
+            prepare({ productTitle, productImage, quantity, color }) {
+              return {
+                title: productTitle || "No product selected",
+                subtitle: `Qty: ${quantity}${color ? `, Color: ${color}` : ""}`,
+                media: productImage,
+              };
+            },
+          },
+        },
+      ],
     }),
-    defineField({
-      name: "selectedColor",
-      title: "Selected Color",
-      type: "string",
-    }),
-    defineField({
-      name: "selectedSize",
-      title: "Selected Size",
-      type: "string",
-    }),
+
+    defineField({ name: "subtotal", title: "Subtotal", type: "number" }),
+    defineField({ name: "shippingFee", title: "Shipping Fee", type: "number" }),
+    defineField({ name: "total", title: "Total", type: "number" }),
+
     defineField({
       name: "status",
       title: "Order Status",
@@ -76,6 +109,7 @@ export default defineType({
       },
       initialValue: "pending",
     }),
+
     defineField({
       name: "createdAt",
       title: "Created At",

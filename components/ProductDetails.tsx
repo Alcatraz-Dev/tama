@@ -6,6 +6,7 @@ import { PlaySquare } from "lucide-react";
 import { Button } from "./ui/button";
 import { client } from "@/sanity/lib/client";
 import { toast } from "sonner";
+import { useCartStore } from "@/store/cart";
 const tunisianTowns = [
   "Tunis",
   "Sfax",
@@ -32,7 +33,7 @@ export function ProductDetails({ product }: any) {
   const [location, setLocation] = useState("");
   const [phone, setPhone] = useState("");
   const [town, setTown] = useState("");
-
+  const { addToCart, cartItems } = useCartStore();
   const getVideoUrl = (media: any) => {
     if (!media?.asset?._ref) return null;
     const ref = media.asset._ref;
@@ -88,9 +89,24 @@ export function ProductDetails({ product }: any) {
         town,
         location,
         phone,
-        product: { _type: "reference", _ref: product._id },
-        selectedColor,
-        selectedSize,
+        items: [
+          {
+            _key: crypto.randomUUID(), // unique key for Sanity array
+            product: { _type: "reference", _ref: product._id }, // reference to the product
+            quantity: 1, // or allow user to select quantity if needed
+            selectedColor,
+            selectedSize,
+            price: product.price,
+            subtotal: product.price,
+            shippingFee: 7,
+            total: product.price + 7,
+            status: "pending",
+            createdAt: new Date().toISOString(),
+          },
+        ],
+        subtotal: product.price,
+        shippingFee: 7, // or calculate dynamically
+        total: product.price + 7,
         status: "pending",
         createdAt: new Date().toISOString(),
       });
@@ -109,6 +125,9 @@ export function ProductDetails({ product }: any) {
         phone,
         product,
         selectedColor,
+        subtotal: product.price * product.quantity,
+        shippingFee: 50,
+        total: product.price * product.quantity + 50,
         selectedSize,
         status: "pending",
       };
@@ -136,6 +155,23 @@ export function ProductDetails({ product }: any) {
     } finally {
       setIsSubmitting(false); // allow future submissions
     }
+  };
+
+  const handleAdd = () => {
+    if (!selectedColor || !selectedSize) return; // prevent adding without both
+
+    addToCart({
+      _id: product._id,
+      title: product.title,
+      slug:
+        typeof product.slug === "string" ? product.slug : product.slug?.current,
+      price: product.price,
+      gallery: product.gallery,
+      color: selectedColor,
+      size: selectedSize,
+      quantity: 1,
+      inStock: product.inStock,
+    });
   };
   return (
     <section className="max-w-7xl mx-auto py-12 px-4 sm:px-8 lg:px-12">
@@ -284,15 +320,16 @@ export function ProductDetails({ product }: any) {
           <div className="w-full  mt-4 flex flex-col sm:flex-row gap-2 justify-center items-center">
             {/* Add to Cart */}
             <Button
-              disabled={!product.inStock}
-             className="w-full sm:flex-1 rounded-lg hover:cursor-pointer"
+              disabled={!product.inStock || !selectedColor || !selectedSize}
+              className="w-full sm:flex-1 rounded-lg hover:cursor-pointer"
+              onClick={handleAdd}
             >
               Add to Cart
             </Button>
 
             {/* Shop Now / Cancel */}
             <Button
-               className="w-full sm:flex-1 rounded-lg hover:cursor-pointer"
+              className="w-full sm:flex-1 rounded-lg hover:cursor-pointer"
               onClick={() => setShowShopForm((prev) => !prev)}
               disabled={!product.inStock}
             >
