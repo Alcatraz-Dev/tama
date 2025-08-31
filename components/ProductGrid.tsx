@@ -38,6 +38,7 @@ export default function ProductGrid() {
       >
         {products.map((p: any) => (
           <motion.div
+           
             key={p._id}
             variants={itemVariants}
             whileHover={{ scale: 1.05 }}
@@ -66,7 +67,7 @@ export default function ProductGrid() {
             </div>
 
             {/* Details */}
-            <div className="mt-5 mb-5 mx-5 flex flex-col items-center rounded-b-3xl text-white drop-shadow-2xl z-10">
+            <Link href={`/product/${p.slug}`} className="mt-5 mb-5 mx-5 flex flex-col items-center rounded-b-3xl text-white drop-shadow-2xl z-10">
               <h3 className="text-sm sm:text-base font-semibold line-clamp-1 text-center max-w-[80%] my-2">
                 {p.title}
               </h3>
@@ -92,7 +93,7 @@ export default function ProductGrid() {
                   </p>
                 </div>
               )}
-            </div>
+            </Link>
           </motion.div>
         ))}
       </motion.div>
