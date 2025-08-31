@@ -137,7 +137,7 @@ export default function CartPage() {
     return (
       <div className="p-6 text-center my-20">
         <ShoppingCart className="w-14 h-14 mx-auto text-gray-400 mb-4" />
-        <p className="text-lg font-medium">Your cart is empty 🛒</p>
+        <p className="text-lg font-medium">Your cart is empty.</p>
       </div>
     );
   }
@@ -171,7 +171,7 @@ export default function CartPage() {
                 {item.title}
               </h2>
               <p className="text-gray-600 text-sm sm:text-base">
-                ${item.price.toFixed(2)}
+                {item.price.toFixed(2)} DT
               </p>
               <div className="flex flex-wrap items-center gap-2 mt-1 text-xs sm:text-sm text-gray-500">
                 {item.size && <span>Size: {item.size}</span>}
@@ -208,7 +208,7 @@ export default function CartPage() {
             {/* Subtotal + remove */}
             <div className="flex sm:flex-col sm:items-end justify-between sm:justify-start gap-2 sm:gap-3 mt-3 sm:mt-0">
               <p className="text-sm sm:text-md font-semibold">
-                ${(item.price * item.quantity).toFixed(2)}
+                {(item.price * item.quantity).toFixed(2)} DT
               </p>
               <button
                 onClick={() => removeFromCart(item._id)}
@@ -227,10 +227,10 @@ export default function CartPage() {
           {/* Order Summary */}
           <div className="w-full flex flex-col gap-2">
             <p className="text-sm text-gray-600">
-              Subtotal: ${subtotal.toFixed(2)}
+              Subtotal: {subtotal.toFixed(2)} DT
             </p>
-            <p className="text-sm text-gray-600">Shipping: ${shippingFee}</p>
-            <p className="text-xl font-bold">Total: ${total.toFixed(2)}</p>
+            <p className="text-sm text-gray-600">Shipping: {shippingFee} DT</p>
+            <p className="text-xl font-bold">Total: {total.toFixed(2)} DT</p>
           </div>
 
           {/* Checkout Form / Button */}

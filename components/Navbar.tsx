@@ -4,11 +4,12 @@ import Link from "next/link";
 import { ShoppingBasket } from "lucide-react";
 import { useCartStore } from "@/store/cart";
 import { useState, useEffect } from "react";
+import Image from "next/image";
 
 const links = [
   { href: "/products", label: "Products" },
   { href: "/about", label: "About" },
-  { href: "/contact", label: "Contact" },
+  // { href: "/contact", label: "Contact" },
 ];
 
 export default function Navbar() {
@@ -74,6 +75,7 @@ export default function Navbar() {
         >
           Tama
         </Link>
+    
 
         {/* Right side actions */}
         <div className="flex items-center gap-20 ml-auto">

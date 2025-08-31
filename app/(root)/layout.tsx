@@ -3,7 +3,8 @@ import { Jost } from "next/font/google";
 import "../globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Toaster } from "@/components/ui/sonner"
+import { Toaster } from "@/components/ui/sonner";
+import WhatsAppButton from "@/components/WhatsAppButton";
 const jost = Jost({
   variable: "--font-jost",
   subsets: ["latin"],
@@ -28,6 +29,7 @@ export default function RootLayout({
           <Footer />
         </div>
         <Toaster />
+        <WhatsAppButton />
       </body>
     </html>
   );

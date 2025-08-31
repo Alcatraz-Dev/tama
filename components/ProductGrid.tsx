@@ -47,7 +47,7 @@ export default async function ProductGrid() {
               <h3 className="text-sm sm:text-base font-semibold line-clamp-1 text-center max-w-[80%] my-2">
                 {p.title}
               </h3>
-
+              <p className="text-gray-300 text-sm my-1 line-clamp-1">{p.description}</p>
               {/* Colors */}
               {p.colors?.length > 0 && (
                 <div className="flex items-center justify-between gap-2 mt-2 w-full px-2 ">

@@ -50,6 +50,7 @@ export async function getProducts() {
   _id,
   title,
   price,
+  description, 
   "slug": slug.current,
   gallery[]{
     _type,
@@ -111,4 +112,42 @@ export async function getBanner() {
   const results = await client.fetch(query);
 
   return results;
+}
+export async function getAllProducts() {
+  const query = `
+*[_type == "product"]{
+  _id,
+  title,
+  slug,
+  description,
+  price,
+  inStock,
+  gallery[]{
+    ...,
+    _key,
+    _type,
+    _type == "image" => {
+      asset->{_id, url}
+    },
+    _type == "file" => {
+      ...,
+      asset->{_id, url, originalFilename, mimeType}
+    }
+  },
+  colors[]{hex, name},
+  sizes
+}
+`;
+
+  const products = await client.fetch(query);
+  return products;
+}
+export async function getCategories() {
+const query = `
+*[_type == "category"]{
+  _id, title, "imageUrl": image.asset->url
+}
+`;
+const results = await client.fetch(query);
+return results;
 }
