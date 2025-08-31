@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useMemo } from "react";
-import { getProducts } from "@/lib/useQuery";
+import { getAllProducts, getProducts } from "@/lib/useQuery";
 import SearchAndFilltring from "@/components/SearchAndFilteringWrapper";
 import ProductCard from "@/components/ProductCard";
 
@@ -9,20 +9,24 @@ export default function Products() {
   const [products, setProducts] = useState<any[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedSubCategory, setSelectedSubCategory] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("");
 
   useEffect(() => {
-    getProducts().then(setProducts);
+    getAllProducts().then((data) => {
+      console.log("Fetched products:", data);
+      setProducts(data);
+    });
   }, []);
+  
 
   // Filtering + sorting
   const filteredProducts = useMemo(() => {
     let result = [...products];
+    const query = searchQuery.trim().toLowerCase();
 
-    if (searchQuery) {
-      result = result.filter((p) =>
-        p.title.toLowerCase().includes(searchQuery.toLowerCase())
-      );
+    if (query) {
+      result = result.filter((p) => p.title?.toLowerCase().includes(query));
     }
 
     if (selectedCategory) {
@@ -30,6 +34,15 @@ export default function Products() {
         (p) =>
           p.category?._id === selectedCategory ||
           p.category?.title === selectedCategory
+      );
+    }
+
+    if (selectedSubCategory) {
+      result = result.filter(
+        (p) =>
+          (p.subcategory?._id === selectedSubCategory ||
+            p.subcategory?.title === selectedSubCategory) &&
+          (!selectedCategory || p.category?._id === selectedCategory)
       );
     }
 
@@ -43,7 +56,13 @@ export default function Products() {
     }
 
     return result;
-  }, [products, searchQuery, selectedCategory, selectedFilter]);
+  }, [
+    products,
+    searchQuery,
+    selectedCategory,
+    selectedSubCategory,
+    selectedFilter,
+  ]);
 
   return (
     <section className="py-8 md:py-12">

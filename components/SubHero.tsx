@@ -10,6 +10,8 @@ interface SubHeroProps {
   onSearchChange: (value: string) => void;
   selectedCategory: string;
   onCategorySelect: (value: string) => void;
+  selectedSubCategory: string; // <-- new
+  onSubCategorySelect: (value: string) => void; // <-- new
   selectedFilter: string;
   onFilterSelect: (value: string) => void;
 }
@@ -20,8 +22,6 @@ function SubHero({
   onSearchChange,
   selectedCategory,
   onCategorySelect,
-  selectedFilter,
-  onFilterSelect, // <- use this
 }: SubHeroProps) {
   // Motion variants for child items
   const itemVariants = {
@@ -31,7 +31,7 @@ function SubHero({
 
   return (
     <motion.div
-      className="flex flex-col md:flex-row  items-center justify-center gap-5 px-4 py-2"
+      className="flex flex-col md:flex-row items-center justify-center gap-5 px-4 py-2"
       initial="hidden"
       animate="visible"
       transition={{ staggerChildren: 0.1 }}
@@ -42,16 +42,13 @@ function SubHero({
       </motion.div>
 
       {/* Categories */}
-      <motion.div variants={itemVariants} className="w-full md:w-auto ">
+      <motion.div variants={itemVariants} className="w-full md:w-auto">
         <Category
           categories={categories}
-          selected={selectedCategory}
-          onSelect={onCategorySelect} // <- correct
+          selectedCategory={selectedCategory}
+          onSelectCategory={onCategorySelect}
         />
       </motion.div>
-
-    
-      
     </motion.div>
   );
 }

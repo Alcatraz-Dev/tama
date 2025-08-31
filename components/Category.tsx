@@ -3,38 +3,41 @@ import React from "react";
 
 interface CategoryProps {
   categories: any[];
-  selected: string;
-  onSelect: (value: string) => void;
+  selectedCategory: string;
+  onSelectCategory: (id: string) => void;
 }
 
-export default function Category({ categories, selected, onSelect }: CategoryProps) {
+export default function Category({
+  categories,
+  selectedCategory,
+  onSelectCategory,
+}: CategoryProps) {
   return (
     <div className="flex flex-row gap-3 flex-wrap">
-      {/* "All" button to reset category */}
       <button
-        onClick={() => onSelect("")} // Clear selection
+        onClick={() => onSelectCategory("")}
         className={`flex justify-center items-center px-4 py-2 rounded-full shadow-sm text-sm ${
-          selected === "" ? "bg-black text-white" : "bg-white text-gray-700 hover:bg-gray-100"
+          selectedCategory === ""
+            ? "bg-black text-white"
+            : "bg-white text-gray-700 hover:bg-gray-100"
         }`}
       >
-        All
+        All Categories
       </button>
 
-      {/* Category buttons */}
-      {categories.map((c: any) => {
-        const isActive = selected === c._id || selected === c.title;
-        return (
-          <button
-            key={c._id}
-            onClick={() => onSelect(c._id)}
-            className={`flex justify-center items-center px-4 py-2 rounded-full shadow-sm text-sm ${
-              isActive ? "bg-black text-white" : "bg-white text-gray-700 hover:bg-gray-100"
-            }`}
-          >
-            {c.title}
-          </button>
-        );
-      })}
+      {categories.map((c) => (
+        <button
+          key={c._id}
+          onClick={() => onSelectCategory(c._id)}
+          className={`flex justify-center items-center px-4 py-2 rounded-full shadow-sm text-sm ${
+            selectedCategory === c._id
+              ? "bg-black text-white"
+              : "bg-white text-gray-700 hover:bg-gray-100"
+          }`}
+        >
+          {c.title}
+        </button>
+      ))}
     </div>
   );
 }

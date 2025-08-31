@@ -48,7 +48,7 @@ export async function getSubHeroCards() {
 
 export async function getProducts() {
   const query = `
-*[_type == "product"][0..3]{
+*[_type == "product"]{
   _id,
   title,
   price,
@@ -62,10 +62,14 @@ export async function getProducts() {
     }
   },
   colors[]{
-    value,    // if using simple string list
-    hex,      // if using @sanity/color-input
+    value,   
+    hex,     
   },
-  sizes
+  sizes,
+    category->{...,},
+   subcategory->{
+    ...,
+    }
 }
 `;
 
@@ -94,7 +98,11 @@ export async function getProductBySlug(slug: string) {
     }
   },
   colors[]{hex, name},
-  sizes
+  sizes,
+     category->{...,},
+   subcategory->{
+    ...,
+    }
 }
 `;
   const product = await client.fetch(query, { slug });
@@ -137,7 +145,13 @@ export async function getAllProducts() {
     }
   },
   colors[]{hex, name},
-  sizes
+  sizes,
+    _createdAt,  
+    
+    category->{...,},
+   subcategory->{
+    ...,
+    }
 }
 `;
 

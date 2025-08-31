@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import SubHero from "./SubHero";
-import { getCategories } from "@/lib/useQuery";
+import { getCategories, getsubcategories } from "@/lib/useQuery";
 
 interface Props {
   onSearch: (value: string) => void;
@@ -22,18 +22,30 @@ export default function SearchAndFilltring({
   selectedFilter = "",
 }: Props) {
   const [categories, setCategories] = useState<any[]>([]);
+  const [subCategories, setSubCategories] = useState<any[]>([]);
+  const [selectedSubCategory, setSelectedSubCategory] = useState("");
+
+  const [localSearch, setLocalSearch] = useState(searchValue);
 
   useEffect(() => {
     getCategories().then(setCategories);
+    getsubcategories().then(setSubCategories);
   }, []);
+
+  // Sync local search with parent onSearch
+  useEffect(() => {
+    onSearch(localSearch);
+  }, [localSearch, onSearch]);
 
   return (
     <SubHero
       categories={categories}
-      searchQuery={searchValue}
-      onSearchChange={onSearch}
+      searchQuery={localSearch}
+      onSearchChange={setLocalSearch}
       selectedCategory={selectedCategory}
       onCategorySelect={onCategorySelect}
+      selectedSubCategory={selectedSubCategory}
+      onSubCategorySelect={setSelectedSubCategory}
       selectedFilter={selectedFilter}
       onFilterSelect={onFilterSelect}
     />
