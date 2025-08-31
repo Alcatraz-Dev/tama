@@ -13,7 +13,7 @@ export default function Category({
   onSelectCategory,
 }: CategoryProps) {
   return (
-    <div className="flex flex-row gap-3 flex-wrap">
+    <div className="flex flex-row gap-3 overflow-x-auto ">
       <button
         onClick={() => onSelectCategory("")}
         className={`flex justify-center items-center px-4 py-2 rounded-full shadow-sm text-sm ${
@@ -22,7 +22,7 @@ export default function Category({
             : "bg-white text-gray-700 hover:bg-gray-100"
         }`}
       >
-        All Categories
+        All 
       </button>
 
       {categories.map((c) => (

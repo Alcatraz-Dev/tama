@@ -67,9 +67,7 @@ export async function getProducts() {
   },
   sizes,
     category->{...,},
-   subcategory->{
-    ...,
-    }
+
 }
 `;
 
@@ -100,9 +98,7 @@ export async function getProductBySlug(slug: string) {
   colors[]{hex, name},
   sizes,
      category->{...,},
-   subcategory->{
-    ...,
-    }
+ 
 }
 `;
   const product = await client.fetch(query, { slug });
@@ -149,9 +145,7 @@ export async function getAllProducts() {
     _createdAt,  
     
     category->{...,},
-   subcategory->{
-    ...,
-    }
+ 
 }
 `;
 
@@ -162,20 +156,13 @@ export async function getCategories(limit = 5) {
   const query = `*[_type == "category"][0...${limit}]{
     _id,
     title,
-    "imageUrl": image.asset->url
+    "imageUrl": image.asset->url,
+    "productCount": count(*[_type == "product" && category._ref == ^._id])
   }`;
   const categories = await client.fetch(query);
   return categories;
 }
-export async function getsubcategories() {
-  const query = `*[_type == "subcategory"]{
-    _id,
-    title,
-    "imageUrl": image.asset->url
-  }`;
-  const subcategories = await client.fetch(query);
-  return subcategories;
-}
+
 export async function getSocialLinks() {
   const query = `*[_type == "socialLinks"]{
    ...,
@@ -215,5 +202,62 @@ export async function getAndFilterProducts(filter: string) {
 }
 `;
   const results = await client.fetch(query, { filter });
+  return results;
+}
+export async function getCollectionsLimit(limit = 5) {
+  const query = `*[_type == "collection"][0...${limit}]{
+    _id,
+    title,
+    "imageUrl": image.asset->url,
+     "slug": slug.current,
+  }`;
+  const collections = await client.fetch(query);
+  return collections;
+}
+export async function getCollections() {
+  const query = `*[_type == "collection"]{
+    _id,
+    title,
+    "imageUrl": image.asset->url,
+     "slug": slug.current,
+  }`;
+  const collections = await client.fetch(query);
+  return collections;
+}
+export async function getCollectionBySlug(slug: string) {
+  const query = `
+*[_type == "collection" && slug.current == $slug][0]{
+  _id,
+  title,
+  description,
+  "slug": slug.current,
+  "imageUrl": image.asset->url,
+  products[]{...,}
+}
+`;
+  const collection = await client.fetch(query, { slug });
+  return collection;
+}
+
+export async function getLookbook(){
+  const query = `
+*[_type == "lookbook"]{
+  _id,
+  title,
+  slug,
+  description,
+  "images": images[]{
+    asset->{_id, url}
+  },
+  "products": products[]->{
+    _id,
+    title,
+    slug,
+    price,
+    "image": gallery[0].asset->url
+  }
+}
+`;
+  const results = await client.fetch(query);
   return results;
 }

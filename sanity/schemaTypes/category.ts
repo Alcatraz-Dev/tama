@@ -26,11 +26,6 @@ export default defineType({
       name: "description",
       type: "text",
     }),
-    // defineField({
-    //   name: "subcategory",
-    //   title: "Subcategory",
-    //   type: "reference",
-    //   to: [{ type: "subcategory" }],
-    // }),
+
   ],
 });

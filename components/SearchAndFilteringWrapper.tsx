@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import SubHero from "./SubHero";
-import { getCategories, getsubcategories } from "@/lib/useQuery";
+import { getCategories } from "@/lib/useQuery";
 
 interface Props {
   onSearch: (value: string) => void;
@@ -29,7 +29,6 @@ export default function SearchAndFilltring({
 
   useEffect(() => {
     getCategories().then(setCategories);
-    getsubcategories().then(setSubCategories);
   }, []);
 
   // Sync local search with parent onSearch

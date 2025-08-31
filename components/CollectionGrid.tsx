@@ -3,16 +3,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "./ui/button";
 import { ArrowRight } from "lucide-react";
+import { getCollectionsLimit } from "@/lib/useQuery";
 
 
-const query = `
-*[_type == "collection"][0..4]{ // limit to max 5 items
-  _id, title, "imageUrl": image.asset->url
-}
-`;
 
 export default async function CollectionGrid() {
-  const collections = await client.fetch(query);
+  const collections = await getCollectionsLimit(5);
 
   return (
     <section className="py-12">

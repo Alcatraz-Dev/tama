@@ -10,6 +10,7 @@ import { CiMenuFries } from "react-icons/ci";
 const links = [
   { href: "/products", label: "Products" },
   { href: "/about", label: "About" },
+  { href: "/lookbooks", label: "Lookbooks" },
 ];
 
 export default function Navbar() {

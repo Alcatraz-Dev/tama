@@ -97,12 +97,7 @@ export default defineType({
       type: "reference",
       to: [{ type: "category" }],
     }),
-    defineField({
-      name: "subcategory",
-      title: "Subcategory",
-      type: "reference",
-      to: [{ type: "subcategory" }],
-    }),
+
 
     // ✅ Stock
     defineField({

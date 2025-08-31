@@ -1,14 +1,14 @@
 "use client";
-import { getSubHeroCards } from "@/lib/useQuery";
+import { getCategories, getSubHeroCards } from "@/lib/useQuery";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 export default function SubcategoryGrid() {
-  const [subcategories, setSubcategories] = useState<any[]>([]);
+  const [categories, setCategories] = useState<any[]>([]);
 
   useEffect(() => {
-    getSubHeroCards().then(setSubcategories);
+    getCategories(3).then(setCategories);
   }, []);
 
   const containerVariants = {
@@ -34,14 +34,14 @@ export default function SubcategoryGrid() {
         initial="hidden"
         animate="visible"
       >
-        {subcategories.map((sub: any, idx: number) => (
+        {categories.map((sub: any, idx: number) => (
           <motion.div
             key={sub._id}
             variants={itemVariants}
             className={`
               group relative rounded-xl overflow-hidden shadow hover:shadow-lg transition-transform duration-300
               hover:scale-105 cursor-pointer
-              ${idx === subcategories.length - 3 ? "col-span-2 sm:col-span-2 md:col-span-1" : ""}
+              ${idx === categories.length - 3 ? "col-span-2 sm:col-span-2 md:col-span-1" : ""}
             `}
           >
             {/* Subcategory Image */}

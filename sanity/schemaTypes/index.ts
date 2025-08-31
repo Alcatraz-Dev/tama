@@ -4,13 +4,12 @@ import category from "./category";
 import lookbook from "./lookbook";
 import collection from "./collection";
 import heroCard from "./heroCard";
-import subcategory from "./subcategory";
 import banner from "./banner";
 import order from "./order";
 import socialLinks from "./socialLinks";
 
 
 export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [heroCard, product , category , subcategory, collection , banner, lookbook , order , socialLinks
+  types: [heroCard, product , category , collection , banner, lookbook , order , socialLinks
   ],
 };
