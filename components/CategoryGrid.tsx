@@ -1,34 +1,39 @@
 // components/CategoryGrid.tsx
-import { client } from "@/sanity/lib/client";
+import { getCategories } from "@/lib/useQuery";
 import Image from "next/image";
 
-const query = `
-*[_type == "category"]{
-  _id, title, "imageUrl": image.asset->url,
-  
-}
-`;
-
 export default async function CategoryGrid() {
-  const categories = await client.fetch(query);
+  const categories = await getCategories();
 
   return (
     <section className="py-12">
-      <h2 className="text-2xl md:text-4xl font-bold text-center mb-8">Our Category List</h2>
+      <h2 className="text-2xl md:text-4xl font-bold text-center mb-8">
+        Our Category List
+      </h2>
+
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6 px-6">
         {categories.map((c: any) => (
           <div
             key={c._id}
-            className="group rounded-xl overflow-hidden shadow hover:shadow-lg transition"
+            className="relative rounded-3xl overflow-hidden shadow-lg"
           >
             {c.imageUrl && (
               <div className="relative aspect-square">
-                <Image src={c.imageUrl} alt={c.title} fill className="object-cover" />
+                <Image
+                  src={c.imageUrl}
+                  alt={c.title}
+                  fill
+                  className="object-cover"
+                />
+
+                {/* Overlay always visible */}
+                <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                  <h3 className="text-white text-lg sm:text-xl font-semibold drop-shadow-lg">
+                    {c.title}
+                  </h3>
+                </div>
               </div>
             )}
-            <div className="p-3 text-center">
-              <h3 className="text-lg font-medium">{c.title}</h3>
-            </div>
           </div>
         ))}
       </div>
