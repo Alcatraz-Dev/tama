@@ -22,6 +22,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <meta property="og:title" content="Tama Shop" />
+      <meta property="og:description" content="Shop the latest fashion & express your individuality." />
+      <meta property="og:image" content="https://tamashop.vercel.app/og.png" />
+      <meta property="og:url" content="https://tamashop.vercel.app" />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:image" content="https://tamashop.vercel.app/og.png" />
+      <meta property="og:type" content="website" />
+      <meta property="og:site_name" content="Tama Shop" />
       <body className={`${jost.className} antialiased bg-slate-200`}>
         <Navbar />
         {children}
