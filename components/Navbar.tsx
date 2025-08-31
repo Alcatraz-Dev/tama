@@ -66,8 +66,8 @@ export default function Navbar() {
           </nav>
 
           {/* Cart */}
-          <Link href="/cart" className="relative bg-white p-2 rounded-lg">
-            <ShoppingBasket className="w-5 h-5 text-gray-700 hover:text-black" />
+          <Link href="/cart" className={`relative  p-2 rounded-lg ${ scrolled ? "bg-black" : " bg-white" }`}>
+            <ShoppingBasket className={`w-5 h-5   ${ scrolled ? " text-white hover:text-gray-700" : "text-gray-700 hover:text-black" }`} />
             <AnimatePresence>
               {cartItems.length > 0 && (
                 <motion.span
@@ -75,7 +75,7 @@ export default function Navbar() {
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   exit={{ scale: 0 }}
-                  className="absolute -top-2 -right-2 bg-black text-white text-xs w-5 h-5 rounded-full flex items-center justify-center"
+                  className={`absolute -top-2 -right-2  text-xs w-5 h-5 rounded-full flex items-center justify-center ${scrolled ? "bg-white text-black drop-shadow-2xl" : " bg-black text-white drop-shadow-2xl" }`}
                 >
                   {cartItems.length}
                 </motion.span>
