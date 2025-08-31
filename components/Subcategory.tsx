@@ -1,20 +1,46 @@
+"use client";
 import { getSubHeroCards } from "@/lib/useQuery";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
-export default async function SubcategoryGrid() {
-  const subcategories = await getSubHeroCards();
+export default function SubcategoryGrid() {
+  const [subcategories, setSubcategories] = useState<any[]>([]);
+
+  useEffect(() => {
+    getSubHeroCards().then(setSubcategories);
+  }, []);
+
+  const containerVariants = {
+    hidden: {},
+    visible: {
+      transition: { staggerChildren: 0.1 },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
+  };
 
   return (
     <section className="w-full max-w-7xl mx-auto px-6 py-12">
-      <h2 className="text-2xl md:text-4xl font-semibold text-center mb-8 px-10 capitalize flex justify-start">
+      <h2 className="text-2xl md:text-4xl  font-semibold text-center mb-8 px-10 capitalize flex justify-start">
         Our Category List
       </h2>
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-6 px-6">
+      <motion.div
+        className="grid grid-cols-2 md:grid-cols-3 gap-6 px-6"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
         {subcategories.map((sub: any, idx: number) => (
-          <div
+          <motion.div
             key={sub._id}
+            variants={itemVariants}
             className={`
-              group relative rounded-xl overflow-hidden shadow hover:shadow-lg transition hover:cursor-pointer hover:scale-105 ease-in-out duration-300
+              group relative rounded-xl overflow-hidden shadow hover:shadow-lg transition-transform duration-300
+              hover:scale-105 cursor-pointer
               ${idx === subcategories.length - 3 ? "col-span-2 sm:col-span-2 md:col-span-1" : ""}
             `}
           >
@@ -31,13 +57,17 @@ export default async function SubcategoryGrid() {
             )}
 
             {/* Text Overlay */}
-            <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 text-white text-center p-2">
-              <h3 className="text-lg md:text-xl font-semibold drop-shadow-2xl">{sub.title}</h3>
-              <p className="text-sm md:text-base drop-shadow-2xl">{sub.productCount} items</p>
+            <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 text-white text-center p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <h3 className="text-lg md:text-xl font-semibold drop-shadow-2xl">
+                {sub.title}
+              </h3>
+              <p className="text-sm md:text-base drop-shadow-2xl">
+                {sub.productCount} items
+              </p>
             </div>
-          </div>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
     </section>
   );
 }

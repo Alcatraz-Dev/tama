@@ -2,6 +2,7 @@
 import { getSocialLinks, iconMap } from "@/lib/useQuery";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 const footerLinks = {
   Company: [
@@ -31,7 +32,6 @@ export function Footer() {
       setSocialLinks(links);
     }
     fetchLinks();
-    console.log(socialLinks);
   }, []);
 
   return (
@@ -52,13 +52,19 @@ export function Footer() {
               designed for comfort.
             </p>
 
-            {/* Social Icons */}
+            {/* Social Icons with animation */}
             <ul className="mt-8 flex gap-6">
               {socialLinks.map((item, idx) => {
                 const Icon = iconMap[item.icon?.toLowerCase()] || null;
                 if (!Icon) return null;
                 return (
-                  <li key={idx}>
+                  <motion.li
+                    key={idx}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: idx * 0.1, duration: 0.5 }}
+                    whileHover={{ scale: 1.2, color: "#fff" }}
+                  >
                     <a
                       href={item.url}
                       target="_blank"
@@ -68,7 +74,7 @@ export function Footer() {
                       <span className="sr-only">{item.name}</span>
                       <Icon className="w-6 h-6" />
                     </a>
-                  </li>
+                  </motion.li>
                 );
               })}
             </ul>

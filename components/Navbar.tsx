@@ -4,12 +4,12 @@ import Link from "next/link";
 import { ShoppingBasket } from "lucide-react";
 import { useCartStore } from "@/store/cart";
 import { useState, useEffect } from "react";
-import Image from "next/image";
-
+import { motion, AnimatePresence } from "framer-motion";
+import { Button } from "./ui/button";
+import { CiMenuFries } from "react-icons/ci";
 const links = [
   { href: "/products", label: "Products" },
   { href: "/about", label: "About" },
-  // { href: "/contact", label: "Contact" },
 ];
 
 export default function Navbar() {
@@ -17,56 +17,25 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20); // 👈 change bg after scrolling 20px
-    };
-
+    const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
-    <header
-      className={`sticky top-0 z-50 transition-colors duration-300 ${
-        scrolled ? " shadow-md backdrop-blur-sm bg-white/60" : "bg-transparent"
+    <motion.header
+      initial={{ y: -50, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className={`sticky top-0 z-50 backdrop-blur-sm transition-all duration-300 ${
+        scrolled ? "shadow-md bg-white/70" : "bg-transparent"
       }`}
     >
-      <div className="container mx-auto flex items-center justify-between py-4 px-6">
+      <div className="container mx-auto flex items-center justify-between py-4 px-6 relative">
         {/* Hamburger menu */}
-        <button className="md:hidden">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-6 h-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H7.5"
-            />
-          </svg>
-        </button>
-
-        {/* Small Logo */}
-       <button className="md:flex hidden">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-6 h-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H7.5"
-            />
-          </svg>
-        </button>
+        <Button className="md:hidden hover:cursor-pointer w-8 h-8 ">
+         <CiMenuFries className="w-3 h-3  hover:text-black" />
+        </Button>
 
         {/* Center Logo */}
         <Link
@@ -75,34 +44,45 @@ export default function Navbar() {
         >
           Tama
         </Link>
-    
 
-        {/* Right side actions */}
-        <div className="flex items-center gap-20 ml-auto">
-          {/* Right side nav */}
+        {/* Right side nav */}
+        <div className="flex items-center gap-6 ml-auto">
           <nav className="hidden md:flex gap-6">
             {links.map((link) => (
-              <Link
+              <motion.div
                 key={link.href}
-                href={link.href}
-                className="text-gray-700 hover:text-black font-semibold transition"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
               >
-                {link.label}
-              </Link>
+                <Link
+                  href={link.href}
+                  className="text-gray-700 hover:text-black font-semibold transition"
+                >
+                  {link.label}
+                </Link>
+              </motion.div>
             ))}
           </nav>
 
           {/* Cart */}
           <Link href="/cart" className="relative bg-white p-2 rounded-lg">
-            <ShoppingBasket className="w-4 h-4 text-gray-700 hover:text-black" />
-            {cartItems.length > 0 && (
-              <span className="absolute -top-2 -right-2 bg-black text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
-                {cartItems.length}
-              </span>
-            )}
+            <ShoppingBasket className="w-5 h-5 text-gray-700 hover:text-black" />
+            <AnimatePresence>
+              {cartItems.length > 0 && (
+                <motion.span
+                  key={cartItems.length}
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  exit={{ scale: 0 }}
+                  className="absolute -top-2 -right-2 bg-black text-white text-xs w-5 h-5 rounded-full flex items-center justify-center"
+                >
+                  {cartItems.length}
+                </motion.span>
+              )}
+            </AnimatePresence>
           </Link>
         </div>
       </div>
-    </header>
+    </motion.header>
   );
 }

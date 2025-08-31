@@ -11,9 +11,9 @@ async function SearchAndFilltring() {
   const categories = await getCategories();
   return (
     <>
-      <div className="mt-5">
+      {/* <div className="mt-5">
         <SubHero categories={categories} />
-      </div>
+      </div> */}
       <div>
         {/* Hero  */}
         <Hero />
