@@ -1,16 +1,15 @@
-import SearchAndFilltring from "@/components/SearchAndFilltring";
-import { getAllProducts } from "@/lib/useQuery";
+
+import { getProducts } from "@/lib/useQuery";
 import Image from "next/image";
 import Link from "next/link";
 
 export default async function ProductGrid() {
-  const products = await getAllProducts();
-
+  const products = await getProducts();
   return (
     <section className="py-8 md:py-12">
-      <div className="my-5">
+      {/* <div className="my-5">
         <SearchAndFilltring />
-      </div>
+      </div> */}
       <h1 className="text-2xl md:text-3xl font-bold mb-8 mx-5 md:mx-12">
         All Products
       </h1>

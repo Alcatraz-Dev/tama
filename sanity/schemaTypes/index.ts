@@ -7,9 +7,10 @@ import heroCard from "./heroCard";
 import subcategory from "./subcategory";
 import banner from "./banner";
 import order from "./order";
+import socialLinks from "./socialLinks";
 
 
 export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [heroCard, product , category , subcategory, collection , banner, lookbook , order
+  types: [heroCard, product , category , subcategory, collection , banner, lookbook , order , socialLinks
   ],
 };

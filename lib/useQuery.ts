@@ -1,4 +1,6 @@
 import { client } from "@/sanity/lib/client";
+import { FiFacebook } from "react-icons/fi";
+import { RiInstagramLine, RiTiktokLine, RiYoutubeLine } from "react-icons/ri";
 
 export async function getHeroCards() {
   const query = `*[_type == "heroCard"] | order(order asc){
@@ -30,7 +32,7 @@ export async function getHeroCards() {
 
 export async function getSubHeroCards() {
   const query = `
-*[_type == "subcategory"][0..2]{
+*[_type == "subcategory"]{
   _id,
   title,
   slug,
@@ -142,12 +144,37 @@ export async function getAllProducts() {
   const products = await client.fetch(query);
   return products;
 }
-export async function getCategories() {
-const query = `
-*[_type == "category"]{
-  _id, title, "imageUrl": image.asset->url
+export async function getCategories(limit = 5) {
+  const query = `*[_type == "category"][0...${limit}]{
+    _id,
+    title,
+    "imageUrl": image.asset->url
+  }`;
+  const categories = await client.fetch(query);
+  return categories;
 }
-`;
-const results = await client.fetch(query);
-return results;
+export async function getsubcategories() {
+  const query = `*[_type == "subcategory"]{
+    _id,
+    title,
+    "imageUrl": image.asset->url
+  }`;
+  const subcategories = await client.fetch(query);
+  return subcategories;
 }
+export async function getSocialLinks() {
+  const query = `*[_type == "socialLinks"]{
+   ...,
+    name,
+    url,
+    icon
+  }`;
+  const socialLinks = await client.fetch(query);
+  return socialLinks;
+}
+export const iconMap: Record<string, any> = {
+  facebook: FiFacebook,
+  instagram: RiInstagramLine,
+  tiktok: RiTiktokLine,
+  youtube: RiYoutubeLine,
+};
