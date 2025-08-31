@@ -16,7 +16,7 @@ export default async function CollectionGrid() {
 
   return (
     <section className="py-12">
-      <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 tracking-tight mt-10">
+      <h2 className="text-2xl md:text-4xl font-bold text-center mb-12 tracking-tight mt-10">
         Our Featured Collections
       </h2>
 

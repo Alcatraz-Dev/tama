@@ -1,13 +1,28 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import SearchInput from "./SearchInput";
 import Category from "./Category";
-import FillterDropdown from "./FillterDropdown";
 
-function SubHero({ categories }: any) {
-  const [selectedFilter, setSelectedFilter] = useState("");
+interface SubHeroProps {
+  categories: any[];
+  searchQuery: string;
+  onSearchChange: (value: string) => void;
+  selectedCategory: string;
+  onCategorySelect: (value: string) => void;
+  selectedFilter: string;
+  onFilterSelect: (value: string) => void;
+}
 
+function SubHero({
+  categories,
+  searchQuery,
+  onSearchChange,
+  selectedCategory,
+  onCategorySelect,
+  selectedFilter,
+  onFilterSelect, // <- use this
+}: SubHeroProps) {
   // Motion variants for child items
   const itemVariants = {
     hidden: { opacity: 0, y: 10 },
@@ -16,29 +31,27 @@ function SubHero({ categories }: any) {
 
   return (
     <motion.div
-      className="flex flex-wrap items-center justify-center gap-5 px-4 py-2"
+      className="flex flex-col md:flex-row  items-center justify-center gap-5 px-4 py-2"
       initial="hidden"
       animate="visible"
       transition={{ staggerChildren: 0.1 }}
     >
       {/* Search */}
       <motion.div variants={itemVariants} className="w-full md:w-auto">
-        <SearchInput />
+        <SearchInput value={searchQuery} onChange={onSearchChange} />
       </motion.div>
 
       {/* Categories */}
-      <motion.div variants={itemVariants} className="w-full md:w-auto">
-        <Category categories={categories} />
-      </motion.div>
-
-      {/* Filter Dropdown */}
-      <motion.div variants={itemVariants} className="w-full md:w-auto">
-        <FillterDropdown
-          options={["Price", "Date", "Rating"]}
-          selected={selectedFilter || "Select Filter"}
-          onSelect={setSelectedFilter}
+      <motion.div variants={itemVariants} className="w-full md:w-auto ">
+        <Category
+          categories={categories}
+          selected={selectedCategory}
+          onSelect={onCategorySelect} // <- correct
         />
       </motion.div>
+
+    
+      
     </motion.div>
   );
 }

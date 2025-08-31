@@ -14,7 +14,7 @@ export default async function CategoryGrid() {
 
   return (
     <section className="py-12">
-      <h2 className="text-2xl font-semibold text-center mb-8">Our Category List</h2>
+      <h2 className="text-2xl md:text-4xl font-bold text-center mb-8">Our Category List</h2>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6 px-6">
         {categories.map((c: any) => (
           <div

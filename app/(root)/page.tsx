@@ -9,7 +9,11 @@ import SearchAndFilltring from "@/components/SearchAndFilteringWrapper";
 export default async function HomePage() {
   return (
     <>
-      <SearchAndFilltring />
+      <Hero />
+      <SubcategoryGrid />
+      <ProductGrid />
+      <Banner />
+      <CollectionGrid />
    
     </>
   );

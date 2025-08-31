@@ -178,3 +178,28 @@ export const iconMap: Record<string, any> = {
   tiktok: RiTiktokLine,
   youtube: RiYoutubeLine,
 };
+export async function getAndFilterProducts(filter: string) {
+  const query = `
+*[_type == "product" && $filter in categories[]->title][0..3]{
+  _id,
+  title,
+  price,
+  description, 
+  "slug": slug.current,
+  gallery[]{
+    _type,
+    asset->{
+      _id,
+      url
+    }
+  },
+  colors[]{
+    value,    // if using simple string list
+    hex,      // if using @sanity/color-input
+  },
+  sizes
+}
+`;
+  const results = await client.fetch(query, { filter });
+  return results;
+}

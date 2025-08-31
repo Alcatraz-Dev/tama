@@ -1,15 +1,40 @@
+"use client";
+import React from "react";
 
-export default  function Category( {categories}: any) {
+interface CategoryProps {
+  categories: any[];
+  selected: string;
+  onSelect: (value: string) => void;
+}
+
+export default function Category({ categories, selected, onSelect }: CategoryProps) {
   return (
-    <div className="flex flex-row gap-5">
-      {categories.map((c: any) => (
-        <button
-          key={c._id}
-          className="flex justify-between hover:cursor-pointer items-center w-full px-4 py-2 bg-white text-sm text-gray-700 rounded-full shadow-sm hover:bg-gray-100 z-10"
-        >
-          <div className="font-semibold text-xs">{c.title}</div>
-        </button>
-      ))}
+    <div className="flex flex-row gap-3 flex-wrap">
+      {/* "All" button to reset category */}
+      <button
+        onClick={() => onSelect("")} // Clear selection
+        className={`flex justify-center items-center px-4 py-2 rounded-full shadow-sm text-sm ${
+          selected === "" ? "bg-black text-white" : "bg-white text-gray-700 hover:bg-gray-100"
+        }`}
+      >
+        All
+      </button>
+
+      {/* Category buttons */}
+      {categories.map((c: any) => {
+        const isActive = selected === c._id || selected === c.title;
+        return (
+          <button
+            key={c._id}
+            onClick={() => onSelect(c._id)}
+            className={`flex justify-center items-center px-4 py-2 rounded-full shadow-sm text-sm ${
+              isActive ? "bg-black text-white" : "bg-white text-gray-700 hover:bg-gray-100"
+            }`}
+          >
+            {c.title}
+          </button>
+        );
+      })}
     </div>
   );
 }
