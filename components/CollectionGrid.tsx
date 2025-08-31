@@ -47,7 +47,7 @@ export default async function CollectionGrid() {
               <div className="absolute bottom-0 left-0 right-0 bg-black/10 flex items-center justify-between p-4 text-white">
                 <h3 className="font-semibold drop-shadow">{c.title}</h3>
 
-                <Link href="/" aria-label={`View ${c.title}`}>
+                <Link href="/products" aria-label={`View ${c.title}`}>
                   <Button className="inline-flex items-center justify-center bg-white text-black w-8 h-8 rounded-full hover:bg-slate-100 transition-transform duration-300 -rotate-45 hover:rotate-0">
                     <ArrowRight className="w-4 h-4" />
                   </Button>
