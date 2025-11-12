@@ -1,8 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useMemo } from "react";
-
-export const dynamic = 'force-dynamic';
+import React, { useState, useEffect, useMemo, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { getAllProducts } from "@/lib/useQuery";
 import SearchAndFiltering from "@/components/SearchAndFilteringWrapper";
@@ -11,7 +9,7 @@ import AdvancedFilters from "@/components/AdvancedFilters";
 import { useFilter } from "@/useFilter";
 import { Product } from "@/lib/types";
 
-export default function Products() {
+function ProductsContent() {
   const [products, setProducts] = useState<Product[]>([]);
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -376,5 +374,32 @@ export default function Products() {
         </div>
       )}
     </section>
+  );
+}
+
+function LoadingFallback() {
+  return (
+    <section className="py-8 md:py-12">
+      <div className="my-5 flex flex-col items-center gap-4">
+        <div className="h-12 bg-gray-200 rounded-full w-64 animate-pulse"></div>
+      </div>
+      <div className="flex justify-between items-center mb-8 mx-5 md:mx-12">
+        <div className="h-8 bg-gray-200 rounded w-48 animate-pulse"></div>
+        <div className="h-4 bg-gray-200 rounded w-32 animate-pulse"></div>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-8 px-4 sm:px-6 md:px-12">
+        {Array.from({ length: 8 }).map((_, i) => (
+          <div key={i} className="bg-gray-200 rounded-lg h-80 animate-pulse"></div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+export default function Products() {
+  return (
+    <Suspense fallback={<LoadingFallback />}>
+      <ProductsContent />
+    </Suspense>
   );
 }
