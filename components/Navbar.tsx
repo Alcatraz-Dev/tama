@@ -47,9 +47,9 @@ export default function Navbar() {
           <Image
             src="/tama.svg"
             alt="Tama Logo"
-            width={100}
-            height={100}
-            className="w-16 h-16 md:w-20 md:h-20"
+            width={150}
+            height={150}
+            className="w-[100px] h-[100px] md:w-[120px] md:h-[120px]"
           />
         </Link>
 

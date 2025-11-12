@@ -11,6 +11,8 @@ import { useCartStore } from "@/store/cart";
 import { getProductReviews, getRelatedProducts } from "@/lib/useQuery";
 import { FiFacebook, FiTwitter, FiInstagram, FiLinkedin } from "react-icons/fi";
 import { ProductDetailsSkeleton } from "./ui/skeleton";
+import ProductCard from "./ProductCard";
+import ClientProductGrid from "./ClientProductGrid";
 
 const tunisianTowns = [
   "Tunis",
@@ -248,9 +250,9 @@ export function ProductDetails({ product }: any) {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen ">
       {/* Breadcrumb Navigation */}
-      <div className="bg-white border-b border-gray-200">
+      <div className=" border-b border-gray-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
           <nav className="flex items-center space-x-1 sm:space-x-2 text-xs sm:text-sm text-gray-600">
             <Link href="/" className="flex items-center hover:text-fashion-dark transition-colors duration-200 p-1 rounded">
@@ -266,7 +268,7 @@ export function ProductDetails({ product }: any) {
                 >
                   {product.category.title}
                 </Link>
-                <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4 text-gray-400 flex-shrink-0" />
+                <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4 text-gray-400 " />
               </>
             )}
             <span className="text-fashion-dark font-medium truncate">{product.title}</span>
@@ -331,7 +333,7 @@ export function ProductDetails({ product }: any) {
                 <button
                   key={i}
                   onClick={() => setSelectedMedia(media)}
-                  className={`relative flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-all duration-300 ${
+                  className={`relative  w-20 h-20 rounded-lg overflow-hidden border-2 transition-all duration-300 ${
                     selectedMedia?._key === media._key
                       ? "border-black scale-105 shadow-lg"
                       : "border-gray-200 hover:border-gray-400"
@@ -355,11 +357,11 @@ export function ProductDetails({ product }: any) {
           </div>
 
           {/* Product Information */}
-          <div className="space-y-8">
-            <div className="bg-white rounded-2xl p-8 shadow-lg">
+          <div className="space-y-6">
+            <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-lg">
               <div className="flex items-start justify-between mb-4">
                 <div>
-                  <h1 className="text-3xl font-bold text-gray-900 mb-2">{product.title}</h1>
+                  <h1 className="text-2xl font-bold text-gray-900 mb-2">{product.title}</h1>
                   <div className="flex items-center space-x-4">
                     <div className="flex items-center space-x-1">
                       {[...Array(5)].map((_, i) => (
@@ -379,10 +381,10 @@ export function ProductDetails({ product }: any) {
                 </button>
               </div>
 
-              <p className="text-gray-600 text-lg leading-relaxed mb-6">{product.description}</p>
+              <p className="text-gray-600 text-base leading-relaxed mb-4">{product.description}</p>
 
-              <div className="flex items-center justify-between mb-8">
-                <p className="text-4xl font-bold text-gray-900">{product.price} DT</p>
+              <div className="flex items-center justify-between mb-6">
+                <p className="text-3xl font-bold text-gray-900">{product.price} DT</p>
                 <div className="flex items-center space-x-2">
                   <div className={`w-3 h-3 rounded-full ${product.inStock ? 'bg-green-500' : 'bg-red-500'}`}></div>
                   <span className={`font-medium ${product.inStock ? 'text-green-600' : 'text-red-600'}`}>
@@ -393,8 +395,8 @@ export function ProductDetails({ product }: any) {
 
               {/* Color Selection */}
               {product.colors?.length > 0 && (
-                <div className="mb-6">
-                  <p className="text-sm font-semibold text-gray-900 mb-3">Color</p>
+                <div className="mb-4">
+                  <p className="text-sm font-semibold text-gray-900 mb-2">Color</p>
                   <div className="flex items-center gap-3">
                     {product.colors.map((color: any, i: number) => {
                       const colorHex = color.hex || color;
@@ -403,7 +405,7 @@ export function ProductDetails({ product }: any) {
                           key={i}
                           style={{ backgroundColor: colorHex }}
                           onClick={() => setSelectedColor(colorHex)}
-                          className={`w-10 h-10 rounded-full border-2 shadow-sm transition-all duration-300 ${
+                          className={`w-6 h-6 rounded-full shadow-sm transition-all duration-300 ${
                             selectedColor === colorHex
                               ? "border-black scale-110 ring-2 ring-black ring-opacity-20"
                               : "border-gray-300 hover:scale-105"
@@ -418,14 +420,14 @@ export function ProductDetails({ product }: any) {
 
               {/* Size Selection */}
               {product.sizes?.length > 0 && (
-                <div className="mb-6">
-                  <p className="text-sm font-semibold text-gray-900 mb-3">Size</p>
-                  <div className="flex gap-3 flex-wrap">
+                <div className="mb-4">
+                  <p className="text-sm font-semibold text-gray-900 mb-2">Size</p>
+                  <div className="flex gap-2 flex-wrap">
                     {product.sizes.map((size: string, i: number) => (
                       <button
                         key={i}
                         onClick={() => setSelectedSize(size)}
-                        className={`px-4 py-3 border-2 rounded-lg text-sm font-medium transition-all duration-300 ${
+                        className={`px-3 py-2 border-2 rounded-lg text-xs font-medium transition-all duration-300 ${
                           selectedSize === size
                             ? "bg-black text-white border-black scale-105"
                             : "border-gray-300 hover:border-gray-400 hover:bg-gray-50"
@@ -439,21 +441,21 @@ export function ProductDetails({ product }: any) {
               )}
 
               {/* Quantity Selector */}
-              <div className="mb-8">
-                <p className="text-sm font-semibold text-gray-900 mb-3">Quantity</p>
-                <div className="flex items-center space-x-4">
-                  <div className="flex items-center border-2 border-gray-300 rounded-lg">
+              <div className="mb-6">
+                <p className="text-sm font-semibold text-gray-900 mb-2">Quantity</p>
+                <div className="flex items-center space-x-3 text-xs">
+                  <div className="flex items-center border border-gray-300 rounded-lg">
                     <button
                       onClick={decreaseQuantity}
-                      className="p-3 hover:bg-gray-100 transition-colors"
+                      className="p-2 hover:bg-gray-100 transition-colors"
                       disabled={quantity <= 1}
                     >
                       <Minus className="w-4 h-4" />
                     </button>
-                    <span className="px-4 py-3 font-medium">{quantity}</span>
+                    <span className="px-3 py-2 font-medium">{quantity}</span>
                     <button
                       onClick={increaseQuantity}
-                      className="p-3 hover:bg-gray-100 transition-colors"
+                      className="p-2 hover:bg-gray-100 transition-colors"
                     >
                       <Plus className="w-4 h-4" />
                     </button>
@@ -462,16 +464,16 @@ export function ProductDetails({ product }: any) {
               </div>
 
               {/* Action Buttons */}
-              <div className="flex gap-4 mb-6">
+              <div className="flex gap-3 mb-4">
                 <Button
                   disabled={!product.inStock || !selectedColor || !selectedSize}
-                  className="flex-1 bg-black hover:bg-gray-800 text-white py-4 rounded-lg font-semibold text-lg"
+                  className="flex-1 bg-black hover:bg-gray-800 text-white py-3 rounded-lg font-semibold text-base"
                   onClick={handleAdd}
                 >
                   Add to Cart
                 </Button>
                 <Button
-                  className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-900 py-4 rounded-lg font-semibold text-lg"
+                  className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-900 py-3 rounded-lg font-semibold text-base"
                   onClick={() => setShowShopForm((prev) => !prev)}
                   disabled={!product.inStock}
                 >
@@ -482,38 +484,38 @@ export function ProductDetails({ product }: any) {
               {/* Social Sharing */}
               <div className="border-t pt-6">
                 <p className="text-sm font-semibold text-gray-900 mb-3">Share this product</p>
-                <div className="flex space-x-3">
+                <div className="flex space-x-6">
                   <button
                     onClick={() => handleShare('facebook')}
-                    className="p-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                    className="text-gray-600 hover:text-blue-600 transition-colors"
                   >
-                    <FiFacebook className="w-5 h-5" />
+                    <FiFacebook className="w-4 h-4" />
                   </button>
                   <button
                     onClick={() => handleShare('twitter')}
-                    className="p-3 bg-blue-400 text-white rounded-lg hover:bg-blue-500 transition-colors"
+                    className="text-gray-600 hover:text-blue-400 transition-colors"
                   >
-                    <FiTwitter className="w-5 h-5" />
+                    <FiTwitter className="w-4 h-4" />
                   </button>
                   <button
                     onClick={() => handleShare('instagram')}
-                    className="p-3 bg-pink-600 text-white rounded-lg hover:bg-pink-700 transition-colors"
+                    className="text-gray-600 hover:text-pink-600 transition-colors"
                   >
-                    <FiInstagram className="w-5 h-5" />
+                    <FiInstagram className="w-4 h-4" />
                   </button>
                   <button
                     onClick={() => handleShare('linkedin')}
-                    className="p-3 bg-blue-700 text-white rounded-lg hover:bg-blue-800 transition-colors"
+                    className="text-gray-600 hover:text-blue-700 transition-colors"
                   >
-                    <FiLinkedin className="w-5 h-5" />
+                    <FiLinkedin className="w-4 h-4" />
                   </button>
                 </div>
               </div>
             </div>
 
             {/* Product Details Tabs */}
-            <div className="bg-white rounded-2xl p-8 shadow-lg">
-              <div className="space-y-6">
+            <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-lg">
+              <div className="space-y-4">
                 {/* Materials */}
                 {product.materials?.length > 0 && (
                   <div>
@@ -554,30 +556,30 @@ export function ProductDetails({ product }: any) {
                 )}
 
                 {/* Shipping & Returns */}
-                <div className="border-t pt-6 space-y-4">
+                <div className="  space-y-4">
                   <div className="flex items-start space-x-3">
-                    <Truck className="w-6 h-6 text-gray-600 mt-1" />
+                    <Truck className="w-4 h-4 text-gray-600 mt-1" />
                     <div>
-                      <h4 className="font-semibold text-gray-900">Shipping Information</h4>
-                      <p className="text-gray-600 text-sm mt-1">
+                      <h4 className="font-semibold text-gray-900 text-sm">Shipping Information</h4>
+                      <p className="text-gray-600 text-xs mt-1">
                         {product.shippingInfo || "Free shipping on orders over 100 DT. Standard delivery within 3-5 business days."}
                       </p>
                     </div>
                   </div>
                   <div className="flex items-start space-x-3">
-                    <RotateCcw className="w-6 h-6 text-gray-600 mt-1" />
+                    <RotateCcw className="w-4 h-4 text-gray-600 mt-1" />
                     <div>
-                      <h4 className="font-semibold text-gray-900">Returns & Exchanges</h4>
-                      <p className="text-gray-600 text-sm mt-1">
+                      <h4 className="font-semibold text-gray-900 text-sm">Returns & Exchanges</h4>
+                      <p className="text-gray-600 text-xs mt-1">
                         {product.returnPolicy || "30-day return policy. Items must be unused and in original packaging."}
                       </p>
                     </div>
                   </div>
                   <div className="flex items-start space-x-3">
-                    <Shield className="w-6 h-6 text-gray-600 mt-1" />
+                    <Shield className="w-4 h-4 text-gray-600 mt-1" />
                     <div>
-                      <h4 className="font-semibold text-gray-900">Warranty</h4>
-                      <p className="text-gray-600 text-sm mt-1">
+                      <h4 className="font-semibold text-gray-900 text-sm">Warranty</h4>
+                      <p className="text-gray-600 text-xs mt-1">
                         1-year warranty against manufacturing defects.
                       </p>
                     </div>
@@ -589,8 +591,8 @@ export function ProductDetails({ product }: any) {
         </div>
 
         {/* Reviews Section */}
-        <div className="mt-16 bg-white rounded-2xl p-8 shadow-lg">
-          <div className="flex items-center justify-between mb-8">
+        <div className="mt-12 bg-white rounded-2xl p-4 sm:p-6 shadow-lg">
+          <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl font-bold text-gray-900">Customer Reviews</h2>
             <div className="flex items-center space-x-2">
               <div className="flex items-center space-x-1">
@@ -653,36 +655,13 @@ export function ProductDetails({ product }: any) {
           )}
         </div>
 
-        {/* Related Products */}
+        {/* Related Products
         {relatedProducts.length > 0 && (
-          <div className="mt-16">
-            <h2 className="text-2xl font-bold text-gray-900 mb-8">You might also like</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {relatedProducts.map((relatedProduct) => (
-                <Link
-                  key={relatedProduct._id}
-                  href={`/product/${relatedProduct.slug}`}
-                  className="group bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden"
-                >
-                  <div className="aspect-square relative overflow-hidden">
-                    <Image
-                      src={relatedProduct.gallery?.[0]?.asset?.url || '/placeholder.jpg'}
-                      alt={relatedProduct.title}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                  </div>
-                  <div className="p-4">
-                    <h3 className="font-semibold text-gray-900 group-hover:text-black transition-colors line-clamp-2">
-                      {relatedProduct.title}
-                    </h3>
-                    <p className="text-lg font-bold text-gray-900 mt-2">{relatedProduct.price} DT</p>
-                  </div>
-                </Link>
-              ))}
-            </div>
+          <div className="mt-12">
+            <h2 className="text-xl font-bold text-gray-900 mb-6">You might also like</h2>
+            <ClientProductGrid products={relatedProducts} />
           </div>
-        )}
+        )} */}
 
         {/* Shop Form Modal */}
         {showShopForm && (

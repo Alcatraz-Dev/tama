@@ -1,6 +1,7 @@
 // components/ProductCard.tsx
 "use client";
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
 
 interface ProductCardProps {
@@ -35,6 +36,7 @@ export default function ProductCard({ product, searchQuery = "" }: ProductCardPr
       whileHover={{ scale: 1.02, y: -2 }}
       whileTap={{ scale: 0.98 }}
       className="group relative block rounded-t-3xl rounded-b-4xl overflow-hidden shadow-lg hover:shadow-elegant transition-all duration-300 bg-white cursor-pointer"
+      onClick={() => window.location.href = `/product/${typeof product.slug === "string" ? product.slug : product.slug?.current}`}
     >
       {/* Image wrapper */}
       <div className="relative w-full aspect-square rounded-t-3xl rounded-b-[50px] overflow-hidden max-h-[300px] sm:max-h-[350px]">
@@ -126,5 +128,5 @@ export default function ProductCard({ product, searchQuery = "" }: ProductCardPr
         </div>
       </div>
     </motion.div>
-  );
+);
 }

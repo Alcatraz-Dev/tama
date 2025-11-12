@@ -14,7 +14,11 @@ interface SearchInputProps {
   onSuggestionSelect?: (suggestion: Suggestion) => void;
 }
 
-function SearchInput({ value, onChange, onSuggestionSelect }: SearchInputProps) {
+function SearchInput({
+  value,
+  onChange,
+  onSuggestionSelect,
+}: SearchInputProps) {
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -23,10 +27,10 @@ function SearchInput({ value, onChange, onSuggestionSelect }: SearchInputProps) 
   const inputRef = useRef<HTMLInputElement>(null);
   const suggestionsRef = useRef<HTMLDivElement>(null);
   const recognitionRef = useRef<any>(null);
-
+  const isListeningRef = useRef(false); // ✅ move it here, not inside startVoiceSearch()
   // Load recent searches from localStorage
   useEffect(() => {
-    const stored = localStorage.getItem('recentSearches');
+    const stored = localStorage.getItem("recentSearches");
     if (stored) {
       setRecentSearches(JSON.parse(stored));
     }
@@ -36,9 +40,12 @@ function SearchInput({ value, onChange, onSuggestionSelect }: SearchInputProps) 
   const saveToRecentSearches = (searchTerm: string) => {
     if (!searchTerm.trim()) return;
 
-    const updated = [searchTerm, ...recentSearches.filter(s => s !== searchTerm)].slice(0, 5);
+    const updated = [
+      searchTerm,
+      ...recentSearches.filter((s) => s !== searchTerm),
+    ].slice(0, 5);
     setRecentSearches(updated);
-    localStorage.setItem('recentSearches', JSON.stringify(updated));
+    localStorage.setItem("recentSearches", JSON.stringify(updated));
   };
 
   useEffect(() => {
@@ -128,17 +135,27 @@ function SearchInput({ value, onChange, onSuggestionSelect }: SearchInputProps) 
   };
 
   const startVoiceSearch = () => {
-    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-      alert('Voice search is not supported in this browser.');
+    if (isListening) {
+      stopVoiceSearch();
       return;
     }
 
-    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    if (
+      !("webkitSpeechRecognition" in window) &&
+      !("SpeechRecognition" in window)
+    ) {
+      alert("Voice search is not supported in this browser.");
+      return;
+    }
+
+    const SpeechRecognition =
+      (window as any).SpeechRecognition ||
+      (window as any).webkitSpeechRecognition;
     const recognition = new SpeechRecognition();
 
     recognition.continuous = false;
     recognition.interimResults = false;
-    recognition.lang = 'en-US';
+    recognition.lang = "en-US";
 
     recognition.onstart = () => {
       setIsListening(true);
@@ -147,31 +164,65 @@ function SearchInput({ value, onChange, onSuggestionSelect }: SearchInputProps) 
     recognition.onresult = (event: any) => {
       const transcript = event.results[0][0].transcript;
       handleInputChange(transcript);
+      stopVoiceSearch(); // Auto-stop after result
     };
 
     recognition.onerror = (event: any) => {
-      console.error('Speech recognition error:', event.error);
-      setIsListening(false);
+      if (event.error !== "network") {
+        console.error("Speech recognition error:", event.error);
+      }
+      stopVoiceSearch();
     };
 
     recognition.onend = () => {
       setIsListening(false);
+      if (recognitionRef.current === recognition) {
+        recognitionRef.current = null;
+      }
     };
 
     recognitionRef.current = recognition;
-    recognition.start();
-  };
+    try {
+      recognition.start();
 
+      recognition.onstart = () => {
+        setIsListening(true);
+        isListeningRef.current = true;
+      };
+
+      recognition.onend = () => {
+        setIsListening(false);
+        isListeningRef.current = false;
+      };
+
+      setTimeout(() => {
+        if (recognitionRef.current === recognition && isListeningRef.current) {
+          stopVoiceSearch();
+        }
+      }, 5000);
+    } catch (error) {
+      console.error("Failed to start speech recognition:", error);
+      stopVoiceSearch();
+    }
+  };
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+  }, []);
   const stopVoiceSearch = () => {
     if (recognitionRef.current) {
-      recognitionRef.current.stop();
-      setIsListening(false);
+      try {
+        recognitionRef.current.stop();
+      } catch (error) {
+        console.error("Error stopping recognition:", error);
+      }
+      recognitionRef.current = null;
     }
+    setIsListening(false);
   };
 
   return (
     <div className="relative max-w-xs sm:max-w-sm w-full">
-      <div className="flex items-center gap-2 bg-white text-black px-3 sm:px-4 py-2 sm:py-3 rounded-full shadow-sm border border-gray-200 hover:border-gray-300 focus-within:border-fashion-gold focus-within:ring-2 focus-within:ring-fashion-gold/20 transition-all duration-200">
+      <div className="flex items-center gap-2 bg-white text-black px-3 sm:px-4 py-2 sm:py-1 rounded-full shadow-sm border border-gray-200 hover:border-gray-300 focus-within:border-fashion-gold focus-within:ring-2 focus-within:ring-fashion-gold/20 transition-all duration-200">
         <input
           ref={inputRef}
           type="text"
@@ -192,61 +243,73 @@ function SearchInput({ value, onChange, onSuggestionSelect }: SearchInputProps) 
           title={isListening ? "Stop voice search" : "Start voice search"}
           aria-label={isListening ? "Stop voice search" : "Start voice search"}
         >
-          {isListening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
+          {isListening ? (
+            <MicOff className="w-4 h-4" />
+          ) : (
+            <Mic className="w-4 h-4" />
+          )}
         </button>
         <button
           type="button"
           className="p-1.5 sm:p-2 rounded-full hover:bg-gray-100 text-gray-500 hover:text-gray-700 transition-all duration-200 active:scale-95"
           aria-label="Search"
         >
-          <Search className="w-4 h-4 sm:w-5 sm:h-5" />
+          <Search className="w-4 h-4 md:w-4 md:h-4" />
         </button>
       </div>
 
-      {showSuggestions && (suggestions.length > 0 || (value.length === 0 && recentSearches.length > 0)) && (
-        <div
-          ref={suggestionsRef}
-          className="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-lg shadow-elegant z-50 max-h-60 overflow-y-auto mt-2"
-        >
-          {suggestions.length > 0 ? (
-            <div className="py-2">
-              {suggestions.map((suggestion, index) => (
-                <div
-                  key={suggestion._id}
-                  onClick={() => handleSuggestionClick(suggestion)}
-                  className={`px-4 py-3 cursor-pointer transition-colors duration-150 ${
-                    index === selectedIndex
-                      ? "bg-fashion-gold/10 border-l-4 border-fashion-gold"
-                      : "hover:bg-gray-50"
-                  }`}
-                >
-                  <span className="text-sm sm:text-base text-gray-900 font-medium">{suggestion.title}</span>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <>
-              <div className="px-4 py-3 text-xs font-semibold text-fashion-dark border-b border-gray-100 bg-gray-50">
-                Recent Searches
-              </div>
+      {showSuggestions &&
+        (suggestions.length > 0 ||
+          (value.length === 0 && recentSearches.length > 0)) && (
+          <div
+            ref={suggestionsRef}
+            className="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-lg shadow-elegant z-50 max-h-60 overflow-y-auto mt-2"
+          >
+            {suggestions.length > 0 ? (
               <div className="py-2">
-                {recentSearches.map((searchTerm, index) => (
+                {suggestions.map((suggestion, index) => (
                   <div
-                    key={searchTerm}
-                    onClick={() => handleRecentSearchClick(searchTerm)}
-                    className={`px-4 py-3 cursor-pointer hover:bg-gray-50 flex items-center gap-3 transition-colors duration-150 ${
-                      index === selectedIndex ? "bg-fashion-gold/10 border-l-4 border-fashion-gold" : ""
+                    key={suggestion._id}
+                    onClick={() => handleSuggestionClick(suggestion)}
+                    className={`px-4 py-3 cursor-pointer transition-colors duration-150 ${
+                      index === selectedIndex
+                        ? "bg-fashion-gold/10 border-l-4 border-fashion-gold"
+                        : "hover:bg-gray-50"
                     }`}
                   >
-                    <Clock className="w-4 h-4 text-gray-400 flex-shrink-0" />
-                    <span className="text-sm sm:text-base text-gray-900 truncate">{searchTerm}</span>
+                    <span className="text-sm sm:text-base text-gray-900 font-medium">
+                      {suggestion.title}
+                    </span>
                   </div>
                 ))}
               </div>
-            </>
-          )}
-        </div>
-      )}
+            ) : (
+              <>
+                <div className="px-4 py-3 text-xs font-semibold text-fashion-dark border-b border-gray-100 bg-gray-50">
+                  Recent Searches
+                </div>
+                <div className="py-2">
+                  {recentSearches.map((searchTerm, index) => (
+                    <div
+                      key={searchTerm}
+                      onClick={() => handleRecentSearchClick(searchTerm)}
+                      className={`px-4 py-3 cursor-pointer hover:bg-gray-50 flex items-center gap-3 transition-colors duration-150 ${
+                        index === selectedIndex
+                          ? "bg-fashion-gold/10 border-l-4 border-fashion-gold"
+                          : ""
+                      }`}
+                    >
+                      <Clock className="w-4 h-4 text-gray-400 flex-shrink-0" />
+                      <span className="text-sm sm:text-base text-gray-900 truncate">
+                        {searchTerm}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+        )}
     </div>
   );
 }

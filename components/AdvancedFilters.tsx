@@ -61,7 +61,7 @@ export default function AdvancedFilters({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
       <div className="bg-white rounded-lg shadow-xl max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto">
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b">
@@ -130,20 +130,23 @@ export default function AdvancedFilters({
           {/* Colors */}
           <div>
             <h3 className="font-medium mb-3">Color</h3>
-            <div className="grid grid-cols-4 gap-2">
-              {availableColors.map((color) => (
-                <button
-                  key={color}
-                  onClick={() => toggleColor(color)}
-                  className={`px-3 py-2 border rounded-md text-sm ${
-                    selectedColors.includes(color)
-                      ? "bg-black text-white border-black"
-                      : "bg-white text-black border-gray-300 hover:border-black"
-                  }`}
-                >
-                  {color}
-                </button>
-              ))}
+            <div className="grid grid-cols-6 gap-3">
+              {availableColors.map((color) => {
+                const bgColor = color.startsWith('#') ? color : color;
+                return (
+                  <button
+                    key={color}
+                    onClick={() => toggleColor(color)}
+                    className={`w-8 h-8 rounded-full border-2 transition-all ${
+                      selectedColors.includes(color)
+                        ? "border-black scale-110"
+                        : "border-gray-300 hover:border-black hover:scale-105"
+                    }`}
+                    style={{ backgroundColor: bgColor }}
+                    title={color}
+                  />
+                );
+              })}
             </div>
           </div>
 

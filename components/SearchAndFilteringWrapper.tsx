@@ -5,7 +5,11 @@ import SubHero from "./SubHero";
 import { getCategories } from "@/lib/useQuery";
 import { useFilter } from "@/useFilter";
 
-export default function SearchAndFilltring() {
+interface SearchAndFilteringWrapperProps {
+  onOpenAdvancedFilters?: () => void;
+}
+
+export default function SearchAndFilltring({ onOpenAdvancedFilters }: SearchAndFilteringWrapperProps) {
   const [categories, setCategories] = useState<any[]>([]);
   const [subCategories, setSubCategories] = useState<any[]>([]);
   const [selectedSubCategory, setSelectedSubCategory] = useState("");
@@ -14,9 +18,13 @@ export default function SearchAndFilltring() {
     searchQuery,
     category,
     sortBy,
+    onSale,
+    newArrivals,
     setSearchQuery,
     setCategory,
     setSortBy,
+    setOnSale,
+    setNewArrivals,
   } = useFilter();
 
   useEffect(() => {
@@ -34,6 +42,13 @@ export default function SearchAndFilltring() {
       onSubCategorySelect={setSelectedSubCategory}
       selectedFilter={sortBy}
       onFilterSelect={(filter) => setSortBy(filter as any)}
+      onSale={onSale}
+      onToggleSale={() => setOnSale(!onSale)}
+      newArrivals={newArrivals}
+      onToggleNewArrivals={() => setNewArrivals(!newArrivals)}
+      sortBy={sortBy}
+      onSortChange={setSortBy}
+      onOpenAdvancedFilters={onOpenAdvancedFilters}
     />
   );
 }

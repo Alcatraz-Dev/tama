@@ -14,6 +14,13 @@ interface SubHeroProps {
   onSubCategorySelect: (value: string) => void; // <-- new
   selectedFilter: string;
   onFilterSelect: (value: string) => void;
+  onSale?: boolean;
+  onToggleSale?: () => void;
+  newArrivals?: boolean;
+  onToggleNewArrivals?: () => void;
+  sortBy?: string;
+  onSortChange?: (sort: "default" | "price-low" | "price-high" | "newest" | "popularity") => void;
+  onOpenAdvancedFilters?: () => void;
 }
 
 function SubHero({
@@ -22,6 +29,13 @@ function SubHero({
   onSearchChange,
   selectedCategory,
   onCategorySelect,
+  onSale,
+  onToggleSale,
+  newArrivals,
+  onToggleNewArrivals,
+  sortBy,
+  onSortChange,
+  onOpenAdvancedFilters,
 }: SubHeroProps) {
   // Motion variants for child items
   const itemVariants = {
@@ -31,7 +45,7 @@ function SubHero({
 
   return (
     <motion.div
-      className="flex flex-col md:flex-row items-center justify-center gap-5 px-4 py-2"
+      className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-5 px-4 py-2 w-full"
       initial="hidden"
       animate="visible"
       transition={{ staggerChildren: 0.1 }}
@@ -47,6 +61,13 @@ function SubHero({
           categories={categories}
           selectedCategory={selectedCategory}
           onSelectCategory={onCategorySelect}
+          onSale={onSale}
+          onToggleSale={onToggleSale}
+          newArrivals={newArrivals}
+          onToggleNewArrivals={onToggleNewArrivals}
+          sortBy={sortBy}
+          onSortChange={onSortChange}
+          onOpenAdvancedFilters={onOpenAdvancedFilters}
         />
       </motion.div>
     </motion.div>

@@ -7,7 +7,7 @@ import SearchAndFilltring from "@/components/SearchAndFilteringWrapper";
 import ProductCard from "@/components/ProductCard";
 import AdvancedFilters from "@/components/AdvancedFilters";
 import { useFilter } from "@/useFilter";
-import { Filter, SlidersHorizontal } from "lucide-react";
+import { SlidersHorizontal } from "lucide-react";
 
 export default function Products() {
   const [products, setProducts] = useState<any[]>([]);
@@ -109,6 +109,30 @@ export default function Products() {
     const materials = new Set<string>();
     let maxPrice = 0;
 
+    // Common fashion colors
+    const fashionColors = [
+      '#000000', // Black
+      '#FFFFFF', // White
+      '#FF0000', // Red
+      '#0000FF', // Blue
+      '#008000', // Green
+      '#FFFF00', // Yellow
+      '#800080', // Purple
+      '#FFA500', // Orange
+      '#FFC0CB', // Pink
+      '#A52A2A', // Brown
+      '#808080', // Gray
+      '#00FFFF', // Cyan
+      '#FF00FF', // Magenta
+      '#F5F5DC', // Beige
+      '#800000', // Maroon
+      '#008080', // Teal
+      '#000080', // Navy
+      '#FFD700', // Gold
+      '#C0C0C0', // Silver
+      '#8B4513', // Saddle Brown
+    ];
+
     products.forEach((product) => {
       if (product.sizes) {
         product.sizes.forEach((size: string) => sizes.add(size));
@@ -124,6 +148,9 @@ export default function Products() {
       }
       if (product.price > maxPrice) maxPrice = product.price;
     });
+
+    // Add fashion colors to the set
+    fashionColors.forEach(color => colors.add(color));
 
     return {
       sizes: Array.from(sizes).sort(),
@@ -260,16 +287,7 @@ export default function Products() {
     <section className="py-8 md:py-12">
       {/* Filtering controls */}
       <div className="my-5 flex flex-col items-center gap-4">
-        <SearchAndFilltring />
-
-        {/* Advanced Filters Button */}
-        <button
-          onClick={() => setShowAdvancedFilters(true)}
-          className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-full text-sm font-medium transition-colors"
-        >
-          <SlidersHorizontal className="w-4 h-4" />
-          Advanced Filters
-        </button>
+        <SearchAndFilltring onOpenAdvancedFilters={() => setShowAdvancedFilters(true)} />
       </div>
 
       {/* Advanced Filters Modal */}
