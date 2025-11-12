@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState, useEffect, useMemo } from "react";
+
+export const dynamic = 'force-dynamic';
 import { useRouter, useSearchParams } from "next/navigation";
 import { getAllProducts } from "@/lib/useQuery";
 import SearchAndFiltering from "@/components/SearchAndFilteringWrapper";
@@ -41,6 +43,7 @@ export default function Products() {
   } = useFilter();
 
   // Load filters from URL on mount
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     const params = new URLSearchParams(searchParams.toString());
 
