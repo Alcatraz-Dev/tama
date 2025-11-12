@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Logo from "../public/tama.svg";
 import Image from "next/image";
+import { SocialLink } from "@/lib/types";
 const footerLinks = {
   Company: [
     { name: "About", href: "/about" },
@@ -25,7 +26,7 @@ const footerLinks = {
 };
 
 export function Footer() {
-  const [socialLinks, setSocialLinks] = useState<any[]>([]);
+  const [socialLinks, setSocialLinks] = useState<SocialLink[]>([]);
 
   useEffect(() => {
     async function fetchLinks() {

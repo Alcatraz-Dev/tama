@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { getLookbook } from "@/lib/useQuery";
-import { motion } from "framer-motion";
+import { Lookbook, Product } from "@/lib/types";
 
 export default async function LookbooksPage() {
   const lookbooks = await getLookbook();
@@ -15,7 +15,7 @@ export default async function LookbooksPage() {
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
     
       >
-        {lookbooks.map((lookbook: any) => (
+        {lookbooks.map((lookbook: Lookbook) => (
           <div
             key={lookbook._id}
             className="relative bg-white group rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-transform duration-300 cursor-pointer"
@@ -40,16 +40,16 @@ export default async function LookbooksPage() {
 
               {/* Related products */}
               <div className="flex flex-wrap gap-3">
-                {lookbook.products?.map((product: any) => (
+                {lookbook.products?.map((product: Product) => (
                   <Link
                     key={product._id}
-                    href={`/product/${product.slug.current}`}
+                    href={`/product/${typeof product.slug === "string" ? product.slug : product.slug?.current}`}
                     className="flex items-center gap-2  rounded-lg p-2 hover:scale-105 transition"
                   >
-                    {product.image && (
+                    {product.gallery?.[0]?.asset?.url && (
                       <div className="relative w-10 h-10 rounded overflow-hidden">
                         <Image
-                          src={product.image}
+                          src={product.gallery[0].asset.url}
                           alt={product.title}
                           fill
                           className="object-cover"

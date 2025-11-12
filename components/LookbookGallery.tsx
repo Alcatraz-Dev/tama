@@ -7,7 +7,13 @@ import "yet-another-react-lightbox/styles.css";
 import { Expand } from "lucide-react";
 
 interface LookbookGalleryProps {
-  images: any[];
+  images: Array<{
+    _key?: string;
+    _type: string;
+    asset: {
+      url: string;
+    };
+  }>;
   title: string;
 }
 
@@ -28,7 +34,7 @@ export default function LookbookGallery({ images, title }: LookbookGalleryProps)
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {images.map((image: any, index: number) => (
+        {images.map((image, index: number) => (
           <div
             key={index}
             className="relative group overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer"

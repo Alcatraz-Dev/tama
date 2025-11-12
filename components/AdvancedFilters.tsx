@@ -198,7 +198,7 @@ export default function AdvancedFilters({
             <h3 className="font-medium mb-3">Sort By</h3>
             <select
               value={sortBy}
-              onChange={(e) => setSortBy(e.target.value as any)}
+              onChange={(e) => setSortBy(e.target.value as 'default' | 'price-low' | 'price-high' | 'newest' | 'popularity')}
               className="w-full px-3 py-2 border rounded-md text-sm"
             >
               <option value="default">Default</option>

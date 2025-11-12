@@ -5,9 +5,10 @@ import { Button } from "@/components/ui/button";
 import { ShoppingBag, Check, X } from "lucide-react";
 import ProductCard from "@/components/ProductCard";
 import { useCartStore } from "@/store/cart";
+import { Product } from "@/lib/types";
 
 interface ShopTheLookProps {
-  products: any[];
+  products: Product[];
   lookbookTitle: string;
 }
 
@@ -22,7 +23,7 @@ export default function ShopTheLook({ products, lookbookTitle }: ShopTheLookProp
         addToCart({
           _id: product._id,
           title: product.title,
-          slug: product.slug?.current || product.slug || '',
+          slug: typeof product.slug === "string" ? product.slug : product.slug?.current || '',
           price: product.price,
           quantity: 1,
           inStock: product.inStock || true,
@@ -32,11 +33,11 @@ export default function ShopTheLook({ products, lookbookTitle }: ShopTheLookProp
     });
   };
 
-  const handleAddToCart = (product: any) => {
+  const handleAddToCart = (product: Product) => {
     addToCart({
       _id: product._id,
       title: product.title,
-      slug: product.slug?.current || product.slug || '',
+      slug: typeof product.slug === "string" ? product.slug : product.slug?.current || '',
       price: product.price,
       quantity: 1,
       inStock: product.inStock || true,

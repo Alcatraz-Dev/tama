@@ -12,6 +12,7 @@ export interface Product {
     _type: string;
     asset: {
       url: string;
+      _ref?: string;
     };
   }>;
   colors?: Array<string | {
@@ -36,6 +37,13 @@ export interface Product {
   inStock: boolean;
   shippingInfo?: string;
   returnPolicy?: string;
+  subcategory?: {
+    _id: string;
+    title: string;
+  };
+  onSale?: boolean;
+  _createdAt?: string;
+  popularity?: number;
 }
 
 export interface Review {
@@ -102,7 +110,18 @@ export interface Lookbook {
       url: string;
     };
   };
+  images?: Array<{
+    _key?: string;
+    _type: string;
+    asset: {
+      url: string;
+    };
+  }>;
   products?: Product[];
+  season?: string;
+  year?: number;
+  theme?: string;
+  stylingTips?: string;
 }
 
 export interface OrderItem {

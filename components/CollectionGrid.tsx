@@ -6,9 +6,10 @@ import { useRouter } from "next/navigation";
 import { Button } from "./ui/button";
 import { ArrowRight } from "lucide-react";
 import { getCollectionsLimit } from "@/lib/useQuery";
+import { Category } from "@/lib/types";
 
 export default function CollectionGrid() {
-  const [collections, setCollections] = useState([]);
+  const [collections, setCollections] = useState<Category[]>([]);
   const router = useRouter();
 
   useEffect(() => {
@@ -22,7 +23,7 @@ export default function CollectionGrid() {
       </h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-6 max-w-7xl mx-auto">
-        {collections.map((c: any, idx: number) => (
+        {collections.map((c: Category, idx: number) => (
           <div
             key={c._id}
             onClick={() => router.push(`/collection/${c.slug}`)}

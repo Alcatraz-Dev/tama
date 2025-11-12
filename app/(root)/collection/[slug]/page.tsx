@@ -6,6 +6,7 @@ import ProductCard from "@/components/ProductCard";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, Palette, Sparkles } from "lucide-react";
+import { Product } from "@/lib/types";
 
 interface CollectionPageProps {
   params: Promise<{
@@ -163,7 +164,7 @@ export default async function CollectionPage({ params, searchParams }: Collectio
         {collection.products && collection.products.length > 0 ? (
           <>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-              {collection.products.map((product: any) => (
+              {collection.products.map((product: Product) => (
                 <ProductCard key={product._id} product={product} />
               ))}
             </div>

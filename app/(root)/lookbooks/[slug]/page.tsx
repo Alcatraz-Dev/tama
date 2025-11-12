@@ -1,5 +1,4 @@
 import React from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { getLookbookBySlug } from "@/lib/useQuery";
 import ProductCard from "@/components/ProductCard";
@@ -9,6 +8,7 @@ import ShopTheLook from "@/components/ShopTheLook";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, Palette, Sparkles, Heart, ShoppingBag } from "lucide-react";
+import { Product } from "@/lib/types";
 
 interface LookbookPageProps {
   params: {
@@ -105,7 +105,7 @@ export default async function LookbookPage({ params }: LookbookPageProps) {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mb-12">
-              {lookbook.products.map((product: any) => (
+              {lookbook.products.map((product: Product) => (
                 <ProductCard key={product._id} product={product} />
               ))}
             </div>

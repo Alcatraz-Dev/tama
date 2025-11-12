@@ -7,10 +7,10 @@ import SearchAndFilltring from "@/components/SearchAndFilteringWrapper";
 import ProductCard from "@/components/ProductCard";
 import AdvancedFilters from "@/components/AdvancedFilters";
 import { useFilter } from "@/useFilter";
-import { SlidersHorizontal } from "lucide-react";
+import { Product } from "@/lib/types";
 
 export default function Products() {
-  const [products, setProducts] = useState<any[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 12;
@@ -58,7 +58,7 @@ export default function Products() {
     if (params.get('materials')) setMaterials(params.get('materials')!.split(','));
     if (params.get('onSale')) setOnSale(params.get('onSale') === 'true');
     if (params.get('newArrivals')) setNewArrivals(params.get('newArrivals') === 'true');
-    if (params.get('sort')) setSortBy(params.get('sort') as any);
+    if (params.get('sort')) setSortBy(params.get('sort') as 'default' | 'price-low' | 'price-high' | 'newest' | 'popularity');
   }, []);
 
   // Update URL when filters change
@@ -138,9 +138,13 @@ export default function Products() {
         product.sizes.forEach((size: string) => sizes.add(size));
       }
       if (product.colors) {
-        product.colors.forEach((color: any) => {
-          if (color.name) colors.add(color.name);
-          else if (color.hex) colors.add(color.hex);
+        product.colors.forEach((color) => {
+          if (typeof color === 'string') {
+            colors.add(color);
+          } else {
+            if (color.name) colors.add(color.name);
+            else if (color.hex) colors.add(color.hex);
+          }
         });
       }
       if (product.materials) {
@@ -207,9 +211,13 @@ export default function Products() {
     // Color filter
     if (selectedColors.length > 0) {
       result = result.filter((p) =>
-        p.colors?.some((color: any) =>
-          selectedColors.includes(color.name || color.hex || color)
-        )
+        p.colors?.some((color) => {
+          if (typeof color === 'string') {
+            return selectedColors.includes(color);
+          } else {
+            return selectedColors.includes(color.name || color.hex || '');
+          }
+        })
       );
     }
 
@@ -230,7 +238,7 @@ export default function Products() {
       const thirtyDaysAgo = new Date();
       thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
       result = result.filter((p) =>
-        new Date(p._createdAt) > thirtyDaysAgo
+        p._createdAt && new Date(p._createdAt) > thirtyDaysAgo
       );
     }
 
@@ -245,7 +253,7 @@ export default function Products() {
       case 'newest':
         result.sort(
           (a, b) =>
-            new Date(b._createdAt).getTime() - new Date(a._createdAt).getTime()
+            (b._createdAt ? new Date(b._createdAt).getTime() : 0) - (a._createdAt ? new Date(a._createdAt).getTime() : 0)
         );
         break;
       case 'popularity':

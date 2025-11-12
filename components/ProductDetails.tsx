@@ -67,7 +67,7 @@ export function ProductDetails({ product }: { product: Product }) {
     loadAdditionalData();
   }, [product._id, product.category?._id]);
 
-  const getVideoUrl = (media: any) => {
+  const getVideoUrl = (media: Product['gallery'][0]) => {
     if (!media?.asset?._ref) return null;
     const ref = media.asset._ref;
     const hash = ref.replace("file-", "").replace("-mp4", "");
@@ -330,7 +330,7 @@ export function ProductDetails({ product }: { product: Product }) {
 
             {/* Thumbnails */}
             <div className="flex gap-3 overflow-x-auto pb-2">
-              {product.gallery?.map((media: any, i: number) => (
+              {product.gallery?.map((media, i: number) => (
                 <button
                   key={i}
                   onClick={() => setSelectedMedia(media)}

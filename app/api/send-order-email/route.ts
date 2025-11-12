@@ -1,18 +1,38 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 
+interface OrderItem {
+  product: {
+    title: string;
+    price: number;
+    image?: string[];
+  };
+  selectedColor?: string;
+  selectedSize?: string;
+  quantity: number;
+}
+
+interface Order extends OrderItem {
+  fullName: string;
+  phone: string;
+  town: string;
+  location: string;
+  items?: OrderItem[];
+  total?: number;
+}
+
 const resend = new Resend(process.env.NEXT_PUBLIC_RESEND_API_KEY!);
 
 export async function POST(req: NextRequest) {
   try {
-    const order = await req.json();
+    const order: Order = await req.json();
     const fromEmail = process.env.NEXT_PUBLIC_EMAIL_FROM!;
     const toEmail = process.env.NEXT_PUBLIC_EMAIL_TO!;
 
     // Generate HTML rows for each item in the order
-    const itemsHtml = (order.items || [order])
+    const itemsHtml = (order.items || [order as unknown as OrderItem])
       .map(
-        (item: any) => `
+        (item: OrderItem) => `
     <div style="
       border: 1px solid #e2e8f0;
       border-radius: 10px;

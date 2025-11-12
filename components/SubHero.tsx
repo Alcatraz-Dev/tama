@@ -3,9 +3,10 @@ import React from "react";
 import { motion } from "framer-motion";
 import SearchInput from "./SearchInput";
 import Category from "./Category";
+import { Category as CategoryType } from "@/lib/types";
 
 interface SubHeroProps {
-  categories: any[];
+  categories: CategoryType[];
   searchQuery: string;
   onSearchChange: (value: string) => void;
   selectedCategory: string;

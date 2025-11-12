@@ -24,7 +24,7 @@ interface Card {
 }
 
 export default function HeroWithCards() {
-  const [cards, setCards] = useState<any[]>([]);
+  const [cards, setCards] = useState<Card[]>([]);
 
   useEffect(() => {
     getHeroCards().then(setCards);
