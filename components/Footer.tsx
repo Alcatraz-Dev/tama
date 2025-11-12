@@ -45,7 +45,7 @@ export function Footer() {
               href="/"
               className="flex items-center lg:justify-start justify-center mb-5"
             >
-              <Image src={Logo} alt="Logo" width={150} height={150} />
+              <Image src={Logo} alt="Logo" width={130} height={130} />
             </Link>
 
             <p className="mt-4 max-w-xs text-black/80 text-sm leading-relaxed font-semibold flex items-center lg:justify-start justify-center lg:text-start text-center">
