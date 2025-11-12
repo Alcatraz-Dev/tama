@@ -8,9 +8,7 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-   eslint: {
-    ignoreDuringBuilds: true,
-  },
+ 
   webpack: (config: { resolve: { fallback: Record<string, boolean | string> } }) => {
     config.resolve.fallback = {
       ...config.resolve.fallback,
@@ -19,15 +17,9 @@ const nextConfig: NextConfig = {
     };
     return config;
   },
-  experimental: {
-    turbo: {
-      resolveAlias: {
-        'part:@sanity/base/client': '@sanity/client',
-        'part:@sanity/base/initial-value-templates': '@sanity/base/initial-value-templates',
-      },
-    },
 
-  },
+
+
 };
 
 export default nextConfig;
