@@ -4,14 +4,15 @@ import React, { useState, useEffect } from "react";
 import SubHero from "./SubHero";
 import { getCategories } from "@/lib/useQuery";
 import { useFilter } from "@/useFilter";
+import { Category } from "@/lib/types";
+import { FilterState } from "@/useFilter";
 
 interface SearchAndFilteringWrapperProps {
   onOpenAdvancedFilters?: () => void;
 }
 
-export default function SearchAndFilltring({ onOpenAdvancedFilters }: SearchAndFilteringWrapperProps) {
-  const [categories, setCategories] = useState<any[]>([]);
-  const [subCategories, setSubCategories] = useState<any[]>([]);
+export default function SearchAndFiltering({ onOpenAdvancedFilters }: SearchAndFilteringWrapperProps) {
+  const [categories, setCategories] = useState<Category[]>([]);
   const [selectedSubCategory, setSelectedSubCategory] = useState("");
 
   const {
@@ -41,7 +42,7 @@ export default function SearchAndFilltring({ onOpenAdvancedFilters }: SearchAndF
       selectedSubCategory={selectedSubCategory}
       onSubCategorySelect={setSelectedSubCategory}
       selectedFilter={sortBy}
-      onFilterSelect={(filter) => setSortBy(filter as any)}
+      onFilterSelect={(filter) => setSortBy(filter as FilterState['sortBy'])}
       onSale={onSale}
       onToggleSale={() => setOnSale(!onSale)}
       newArrivals={newArrivals}

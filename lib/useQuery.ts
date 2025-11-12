@@ -1,6 +1,13 @@
 import { client } from "@/sanity/lib/client";
 import { FiFacebook } from "react-icons/fi";
 import { RiInstagramLine, RiTiktokLine, RiYoutubeLine } from "react-icons/ri";
+import React from "react";
+
+interface CollectionFilters {
+  category?: string;
+  minPrice?: number;
+  maxPrice?: number;
+}
 
 export async function getHeroCards() {
   const query = `*[_type == "heroCard"] | order(order asc){
@@ -18,7 +25,7 @@ export async function getHeroCards() {
 
   const results = await client.fetch(query);
 
-  return results.map((item: any) => ({
+  return results.map((item: Record<string, unknown>) => ({
     type: item.cardType,
     title: item.title,
     subtitle: item.content,
@@ -181,7 +188,7 @@ export async function getSocialLinks() {
   const socialLinks = await client.fetch(query);
   return socialLinks;
 }
-export const iconMap: Record<string, any> = {
+export const iconMap: Record<string, React.ComponentType> = {
   facebook: FiFacebook,
   instagram: RiInstagramLine,
   tiktok: RiTiktokLine,
@@ -242,7 +249,7 @@ export async function getCollections() {
   const collections = await client.fetch(query);
   return collections;
 }
-export async function getCollectionBySlug(slug: string, productLimit = 12, productOffset = 0, filters: any = {}) {
+export async function getCollectionBySlug(slug: string, productLimit = 12, productOffset = 0, filters: CollectionFilters = {}) {
   let productFilter = '';
 
   if (filters.category) {

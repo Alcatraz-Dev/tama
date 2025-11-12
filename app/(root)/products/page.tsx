@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { getAllProducts } from "@/lib/useQuery";
-import SearchAndFilltring from "@/components/SearchAndFilteringWrapper";
+import SearchAndFiltering from "@/components/SearchAndFilteringWrapper";
 import ProductCard from "@/components/ProductCard";
 import AdvancedFilters from "@/components/AdvancedFilters";
 import { useFilter } from "@/useFilter";
@@ -100,7 +100,7 @@ export default function Products() {
       console.log("Fetched products:", data);
       setProducts(data);
     });
-  }, []);
+  }, [searchParams, setCategory, setColors, setMaterials, setNewArrivals, setOnSale, setPriceRange, setSearchQuery, setSizes, setSortBy, setSubcategory]);
 
   // Get available filter options
   const availableOptions = useMemo(() => {
@@ -295,7 +295,7 @@ export default function Products() {
     <section className="py-8 md:py-12">
       {/* Filtering controls */}
       <div className="my-5 flex flex-col items-center gap-4">
-        <SearchAndFilltring onOpenAdvancedFilters={() => setShowAdvancedFilters(true)} />
+        <SearchAndFiltering onOpenAdvancedFilters={() => setShowAdvancedFilters(true)} />
       </div>
 
       {/* Advanced Filters Modal */}

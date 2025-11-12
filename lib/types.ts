@@ -155,12 +155,21 @@ export interface Order {
   createdAt: string;
 }
 
+export interface GalleryItem {
+  _key?: string;
+  _type: string;
+  asset: {
+    url: string;
+    _ref?: string;
+  };
+}
+
 export interface CartItem {
   _id: string;
   title: string;
   slug: string;
   price: number;
-  gallery: any[];
+  gallery: GalleryItem[];
   color?: string;
   size?: string;
   quantity: number;

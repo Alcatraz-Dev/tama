@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { PlaySquare, Star, Heart, Share2, Truck, Shield, RotateCcw, ChevronRight, Minus, Plus, ZoomIn, Home } from "lucide-react";
+import { PlaySquare, Star, Heart, Truck, Shield, RotateCcw, ChevronRight, Minus, Plus, ZoomIn, Home } from "lucide-react";
 import { Button } from "./ui/button";
 import { client } from "@/sanity/lib/client";
 import { toast } from "sonner";
@@ -11,7 +11,6 @@ import { useCartStore } from "@/store/cart";
 import { getProductReviews, getRelatedProducts } from "@/lib/useQuery";
 import { FiFacebook, FiTwitter, FiInstagram, FiLinkedin } from "react-icons/fi";
 import { ProductDetailsSkeleton } from "./ui/skeleton";
-import ProductCard from "./ProductCard";
 import ClientProductGrid from "./ClientProductGrid";
 import { Product, Review } from "@/lib/types";
 
@@ -46,7 +45,7 @@ export function ProductDetails({ product }: { product: Product }) {
   const [location, setLocation] = useState("");
   const [phone, setPhone] = useState("");
   const [town, setTown] = useState("");
-  const { addToCart, cartItems } = useCartStore();
+  const { addToCart } = useCartStore();
 
   useEffect(() => {
     const loadAdditionalData = async () => {
@@ -82,7 +81,6 @@ export function ProductDetails({ product }: { product: Product }) {
 
   const shareUrl = typeof window !== 'undefined' ? window.location.href : '';
 
-  const handleShopNow = () => setShowShopForm(true);
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (isSubmitting) return; // prevent double submission
@@ -407,9 +405,9 @@ export function ProductDetails({ product }: { product: Product }) {
                           key={i}
                           style={{ backgroundColor: colorHex }}
                           onClick={() => setSelectedColor(colorHex)}
-                          className={`w-6 h-6 rounded-full shadow-sm transition-all duration-300 ${
+                          className={`w-6 h-6 rounded-full border shadow-sm transition-all duration-300 ${
                             selectedColor === colorHex
-                              ? "border-black scale-110 ring-2 ring-black ring-opacity-20"
+                              ? "border-black scale-110 ring-1 ring-black ring-opacity-20"
                               : "border-gray-300 hover:scale-105"
                           }`}
                           title={colorName}

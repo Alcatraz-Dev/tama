@@ -18,10 +18,6 @@ export default function ClientProductGrid({ products, loading = false }: Props) 
     },
   };
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
-  };
 
   return (
     <section className="py-8 sm:py-12 md:py-16 bg-fashion-cream">

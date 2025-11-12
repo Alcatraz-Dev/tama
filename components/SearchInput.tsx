@@ -2,6 +2,48 @@ import { Search, Clock, Mic, MicOff } from "lucide-react";
 import React, { useState, useEffect, useRef } from "react";
 import { getSearchSuggestions } from "@/lib/useQuery";
 
+interface SpeechRecognition extends EventTarget {
+  continuous: boolean;
+  interimResults: boolean;
+  lang: string;
+  start(): void;
+  stop(): void;
+  onstart: ((this: SpeechRecognition, ev: Event) => unknown) | null;
+  onresult: ((this: SpeechRecognition, ev: SpeechRecognitionEvent) => unknown) | null;
+  onerror: ((this: SpeechRecognition, ev: SpeechRecognitionErrorEvent) => unknown) | null;
+  onend: ((this: SpeechRecognition, ev: Event) => unknown) | null;
+}
+
+interface SpeechRecognitionEvent extends Event {
+  results: SpeechRecognitionResultList;
+}
+
+interface SpeechRecognitionErrorEvent extends Event {
+  error: string;
+}
+
+interface SpeechRecognitionResultList {
+  [index: number]: SpeechRecognitionResult;
+  length: number;
+}
+
+interface SpeechRecognitionResult {
+  [index: number]: SpeechRecognitionAlternative;
+  length: number;
+}
+
+interface SpeechRecognitionAlternative {
+  transcript: string;
+  confidence: number;
+}
+
+declare global {
+  interface Window {
+    SpeechRecognition: new () => SpeechRecognition;
+    webkitSpeechRecognition: new () => SpeechRecognition;
+  }
+}
+
 interface Suggestion {
   _id: string;
   title: string;
@@ -26,7 +68,7 @@ function SearchInput({
   const [isListening, setIsListening] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const suggestionsRef = useRef<HTMLDivElement>(null);
-  const recognitionRef = useRef<any>(null);
+  const recognitionRef = useRef<SpeechRecognition | null>(null);
   const isListeningRef = useRef(false); // ✅ move it here, not inside startVoiceSearch()
   // Load recent searches from localStorage
   useEffect(() => {
@@ -149,8 +191,8 @@ function SearchInput({
     }
 
     const SpeechRecognition =
-      (window as any).SpeechRecognition ||
-      (window as any).webkitSpeechRecognition;
+      window.SpeechRecognition ||
+      window.webkitSpeechRecognition;
     const recognition = new SpeechRecognition();
 
     recognition.continuous = false;
@@ -161,13 +203,13 @@ function SearchInput({
       setIsListening(true);
     };
 
-    recognition.onresult = (event: any) => {
+    recognition.onresult = (event: SpeechRecognitionEvent) => {
       const transcript = event.results[0][0].transcript;
       handleInputChange(transcript);
       stopVoiceSearch(); // Auto-stop after result
     };
 
-    recognition.onerror = (event: any) => {
+    recognition.onerror = (event: SpeechRecognitionErrorEvent) => {
       if (event.error !== "network") {
         console.error("Speech recognition error:", event.error);
       }
