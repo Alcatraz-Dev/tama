@@ -105,6 +105,83 @@ export default defineType({
       type: "boolean",
       initialValue: true,
     }),
+
+    // ✅ Materials
+    defineField({
+      name: "materials",
+      title: "Materials",
+      type: "array",
+      of: [{ type: "string" }],
+      description: "List of materials used in the product",
+    }),
+
+    // ✅ Care Instructions
+    defineField({
+      name: "careInstructions",
+      title: "Care Instructions",
+      type: "array",
+      of: [{ type: "string" }],
+      description: "Care instructions for the product",
+    }),
+
+    // ✅ Product Details
+    defineField({
+      name: "productDetails",
+      title: "Product Details",
+      type: "array",
+      of: [
+        {
+          type: "object",
+          fields: [
+            {
+              name: "label",
+              type: "string",
+              title: "Label",
+            },
+            {
+              name: "value",
+              type: "string",
+              title: "Value",
+            },
+          ],
+        },
+      ],
+      description: "Additional product details like fit, style, etc.",
+    }),
+
+    // ✅ Shipping Info
+    defineField({
+      name: "shippingInfo",
+      title: "Shipping Information",
+      type: "text",
+      description: "Shipping and delivery information",
+    }),
+
+    // ✅ Return Policy
+    defineField({
+      name: "returnPolicy",
+      title: "Return Policy",
+      type: "text",
+      description: "Return and exchange policy",
+    }),
+
+    // ✅ Sale
+    defineField({
+      name: "onSale",
+      title: "On Sale",
+      type: "boolean",
+      initialValue: false,
+      description: "Is this product currently on sale?",
+    }),
+
+    // ✅ Popularity (for sorting)
+    defineField({
+      name: "popularity",
+      title: "Popularity Score",
+      type: "number",
+      initialValue: 0,
+      description: "Popularity score for sorting (higher = more popular)",
+    }),
   ],
   preview: {
     select: {

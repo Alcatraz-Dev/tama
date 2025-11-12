@@ -12,7 +12,7 @@ export default async function CategoryGrid() {
       </h2>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6 px-6">
-        {categories.map((c: any) => (
+        {categories.map((c: { _id: string; title: string; imageUrl?: string }) => (
           <div
             key={c._id}
             className="relative rounded-3xl overflow-hidden shadow-lg"

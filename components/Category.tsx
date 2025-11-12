@@ -1,8 +1,13 @@
 "use client";
 import React from "react";
 
+interface Category {
+  _id: string;
+  title: string;
+}
+
 interface CategoryProps {
-  categories: any[];
+  categories: Category[];
   selectedCategory: string;
   onSelectCategory: (id: string) => void;
 }

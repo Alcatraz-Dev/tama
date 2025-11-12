@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "./ui/button";
 import { CiMenuFries } from "react-icons/ci";
+import Image from "next/image";
 const links = [
   { href: "/products", label: "Products" },
   { href: "/about", label: "About" },
@@ -41,9 +42,15 @@ export default function Navbar() {
         {/* Center Logo */}
         <Link
           href="/"
-          className="absolute left-1/2 transform -translate-x-1/2 text-4xl tracking-wide font-indie-flower uppercase font-extrabold"
+          className="absolute left-1/2 transform -translate-x-1/2"
         >
-          Tama
+          <Image
+            src="/tama.svg"
+            alt="Tama Logo"
+            width={100}
+            height={100}
+            className="w-16 h-16 md:w-20 md:h-20"
+          />
         </Link>
 
         {/* Right side nav */}

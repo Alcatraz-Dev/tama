@@ -12,8 +12,60 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: "slug",
+      type: "slug",
+      options: { source: "title", maxLength: 96 },
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: "description",
+      type: "text",
+      title: "Description",
+      description: "Brief description of the lookbook",
+    }),
+    defineField({
+      name: "stylingTips",
+      type: "text",
+      title: "Styling Tips",
+      description: "Tips on how to style the look",
+    }),
+    defineField({
+      name: "season",
+      type: "string",
+      title: "Season",
+      options: {
+        list: [
+          { title: "Spring", value: "spring" },
+          { title: "Summer", value: "summer" },
+          { title: "Fall", value: "fall" },
+          { title: "Winter", value: "winter" },
+        ],
+      },
+    }),
+    defineField({
+      name: "year",
+      type: "number",
+      title: "Year",
+      description: "Collection year",
+    }),
+    defineField({
+      name: "theme",
+      type: "string",
+      title: "Theme",
+      description: "Lookbook theme or inspiration",
+    }),
+    defineField({
+      name: "images",
+      type: "array",
+      title: "Lookbook Images",
+      of: [{ type: "image", options: { hotspot: true } }],
+      validation: (Rule) => Rule.required().min(1),
+    }),
+    defineField({
       name: "mainImage",
       type: "image",
+      title: "Main Image",
+      description: "Primary image for the lookbook (deprecated - use images array)",
       options: { hotspot: true },
     }),
     defineField({

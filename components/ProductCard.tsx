@@ -3,27 +3,50 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 
-export default function ProductCard({ product }: { product: any }) {
+interface ProductCardProps {
+  product: any;
+  searchQuery?: string;
+}
+
+function highlightText(text: string, query: string) {
+  if (!query.trim()) return text;
+
+  const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+  const parts = text.split(regex);
+
+  return parts.map((part, index) =>
+    regex.test(part) ? (
+      <mark key={index} className="bg-yellow-200 text-black px-1 rounded">
+        {part}
+      </mark>
+    ) : (
+      part
+    )
+  );
+}
+
+export default function ProductCard({ product, searchQuery = "" }: ProductCardProps) {
   const firstImage = product.gallery?.[0]?.asset?.url;
   const secondImage = product.gallery?.[1]?.asset?.url;
 
   return (
     <motion.div
       key={product._id}
-      whileHover={{ scale: 1.05 }}
-      className="group relative block rounded-t-3xl rounded-b-4xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 bg-neutral-800"
+      whileHover={{ scale: 1.02, y: -2 }}
+      whileTap={{ scale: 0.98 }}
+      className="group relative block rounded-t-3xl rounded-b-4xl overflow-hidden shadow-lg hover:shadow-elegant transition-all duration-300 bg-white cursor-pointer"
     >
       {/* Image wrapper */}
-      <div className="relative w-full aspect-square rounded-t-3xl rounded-b-[50px] overflow-hidden max-h-[300px]">
+      <div className="relative w-full aspect-square rounded-t-3xl rounded-b-[50px] overflow-hidden max-h-[300px] sm:max-h-[350px]">
         {firstImage && (
           <>
             <Image
               src={firstImage}
               alt={product.title}
               fill
-              sizes="(max-width: 768px) 100vw, 25vw"
-              className={`object-cover transition-opacity duration-500 ${
-                secondImage ? "group-hover:opacity-0" : ""
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+              className={`object-cover transition-all duration-500 ${
+                secondImage ? "group-hover:opacity-0 group-hover:scale-105" : "group-hover:scale-105"
               }`}
             />
             {secondImage && (
@@ -31,43 +54,75 @@ export default function ProductCard({ product }: { product: any }) {
                 src={secondImage}
                 alt={product.title}
                 fill
-                sizes="(max-width: 768px) 100vw, 25vw"
-                className="object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                className="object-cover opacity-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
               />
             )}
+            {/* Overlay gradient for better text readability */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           </>
         )}
+
+        {/* Wishlist button */}
+        <button
+          className="absolute top-3 right-3 w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-white/30"
+          aria-label="Add to wishlist"
+        >
+          <svg className="w-4 h-4 text-black font-semibold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+          </svg>
+        </button>
       </div>
 
       {/* Details */}
-      <div className="mt-5 mb-5 mx-5 flex flex-col items-center rounded-b-3xl text-white drop-shadow-2xl z-10">
-        <h3 className="text-sm sm:text-base font-semibold line-clamp-1 text-center max-w-[80%] my-2">
-          {product.title}
+      <div className="mt-4 mb-4 mx-4 sm:mx-5 flex flex-col items-center rounded-b-3xl text-black font-semibold drop-shadow-2xl z-10">
+        <h3 className="text-sm sm:text-base lg:text-lg font-semibold line-clamp-2 text-center max-w-[90%] my-2 leading-tight">
+          {highlightText(product.title, searchQuery)}
         </h3>
-        <p className="text-gray-300 text-sm my-1 line-clamp-1">
-          {product.description}
+        <p className="text-black font-semibold text-xs sm:text-sm my-1 line-clamp-2 text-center leading-relaxed">
+          {highlightText(product.description || "", searchQuery)}
         </p>
 
-        <div className="flex items-center justify-between gap-2 mt-2 w-full px-2">
+        <div className="flex items-center justify-between gap-2 mt-3 w-full px-2">
           {product.colors?.length > 0 && (
-            <div className="flex gap-1 flex-wrap">
-              {product.colors.map((color: any, i: number) => {
+            <div className="flex gap-1 flex-wrap justify-start">
+              {product.colors.slice(0, 4).map((color: any, i: number) => {
                 const bgColor = color.hex || color.value || color;
                 return (
                   <span
                     key={i}
                     title={color.name || bgColor}
-                    className="w-3 h-3 md:w-5 md:h-5 rounded-full border border-gray-200 shadow-sm"
+                    className="w-3 h-3 sm:w-4 sm:h-4 rounded-full border border-black/50 shadow-sm transition-transform hover:scale-110"
                     style={{ backgroundColor: bgColor }}
                   />
                 );
               })}
+              {product.colors.length > 4 && (
+                <span className="text-xs text-black font-semibold ml-1">+{product.colors.length - 4}</span>
+              )}
             </div>
           )}
 
-          <p className="text-sm sm:text-base font-extrabold">
-            {product.price} DT
-          </p>
+          <div className="flex flex-col items-end">
+            <p className="text-sm sm:text-base lg:text-lg font-extrabold text-black">
+              {product.price} DT
+            </p>
+            {product.originalPrice && product.originalPrice > product.price && (
+              <p className="text-xs text-black font-semibold line-through">
+                {product.originalPrice} DT
+              </p>
+            )}
+          </div>
+        </div>
+
+        {/* Quick actions for mobile */}
+        <div className="flex gap-2 mt-3 w-full px-2 sm:hidden">
+          <button className="flex-1 bg-black text-white py-2 px-3 rounded-lg text-xs font-medium transition-all hover:bg-black/90 active:scale-95">
+            Quick Add
+          </button>
+          <button className="flex-1 border border-fashion-gold text-black py-2 px-3 rounded-lg text-xs font-medium transition-all hover:bg-black hover:text-white active:scale-95">
+            View Details
+          </button>
         </div>
       </div>
     </motion.div>

@@ -3,7 +3,8 @@ import { getSocialLinks, iconMap } from "@/lib/useQuery";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-
+import Logo from "../public/tama.svg";
+import Image from "next/image";
 const footerLinks = {
   Company: [
     { name: "About", href: "/about" },
@@ -35,25 +36,25 @@ export function Footer() {
   }, []);
 
   return (
-    <footer className="bg-black/90 w-full max-w-7xl mx-auto px-6 py-12 rounded-3xl mb-6">
-      <div className="mx-auto max-w-screen-xl space-y-10 px-4 sm:px-6 lg:space-y-16 lg:px-8">
+    <footer className="bg-white w-full max-w-7xl mx-auto px-6 py-12 rounded-3xl mb-6 shadow-luxury">
+      <div className="mx-auto  space-y-10 px-4 sm:px-6 lg:space-y-16 lg:px-8">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-3">
           {/* Logo + About */}
           <div>
             <Link
               href="/"
-              className="text-4xl font-extrabold uppercase tracking-wide text-white"
+              className="flex items-center lg:justify-start justify-center mb-5"
             >
-              Tama
+              <Image src={Logo} alt="Logo" width={150} height={150} />
             </Link>
 
-            <p className="mt-4 max-w-xs text-gray-300 text-sm leading-relaxed">
+            <p className="mt-4 max-w-xs text-black/80 text-sm leading-relaxed font-semibold flex items-center lg:justify-start justify-center lg:text-start text-center">
               Premium clothing brand for modern lifestyle. Crafted with passion,
               designed for comfort.
             </p>
 
             {/* Social Icons with animation */}
-            <ul className="mt-8 flex gap-6">
+            <ul className="mt-10 flex gap-6 lg:justify-start justify-center items-center">
               {socialLinks.map((item, idx) => {
                 const Icon = iconMap[item.icon?.toLowerCase()] || null;
                 if (!Icon) return null;
@@ -63,13 +64,13 @@ export function Footer() {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: idx * 0.1, duration: 0.5 }}
-                    whileHover={{ scale: 1.2, color: "#fff" }}
+                    whileHover={{ scale: 1.2 }}
                   >
                     <a
                       href={item.url}
                       target="_blank"
                       rel="noreferrer"
-                      className="text-gray-400 hover:text-white transition"
+                      className="text-black/60 hover:text-black transition-colors"
                     >
                       <span className="sr-only">{item.name}</span>
                       <Icon className="w-6 h-6" />
@@ -81,16 +82,17 @@ export function Footer() {
           </div>
 
           {/* Dynamic Footer Links */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:col-span-2 gap-8">
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:col-span-2 gap-8 md:items-center ">
             {Object.entries(footerLinks).map(([section, links]) => (
               <div key={section}>
-                <p className="font-medium text-white">{section}</p>
+                <p className="font-serif font-semibold text-white">{section}</p>
                 <ul className="mt-6 space-y-3 text-sm">
                   {links.map((link, idx) => (
                     <li key={idx}>
                       <a
                         href={link.href}
-                        className="text-gray-400 hover:text-white transition"
+                        className="text-black/70 hover:text-black transition-colors font-semibold"
                       >
                         {link.name}
                       </a>
@@ -103,12 +105,12 @@ export function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-6 border-t border-gray-700 flex flex-col sm:flex-row items-center justify-between">
-          <p className="text-xs text-gray-500">
+        <div className="pt-6 border-t border-black/30 flex flex-col sm:flex-row items-center justify-between">
+          <p className="text-xs text-black/60 font-semibold">
             &copy; {new Date().getFullYear()} Tama Clothing. All rights
             reserved.
           </p>
-          <p className="text-xs text-gray-500 mt-2 sm:mt-0">
+          <p className="text-xs text-black/60 mt-2 sm:mt-0 font-semibold">
             Made with ❤️ for fashion lovers
           </p>
         </div>

@@ -97,8 +97,13 @@ export async function getProductBySlug(slug: string) {
   },
   colors[]{hex, name},
   sizes,
-     category->{...,},
- 
+  materials,
+  careInstructions,
+  productDetails,
+  shippingInfo,
+  returnPolicy,
+  category->{...,},
+
 }
 `;
   const product = await client.fetch(query, { slug });
@@ -142,10 +147,13 @@ export async function getAllProducts() {
   },
   colors[]{hex, name},
   sizes,
-    _createdAt,  
-    
-    category->{...,},
- 
+  materials,
+  onSale,
+  popularity,
+  _createdAt,
+
+  category->{...,},
+
 }
 `;
 
@@ -208,8 +216,13 @@ export async function getCollectionsLimit(limit = 5) {
   const query = `*[_type == "collection"][0...${limit}]{
     _id,
     title,
+    "slug": slug.current,
+    description,
+    stylingTips,
+    season,
+    year,
+    theme,
     "imageUrl": image.asset->url,
-     "slug": slug.current,
   }`;
   const collections = await client.fetch(query);
   return collections;
@@ -218,24 +231,64 @@ export async function getCollections() {
   const query = `*[_type == "collection"]{
     _id,
     title,
+    "slug": slug.current,
+    description,
+    stylingTips,
+    season,
+    year,
+    theme,
     "imageUrl": image.asset->url,
-     "slug": slug.current,
   }`;
   const collections = await client.fetch(query);
   return collections;
 }
-export async function getCollectionBySlug(slug: string) {
+export async function getCollectionBySlug(slug: string, productLimit = 12, productOffset = 0, filters: any = {}) {
+  let productFilter = '';
+
+  if (filters.category) {
+    productFilter += ` && category._ref == "${filters.category}"`;
+  }
+
+  if (filters.minPrice) {
+    productFilter += ` && price >= ${filters.minPrice}`;
+  }
+
+  if (filters.maxPrice) {
+    productFilter += ` && price <= ${filters.maxPrice}`;
+  }
+
   const query = `
 *[_type == "collection" && slug.current == $slug][0]{
   _id,
   title,
   description,
+  stylingTips,
+  season,
+  year,
+  theme,
   "slug": slug.current,
   "imageUrl": image.asset->url,
-  products[]{...,}
+  "totalProducts": count(products${productFilter}),
+  products${productFilter}[$offset...$limit]->{
+    _id,
+    title,
+    "slug": slug.current,
+    price,
+    description,
+    "image": gallery[0].asset->url,
+    inStock,
+    category->{
+      _id,
+      title
+    }
+  }
 }
 `;
-  const collection = await client.fetch(query, { slug });
+  const collection = await client.fetch(query, {
+    slug,
+    limit: productOffset + productLimit,
+    offset: productOffset
+  });
   return collection;
 }
 
@@ -244,15 +297,19 @@ export async function getLookbook(){
 *[_type == "lookbook"]{
   _id,
   title,
-  slug,
+  "slug": slug.current,
   description,
+  stylingTips,
+  season,
+  year,
+  theme,
   "images": images[]{
     asset->{_id, url}
   },
   "products": products[]->{
     _id,
     title,
-    slug,
+    "slug": slug.current,
     price,
     "image": gallery[0].asset->url
   }
@@ -260,4 +317,81 @@ export async function getLookbook(){
 `;
   const results = await client.fetch(query);
   return results;
+}
+
+export async function getLookbookBySlug(slug: string) {
+  const query = `
+*[_type == "lookbook" && slug.current == $slug][0]{
+  _id,
+  title,
+  "slug": slug.current,
+  description,
+  stylingTips,
+  season,
+  year,
+  theme,
+  "images": images[]{
+    asset->{_id, url}
+  },
+  "products": products[]->{
+    _id,
+    title,
+    "slug": slug.current,
+    price,
+    description,
+    "image": gallery[0].asset->url,
+    inStock
+  }
+}
+`;
+  const lookbook = await client.fetch(query, { slug });
+  return lookbook;
+}
+
+export async function getProductReviews(productId: string) {
+  const query = `
+*[_type == "review" && product._ref == $productId]{
+  _id,
+  customerName,
+  rating,
+  reviewText,
+  reviewDate,
+  verifiedPurchase
+} | order(reviewDate desc)
+`;
+  const reviews = await client.fetch(query, { productId });
+  return reviews;
+}
+
+export async function getRelatedProducts(categoryId: string, currentProductId: string, limit = 4) {
+  const query = `
+*[_type == "product" && category._ref == $categoryId && _id != $currentProductId][0...${limit}]{
+  _id,
+  title,
+  price,
+  "slug": slug.current,
+  gallery[]{
+    _type,
+    asset->{
+      _id,
+      url
+    }
+  },
+  inStock
+}
+`;
+  const products = await client.fetch(query, { categoryId, currentProductId });
+  return products;
+}
+
+export async function getSearchSuggestions(query: string, limit = 10) {
+  const groqQuery = `
+    *[_type == "product" && lower(title) match lower("${query}*")] | order(title asc)[0...${limit}]{
+      _id,
+      title,
+      "slug": slug.current
+    }
+  `;
+  const suggestions = await client.fetch(groqQuery);
+  return suggestions;
 }

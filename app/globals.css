@@ -1,5 +1,26 @@
 @import "tailwindcss";
-@import "tw-animate-css";
+
+@layer utilities {
+  .bg-gradient-luxury {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  }
+
+  .text-fashion-gold {
+    color: #d4af37;
+  }
+
+  .text-fashion-cream {
+    color: #f5f5dc;
+  }
+
+  .shadow-luxury {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  }
+
+  .shadow-elegant {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  }
+}
 
 @custom-variant dark (&:is(.dark *));
 
