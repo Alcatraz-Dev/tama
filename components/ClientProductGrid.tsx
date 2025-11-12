@@ -1,19 +1,8 @@
 "use client";
-import Image from "next/image";
-import Link from "next/link";
 import { motion } from "framer-motion";
 import { ProductGridSkeleton } from "./ui/skeleton";
 import ProductCard from "./ProductCard";
-
-interface Product {
-  _id: string;
-  title: string;
-  slug: string;
-  description: string;
-  price: number;
-  gallery: any[];
-  colors: any[];
-}
+import { Product } from "@/lib/types";
 
 interface Props {
   products: Product[];

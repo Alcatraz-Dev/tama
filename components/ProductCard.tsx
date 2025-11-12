@@ -1,11 +1,11 @@
 // components/ProductCard.tsx
 "use client";
 import Image from "next/image";
-import Link from "next/link";
 import { motion } from "framer-motion";
+import { Product } from "@/lib/types";
 
 interface ProductCardProps {
-  product: any;
+  product: Product;
   searchQuery?: string;
 }
 
@@ -86,14 +86,15 @@ export default function ProductCard({ product, searchQuery = "" }: ProductCardPr
         </p>
 
         <div className="flex items-center justify-between gap-2 mt-3 w-full px-2">
-          {product.colors?.length > 0 && (
+          {product.colors && product.colors.length > 0 && (
             <div className="flex gap-1 flex-wrap justify-start">
-              {product.colors.slice(0, 4).map((color: any, i: number) => {
-                const bgColor = color.hex || color.value || color;
+              {product.colors.slice(0, 4).map((color, i: number) => {
+                const bgColor = typeof color === 'string' ? color : (color.hex || color.value || '');
+                const colorName = typeof color === 'string' ? color : (color.name || bgColor);
                 return (
                   <span
                     key={i}
-                    title={color.name || bgColor}
+                    title={colorName}
                     className="w-3 h-3 sm:w-4 sm:h-4 rounded-full border border-black/50 shadow-sm transition-transform hover:scale-110"
                     style={{ backgroundColor: bgColor }}
                   />

@@ -13,6 +13,7 @@ import { FiFacebook, FiTwitter, FiInstagram, FiLinkedin } from "react-icons/fi";
 import { ProductDetailsSkeleton } from "./ui/skeleton";
 import ProductCard from "./ProductCard";
 import ClientProductGrid from "./ClientProductGrid";
+import { Product, Review } from "@/lib/types";
 
 const tunisianTowns = [
   "Tunis",
@@ -27,7 +28,7 @@ const tunisianTowns = [
   "Mahdia",
 ];
 
-export function ProductDetails({ product }: any) {
+export function ProductDetails({ product }: { product: Product }) {
   const [selectedMedia, setSelectedMedia] = useState(
     product.gallery?.[0] || null
   );
@@ -37,8 +38,8 @@ export function ProductDetails({ product }: any) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showShopForm, setShowShopForm] = useState(false);
   const [isZoomed, setIsZoomed] = useState(false);
-  const [reviews, setReviews] = useState<any[]>([]);
-  const [relatedProducts, setRelatedProducts] = useState<any[]>([]);
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
   const [fullName, setFullName] = useState("");
@@ -109,11 +110,11 @@ export function ProductDetails({ product }: any) {
       });
       return;
     }
-    if (product.colors?.length > 0 && !selectedColor) {
+    if (product.colors && product.colors.length > 0 && !selectedColor) {
       toast("Missing Color", { description: "Please select a color." });
       return;
     }
-    if (product.sizes?.length > 0 && !selectedSize) {
+    if (product.sizes && product.sizes.length > 0 && !selectedSize) {
       toast("Missing Size", { description: "Please select a size." });
       return;
     }
@@ -163,9 +164,9 @@ export function ProductDetails({ product }: any) {
         phone,
         product,
         selectedColor,
-        subtotal: product.price * product.quantity,
+        subtotal: product.price * quantity,
         shippingFee: 50,
-        total: product.price * product.quantity + 50,
+        total: product.price * quantity + 50,
         selectedSize,
         status: "pending",
       };
@@ -394,12 +395,13 @@ export function ProductDetails({ product }: any) {
               </div>
 
               {/* Color Selection */}
-              {product.colors?.length > 0 && (
+              {product.colors && product.colors.length > 0 && (
                 <div className="mb-4">
                   <p className="text-sm font-semibold text-gray-900 mb-2">Color</p>
                   <div className="flex items-center gap-3">
-                    {product.colors.map((color: any, i: number) => {
-                      const colorHex = color.hex || color;
+                    {product.colors.map((color, i: number) => {
+                      const colorHex = typeof color === 'string' ? color : (color.hex || color.value || '');
+                      const colorName = typeof color === 'string' ? color : (color.name || colorHex);
                       return (
                         <button
                           key={i}
@@ -410,7 +412,7 @@ export function ProductDetails({ product }: any) {
                               ? "border-black scale-110 ring-2 ring-black ring-opacity-20"
                               : "border-gray-300 hover:scale-105"
                           }`}
-                          title={color.name || colorHex}
+                          title={colorName}
                         />
                       );
                     })}
@@ -419,7 +421,7 @@ export function ProductDetails({ product }: any) {
               )}
 
               {/* Size Selection */}
-              {product.sizes?.length > 0 && (
+              {product.sizes && product.sizes.length > 0 && (
                 <div className="mb-4">
                   <p className="text-sm font-semibold text-gray-900 mb-2">Size</p>
                   <div className="flex gap-2 flex-wrap">
@@ -517,7 +519,7 @@ export function ProductDetails({ product }: any) {
             <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-lg">
               <div className="space-y-4">
                 {/* Materials */}
-                {product.materials?.length > 0 && (
+                {product.materials && product.materials.length > 0 && (
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900 mb-3">Materials</h3>
                     <ul className="list-disc list-inside text-gray-600 space-y-1">
@@ -529,7 +531,7 @@ export function ProductDetails({ product }: any) {
                 )}
 
                 {/* Care Instructions */}
-                {product.careInstructions?.length > 0 && (
+                {product.careInstructions && product.careInstructions.length > 0 && (
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900 mb-3">Care Instructions</h3>
                     <ul className="list-disc list-inside text-gray-600 space-y-1">
@@ -541,11 +543,11 @@ export function ProductDetails({ product }: any) {
                 )}
 
                 {/* Product Details */}
-                {product.productDetails?.length > 0 && (
+                {product.productDetails && product.productDetails.length > 0 && (
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900 mb-3">Details</h3>
                     <div className="space-y-2">
-                      {product.productDetails.map((detail: any, i: number) => (
+                      {product.productDetails.map((detail, i: number) => (
                         <div key={i} className="flex justify-between py-2 border-b border-gray-100 last:border-b-0">
                           <span className="font-medium text-gray-700">{detail.label}</span>
                           <span className="text-gray-600">{detail.value}</span>
@@ -655,13 +657,13 @@ export function ProductDetails({ product }: any) {
           )}
         </div>
 
-        {/* Related Products
+        {/* Related Products */}
         {relatedProducts.length > 0 && (
           <div className="mt-12">
             <h2 className="text-xl font-bold text-gray-900 mb-6">You might also like</h2>
             <ClientProductGrid products={relatedProducts} />
           </div>
-        )} */}
+        )}
 
         {/* Shop Form Modal */}
         {showShopForm && (
