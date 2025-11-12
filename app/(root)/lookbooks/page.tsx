@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { getLookbook } from "@/lib/useQuery";
-
+import { motion } from "framer-motion";
 
 export default async function LookbooksPage() {
   const lookbooks = await getLookbook();
