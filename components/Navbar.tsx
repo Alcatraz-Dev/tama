@@ -44,10 +44,7 @@ export default function Navbar() {
         </Button>
 
         {/* Center Logo */}
-        <Link
-          href="/"
-          className="absolute left-1/2 transform -translate-x-1/2"
-        >
+        <Link href="/" className="absolute left-1/2 transform -translate-x-1/2">
           <Image
             src="/tama.svg"
             alt="Tama Logo"
@@ -123,7 +120,10 @@ export default function Navbar() {
           >
             {/* Header */}
             <div className="flex items-center justify-between p-6 border-b border-gray-100">
-              <div className="flex items-center space-x-3">
+              <div
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="flex items-center space-x-3 cursor-pointer"
+              >
                 <Image
                   src="/tama.svg"
                   alt="Tama Logo"
@@ -131,7 +131,6 @@ export default function Navbar() {
                   height={50}
                   className="w-20 h-20"
                 />
-       
               </div>
               <Button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -170,7 +169,9 @@ export default function Navbar() {
 
             {/* Footer */}
             <div className="p-6 border-t border-gray-100">
-              <p className="text-sm text-gray-500 text-center">© {new Date().getFullYear()} Tama Shop</p>
+              <p className="text-sm text-gray-500 text-center">
+                © {new Date().getFullYear()} Tama Shop
+              </p>
             </div>
           </motion.div>
         )}
