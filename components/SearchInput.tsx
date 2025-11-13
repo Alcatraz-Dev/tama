@@ -263,7 +263,7 @@ function SearchInput({
   };
 
   return (
-    <div className="relative max-w-xs sm:max-w-sm w-full">
+    <div className="relative max-w-md w-full">
       <div className="flex items-center gap-2 bg-white text-black px-3 sm:px-4 py-2 sm:py-1 rounded-full shadow-sm border border-gray-200 hover:border-gray-300 focus-within:border-fashion-gold focus-within:ring-2 focus-within:ring-fashion-gold/20 transition-all duration-200">
         <input
           ref={inputRef}

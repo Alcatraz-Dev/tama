@@ -52,7 +52,7 @@ function SubHero({
       transition={{ staggerChildren: 0.1 }}
     >
       {/* Search */}
-      <motion.div variants={itemVariants} className="w-full md:w-auto">
+      <motion.div variants={itemVariants} className="w-full  md:w-auto   ">
         <SearchInput value={searchQuery} onChange={onSearchChange} />
       </motion.div>
 
