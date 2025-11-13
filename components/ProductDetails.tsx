@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { PlaySquare, Star, Heart, Truck, Shield, RotateCcw, ChevronRight, Minus, Plus, ZoomIn, Home } from "lucide-react";
+import { PlaySquare, Star, Heart, Truck, Shield, RotateCcw, ChevronRight, Minus, Plus, ZoomIn, Home, X } from "lucide-react";
 import { Button } from "./ui/button";
 import { client } from "@/sanity/lib/client";
 import { toast } from "sonner";
@@ -318,9 +318,9 @@ export function ProductDetails({ product }: { product: Product }) {
                   />
                   <button
                     onClick={() => setIsZoomed(false)}
-                    className="absolute top-4 right-4 bg-white rounded-full p-2 hover:bg-gray-100 transition-colors"
+                    className="absolute top-4 right-4 bg-white rounded-full px-0.5 py-0.5 hover:bg-gray-100 transition-colors"
                   >
-                    ✕
+                    <X size={20}/>
                   </button>
                 </div>
               </div>
@@ -360,13 +360,13 @@ export function ProductDetails({ product }: { product: Product }) {
             <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-lg">
               <div className="flex items-start justify-between mb-4">
                 <div>
-                  <h1 className="text-2xl font-bold text-gray-900 mb-2">{product.title}</h1>
+                  <h1 className="lg:text-xl text-lg font-bold text-gray-900 mb-2">{product.title}</h1>
                   <div className="flex items-center space-x-4">
                     <div className="flex items-center space-x-1">
                       {[...Array(5)].map((_, i) => (
                         <Star
                           key={i}
-                          className={`w-5 h-5 ${i < Math.floor(averageRating) ? 'text-yellow-400 fill-current' : 'text-gray-300'}`}
+                          className={`w-4 h-4 ${i < Math.floor(averageRating) ? 'text-yellow-400 fill-current' : 'text-gray-300'}`}
                         />
                       ))}
                       <span className="text-sm text-gray-600 ml-2">
@@ -376,14 +376,14 @@ export function ProductDetails({ product }: { product: Product }) {
                   </div>
                 </div>
                 <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
-                  <Heart className="w-6 h-6 text-gray-400 hover:text-red-500" />
+                  <Heart className="w-4 h-4 text-gray-400 hover:text-red-500" />
                 </button>
               </div>
 
-              <p className="text-gray-600 text-base leading-relaxed mb-4">{product.description}</p>
+              <p className="text-gray-600 text-sm leading-relaxed mb-4">{product.description}</p>
 
               <div className="flex items-center justify-between mb-6">
-                <p className="text-3xl font-bold text-gray-900">{product.price} DT</p>
+                <p className="lg:text-xl text-lg font-bold text-gray-900">{product.price} DT</p>
                 <div className="flex items-center space-x-2">
                   <div className={`w-3 h-3 rounded-full ${product.inStock ? 'bg-green-500' : 'bg-red-500'}`}></div>
                   <span className={`font-medium ${product.inStock ? 'text-green-600' : 'text-red-600'}`}>
