@@ -314,7 +314,7 @@ export function ProductDetails({ product }: { product: Product }) {
                     alt={product.title}
                     width={800}
                     height={800}
-                    className="object-contain max-h-full max-w-full"
+                    className="object-contain max-h-full max-w-full "
                   />
                   <button
                     onClick={() => setIsZoomed(false)}
@@ -327,15 +327,15 @@ export function ProductDetails({ product }: { product: Product }) {
             )}
 
             {/* Thumbnails */}
-            <div className="flex gap-3 overflow-x-auto pb-2">
+            <div className="flex gap-3 overflow-x-auto pb-2 m-5">
               {product.gallery?.map((media, i: number) => (
                 <button
                   key={i}
                   onClick={() => setSelectedMedia(media)}
-                  className={`relative  w-20 h-20 rounded-lg overflow-hidden border-2 transition-all duration-300 ${
+                  className={`relative  w-20 h-20 rounded-2xl overflow-hidden border-2 transition-all duration-300 ${
                     selectedMedia?._key === media._key
-                      ? "border-black scale-105 shadow-lg"
-                      : "border-gray-200 hover:border-gray-400"
+                      ? "border-black scale-90 shadow-lg"
+                      : "border-gray-200 scale-90 hover:border-gray-400"
                   }`}
                 >
                   {media._type === "image" ? (
@@ -343,11 +343,11 @@ export function ProductDetails({ product }: { product: Product }) {
                       src={media.asset.url}
                       alt={product.title}
                       fill
-                      className="object-cover"
+                      className="object-cover rounded-xl"
                     />
                   ) : (
                     <div className="flex items-center justify-center w-full h-full bg-gray-100">
-                      <PlaySquare className="w-6 h-6 text-gray-500" />
+                      <PlaySquare className="w-6 h-6 text-gray-500 rounded-2xl" />
                     </div>
                   )}
                 </button>
@@ -591,20 +591,20 @@ export function ProductDetails({ product }: { product: Product }) {
         </div>
 
         {/* Reviews Section */}
-        <div className="mt-12 bg-white rounded-2xl p-4 sm:p-6 shadow-lg">
+        <div className="mt-12 bg-white rounded-2xl p-4 md:p-6 shadow-lg">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-gray-900">Customer Reviews</h2>
+            <h2 className="lg:text-xl text-sm font-bold text-gray-900">Customer Reviews</h2>
             <div className="flex items-center space-x-2">
               <div className="flex items-center space-x-1">
                 {[...Array(5)].map((_, i) => (
                   <Star
                     key={i}
-                    className={`w-5 h-5 ${i < Math.floor(averageRating) ? 'text-yellow-400 fill-current' : 'text-gray-300'}`}
+                    className={`w-3 h-3 ${i < Math.floor(averageRating) ? 'text-yellow-400 fill-current' : 'text-gray-300'}`}
                   />
                 ))}
               </div>
-              <span className="text-lg font-semibold text-gray-900">{averageRating.toFixed(1)}</span>
-              <span className="text-gray-600">({reviews.length} reviews)</span>
+              <span className="text-xs font-semibold text-gray-900">{averageRating.toFixed(1)}</span>
+              <span className="text-gray-600 text-xs">({reviews.length} reviews)</span>
             </div>
           </div>
 
@@ -648,20 +648,12 @@ export function ProductDetails({ product }: { product: Product }) {
             </div>
           ) : (
             <div className="text-center py-12">
-              <Star className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-              <p className="text-gray-600 text-lg">No reviews yet</p>
-              <p className="text-gray-500">Be the first to review this product!</p>
+              <Star className="w-10 h-10 lg:w-14 lg:h-14 text-gray-300 mx-auto mb-4" />
+              <p className="text-gray-600 lg:text-lg text-sm">No reviews yet</p>
+              <p className="text-gray-500 lg:text-lg text-sm">Be the first to review this product!</p>
             </div>
           )}
         </div>
-
-        {/* Related Products */}
-        {relatedProducts.length > 0 && (
-          <div className="mt-12">
-            <h2 className="text-xl font-bold text-gray-900 mb-6">You might also like</h2>
-            <ClientProductGrid products={relatedProducts} />
-          </div>
-        )}
 
         {/* Shop Form Modal */}
         {showShopForm && (

@@ -37,7 +37,7 @@ export default function Category({
       {/* Category buttons */}
       <button
         onClick={() => onSelectCategory("")}
-        className={`flex justify-center items-center px-2 py-1.5 rounded-full shadow-sm text-xs whitespace-nowrap min-h-[36px] touch-manipulation ${
+        className={`flex justify-center items-center px-4 py-1.5 rounded-full shadow-sm text-xs whitespace-nowrap  touch-manipulation ${
           selectedCategory === ""
             ? "bg-black text-white"
             : "bg-white text-gray-700 hover:bg-gray-100"
@@ -50,7 +50,7 @@ export default function Category({
         <button
           key={c._id}
           onClick={() => onSelectCategory(c._id)}
-          className={`flex justify-center items-center px-2 py-1.5 rounded-full shadow-sm text-xs whitespace-nowrap min-h-[36px] touch-manipulation ${
+          className={`flex justify-center items-center px-4 py-1.5 rounded-full shadow-sm text-xs whitespace-nowrap touch-manipulation ${
             selectedCategory === c._id
               ? "bg-black text-white"
               : "bg-white text-gray-700 hover:bg-gray-100"
@@ -64,7 +64,7 @@ export default function Category({
       {onToggleSale && (
         <button
           onClick={onToggleSale}
-          className={`flex justify-center items-center px-2 py-1.5 rounded-full shadow-sm text-xs whitespace-nowrap min-h-[36px] touch-manipulation ${
+          className={`flex justify-center items-center px-4 py-1.5 rounded-full shadow-sm text-xs whitespace-nowrap touch-manipulation ${
             onSale
               ? "bg-black text-white"
               : "bg-white text-gray-700 hover:bg-gray-100"
@@ -77,7 +77,7 @@ export default function Category({
       {onToggleNewArrivals && (
         <button
           onClick={onToggleNewArrivals}
-          className={`flex justify-center items-center px-2 py-1.5 rounded-full shadow-sm text-xs whitespace-nowrap min-h-[36px] touch-manipulation ${
+          className={`flex justify-center items-center px-4 py-1.5 rounded-full shadow-sm text-xs whitespace-nowrap  touch-manipulation ${
             newArrivals
               ? "bg-black text-white"
               : "bg-white text-gray-700 hover:bg-gray-100"
@@ -91,7 +91,7 @@ export default function Category({
         <select
           value={sortBy}
           onChange={(e) => onSortChange(e.target.value as "default" | "price-low" | "price-high" | "newest" | "popularity")}
-          className="flex justify-center items-center px-2 py-1.5 rounded-full shadow-sm text-xs bg-white text-gray-700 hover:bg-gray-100 border-0 outline-none cursor-pointer min-h-[36px] touch-manipulation"
+          className="flex justify-center items-center px-4 py-1.5 rounded-full shadow-sm text-xs bg-white text-gray-700 hover:bg-gray-100 border-0 outline-none cursor-pointer touch-manipulation"
         >
           <option value="default">Sort</option>
           <option value="price-low">Price: Low</option>
@@ -103,7 +103,7 @@ export default function Category({
       {onOpenAdvancedFilters && (
         <button
           onClick={onOpenAdvancedFilters}
-          className="flex justify-center items-center px-2 py-1.5 rounded-full shadow-sm text-xs bg-white text-gray-700 hover:bg-gray-100 whitespace-nowrap min-h-[36px] touch-manipulation"
+          className="flex justify-center items-center px-4 py-1.5 rounded-full shadow-sm text-xs bg-white text-gray-700 hover:bg-gray-100 whitespace-nowrap  touch-manipulation"
         >
           <SlidersHorizontal className="w-3 h-3 mr-1" />
           More
