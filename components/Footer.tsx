@@ -80,9 +80,9 @@ export function Footer() {
                       className="text-black/60 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors"
                     >
                       <span className="sr-only">{item.name}</span>
-                      <Icon
-                      //@ts-ignore
-                       className="w-6 h-6"  />
+                      <span className="w-6 h-6">
+                        <Icon />
+                      </span>
                     </a>
                   </motion.li>
                 );
