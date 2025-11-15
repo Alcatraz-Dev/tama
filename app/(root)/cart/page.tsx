@@ -10,15 +10,29 @@ import { Button } from "@/components/ui/button";
 
 const tunisianTowns = [
   "Tunis",
-  "Sfax",
-  "Sousse",
-  "Kairouan",
-  "Bizerte",
-  "Gabes",
+  "Ariana",
+  "Ben Arous",
+  "Manouba",
   "Nabeul",
-  "Gafsa",
+  "Zaghouan",
+  "Bizerte",
+  "Béja",
+  "Jendouba",
+  "Kef",
+  "Siliana",
+  "Kairouan",
+  "Kasserine",
+  "Sidi Bouzid",
+  "Sousse",
   "Monastir",
   "Mahdia",
+  "Sfax",
+  "Gabès",
+  "Medenine",
+  "Tataouine",
+  "Gafsa",
+  "Tozeur",
+  "Kebili",
 ];
 
 export default function CartPage() {
@@ -143,7 +157,7 @@ export default function CartPage() {
   }
 
   return (
-    <div className="p-4 sm:p-6 max-w-6xl mx-auto">
+    <div className="p-4 sm:p-6 max-w-6xl mx-auto bg-background min-h-screen">
       <h1 className="text-2xl sm:text-3xl font-bold my-6 flex items-center gap-2 text-black dark:text-white">
         <ShoppingCart className="w-6 h-6 sm:w-7 sm:h-7" /> Your Cart
       </h1>
@@ -152,7 +166,7 @@ export default function CartPage() {
         {cartItems.map((item) => (
           <li
             key={`${item._id}-${item.size ?? ""}-${item.color ?? ""}`}
-            className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 rounded-2xl bg-white/80 backdrop-blur-xl shadow-md p-4 sm:p-6 hover:shadow-lg transition"
+            className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 rounded-2xl bg-card shadow-md p-4 sm:p-6 hover:shadow-lg transition"
           >
             {/* Product Image */}
             {item.gallery && item.gallery[0]?._type === "image" && (
@@ -170,35 +184,43 @@ export default function CartPage() {
               <h2 className="text-base sm:text-lg font-semibold">
                 {item.title}
               </h2>
-              <p className="text-gray-600 text-sm sm:text-base">
+              <p className="text-gray-600 dark:text-gray-400 text-sm sm:text-base">
                 {item.price.toFixed(2)} DT
               </p>
-              <div className="flex flex-wrap items-center gap-2 mt-1 text-xs sm:text-sm text-gray-500">
-                {item.size && <span>Size: {item.size}</span>}
-                {item.color && (
-                  <span className="flex items-center gap-1">
-                    Color:
-                    <span
-                      className="inline-block w-4 h-4 rounded-full border shadow"
-                      style={{ backgroundColor: item.color }}
-                    />
-                  </span>
-                )}
+              <div className="flex items-center justify-between gap-2 mt-3 w-full px-2">
+                <div className="flex items-center gap-2">
+                  {item.size && <span className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">Size: {item.size}</span>}
+                  {item.color && item.color.startsWith('#') && (
+                    <div className="flex gap-1 flex-wrap justify-start">
+                      <span
+                        title={item.color}
+                        className="w-3 h-3 sm:w-4 sm:h-4 rounded-full border border-black/50 dark:border-gray-400 shadow-sm transition-transform hover:scale-110"
+                        style={{ backgroundColor: item.color }}
+                      />
+                    </div>
+                  )}
+                </div>
+
+                <div className="flex flex-col items-end">
+                  <p className="text-sm sm:text-base lg:text-lg font-extrabold text-black dark:text-white">
+                    {item.price.toFixed(2)} DT
+                  </p>
+                </div>
               </div>
 
               <div className="flex items-center gap-2 sm:gap-3 mt-3">
                 <button
                   onClick={() => decreaseQuantity(item._id)}
-                  className="p-1 rounded-full border hover:bg-gray-100 transition"
+                  className="p-1 rounded-full border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 transition"
                 >
                   <Minus className="w-3 h-3 sm:w-4 sm:h-4" />
                 </button>
-                <span className="px-2 sm:px-3 py-1 rounded-full bg-gray-100 text-xs sm:text-sm font-medium">
+                <span className="px-2 sm:px-3 py-1 rounded-full bg-gray-100 dark:bg-zinc-900 text-xs sm:text-sm font-medium">
                   {item.quantity}
                 </span>
                 <button
                   onClick={() => increaseQuantity(item._id)}
-                  className="p-1 rounded-full border hover:bg-gray-100 transition"
+                  className="p-1 rounded-full border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 transition"
                 >
                   <Plus className="w-3 h-3 sm:w-4 sm:h-4" />
                 </button>
@@ -222,15 +244,15 @@ export default function CartPage() {
       </ul>
 
       {/* Checkout Section */}
-      <div className="mt-10 p-6 rounded-2xl bg-white/95 shadow-lg max-w-4xl mx-auto">
+      <div className="mt-10 p-6 rounded-2xl bg-card shadow-lg max-w-4xl mx-auto">
         <div className="flex flex-col gap-6 items-center">
           {/* Order Summary */}
           <div className="w-full flex flex-col gap-2">
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-600 dark:text-gray-400">
               Subtotal: {subtotal.toFixed(2)} DT
             </p>
-            <p className="text-sm text-gray-600">Shipping: {shippingFee} DT</p>
-            <p className="text-xl font-bold">Total: {total.toFixed(2)} DT</p>
+            <p className="text-sm text-gray-600 dark:text-gray-400">Shipping: {shippingFee} DT</p>
+            <p className="text-xl font-bold text-black dark:text-white">Total: {total.toFixed(2)} DT</p>
           </div>
 
           {/* Checkout Form / Button */}
@@ -252,13 +274,13 @@ export default function CartPage() {
                   placeholder="Full Name"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
-                  className="border rounded-lg px-3 py-2 w-full"
+                  className="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 w-full bg-white dark:bg-zinc-800 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white"
                   required
                 />
                 <select
                   value={town}
                   onChange={(e) => setTown(e.target.value)}
-                  className="border rounded-lg px-3 py-2 w-full"
+                  className="border border-zinc-300 dark:border-zinc-600 rounded-lg px-3 py-2 w-full bg-white dark:bg-zinc-800 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white"
                   required
                 >
                   <option value="">Select Tunisian Town</option>
@@ -273,7 +295,7 @@ export default function CartPage() {
                   placeholder="Location"
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
-                  className="border rounded-lg px-3 py-2 w-full"
+                  className="border border-zinc-300 dark:border-zinc-600 rounded-lg px-3 py-2 w-full bg-white dark:bg-zinc-800 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white"
                   required
                 />
                 <input
@@ -281,14 +303,14 @@ export default function CartPage() {
                   placeholder="Phone Number"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="border rounded-lg px-3 py-2 w-full"
+                  className="border border-zinc-300 dark:border-zinc-600 rounded-lg px-3 py-2 w-full bg-white dark:bg-zinc-800 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white"
                   required
                 />
 
                 <div className="flex flex-col md:flex-row gap-2 md:gap-5 mt-2 w-full">
                   <Button
                     type="button"
-                    className="flex-1 rounded-lg bg-gray-200 text-black hover:bg-gray-300"
+                    className="flex-1 rounded-lg bg-zinc-200 dark:bg-zinc-700 text-black dark:text-white hover:bg-zinc-300 dark:hover:bg-zinc-600"
                     onClick={() => setShowCheckoutForm(false)}
                   >
                     Cancel
