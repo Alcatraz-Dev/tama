@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import { Toaster } from "@/components/ui/sonner";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import ErrorBoundary from "@/components/ErrorBoundary";
+import { ThemeProvider } from "next-themes";
 const jost = Jost({
   variable: "--font-jost",
   subsets: ["latin"],
@@ -21,25 +22,34 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <link rel="icon" href="/favicon.ico" sizes="any" />
+      <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+      <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+      <link rel="manifest" href="/manifest.webmanifest" />
       <meta property="og:title" content="Tama Shop" />
-      <meta property="og:description" content="Shop the latest fashion & express your individuality." />
+      <meta
+        property="og:description"
+        content="Shop the latest fashion & express your individuality."
+      />
       <meta property="og:image" content="https://tamashop.vercel.app/og.png" />
       <meta property="og:url" content="https://tamashop.vercel.app" />
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:image" content="https://tamashop.vercel.app/og.png" />
       <meta property="og:type" content="website" />
       <meta property="og:site_name" content="Tama Shop" />
-      <body className={`${jost.className} antialiased bg-slate-200`}>
-        <ErrorBoundary>
-          <Navbar />
-          {children}
-          <div className="mx-5 md:mx-0">
-            <Footer />
-          </div>
-          <Toaster />
-          <WhatsAppButton />
-        </ErrorBoundary>
+      <body className={`${jost.className} antialiased`}>
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+          <ErrorBoundary>
+            <Navbar />
+            {children}
+            <div className="mx-5 md:mx-0">
+              <Footer />
+            </div>
+            <Toaster />
+            <WhatsAppButton />
+          </ErrorBoundary>
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -66,13 +66,14 @@ function CardRenderer({ card }: { card: Card }) {
         initial="hidden"
         animate="visible"
         transition={{ duration: 0.5 }}
-        className={`flex flex-col justify-center bg-white text-black font-semibold rounded-4xl shadow-luxury
-        ${card.variant === "large" ? "p-12 min-h-[300px] md:min-h-[400px]" : "p-8 min-h-[200px] md:min-h-[250px]"}`}
+        className={`flex flex-col justify-center bg-card text-black dark:text-white font-semibold rounded-4xl shadow-luxury ${
+          card.variant === "large" ? "p-12 min-h-[300px] md:min-h-[400px]" : "p-8 min-h-[200px] md:min-h-[250px]"
+        }`}
         whileHover={{ scale: 1.03 }}
       >
         {card.title && (
           <h2
-            className={` font-bold mb-3 text-black  ${
+            className={` font-bold mb-3 text-black dark:text-white  ${
               card.variant === "large"
                 ? "text-3xl md:text-4xl"
                 : "text-2xl text-center max-w-[200px] mx-auto"
@@ -83,7 +84,7 @@ function CardRenderer({ card }: { card: Card }) {
         )}
 
         {card.subtitle && (
-          <p className="text-black font-semibold/80 mb-4 mt-6 font-medium">
+          <p className="text-black dark:text-gray-300 font-semibold/80 mb-4 mt-6 font-medium">
             {card.subtitle}
           </p>
         )}
@@ -95,13 +96,13 @@ function CardRenderer({ card }: { card: Card }) {
           >
             <Button
               aria-label={card.buttonText}
-              className="inline-flex items-center gap-2 bg-black    px-6 py-3 rounded-full hover:bg-black/90 transition-all duration-300 hover:cursor-pointer font-semibold "
+              className="inline-flex items-center gap-2 bg-black dark:bg-white text-white dark:text-black px-6 py-3 rounded-full hover:bg-black/90 dark:hover:bg-gray-200 transition-all duration-300 hover:cursor-pointer font-semibold "
             >
               {card.buttonText}
             </Button>
 
             {card.withIcon && (
-              <Button className="inline-flex items-center gap-2  bg-black  px-4 py-3 rounded-full hover:bg-black/90 transition-all duration-300 -rotate-45 hover:rotate-0 hover:cursor-pointer ">
+              <Button className="inline-flex items-center gap-2  bg-black dark:bg-white text-white dark:text-black  px-4 py-3 rounded-full hover:bg-black/90 transition-all duration-300 -rotate-45 hover:rotate-0 hover:cursor-pointer ">
                 {card.icon ?? <ArrowRight className="w-4 h-4" />}
               </Button>
             )}
@@ -110,26 +111,26 @@ function CardRenderer({ card }: { card: Card }) {
 
         {card.variant === "large" && (
           <>
-            <h2 className={` font-bold mt-10 text-xl md:text-2xl max-w-xs text-black `}>
+            <h2 className={` font-bold mt-10 text-xl md:text-2xl max-w-xs text-black dark:text-white `}>
               1.3 million +
             </h2>
             <div className="flex items-center justify-between mt-4">
-              <p className="text-black font-semibold/70 text-xs md:text-sm mb-4 max-w-xs font-medium">
+              <p className="text-black dark:text-gray-300 font-semibold/70 text-xs md:text-sm mb-4 max-w-xs font-medium">
                 Trusted by 1.3M+ customers worldwide, we’re the go-to destination
                 for fashion lovers seeking style and confidence.
               </p>
               <div className="flex -space-x-2 mt-16 md:mt-12">
-                <Avatar className="w-8 h-8 md:w-10 md:h-10 ring-2 ring-black/30">
+                <Avatar className="w-8 h-8 md:w-10 md:h-10 ring-2 ring-black/30 dark:ring-gray-600">
                   <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-                  <AvatarFallback className="bg-black text-fashion-dark">CN</AvatarFallback>
+                  <AvatarFallback className="bg-black dark:bg-gray-600 text-white">CN</AvatarFallback>
                 </Avatar>
-                <Avatar className="w-8 h-8 md:w-10 md:h-10 ring-2 ring-black/30">
+                <Avatar className="w-8 h-8 md:w-10 md:h-10 ring-2 ring-black/30 dark:ring-gray-600">
                   <AvatarImage src="https://github.com/leerob.png" alt="@leerob" />
-                  <AvatarFallback className="bg-black text-fashion-dark">LR</AvatarFallback>
+                  <AvatarFallback className="bg-black dark:bg-gray-600 text-white">LR</AvatarFallback>
                 </Avatar>
-                <Avatar className="w-8 h-8 md:w-10 md:h-10 ring-2 ring-black/30">
+                <Avatar className="w-8 h-8 md:w-10 md:h-10 ring-2 ring-black/30 dark:ring-gray-600">
                   <AvatarImage src="https://github.com/evilrabbit.png" alt="@evilrabbit" />
-                  <AvatarFallback className="bg-black text-fashion-dark">ER</AvatarFallback>
+                  <AvatarFallback className="bg-black dark:bg-gray-600 text-white">ER</AvatarFallback>
                 </Avatar>
               </div>
             </div>

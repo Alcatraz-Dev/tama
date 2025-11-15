@@ -264,7 +264,7 @@ function SearchInput({
 
   return (
     <div className="relative max-w-md w-full">
-      <div className="flex items-center gap-2 bg-white text-black px-3 sm:px-4 py-2 sm:py-1 rounded-full shadow-sm border border-gray-200 hover:border-gray-300 focus-within:border-fashion-gold focus-within:ring-2 focus-within:ring-fashion-gold/20 transition-all duration-200">
+      <div className="flex items-center gap-2 bg-card text-black dark:text-white px-3 sm:px-4 py-2 sm:py-1 rounded-full shadow-sm border border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500 focus-within:border-fashion-gold focus-within:ring-2 focus-within:ring-fashion-gold/20 transition-all duration-200">
         <input
           ref={inputRef}
           type="text"
@@ -273,14 +273,14 @@ function SearchInput({
           onKeyDown={handleKeyDown}
           onFocus={() => setShowSuggestions(true)}
           placeholder="Search products..."
-          className="flex-1 outline-none text-sm sm:text-base bg-transparent placeholder:text-gray-400"
+          className="flex-1 outline-none text-sm sm:text-base bg-transparent placeholder:text-gray-400 dark:placeholder:text-gray-500"
         />
         <button
           onClick={isListening ? stopVoiceSearch : startVoiceSearch}
           className={`p-1.5 sm:p-2 rounded-full transition-all duration-200 ${
             isListening
-              ? "bg-red-100 text-red-600 hover:bg-red-200"
-              : "hover:bg-gray-100 text-gray-500 hover:text-gray-700"
+              ? "bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-400 hover:bg-red-200 dark:hover:bg-red-800"
+              : "hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
           } active:scale-95`}
           title={isListening ? "Stop voice search" : "Start voice search"}
           aria-label={isListening ? "Stop voice search" : "Start voice search"}
@@ -293,7 +293,7 @@ function SearchInput({
         </button>
         <button
           type="button"
-          className="p-1.5 sm:p-2 rounded-full hover:bg-gray-100 text-gray-500 hover:text-gray-700 transition-all duration-200 active:scale-95"
+          className="p-1.5 sm:p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-all duration-200 active:scale-95"
           aria-label="Search"
         >
           <Search className="w-4 h-4 md:w-4 md:h-4" />
@@ -305,7 +305,7 @@ function SearchInput({
           (value.length === 0 && recentSearches.length > 0)) && (
           <div
             ref={suggestionsRef}
-            className="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-lg shadow-elegant z-50 max-h-60 overflow-y-auto mt-2"
+            className="absolute top-full left-0 right-0 bg-card border border-gray-200 dark:border-gray-600 rounded-lg shadow-elegant z-50 max-h-60 overflow-y-auto mt-2"
           >
             {suggestions.length > 0 ? (
               <div className="py-2">
@@ -316,7 +316,7 @@ function SearchInput({
                     className={`px-4 py-3 cursor-pointer transition-colors duration-150 ${
                       index === selectedIndex
                         ? "bg-fashion-gold/10 border-l-4 border-fashion-gold"
-                        : "hover:bg-gray-50"
+                        : "hover:bg-gray-50 dark:hover:bg-gray-700"
                     }`}
                   >
                     <span className="text-sm sm:text-base text-gray-900 font-medium">
@@ -327,7 +327,7 @@ function SearchInput({
               </div>
             ) : (
               <>
-                <div className="px-4 py-3 text-xs font-semibold text-fashion-dark border-b border-gray-100 bg-gray-50">
+                <div className="px-4 py-3 text-xs font-semibold text-fashion-dark dark:text-white border-b border-gray-100 dark:border-gray-600 bg-gray-50 dark:bg-gray-700">
                   Recent Searches
                 </div>
                 <div className="py-2">
@@ -335,14 +335,14 @@ function SearchInput({
                     <div
                       key={searchTerm}
                       onClick={() => handleRecentSearchClick(searchTerm)}
-                      className={`px-4 py-3 cursor-pointer hover:bg-gray-50 flex items-center gap-3 transition-colors duration-150 ${
+                      className={`px-4 py-3 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center gap-3 transition-colors duration-150 ${
                         index === selectedIndex
                           ? "bg-fashion-gold/10 border-l-4 border-fashion-gold"
                           : ""
                       }`}
                     >
-                      <Clock className="w-4 h-4 text-gray-400 flex-shrink-0" />
-                      <span className="text-sm sm:text-base text-gray-900 truncate">
+                      <Clock className="w-4 h-4 text-gray-400 dark:text-gray-500 flex-shrink-0" />
+                      <span className="text-sm sm:text-base text-gray-900 dark:text-white truncate">
                         {searchTerm}
                       </span>
                     </div>

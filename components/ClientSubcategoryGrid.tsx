@@ -28,7 +28,7 @@ export default function ClientSubcategoryGrid({ categories }: Props) {
 
   return (
     <section className="w-full max-w-7xl mx-auto px-6 py-12">
-      <h2 className="text-2xl md:text-4xl  font-semibold text-center mb-8 px-10 capitalize flex justify-start">
+      <h2 className="text-2xl md:text-4xl font-semibold text-center mb-8 px-10 capitalize flex justify-start text-black dark:text-white">
         Our Category List
       </h2>
       <motion.div

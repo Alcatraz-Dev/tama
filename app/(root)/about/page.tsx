@@ -1,25 +1,28 @@
+"use client";
 import Image from "next/image";
 import React from "react";
+import { useTheme } from "next-themes";
 
 function About() {
+  const { theme } = useTheme();
   return (
     <div className="flex justify-center items-center md:m-10 m-5">
-      <section className="w-full max-w-5xl mx-auto px-6 py-16 bg-white rounded-3xl p-5">
+      <section className="w-full max-w-5xl mx-auto px-6 py-16 bg-card rounded-3xl p-5">
 
           <div className="flex justify-center items-center lg:mx-0 mx-auto ">
-            <h1 className="text-xl lg:text-4xl  font-bold text-center mx-5">About </h1>
+            <h1 className="text-xl lg:text-4xl font-bold text-center mx-5 text-black dark:text-white">About </h1>
             <Image
-              src="/tama.svg"
+              src={theme === "dark" ? "/tama-light.svg" : "/tama.svg"}
               alt="Tama Logo"
               width={150}
               height={150}
               className="w-[70px] h-[70px] md:w-[120px] md:h-[120px] mb-3"
             />
-            <h1 className="text-xl lg:text-4xl font-bold text-center mx-5">Clothing </h1>
+            <h1 className="text-xl lg:text-4xl font-bold text-center mx-5 text-black dark:text-white">Clothing </h1>
           </div>
 
 
-        <p className="lg:text-lg text-sm text-gray-700 text-center mb-12">
+        <p className="lg:text-lg text-sm text-gray-700 dark:text-gray-300 text-center mb-12">
           Tama Clothing is a Tunisian fashion brand that celebrates tradition,
           modernity, and authenticity. Our mission is to create high-quality
           clothing that reflects the vibrant culture of Tunisia while embracing
@@ -28,8 +31,8 @@ function About() {
 
         <div className="grid md:grid-cols-2 gap-12">
           <div>
-            <h2 className="text-xl lg:text-2xl font-semibold mb-4">Our Story</h2>
-            <p className="text-gray-600 leading-relaxed lg:text-lg text-sm">
+            <h2 className="text-xl lg:text-2xl font-semibold mb-4 text-black dark:text-white">Our Story</h2>
+            <p className="text-gray-600 dark:text-gray-400 leading-relaxed lg:text-lg text-sm">
               Founded in Tunisia, Tama Clothing was born out of a passion for
               style and heritage. We blend traditional Tunisian patterns and
               fabrics with modern designs to create pieces that are both
@@ -39,8 +42,8 @@ function About() {
           </div>
 
           <div>
-            <h2 className="text-xl lg:text-2xl font-semibold mb-4">Our Mission</h2>
-            <p className="text-gray-600 leading-relaxed lg:text-lg text-sm">
+            <h2 className="text-xl lg:text-2xl font-semibold mb-4 text-black dark:text-white">Our Mission</h2>
+            <p className="text-gray-600 dark:text-gray-400 leading-relaxed lg:text-lg text-sm">
               We aim to inspire confidence and individuality through fashion. By
               combining sustainable practices and creative design, Tama Clothing
               stands for more than style — it represents identity, culture, and
@@ -51,17 +54,17 @@ function About() {
 
         <div className="mt-16 text-center">
           <div className="flex justify-center items-center lg:mx-0 mx-auto ">
-            <h1 className="text-xl lg:text-4xl  font-bold text-center mx-5">Why  </h1>
+            <h1 className="text-xl lg:text-4xl font-bold text-center mx-5 text-black dark:text-white">Why  </h1>
             <Image
-              src="/tama.svg"
+              src={theme === "dark" ? "/tama-light.svg" : "/tama.svg"}
               alt="Tama Logo"
               width={150}
               height={150}
               className="w-[70px] h-[70px] md:w-[120px] md:h-[120px] mb-2"
             />
-            <h1 className="text-xl lg:text-4xl font-bold text-center mx-5">? </h1>
+            <h1 className="text-xl lg:text-4xl font-bold text-center mx-5 text-black dark:text-white">? </h1>
           </div>
-          <p className="text-gray-600 max-w-2xl mx-auto leading-relaxed lg:text-lg text-sm">
+          <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed lg:text-lg text-sm">
             At Tama, we believe clothing is more than fabric — it’s a story.
             From handpicked materials to carefully designed collections, we
             ensure each piece represents the richness of Tunisian heritage with

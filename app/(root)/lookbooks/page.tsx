@@ -18,8 +18,8 @@ export default async function LookbooksPage() {
         {lookbooks.map((lookbook: Lookbook) => (
           <div
             key={lookbook._id}
-            className="relative bg-white group rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-transform duration-300 cursor-pointer"
-          
+            className="relative bg-card group rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-transform duration-300 cursor-pointer"
+
           >
             {/* Image with gradient overlay */}
             {lookbook.images?.[0]?.asset?.url && (
@@ -34,9 +34,9 @@ export default async function LookbooksPage() {
               </div>
             )}
 
-            <div className="p-4 bg-white">
+            <div className="p-4 bg-card">
               <h2 className="text-xl font-semibold mb-2">{lookbook.title}</h2>
-              <p className="text-gray-500 mb-4 line-clamp-2">{lookbook.description}</p>
+              <p className="text-gray-500 dark:text-gray-400 mb-4 line-clamp-2">{lookbook.description}</p>
 
               {/* Related products */}
               <div className="flex flex-wrap gap-3">
@@ -57,7 +57,7 @@ export default async function LookbooksPage() {
                       </div>
                     )}
                     <span className="text-xs font-medium line-clamp-1">{product.title}</span>
-                    <span className="text-xs text-gray-500">{product.price} DT</span>
+                    <span className="text-xs text-gray-500 dark:text-gray-400">{product.price} DT</span>
                   </Link>
                 ))}
               </div>

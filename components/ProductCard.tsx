@@ -62,10 +62,10 @@ export default function ProductCard({
       key={product._id}
       whileHover={{ scale: 1.02, y: -2 }}
       whileTap={{ scale: 0.98 }}
-      className="group relative block rounded-t-3xl rounded-b-4xl overflow-hidden shadow-lg hover:shadow-elegant transition-all duration-300 bg-white cursor-pointer"
+      className="group relative block rounded-t-3xl rounded-b-4xl overflow-hidden shadow-lg hover:shadow-xl dark:hover:shadow-2xl transition-all duration-300 bg-card cursor-pointer"
     >
       {/* Image wrapper */}
-      <div className="relative w-full aspect-square rounded-t-3xl rounded-b-[50px] overflow-hidden max-h-[250px] sm:max-h-[350px]">
+      <div className="relative w-full aspect-square rounded-t-3xl rounded-b-[50px] overflow-hidden max-h-[250px] sm:max-h-[350px] bg-gray-100 dark:bg-gray-800">
         {firstImage && (
           <>
             <Image
@@ -75,8 +75,8 @@ export default function ProductCard({
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
               className={`object-cover transition-all duration-500 ${
                 secondImage
-                  ? "group-hover:opacity-0 group-hover:scale-105"
-                  : "group-hover:scale-105"
+                  ? "group-hover:opacity-0"
+                  : ""
               }`}
             />
             {secondImage && (
@@ -85,7 +85,7 @@ export default function ProductCard({
                 alt={product.title}
                 fill
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                className="object-cover opacity-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
+                className="object-cover opacity-0 group-hover:opacity-100 transition-all duration-500"
               />
             )}
             {/* Overlay gradient for better text readability */}
@@ -95,11 +95,11 @@ export default function ProductCard({
 
         {/* Wishlist button */}
         <button
-          className="absolute top-3 right-3 w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-white/30"
+          className="absolute top-3 right-3 w-8 h-8 bg-white/20 dark:bg-gray-700/50 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-white/30 dark:hover:bg-gray-600/50"
           aria-label="Add to wishlist"
         >
           <svg
-            className="w-4 h-4 text-black font-semibold"
+            className="w-4 h-4 text-black dark:text-white font-semibold"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -115,11 +115,11 @@ export default function ProductCard({
       </div>
 
       {/* Details */}
-      <div className="mt-4 mb-4 mx-4 sm:mx-5 flex flex-col items-center rounded-b-3xl text-black font-semibold drop-shadow-2xl z-10">
+      <div className="mt-4 mb-4 mx-4 sm:mx-5 flex flex-col items-center rounded-b-3xl text-black dark:text-white font-semibold drop-shadow-2xl z-10">
         <h3 className="text-sm sm:text-base lg:text-lg font-semibold line-clamp-2 text-center max-w-[90%] my-2 leading-tight">
           {highlightText(product.title, searchQuery)}
         </h3>
-        <p className="text-black font-semibold text-xs sm:text-sm my-1 line-clamp-2 text-center leading-relaxed">
+        <p className="text-black dark:text-gray-300 font-semibold text-xs sm:text-sm my-1 line-clamp-2 text-center leading-relaxed">
           {highlightText(product.description || "", searchQuery)}
         </p>
 
@@ -137,13 +137,13 @@ export default function ProductCard({
                   <span
                     key={i}
                     title={colorName}
-                    className="w-3 h-3 sm:w-4 sm:h-4 rounded-full border border-black/50 shadow-sm transition-transform hover:scale-110"
+                    className="w-3 h-3 sm:w-4 sm:h-4 rounded-full border border-black/50 dark:border-gray-400 shadow-sm transition-transform hover:scale-110"
                     style={{ backgroundColor: bgColor }}
                   />
                 );
               })}
               {product.colors.length > 4 && (
-                <span className="text-xs text-black font-semibold ml-1">
+                <span className="text-xs text-black dark:text-white font-semibold ml-1">
                   +{product.colors.length - 4}
                 </span>
               )}
@@ -151,11 +151,11 @@ export default function ProductCard({
           )}
 
           <div className="flex flex-col items-end">
-            <p className="text-sm sm:text-base lg:text-lg font-extrabold text-black">
+            <p className="text-sm sm:text-base lg:text-lg font-extrabold text-black dark:text-white">
               {product.price} DT
             </p>
             {product.originalPrice && product.originalPrice > product.price && (
-              <p className="text-xs text-black font-semibold line-through">
+              <p className="text-xs text-black dark:text-gray-400 font-semibold line-through">
                 {product.originalPrice} DT
               </p>
             )}
@@ -165,13 +165,13 @@ export default function ProductCard({
         {/* Quick actions for mobile */}
         <div className="flex gap-2 mt-3 w-full px-2  ">
           <button
-            className="flex-1 bg-black text-white py-2 px-3 rounded-lg text-xs font-medium transition-all cursor-pointer hover:bg-black/90 active:scale-95"
+            className="flex-1 bg-black dark:bg-white text-white dark:text-black py-2 px-3 rounded-lg text-xs font-medium transition-all cursor-pointer hover:bg-black/90 dark:hover:bg-gray-200 active:scale-95"
             onClick={handleAdd}
           >
             Quick Add
           </button>
           <button
-            className="flex-1 border border-fashion-gold text-black py-2 px-3 rounded-lg text-xs font-medium transition-all cursor-pointer hover:bg-black hover:text-white active:scale-95"
+            className="flex-1 border border-fashion-gold text-black dark:text-white py-2 px-3 rounded-lg text-xs font-medium transition-all cursor-pointer hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black active:scale-95"
             onClick={() =>
               (window.location.href = `/product/${typeof product.slug === "string" ? product.slug : product.slug?.current}`)
             }

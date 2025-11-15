@@ -110,30 +110,6 @@ function ProductsContent() {
     const materials = new Set<string>();
     let maxPrice = 0;
 
-    // Common fashion colors
-    const fashionColors = [
-      '#000000', // Black
-      '#FFFFFF', // White
-      '#FF0000', // Red
-      '#0000FF', // Blue
-      '#008000', // Green
-      '#FFFF00', // Yellow
-      '#800080', // Purple
-      '#FFA500', // Orange
-      '#FFC0CB', // Pink
-      '#A52A2A', // Brown
-      '#808080', // Gray
-      '#00FFFF', // Cyan
-      '#FF00FF', // Magenta
-      '#F5F5DC', // Beige
-      '#800000', // Maroon
-      '#008080', // Teal
-      '#000080', // Navy
-      '#FFD700', // Gold
-      '#C0C0C0', // Silver
-      '#8B4513', // Saddle Brown
-    ];
-
     products.forEach((product) => {
       if (product.sizes) {
         product.sizes.forEach((size: string) => sizes.add(size));
@@ -153,9 +129,6 @@ function ProductsContent() {
       }
       if (product.price > maxPrice) maxPrice = product.price;
     });
-
-    // Add fashion colors to the set
-    fashionColors.forEach(color => colors.add(color));
 
     return {
       sizes: Array.from(sizes).sort(),
@@ -310,10 +283,10 @@ function ProductsContent() {
       />
 
       <div className="flex justify-between items-center mb-8 mx-5 md:mx-12">
-        <h1 className="text-2xl md:text-3xl font-bold">
+        <h1 className="text-2xl md:text-3xl font-bold text-black dark:text-white">
           All Products
         </h1>
-        <p className="text-sm text-gray-600">
+        <p className="text-sm text-gray-600 dark:text-gray-400">
           {filteredProducts.length} products found
         </p>
       </div>
@@ -321,7 +294,7 @@ function ProductsContent() {
       {/* Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-8 px-4 sm:px-6 md:px-12 z-20">
         {paginatedProducts.length === 0 ? (
-          <p className="col-span-full text-center text-gray-500">
+          <p className="col-span-full text-center text-gray-500 dark:text-gray-400">
             No products found.
           </p>
         ) : (
@@ -341,7 +314,7 @@ function ProductsContent() {
           <button
             onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
             disabled={currentPage === 1}
-            className="px-3 py-2 border rounded-md disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
+            className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 dark:hover:bg-gray-700 text-black dark:text-white"
           >
             Previous
           </button>
@@ -353,10 +326,10 @@ function ProductsContent() {
               <button
                 key={pageNum}
                 onClick={() => setCurrentPage(pageNum)}
-                className={`px-3 py-2 border rounded-md ${
+                className={`px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-black dark:text-white ${
                   currentPage === pageNum
-                    ? "bg-black text-white border-black"
-                    : "hover:bg-gray-50"
+                    ? "bg-black dark:bg-white text-white dark:text-black border-black dark:border-white"
+                    : "hover:bg-gray-50 dark:hover:bg-gray-700"
                 }`}
               >
                 {pageNum}
@@ -367,7 +340,7 @@ function ProductsContent() {
           <button
             onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
             disabled={currentPage === totalPages}
-            className="px-3 py-2 border rounded-md disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
+            className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 dark:hover:bg-gray-700 text-black dark:text-white"
           >
             Next
           </button>
@@ -381,15 +354,15 @@ function LoadingFallback() {
   return (
     <section className="py-8 md:py-12">
       <div className="my-5 flex flex-col items-center gap-4">
-        <div className="h-12 bg-gray-200 rounded-full w-64 animate-pulse"></div>
+        <div className="h-12 bg-gray-200 dark:bg-gray-700 rounded-full w-64 animate-pulse"></div>
       </div>
       <div className="flex justify-between items-center mb-8 mx-5 md:mx-12">
-        <div className="h-8 bg-gray-200 rounded w-48 animate-pulse"></div>
-        <div className="h-4 bg-gray-200 rounded w-32 animate-pulse"></div>
+        <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded w-48 animate-pulse"></div>
+        <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-32 animate-pulse"></div>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-8 px-4 sm:px-6 md:px-12">
         {Array.from({ length: 8 }).map((_, i) => (
-          <div key={i} className="bg-gray-200 rounded-lg h-80 animate-pulse"></div>
+          <div key={i} className="bg-gray-200 dark:bg-gray-700 rounded-lg h-80 animate-pulse"></div>
         ))}
       </div>
     </section>

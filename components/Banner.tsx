@@ -35,11 +35,11 @@ export default async function Banner() {
             <Link href={bannerData.buttonLink} className="mt-8 gap-3 flex">
               <Button
                 aria-label={bannerData.buttonText}
-                className="inline-flex items-center gap-2 bg-white text-black px-8 py-6 rounded-full hover:bg-slate-200 transition hover:cursor-pointer"
+                className="inline-flex items-center gap-2 bg-white dark:bg-gray-700 text-black dark:text-white px-8 py-6 rounded-full hover:bg-slate-200 dark:hover:bg-gray-600 transition hover:cursor-pointer"
               >
                 {bannerData.buttonText}
               </Button>
-              <Button className="mt-1 inline-flex items-center gap-2 bg-white text-black px-5 py-5 rounded-full hover:bg-slate-100 transition -rotate-45 hover:rotate-0 hover:cursor-pointer">
+              <Button className="mt-1 inline-flex items-center gap-2 bg-white dark:bg-gray-700 text-black dark:text-white px-5 py-5 rounded-full hover:bg-slate-100 dark:hover:bg-gray-600 transition -rotate-45 hover:rotate-0 hover:cursor-pointer">
                 <ArrowRight className="w-4 h-4" />
               </Button>
             </Link>

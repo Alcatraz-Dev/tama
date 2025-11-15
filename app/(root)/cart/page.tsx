@@ -136,15 +136,15 @@ export default function CartPage() {
   if (cartItems.length === 0) {
     return (
       <div className="p-6 text-center my-20">
-        <ShoppingCart className="w-14 h-14 mx-auto text-gray-400 mb-4" />
-        <p className="text-lg font-medium">Your cart is empty.</p>
+        <ShoppingCart className="w-14 h-14 mx-auto text-gray-400 dark:text-gray-600 mb-4" />
+        <p className="text-lg font-medium text-black dark:text-white">Your cart is empty.</p>
       </div>
     );
   }
 
   return (
     <div className="p-4 sm:p-6 max-w-6xl mx-auto">
-      <h1 className="text-2xl sm:text-3xl font-bold my-6 flex items-center gap-2">
+      <h1 className="text-2xl sm:text-3xl font-bold my-6 flex items-center gap-2 text-black dark:text-white">
         <ShoppingCart className="w-6 h-6 sm:w-7 sm:h-7" /> Your Cart
       </h1>
 

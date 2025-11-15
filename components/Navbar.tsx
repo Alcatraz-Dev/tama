@@ -8,6 +8,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "./ui/button";
 import { CiMenuFries } from "react-icons/ci";
 import Image from "next/image";
+import ThemeToggle from "./ThemeToggle";
+import { useTheme } from "next-themes";
 const links = [
   { href: "/products", label: "Products" },
   { href: "/about", label: "About" },
@@ -16,8 +18,14 @@ const links = [
 
 export default function Navbar() {
   const { cartItems } = useCartStore();
+  const { theme } = useTheme();
   const [scrolled, setScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -31,7 +39,7 @@ export default function Navbar() {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5 }}
       className={`sticky top-0 z-50 backdrop-blur-sm transition-all duration-300 relative ${
-        scrolled ? "shadow-md bg-white/70" : "bg-transparent"
+        scrolled ? "shadow-md bg-background/70" : "bg-transparent"
       }`}
     >
       <div className="container mx-auto flex items-center justify-between py-4 px-6 relative">
@@ -46,7 +54,7 @@ export default function Navbar() {
         {/* Center Logo */}
         <Link href="/" className="absolute left-1/2 transform -translate-x-1/2">
           <Image
-            src="/tama.svg"
+            src={mounted && theme === "dark" ? "/tama-light.svg" : "/tama.svg"}
             alt="Tama Logo"
             width={150}
             height={150}
@@ -55,7 +63,7 @@ export default function Navbar() {
         </Link>
 
         {/* Right side nav */}
-        <div className="flex items-center gap-6 ml-auto">
+        <div className="flex items-center gap-4 md:gap-6 ml-auto">
           <nav className="hidden md:flex gap-6">
             {links.map((link) => (
               <motion.div
@@ -65,7 +73,7 @@ export default function Navbar() {
               >
                 <Link
                   href={link.href}
-                  className="text-gray-700 hover:text-black text-sm font-semibold transition"
+                  className="text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white text-sm font-semibold transition"
                 >
                   {link.label}
                 </Link>
@@ -73,9 +81,11 @@ export default function Navbar() {
             ))}
           </nav>
 
+          <ThemeToggle />
+
           {/* Cart */}
-          <Link href="/cart" className="relative bg-white p-2 rounded-lg">
-            <ShoppingBasket className="w-5 h-5 text-gray-700 hover:text-black" />
+          <Link href="/cart" className="relative bg-card p-2 rounded-lg">
+            <ShoppingBasket className="w-5 h-5 text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white" />
             <AnimatePresence>
               {cartItems.length > 0 && (
                 <motion.span
@@ -83,7 +93,7 @@ export default function Navbar() {
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   exit={{ scale: 0 }}
-                  className="absolute -top-2 -right-2 bg-black text-white text-xs w-5 h-5 rounded-full flex items-center justify-center"
+                  className="absolute -top-2 -right-2 bg-black dark:bg-gray-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center"
                 >
                   {cartItems.length}
                 </motion.span>
@@ -115,7 +125,7 @@ export default function Navbar() {
             animate={{ x: 0 }}
             exit={{ x: "-100%" }}
             transition={{ duration: 0.3, ease: "easeOut" }}
-            className="fixed left-0 top-0 w-80 h-screen bg-gradient-to-b from-white to-gray-50 backdrop-blur-lg shadow-2xl z-70 md:hidden border-r border-gray-200"
+            className="fixed left-0 top-0 w-80 h-screen bg-gradient-to-b from-background to-muted backdrop-blur-lg shadow-2xl z-70 md:hidden border-r border-border"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
@@ -125,7 +135,7 @@ export default function Navbar() {
                 className="flex items-center space-x-3 cursor-pointer"
               >
                 <Image
-                  src="/tama.svg"
+                  src={mounted && theme === "dark" ? "/tama-light.svg" : "/tama.svg"}
                   alt="Tama Logo"
                   width={50}
                   height={50}
@@ -157,9 +167,9 @@ export default function Navbar() {
                     <Link
                       href={link.href}
                       onClick={() => setIsMenuOpen(false)}
-                      className="flex items-center space-x-3 text-gray-700 hover:text-black text-lg font-medium transition-all duration-300 py-4 px-4 rounded-xl hover:bg-white hover:shadow-md group"
+                      className="flex items-center space-x-3 text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white text-lg font-medium transition-all duration-300 py-4 px-4 rounded-xl hover:bg-white dark:hover:bg-gray-800 hover:shadow-md group"
                     >
-                      <span className="w-2 h-2 bg-gray-400 rounded-full group-hover:bg-black transition-colors"></span>
+                      <span className="w-2 h-2 bg-gray-400 dark:bg-gray-500 rounded-full group-hover:bg-black dark:group-hover:bg-white transition-colors"></span>
                       <span>{link.label}</span>
                     </Link>
                   </motion.div>
@@ -168,9 +178,10 @@ export default function Navbar() {
             </nav>
 
             {/* Footer */}
-            <div className="p-6 border-t border-gray-100">
-              <p className="text-sm text-gray-500 text-center">
-                © {new Date().getFullYear()} Tama Shop
+            <div className="p-6 border-t border-gray-100 dark:border-gray-700">
+              <p className="text-sm text-gray-500 dark:text-gray-400 text-center">
+                &copy; {new Date().getFullYear()} Tama Clothing. All rights
+                reserved.
               </p>
             </div>
           </motion.div>

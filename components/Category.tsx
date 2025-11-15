@@ -39,8 +39,8 @@ export default function Category({
         onClick={() => onSelectCategory("")}
         className={`flex justify-center items-center px-4 py-1.5 rounded-full shadow-sm text-xs whitespace-nowrap  touch-manipulation ${
           selectedCategory === ""
-            ? "bg-black text-white"
-            : "bg-white text-gray-700 hover:bg-gray-100"
+            ? "bg-black dark:bg-white text-white dark:text-black"
+            : "bg-card text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
         }`}
       >
         All
@@ -52,8 +52,8 @@ export default function Category({
           onClick={() => onSelectCategory(c._id)}
           className={`flex justify-center items-center px-4 py-1.5 rounded-full shadow-sm text-xs whitespace-nowrap touch-manipulation ${
             selectedCategory === c._id
-              ? "bg-black text-white"
-              : "bg-white text-gray-700 hover:bg-gray-100"
+              ? "bg-black dark:bg-white text-white dark:text-black"
+              : "bg-card text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
           }`}
         >
           {c.title}
@@ -66,8 +66,8 @@ export default function Category({
           onClick={onToggleSale}
           className={`flex justify-center items-center px-4 py-1.5 rounded-full shadow-sm text-xs whitespace-nowrap touch-manipulation ${
             onSale
-              ? "bg-black text-white"
-              : "bg-white text-gray-700 hover:bg-gray-100"
+              ? "bg-black dark:bg-white text-white dark:text-black"
+              : "bg-card text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
           }`}
         >
           On Sale
@@ -79,8 +79,8 @@ export default function Category({
           onClick={onToggleNewArrivals}
           className={`flex justify-center items-center px-4 py-1.5 rounded-full shadow-sm text-xs whitespace-nowrap  touch-manipulation ${
             newArrivals
-              ? "bg-black text-white"
-              : "bg-white text-gray-700 hover:bg-gray-100"
+              ? "bg-black dark:bg-white text-white dark:text-black"
+              : "bg-card text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
           }`}
         >
           New
@@ -91,7 +91,7 @@ export default function Category({
         <select
           value={sortBy}
           onChange={(e) => onSortChange(e.target.value as "default" | "price-low" | "price-high" | "newest" | "popularity")}
-          className="flex justify-center items-center px-4 py-1.5 rounded-full shadow-sm text-xs bg-white text-gray-700 hover:bg-gray-100 border-0 outline-none cursor-pointer touch-manipulation"
+          className="flex justify-center items-center px-4 py-1.5 rounded-full shadow-sm text-xs bg-card text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border-0 outline-none cursor-pointer touch-manipulation"
         >
           <option value="default">Sort</option>
           <option value="price-low">Price: Low</option>
@@ -103,7 +103,7 @@ export default function Category({
       {onOpenAdvancedFilters && (
         <button
           onClick={onOpenAdvancedFilters}
-          className="flex justify-center items-center px-4 py-1.5 rounded-full shadow-sm text-xs bg-white text-gray-700 hover:bg-gray-100 whitespace-nowrap  touch-manipulation"
+          className="flex justify-center items-center px-4 py-1.5 rounded-full shadow-sm text-xs bg-card text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 whitespace-nowrap  touch-manipulation"
         >
           <SlidersHorizontal className="w-3 h-3 mr-1" />
           More

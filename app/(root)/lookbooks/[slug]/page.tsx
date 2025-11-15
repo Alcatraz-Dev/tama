@@ -35,7 +35,7 @@ export default async function LookbookPage({ params }: LookbookPageProps) {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative py-16 px-6 bg-gradient-to-br from-gray-50 to-white">
+      <section className="relative py-16 px-6 bg-gradient-to-br from-gray-50 to-white dark:from-gray-800 dark:to-gray-900">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-6xl font-bold mb-6 tracking-tight">
@@ -65,18 +65,18 @@ export default async function LookbookPage({ params }: LookbookPageProps) {
             </div>
 
             {lookbook.description && (
-              <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mb-8">
+              <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto leading-relaxed mb-8">
                 {lookbook.description}
               </p>
             )}
 
             {lookbook.stylingTips && (
-              <div className="bg-white rounded-lg p-6 max-w-2xl mx-auto shadow-sm border">
+              <div className="bg-card rounded-lg p-6 max-w-2xl mx-auto shadow-sm border">
                 <h3 className="text-lg font-semibold mb-3 flex items-center">
                   <Sparkles className="w-5 h-5 mr-2 text-yellow-500" />
                   Styling Tips
                 </h3>
-                <p className="text-gray-700 leading-relaxed">{lookbook.stylingTips}</p>
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed">{lookbook.stylingTips}</p>
               </div>
             )}
           </div>
@@ -95,11 +95,11 @@ export default async function LookbookPage({ params }: LookbookPageProps) {
 
       {/* Products Section */}
       {lookbook.products && lookbook.products.length > 0 && (
-        <section className="py-16 px-6 bg-gray-50">
+        <section className="py-16 px-6 bg-muted">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold mb-4">Shop the Look</h2>
-              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
                 Discover the pieces that make this look complete. Each item is carefully selected to bring the vision to life.
               </p>
             </div>
@@ -128,7 +128,7 @@ export default async function LookbookPage({ params }: LookbookPageProps) {
       <section className="py-16 px-6">
         <div className="max-w-7xl mx-auto text-center">
           <h3 className="text-2xl font-bold mb-4">Love this look?</h3>
-          <p className="text-gray-600 mb-8">Share it with your friends and followers</p>
+          <p className="text-gray-600 dark:text-gray-400 mb-8">Share it with your friends and followers</p>
 
           <div className="flex justify-center mb-6">
             <ShareButtons

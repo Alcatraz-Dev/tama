@@ -109,53 +109,53 @@ export default async function CollectionPage({ params, searchParams }: Collectio
       {/* Products Section */}
       <section className="py-16 px-6 max-w-7xl mx-auto">
         <div className="mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-black dark:text-white">
             Collection Pieces ({collection.totalProducts || 0})
           </h2>
-          <p className="text-gray-600 max-w-2xl">
+          <p className="text-gray-600 dark:text-gray-400 max-w-2xl">
             Discover the complete {collection.title} collection. Each piece is carefully curated to reflect our vision for {collection.season} {collection.year}.
           </p>
         </div>
 
         {/* Filters */}
-        <div className="mb-8 p-6 bg-gray-50 rounded-lg">
-          <h3 className="text-lg font-semibold mb-4">Filter Products</h3>
+        <div className="mb-8 p-6 bg-muted rounded-lg">
+          <h3 className="text-lg font-semibold mb-4 text-black dark:text-white">Filter Products</h3>
           <form className="flex flex-wrap gap-4 items-end">
             <div>
-              <label className="block text-sm font-medium mb-2">Category</label>
+              <label className="block text-sm font-medium mb-2 text-black dark:text-white">Category</label>
               <select
                 name="category"
                 defaultValue={resolvedSearchParams.category || ''}
-                className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
+                className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white bg-white dark:bg-gray-700 text-black dark:text-white"
               >
                 <option value="">All Categories</option>
                 {/* Add category options dynamically if needed */}
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium mb-2">Min Price</label>
+              <label className="block text-sm font-medium mb-2 text-black dark:text-white">Min Price</label>
               <input
                 type="number"
                 name="minPrice"
                 defaultValue={resolvedSearchParams.minPrice || ''}
                 placeholder="0"
-                className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black w-24"
+                className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white w-24 bg-white dark:bg-gray-700 text-black dark:text-white"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-2">Max Price</label>
+              <label className="block text-sm font-medium mb-2 text-black dark:text-white">Max Price</label>
               <input
                 type="number"
                 name="maxPrice"
                 defaultValue={resolvedSearchParams.maxPrice || ''}
                 placeholder="1000"
-                className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black w-24"
+                className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white w-24 bg-white dark:bg-gray-700 text-black dark:text-white"
               />
             </div>
-            <Button type="submit" variant="outline">Apply Filters</Button>
+            <Button type="submit" variant="outline" className="border-gray-300 dark:border-gray-600 text-black dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700">Apply Filters</Button>
             {(resolvedSearchParams.category || resolvedSearchParams.minPrice || resolvedSearchParams.maxPrice) && (
               <Link href={`/collection/${resolvedParams.slug}`}>
-                <Button variant="ghost">Clear Filters</Button>
+                <Button variant="ghost" className="text-black dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700">Clear Filters</Button>
               </Link>
             )}
           </form>
@@ -196,7 +196,7 @@ export default async function CollectionPage({ params, searchParams }: Collectio
           </>
         ) : (
           <div className="text-center py-16">
-            <p className="text-gray-500 text-lg">No products in this collection yet.</p>
+            <p className="text-gray-500 dark:text-gray-400 text-lg">No products in this collection yet.</p>
             <Link href="/products">
               <Button className="mt-4">Browse All Products</Button>
             </Link>

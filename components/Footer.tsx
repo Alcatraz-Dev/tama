@@ -3,9 +3,9 @@ import { getSocialLinks, iconMap } from "@/lib/useQuery";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import Logo from "../public/tama.svg";
 import Image from "next/image";
 import { SocialLink } from "@/lib/types";
+import { useTheme } from "next-themes";
 const footerLinks = {
   Company: [
     { name: "About", href: "/about" },
@@ -27,6 +27,12 @@ const footerLinks = {
 
 export function Footer() {
   const [socialLinks, setSocialLinks] = useState<SocialLink[]>([]);
+  const { theme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     async function fetchLinks() {
@@ -37,7 +43,7 @@ export function Footer() {
   }, []);
 
   return (
-    <footer className="bg-white w-full max-w-7xl mx-auto px-6 py-12 rounded-3xl mb-6 shadow-luxury">
+    <footer className="bg-card w-full max-w-7xl mx-auto px-6 py-12 rounded-3xl mb-6 shadow-luxury">
       <div className="mx-auto  space-y-10 px-4 sm:px-6 lg:space-y-16 lg:px-8">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-3">
           {/* Logo + About */}
@@ -46,10 +52,10 @@ export function Footer() {
               href="/"
               className="flex items-center lg:justify-start justify-center mb-5"
             >
-              <Image src={Logo} alt="Logo" width={130} height={130} />
+              <Image src={mounted && theme === "dark" ? "/tama-light.svg" : "/tama.svg"} alt="Logo" width={130} height={130} />
             </Link>
 
-            <p className="mt-4 max-w-xs text-black/80 text-sm leading-relaxed font-semibold flex items-center lg:justify-start justify-center lg:text-start text-center">
+            <p className="mt-4 max-w-xs text-black/80 dark:text-gray-300 text-sm leading-relaxed font-semibold flex items-center lg:justify-start justify-center lg:text-start text-center">
               Premium clothing brand for modern lifestyle. Crafted with passion,
               designed for comfort.
             </p>
@@ -71,10 +77,12 @@ export function Footer() {
                       href={item.url}
                       target="_blank"
                       rel="noreferrer"
-                      className="text-black/60 hover:text-black transition-colors"
+                      className="text-black/60 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors"
                     >
                       <span className="sr-only">{item.name}</span>
-                      <Icon className="w-6 h-6" />
+                      <Icon
+                      //@ts-ignore
+                       className="w-6 h-6"  />
                     </a>
                   </motion.li>
                 );
@@ -87,13 +95,13 @@ export function Footer() {
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:col-span-2 gap-8 md:items-center ">
             {Object.entries(footerLinks).map(([section, links]) => (
               <div key={section}>
-                <p className="font-serif font-semibold text-white">{section}</p>
+                <p className="font-semibold text-black dark:text-white">{section}</p>
                 <ul className="mt-6 space-y-3 text-sm">
                   {links.map((link, idx) => (
                     <li key={idx}>
                       <a
                         href={link.href}
-                        className="text-black/70 hover:text-black transition-colors font-semibold"
+                        className="text-black/70 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors font-semibold"
                       >
                         {link.name}
                       </a>
@@ -106,12 +114,12 @@ export function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-6 border-t border-black/30 flex flex-col sm:flex-row items-center justify-between">
-          <p className="text-xs text-black/60 font-semibold">
+        <div className="pt-6 border-t border-black/30 dark:border-gray-600 flex flex-col sm:flex-row items-center justify-between">
+          <p className="text-xs text-black/60 dark:text-gray-400 font-semibold">
             &copy; {new Date().getFullYear()} Tama Clothing. All rights
             reserved.
           </p>
-          <p className="text-xs text-black/60 mt-2 sm:mt-0 font-semibold">
+          <p className="text-xs text-black/60 dark:text-gray-400 mt-2 sm:mt-0 font-semibold">
             Made with ❤️ for fashion lovers
           </p>
         </div>
