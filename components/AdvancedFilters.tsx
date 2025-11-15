@@ -87,20 +87,20 @@ export default function AdvancedFilters({
                   type="number"
                   value={localPriceRange[0]}
                   onChange={(e) => handlePriceChange(Number(e.target.value), localPriceRange[1])}
-                  className="w-full px-2 py-1 md:px-3 md:py-2 border border-gray-300 dark:border-gray-600 rounded-md text-xs md:text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
+                  className="w-full px-2 py-1 md:px-3 md:py-2 border border-gray-300 dark:border-gray-600 rounded-md text-xs md:text-sm bg-white dark:bg-zinc-900 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
                   placeholder="Min"
                 />
                 <input
                   type="number"
                   value={localPriceRange[1]}
                   onChange={(e) => handlePriceChange(localPriceRange[0], Number(e.target.value))}
-                  className="w-full px-2 py-1 md:px-3 md:py-2 border border-gray-300 dark:border-gray-600 rounded-md text-xs md:text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
+                  className="w-full px-2 py-1 md:px-3 md:py-2 border border-gray-300 dark:border-gray-600 rounded-md text-xs md:text-sm bg-white dark:bg-zinc-900 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
                   placeholder="Max"
                 />
               </div>
               <button
                 onClick={applyPriceFilter}
-                className="w-full bg-black dark:bg-gray-700 text-white py-1.5 md:py-2 rounded-md text-xs md:text-sm hover:bg-gray-800 dark:hover:bg-gray-600"
+                className="w-full bg-black dark:bg-white text-white dark:text-black py-1.5 md:py-2 rounded-md text-xs md:text-sm hover:bg-gray-800 dark:hover:bg-gray-200"
               >
                 Apply Price Filter
               </button>
@@ -117,7 +117,7 @@ export default function AdvancedFilters({
                   onClick={() => toggleSize(size)}
                   className={`px-2 py-1 md:px-3 md:py-2 border rounded-md text-xs md:text-sm ${
                     selectedSizes.includes(size)
-                      ? "bg-black dark:bg-gray-700 text-white border-black dark:border-gray-600"
+                      ? "bg-black dark:bg-white text-white dark:text-black border-black dark:border-white"
                       : "bg-card text-black dark:text-white border-gray-300 dark:border-gray-600 hover:border-black dark:hover:border-gray-400"
                   }`}
                 >
@@ -199,7 +199,7 @@ export default function AdvancedFilters({
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as 'default' | 'price-low' | 'price-high' | 'newest' | 'popularity')}
-              className="w-full px-2 py-1 md:px-3 md:py-2 border border-gray-300 dark:border-gray-600 rounded-md text-xs md:text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+              className="w-full px-2 py-1 md:px-3 md:py-2 border border-gray-300 dark:border-gray-600 rounded-md text-xs md:text-sm bg-white dark:bg-zinc-900 text-gray-900 dark:text-white"
             >
               <option value="default">Default</option>
               <option value="price-low">Price: Low to High</option>
@@ -214,13 +214,13 @@ export default function AdvancedFilters({
         <div className="flex gap-2 p-3 md:p-4 border-t border-gray-200 dark:border-gray-700">
           <button
             onClick={handleReset}
-            className="flex-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 py-1.5 md:py-2 rounded-md text-xs md:text-sm hover:bg-gray-200 dark:hover:bg-gray-600"
+            className="flex-1 bg-orange-100 dark:bg-orange-900 text-orange-700 dark:text-orange-300 py-1.5 md:py-2 rounded-md text-xs md:text-sm hover:bg-orange-200 dark:hover:bg-orange-800"
           >
             Reset All
           </button>
           <button
             onClick={onClose}
-            className="flex-1 bg-black dark:bg-gray-600 text-white py-1.5 md:py-2 rounded-md text-xs md:text-sm hover:bg-gray-800 dark:hover:bg-gray-500"
+            className="flex-1 bg-black dark:bg-white text-white dark:text-black py-1.5 md:py-2 rounded-md text-xs md:text-sm hover:bg-gray-800 dark:hover:bg-gray-200"
           >
             Apply Filters
           </button>
