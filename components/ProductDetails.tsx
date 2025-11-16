@@ -8,7 +8,7 @@ import { Button } from "./ui/button";
 import { client } from "@/sanity/lib/client";
 import { toast } from "sonner";
 import { useCartStore } from "@/store/cart";
-import { getProductReviews, getRelatedProducts } from "@/lib/useQuery";
+import { getProductReviews } from "@/lib/useQuery";
 import { FiFacebook, FiTwitter, FiInstagram, FiLinkedin } from "react-icons/fi";
 import { ProductDetailsSkeleton } from "./ui/skeleton";
 import { Product, Review } from "@/lib/types";
@@ -51,7 +51,6 @@ export function ProductDetails({ product }: { product: Product }) {
   const [showShopForm, setShowShopForm] = useState(false);
   const [isZoomed, setIsZoomed] = useState(false);
   const [reviews, setReviews] = useState<Review[]>([]);
-  const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [reviewRating, setReviewRating] = useState(5);
@@ -68,12 +67,10 @@ export function ProductDetails({ product }: { product: Product }) {
   useEffect(() => {
     const loadAdditionalData = async () => {
       try {
-        const [reviewsData, relatedData] = await Promise.all([
-          getProductReviews(product._id),
-          product.category?._id ? getRelatedProducts(product.category._id, product._id) : Promise.resolve([])
+        const [reviewsData] = await Promise.all([
+          getProductReviews(product._id)
         ]);
         setReviews(reviewsData);
-        setRelatedProducts(relatedData);
       } catch (error) {
         console.error("Error loading additional data:", error);
       } finally {

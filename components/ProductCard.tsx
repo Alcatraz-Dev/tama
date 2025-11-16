@@ -4,7 +4,6 @@ import { useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Product } from "@/lib/types";
-import { Button } from "./ui/button";
 import { useCartStore } from "@/store/cart";
 import { toast } from "sonner";
 
@@ -142,7 +141,7 @@ export default function ProductCard({
         {(product.colors && product.colors.length > 0) || (product.sizes && product.sizes.length > 0) ? (
           <div className="mt-3 px-2 space-y-2">
             {product.colors && product.colors.length > 0 && (
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 ">
                 <span className="text-xs font-medium text-black dark:text-white">Color:</span>
                 <div className="flex gap-1 flex-wrap">
                   {product.colors.slice(0, 4).map((color, i: number) => {
@@ -176,7 +175,7 @@ export default function ProductCard({
             )}
 
             {product.sizes && product.sizes.length > 0 && (
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 mt-3">
                 <span className="text-xs font-medium text-black dark:text-white">Size:</span>
                 <div className="flex gap-1 flex-wrap">
                   {product.sizes.map((size: string, i: number) => (
@@ -232,3 +231,4 @@ export default function ProductCard({
     </motion.div>
   );
 }
+

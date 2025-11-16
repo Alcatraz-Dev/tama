@@ -41,7 +41,7 @@ export default async function CollectionsPage() {
                 {collections.length} Collections
               </Badge>
               <Badge variant="secondary" className="bg-zinc-200 dark:bg-zinc-700 text-zinc-800 dark:text-zinc-200 px-4 py-2">
-                {collections.reduce((total:any, collection) => total + (collection.products?.length || 0), 0)} Products
+                {collections.reduce((total: number, collection) => total + (collection.products?.length || 0), 0)} Products
               </Badge>
             </div>
           </div>

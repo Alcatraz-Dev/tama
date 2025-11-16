@@ -41,7 +41,6 @@ function ProductsContent() {
   } = useFilter();
 
   // Load filters from URL on mount
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     const params = new URLSearchParams(searchParams.toString());
 
