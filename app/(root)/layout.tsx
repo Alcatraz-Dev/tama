@@ -7,6 +7,7 @@ import { Toaster } from "@/components/ui/sonner";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import { ThemeProvider } from "next-themes";
+import { TranslationProvider } from "@/lib/translationContext";
 const jost = Jost({
   variable: "--font-jost",
   subsets: ["latin"],
@@ -40,15 +41,17 @@ export default function RootLayout({
       <meta property="og:site_name" content="Tama Shop" />
       <body className={`${jost.className} antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
-          <ErrorBoundary>
-            <Navbar />
-            {children}
-            <div className="mx-5 md:mx-0">
-              <Footer />
-            </div>
-            <Toaster />
-            <WhatsAppButton />
-          </ErrorBoundary>
+          <TranslationProvider>
+            <ErrorBoundary>
+              <Navbar />
+              {children}
+              <div className="mx-5 md:mx-0">
+                <Footer />
+              </div>
+              <Toaster />
+              <WhatsAppButton />
+            </ErrorBoundary>
+          </TranslationProvider>
         </ThemeProvider>
       </body>
     </html>

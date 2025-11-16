@@ -7,6 +7,7 @@ import { Product } from "@/lib/types";
 import { useCartStore } from "@/store/cart";
 import { useWishlistStore } from "@/store/wishlist";
 import { toast } from "sonner";
+import { useTranslation } from "@/lib/translationContext";
 
 interface ProductCardProps {
   product: Product;
@@ -44,6 +45,7 @@ export default function ProductCard({
   const secondImage = product.gallery?.[1]?.asset?.url;
   const { addToCart } = useCartStore();
   const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlistStore();
+  const { t } = useTranslation();
 
   useEffect(() => {
     setMounted(true);
@@ -56,16 +58,16 @@ export default function ProductCard({
   const handleAdd = () => {
     // Check if color selection is required but not selected
     if (product.colors && product.colors.length > 0 && !selectedColor) {
-      toast.error("Please select a color", {
-        description: "Choose a color before adding to cart.",
+      toast.error(t("colorRequired"), {
+        description: t("colorRequired"),
       });
       return;
     }
 
     // Check if size selection is required but not selected
     if (product.sizes && product.sizes.length > 0 && !selectedSize) {
-      toast.error("Please select a size", {
-        description: "Choose a size before adding to cart.",
+      toast.error(t("sizeRequired"), {
+        description: t("sizeRequired"),
       });
       return;
     }
@@ -95,8 +97,8 @@ export default function ProductCard({
       inStock: product.inStock,
     });
 
-    toast.success("Added to cart!", {
-      description: `${1} ${product.title} added to your cart.`,
+    toast.success(t("addedToCart"), {
+      description: t("itemAdded", { count: 1, title: product.title }),
     });
   };
 
@@ -105,13 +107,13 @@ export default function ProductCard({
 
     if (isInWishlistAlready) {
       removeFromWishlist(product._id);
-      toast.success("Removed from wishlist", {
-        description: `${product.title} removed from your wishlist.`,
+      toast.success(t("removedFromWishlist"), {
+        description: `${product.title} ${t("removedFromWishlist").toLowerCase()}.`,
       });
     } else {
       addToWishlist(product);
-      toast.success("Added to wishlist!", {
-        description: `${product.title} added to your wishlist.`,
+      toast.success(t("addedToWishlist"), {
+        description: `${product.title} ${t("addedToWishlist").toLowerCase()}.`,
       });
     }
   };
@@ -213,7 +215,7 @@ export default function ProductCard({
               : 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300'
           }`}>
             <div className={`w-1.5 h-1.5 rounded-full ${product.inStock ? 'bg-green-500' : 'bg-red-500'}`}></div>
-            <span className="text-[10px]">{product.inStock ? 'In Stock' : 'Out of Stock'}</span>
+            <span className="text-[10px]">{product.inStock ? t('inStock') : t('outOfStock')}</span>
           </div>
         </div>
 
@@ -252,7 +254,7 @@ export default function ProductCard({
           <div className="mt-1.5 space-y-1.5">
             {product.colors && product.colors.length > 0 && (
               <div className="flex items-center justify-start gap-2 bg-slate-200/50 dark:bg-gray-800/30 rounded-md py-1.5 px-2">
-                <span className="text-[10px] font-semibold text-black dark:text-white tracking-wide">COLOR</span>
+                <span className="text-[10px] font-semibold text-black dark:text-white tracking-wide">{t('color').toUpperCase()}</span>
                 <div className="flex gap-1 flex-wrap">
                   {product.colors.slice(0, 4).map((color, i: number) => {
                     const bgColor =
@@ -286,7 +288,7 @@ export default function ProductCard({
 
             {product.sizes && product.sizes.length > 0 && (
               <div className="flex items-center justify-start gap-2 bg-slate-200/50 dark:bg-gray-800/30 rounded-md py-1.5 px-2">
-                <span className="text-[10px] font-semibold text-black dark:text-white tracking-wide">SIZE</span>
+                <span className="text-[10px] font-semibold text-black dark:text-white tracking-wide">{t('size').toUpperCase()}</span>
                 <div className="flex gap-1 flex-wrap">
                   {product.sizes.map((size: string, i: number) => (
                     <button
@@ -337,7 +339,7 @@ export default function ProductCard({
             onClick={handleAdd}
             disabled={isQuickAddDisabled}
           >
-            Quick Add
+            {t('quickAdd')}
           </button>
           <button
             className="flex-1 border border-fashion-gold text-black dark:text-white py-2 px-3 rounded-lg text-xs font-medium transition-all cursor-pointer hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black active:scale-95"
@@ -345,7 +347,7 @@ export default function ProductCard({
               (window.location.href = `/product/${typeof product.slug === "string" ? product.slug : product.slug?.current}`)
             }
           >
-            View Details
+            {t('viewDetails')}
           </button>
         </div>
       </div>

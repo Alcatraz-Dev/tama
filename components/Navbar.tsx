@@ -10,19 +10,23 @@ import { Button } from "./ui/button";
 import { CiMenuFries } from "react-icons/ci";
 import Image from "next/image";
 import ThemeToggle from "./ThemeToggle";
+import LanguageSwitcher from "./LanguageSwitcher";
 import { useTheme } from "next-themes";
+import { useTranslation } from "@/lib/translationContext";
+
 const links = [
-  { href: "/products", label: "Products" },
-  { href: "/categories", label: "Categories" },
-  { href: "/collections", label: "Collections" },
-  { href: "/about", label: "About" },
-  { href: "/lookbooks", label: "Lookbooks" },
+  { href: "/products", key: "products" },
+  { href: "/categories", key: "categories" },
+  { href: "/collections", key: "collections" },
+  { href: "/about", key: "about" },
+  { href: "/lookbooks", key: "lookbooks" },
 ];
 
 export default function Navbar() {
   const { cartItems } = useCartStore();
   const { wishlistItems } = useWishlistStore();
   const { theme } = useTheme();
+  const { t } = useTranslation();
   const [scrolled, setScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -67,7 +71,7 @@ export default function Navbar() {
         </Link>
 
         {/* Right side nav */}
-        <div className="flex items-center gap-2 sm:gap-4 md:gap-6 ml-auto">
+        <div className="flex items-center gap-2 sm:gap-3 md:gap-4 ml-auto">
           <nav className="hidden md:flex gap-6">
             {links.map((link) => (
               <motion.div
@@ -79,7 +83,7 @@ export default function Navbar() {
                   href={link.href}
                   className="text-zinc-700 dark:text-zinc-300 hover:text-black dark:hover:text-white text-sm font-semibold transition"
                 >
-                  {link.label}
+                  {t(link.key as any)}
                 </Link>
               </motion.div>
             ))}
@@ -87,9 +91,11 @@ export default function Navbar() {
 
           <ThemeToggle />
 
+          <LanguageSwitcher />
+
           {/* Wishlist */}
           <Link href="/wishlist" className="relative bg-card p-1 sm:p-2 rounded-md sm:rounded-lg">
-            <Heart className="w-3.5 h-3.5 sm:w-5 sm:h-5 text-zinc-700 dark:text-zinc-300 hover:text-red-500 dark:hover:text-red-400" />
+            <Heart className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-zinc-700 dark:text-zinc-300 hover:text-red-500 dark:hover:text-red-400" />
             <AnimatePresence>
               {wishlistItems.length > 0 && (
                 <motion.span
@@ -107,7 +113,7 @@ export default function Navbar() {
 
           {/* Cart */}
           <Link href="/cart" className="relative bg-card p-1 sm:p-2 rounded-md sm:rounded-lg">
-            <ShoppingBasket className="w-3.5 h-3.5 sm:w-5 sm:h-5 text-zinc-700 dark:text-zinc-300 hover:text-black dark:hover:text-white" />
+            <ShoppingBasket className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-zinc-700 dark:text-zinc-300 hover:text-black dark:hover:text-white" />
             <AnimatePresence>
               {cartItems.length > 0 && (
                 <motion.span
@@ -192,7 +198,7 @@ export default function Navbar() {
                       className="flex items-center space-x-3 text-zinc-700 dark:text-zinc-300 hover:text-black dark:hover:text-white text-lg font-medium transition-all duration-300 py-4 px-4 rounded-xl hover:bg-white dark:hover:bg-zinc-800 hover:shadow-md group"
                     >
                       <span className="w-2 h-2 bg-zinc-400 dark:bg-zinc-500 rounded-full group-hover:bg-black dark:group-hover:bg-white transition-colors"></span>
-                      <span>{link.label}</span>
+                      <span>{t(link.key as any)}</span>
                     </Link>
                   </motion.div>
                 ))}

@@ -41,9 +41,9 @@ export default function ThemeToggle() {
 
       <div className="relative z-10 transition-all duration-500 group-hover:scale-125 group-active:scale-110">
         {theme === "dark" ? (
-          <Sun className="w-3.5 h-3.5 sm:w-5 sm:h-5 text-yellow-500 drop-shadow-lg transition-all duration-700 ease-in-out group-hover:rotate-[360deg] group-hover:brightness-125" />
+          <Sun className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-yellow-500 drop-shadow-lg transition-all duration-700 ease-in-out group-hover:rotate-[360deg] group-hover:brightness-125" />
         ) : (
-          <Moon className="w-3.5 h-3.5 sm:w-5 sm:h-5 text-blue-600 dark:text-blue-400 drop-shadow-lg transition-all duration-700 ease-in-out group-hover:rotate-[-360deg] group-hover:brightness-125" />
+          <Moon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-600 dark:text-blue-400 drop-shadow-lg transition-all duration-700 ease-in-out group-hover:rotate-[-360deg] group-hover:brightness-125" />
         )}
       </div>
 

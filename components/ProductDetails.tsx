@@ -12,6 +12,7 @@ import { getProductReviews } from "@/lib/useQuery";
 import { FiFacebook, FiTwitter, FiInstagram, FiLinkedin } from "react-icons/fi";
 import { ProductDetailsSkeleton } from "./ui/skeleton";
 import { Product, Review } from "@/lib/types";
+import { useTranslation } from "@/lib/translationContext";
 
 const tunisianTowns = [
   "Tunis",
@@ -63,6 +64,7 @@ export function ProductDetails({ product }: { product: Product }) {
   const [phone, setPhone] = useState("");
   const [town, setTown] = useState("");
   const { addToCart } = useCartStore();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const loadAdditionalData = async () => {
@@ -104,31 +106,31 @@ export function ProductDetails({ product }: { product: Product }) {
 
     // Validate all required fields
     if (!fullName.trim()) {
-      toast("Missing Full Name", {
-        description: "Please enter your full name.",
+      toast(t("nameRequired"), {
+        description: t("enterFullName"),
       });
       return;
     }
     if (!town) {
-      toast("Missing Town", { description: "Please select your town." });
+      toast(t("nameRequired"), { description: t("selectTown") });
       return;
     }
     if (!location.trim()) {
-      toast("Missing Location", { description: "Please enter your location." });
+      toast(t("nameRequired"), { description: t("enterLocation") });
       return;
     }
     if (!phone.trim()) {
-      toast("Missing Phone Number", {
-        description: "Please enter your phone number.",
+      toast(t("nameRequired"), {
+        description: t("enterPhone"),
       });
       return;
     }
     if (product.colors && product.colors.length > 0 && !selectedColor) {
-      toast("Missing Color", { description: "Please select a color." });
+      toast(t("colorRequired"), { description: t("colorRequired") });
       return;
     }
     if (product.sizes && product.sizes.length > 0 && !selectedSize) {
-      toast("Missing Size", { description: "Please select a size." });
+      toast(t("sizeRequired"), { description: t("sizeRequired") });
       return;
     }
 
@@ -163,10 +165,10 @@ export function ProductDetails({ product }: { product: Product }) {
         createdAt: new Date().toISOString(),
       });
 
-      toast("Order submitted successfully!", {
-        description: "We have received your order and will process it shortly.",
+      toast(t("orderSubmitted"), {
+        description: t("orderSuccess"),
         action: {
-          label: "Close",
+          label: t("cancel"),
           onClick: () => toast.dismiss(),
         },
       });
@@ -201,8 +203,8 @@ export function ProductDetails({ product }: { product: Product }) {
       setShowShopForm(false);
     } catch (err) {
       console.error("Order submission failed:", err);
-      toast("Failed to submit order", {
-        description: "Please try again.",
+      toast(t("nameRequired"), {
+        description: t("nameRequired").toLowerCase(),
       });
     } finally {
       setIsSubmitting(false); // allow future submissions
@@ -225,8 +227,8 @@ export function ProductDetails({ product }: { product: Product }) {
       inStock: product.inStock,
     });
 
-    toast.success("Added to cart!", {
-      description: `${quantity} ${product.title} added to your cart.`,
+    toast.success(t("addedToCart"), {
+      description: t("itemAdded", { count: quantity, title: product.title }),
     });
   };
 
@@ -265,15 +267,15 @@ export function ProductDetails({ product }: { product: Product }) {
     if (isSubmittingReview) return;
 
     if (!reviewerName.trim()) {
-      toast.error("Name Required", {
-        description: "Please enter your name.",
+      toast.error(t("nameRequired"), {
+        description: t("enterFullName"),
       });
       return;
     }
 
     if (!reviewText.trim()) {
-      toast.error("Review Required", {
-        description: "Please write your review.",
+      toast.error(t("reviewRequired"), {
+        description: t("writeReview"),
       });
       return;
     }
@@ -301,13 +303,13 @@ export function ProductDetails({ product }: { product: Product }) {
       const updatedReviews = await getProductReviews(product._id);
       setReviews(updatedReviews);
 
-      toast.success("Review Submitted!", {
-        description: "Thank you for your feedback!",
+      toast.success(t("reviewSubmitted" as any), {
+        description: t("thankYouFeedback" as any),
       });
     } catch (error) {
       console.error("Review submission failed:", error);
-      toast.error("Failed to submit review", {
-        description: "Please try again.",
+      toast.error(t("nameRequired" as any), {
+        description: t("nameRequired" as any).toLowerCase(),
       });
     } finally {
       setIsSubmittingReview(false);
@@ -450,7 +452,7 @@ export function ProductDetails({ product }: { product: Product }) {
                         />
                       ))}
                       <span className="text-sm text-gray-600 dark:text-gray-400 ml-2">
-                        ({reviews.length} reviews)
+                        ({reviews.length} {t('reviews')})
                       </span>
                     </div>
                   </div>
@@ -483,7 +485,7 @@ export function ProductDetails({ product }: { product: Product }) {
                 <div className="flex items-center space-x-2">
                   <div className={`w-3 h-3 rounded-full ${product.inStock ? 'bg-green-500' : 'bg-red-500'}`}></div>
                   <span className={`font-medium ${product.inStock ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
-                    {product.inStock ? 'In Stock' : 'Out of Stock'}
+                    {product.inStock ? t('inStock') : t('outOfStock')}
                   </span>
                 </div>
               </div>
@@ -491,7 +493,7 @@ export function ProductDetails({ product }: { product: Product }) {
               {/* Color Selection */}
               {product.colors && product.colors.length > 0 && (
                 <div className="mb-4">
-                  <p className="text-sm font-semibold text-gray-900 dark:text-white mb-2">Color</p>
+                  <p className="text-sm font-semibold text-gray-900 dark:text-white mb-2">{t('color')}</p>
                   <div className="flex items-center gap-3">
                     {product.colors.map((color, i: number) => {
                       const colorHex = typeof color === 'string' ? color : (color.hex || color.value || '');
@@ -517,7 +519,7 @@ export function ProductDetails({ product }: { product: Product }) {
               {/* Size Selection */}
               {product.sizes && product.sizes.length > 0 && (
                 <div className="mb-4">
-                  <p className="text-sm font-semibold text-gray-900 dark:text-white mb-2">Size</p>
+                  <p className="text-sm font-semibold text-gray-900 dark:text-white mb-2">{t('size')}</p>
                   <div className="flex gap-2 flex-wrap">
                     {product.sizes.map((size: string, i: number) => (
                       <button
@@ -538,7 +540,7 @@ export function ProductDetails({ product }: { product: Product }) {
 
               {/* Quantity Selector */}
               <div className="mb-6">
-                <p className="text-sm font-semibold text-gray-900 dark:text-white mb-2">Quantity</p>
+                <p className="text-sm font-semibold text-gray-900 dark:text-white mb-2">{t('quantity' as any)}</p>
                 <div className="flex items-center space-x-3 text-xs">
                   <div className="flex items-center border border-gray-300 dark:border-gray-600 rounded-lg">
                     <button
@@ -566,20 +568,20 @@ export function ProductDetails({ product }: { product: Product }) {
                   className="flex-1 bg-black dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-200 text-white dark:text-black py-3 rounded-lg font-semibold text-base"
                   onClick={handleAdd}
                 >
-                  Add to Cart
+                  {t('addToCart' as any)}
                 </Button>
                 <Button
                   className="flex-1 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-900 dark:text-white py-3 rounded-lg font-semibold text-base"
                   onClick={() => setShowShopForm((prev) => !prev)}
                   disabled={!product.inStock}
                 >
-                  {showShopForm ? "Cancel" : "Buy Now"}
+                  {showShopForm ? t('cancel') : t('buyNow' as any)}
                 </Button>
               </div>
 
               {/* Social Sharing */}
               <div className="border-t border-gray-300 dark:border-gray-600 pt-6">
-                <p className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Share this product</p>
+                <p className="text-sm font-semibold text-gray-900 dark:text-white mb-3">{t('shareProduct' as any)}</p>
                 <div className="flex space-x-6">
                   <button
                     onClick={() => handleShare('facebook')}
@@ -689,7 +691,7 @@ export function ProductDetails({ product }: { product: Product }) {
         {/* Reviews Section */}
         <div className="mt-12 bg-card rounded-2xl p-4 md:p-6 shadow-lg">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="lg:text-xl text-sm font-bold text-gray-900 dark:text-white">Customer Reviews</h2>
+            <h2 className="lg:text-xl text-sm font-bold text-gray-900 dark:text-white">{t('customerReviews')}</h2>
             <div className="flex items-center space-x-2">
               <div className="flex items-center space-x-1">
                 {[...Array(5)].map((_, i) => (
@@ -710,7 +712,7 @@ export function ProductDetails({ product }: { product: Product }) {
               onClick={() => setShowReviewForm(!showReviewForm)}
               className="bg-fashion-gold hover:bg-yellow-500 text-black font-semibold px-4 py-2 rounded-lg transition-colors"
             >
-              {showReviewForm ? "Cancel Review" : "Write a Review"}
+              {showReviewForm ? t('cancelReview' as any) : t('writeReview' as any)}
             </Button>
           </div>
 
