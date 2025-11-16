@@ -66,7 +66,7 @@ export default function Navbar() {
             alt="Tama Logo"
             width={150}
             height={150}
-            className="w-[100px] h-[100px] md:w-[120px] md:h-[120px]"
+            className="w-[70px] h-[70px] md:w-[100px] md:h-[100px]"
           />
         </Link>
 
