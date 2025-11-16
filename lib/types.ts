@@ -34,6 +34,13 @@ export interface Product {
       current: string;
     };
   };
+  collection?: {
+    _id: string;
+    title: string;
+    slug: {
+      current: string;
+    };
+  };
   inStock: boolean;
   shippingInfo?: string;
   returnPolicy?: string;

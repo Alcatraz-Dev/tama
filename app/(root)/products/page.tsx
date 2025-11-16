@@ -286,7 +286,7 @@ function ProductsContent() {
         <h1 className="text-2xl md:text-3xl font-bold text-black dark:text-white">
           All Products
         </h1>
-        <p className="text-sm text-gray-600 dark:text-gray-400">
+        <p className="text-sm text-zinc-600 dark:text-zinc-400">
           {filteredProducts.length} products found
         </p>
       </div>
@@ -294,7 +294,7 @@ function ProductsContent() {
       {/* Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-8 px-4 sm:px-6 md:px-12 z-20">
         {paginatedProducts.length === 0 ? (
-          <p className="col-span-full text-center text-gray-500 dark:text-gray-400">
+          <p className="col-span-full text-center text-zinc-500 dark:text-zinc-400">
             No products found.
           </p>
         ) : (

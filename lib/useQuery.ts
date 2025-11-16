@@ -110,7 +110,11 @@ export async function getProductBySlug(slug: string) {
   shippingInfo,
   returnPolicy,
   category->{...,},
-
+  "collection": *[_type == "collection" && references(^._id)][0]{
+    _id,
+    title,
+    slug
+  }
 }
 `;
   const product = await client.fetch(query, { slug });
@@ -171,11 +175,56 @@ export async function getCategories(limit = 5) {
   const query = `*[_type == "category"][0...${limit}]{
     _id,
     title,
+    slug,
     "imageUrl": image.asset->url,
     "productCount": count(*[_type == "product" && category._ref == ^._id])
   }`;
   const categories = await client.fetch(query);
   return categories;
+}
+
+export async function getCategoryBySlug(slug: string, productLimit = 12, productOffset = 0) {
+  const query = `
+*[_type == "category" && slug.current == $slug][0]{
+  _id,
+  title,
+  "slug": slug.current,
+  "imageUrl": image.asset->url,
+  "totalProducts": count(*[_type == "product" && category._ref == ^._id]),
+  "products": *[_type == "product" && category._ref == ^._id]{
+    _id,
+    title,
+    "slug": slug.current,
+    price,
+    description,
+    gallery[]{
+      ...,
+      _key,
+      _type,
+      _type == "image" => {
+        asset->{_id, url}
+      },
+      _type == "file" => {
+        ...,
+        asset->{_id, url, originalFilename, mimeType}
+      }
+    },
+    inStock,
+    colors[]{hex, name},
+    sizes
+  }
+}
+`;
+  const category = await client.fetch(query, { slug });
+
+  // Handle pagination and limit on the client side
+  if (category && category.products) {
+    // First apply limit, then offset
+    const limitedProducts = category.products.slice(0, productLimit + productOffset);
+    category.products = limitedProducts.slice(productOffset, productOffset + productLimit);
+  }
+
+  return category;
 }
 
 export async function getSocialLinks() {

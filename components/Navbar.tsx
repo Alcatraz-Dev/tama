@@ -12,6 +12,8 @@ import ThemeToggle from "./ThemeToggle";
 import { useTheme } from "next-themes";
 const links = [
   { href: "/products", label: "Products" },
+  { href: "/categories", label: "Categories" },
+  { href: "/collections", label: "Collections" },
   { href: "/about", label: "About" },
   { href: "/lookbooks", label: "Lookbooks" },
 ];
@@ -73,7 +75,7 @@ export default function Navbar() {
               >
                 <Link
                   href={link.href}
-                  className="text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white text-sm font-semibold transition"
+                  className="text-zinc-700 dark:text-zinc-300 hover:text-black dark:hover:text-white text-sm font-semibold transition"
                 >
                   {link.label}
                 </Link>
@@ -85,7 +87,7 @@ export default function Navbar() {
 
           {/* Cart */}
           <Link href="/cart" className="relative bg-card p-2 rounded-lg">
-            <ShoppingBasket className="w-5 h-5 text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white" />
+            <ShoppingBasket className="w-5 h-5 text-zinc-700 dark:text-zinc-300 hover:text-black dark:hover:text-white" />
             <AnimatePresence>
               {cartItems.length > 0 && (
                 <motion.span
@@ -129,7 +131,7 @@ export default function Navbar() {
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
-            <div className="flex items-center justify-between p-6 border-b border-gray-100">
+            <div className="flex items-center justify-between p-6 border-b border-zinc-100">
               <div
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                 className="flex items-center space-x-3 cursor-pointer"
@@ -146,9 +148,9 @@ export default function Navbar() {
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                 variant="ghost"
                 size="sm"
-                className="hover:bg-gray-100 rounded-full p-2"
+                className="hover:bg-zinc-100 rounded-full p-2"
               >
-                <X className="w-6 h-6 text-gray-600" />
+                <X className="w-6 h-6 text-zinc-600" />
               </Button>
             </div>
 
@@ -167,9 +169,9 @@ export default function Navbar() {
                     <Link
                       href={link.href}
                       onClick={() => setIsMenuOpen(false)}
-                      className="flex items-center space-x-3 text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white text-lg font-medium transition-all duration-300 py-4 px-4 rounded-xl hover:bg-white dark:hover:bg-gray-800 hover:shadow-md group"
+                      className="flex items-center space-x-3 text-zinc-700 dark:text-zinc-300 hover:text-black dark:hover:text-white text-lg font-medium transition-all duration-300 py-4 px-4 rounded-xl hover:bg-white dark:hover:bg-zinc-800 hover:shadow-md group"
                     >
-                      <span className="w-2 h-2 bg-gray-400 dark:bg-gray-500 rounded-full group-hover:bg-black dark:group-hover:bg-white transition-colors"></span>
+                      <span className="w-2 h-2 bg-zinc-400 dark:bg-zinc-500 rounded-full group-hover:bg-black dark:group-hover:bg-white transition-colors"></span>
                       <span>{link.label}</span>
                     </Link>
                   </motion.div>
@@ -178,8 +180,8 @@ export default function Navbar() {
             </nav>
 
             {/* Footer */}
-            <div className="p-6 border-t border-gray-100 dark:border-gray-700">
-              <p className="text-sm text-gray-500 dark:text-gray-400 text-center">
+            <div className="p-6 border-t border-zinc-100 dark:border-zinc-700">
+              <p className="text-sm text-zinc-500 dark:text-zinc-400 text-center">
                 &copy; {new Date().getFullYear()} Tama Clothing. All rights
                 reserved.
               </p>

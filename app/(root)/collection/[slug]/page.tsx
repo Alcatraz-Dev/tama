@@ -112,7 +112,7 @@ export default async function CollectionPage({ params, searchParams }: Collectio
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-black dark:text-white">
             Collection Pieces ({collection.totalProducts || 0})
           </h2>
-          <p className="text-gray-600 dark:text-gray-400 max-w-2xl">
+          <p className="text-zinc-600 dark:text-zinc-400 max-w-2xl">
             Discover the complete {collection.title} collection. Each piece is carefully curated to reflect our vision for {collection.season} {collection.year}.
           </p>
         </div>
@@ -126,7 +126,7 @@ export default async function CollectionPage({ params, searchParams }: Collectio
               <select
                 name="category"
                 defaultValue={resolvedSearchParams.category || ''}
-                className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white bg-white dark:bg-gray-700 text-black dark:text-white"
+                className="px-3 py-2 border border-zinc-300 dark:border-zinc-600 rounded-md focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white bg-white dark:bg-zinc-700 text-black dark:text-white"
               >
                 <option value="">All Categories</option>
                 {/* Add category options dynamically if needed */}
@@ -139,7 +139,7 @@ export default async function CollectionPage({ params, searchParams }: Collectio
                 name="minPrice"
                 defaultValue={resolvedSearchParams.minPrice || ''}
                 placeholder="0"
-                className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white w-24 bg-white dark:bg-gray-700 text-black dark:text-white"
+                className="px-3 py-2 border border-zinc-300 dark:border-zinc-600 rounded-md focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white w-24 bg-white dark:bg-zinc-700 text-black dark:text-white"
               />
             </div>
             <div>
@@ -149,13 +149,13 @@ export default async function CollectionPage({ params, searchParams }: Collectio
                 name="maxPrice"
                 defaultValue={resolvedSearchParams.maxPrice || ''}
                 placeholder="1000"
-                className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white w-24 bg-white dark:bg-gray-700 text-black dark:text-white"
+                className="px-3 py-2 border border-zinc-300 dark:border-zinc-600 rounded-md focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white w-24 bg-white dark:bg-zinc-700 text-black dark:text-white"
               />
             </div>
-            <Button type="submit" variant="outline" className="border-gray-300 dark:border-gray-600 text-black dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700">Apply Filters</Button>
+            <Button type="submit" variant="outline" className="border-zinc-300 dark:border-zinc-600 text-black dark:text-white hover:bg-zinc-50 dark:hover:bg-zinc-700">Apply Filters</Button>
             {(resolvedSearchParams.category || resolvedSearchParams.minPrice || resolvedSearchParams.maxPrice) && (
               <Link href={`/collection/${resolvedParams.slug}`}>
-                <Button variant="ghost" className="text-black dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700">Clear Filters</Button>
+                <Button variant="ghost" className="text-black dark:text-white hover:bg-zinc-50 dark:hover:bg-zinc-700">Clear Filters</Button>
               </Link>
             )}
           </form>
@@ -196,7 +196,7 @@ export default async function CollectionPage({ params, searchParams }: Collectio
           </>
         ) : (
           <div className="text-center py-16">
-            <p className="text-gray-500 dark:text-gray-400 text-lg">No products in this collection yet.</p>
+            <p className="text-zinc-500 dark:text-zinc-400 text-lg">No products in this collection yet.</p>
             <Link href="/products">
               <Button className="mt-4">Browse All Products</Button>
             </Link>

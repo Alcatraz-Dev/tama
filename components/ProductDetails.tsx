@@ -323,23 +323,34 @@ export function ProductDetails({ product }: { product: Product }) {
   return (
     <div className="min-h-screen bg-background">
       {/* Breadcrumb Navigation */}
-      <div className=" border-b border-gray-300 dark:border-gray-600">
+      <div className=" border-b border-zinc-300 dark:border-zinc-600">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
-          <nav className="flex items-center space-x-1 sm:space-x-2 text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+          <nav className="flex items-center space-x-1 sm:space-x-2 text-xs sm:text-sm text-zinc-600 dark:text-zinc-400">
             <Link href="/" className="flex items-center hover:text-fashion-dark transition-colors duration-200 p-1 rounded">
               <Home className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
               <span className="hidden sm:inline">Home</span>
             </Link>
-            <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4 text-gray-400" />
+            <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4 text-zinc-400" />
+            {product.collection && (
+              <>
+                <Link
+                  href={`/collection/${product.collection.slug.current}`}
+                  className="hover:text-fashion-dark transition-colors duration-200 p-1 rounded truncate max-w-[120px] sm:max-w-none"
+                >
+                  {product.collection.title}
+                </Link>
+                <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4 text-zinc-400 " />
+              </>
+            )}
             {product.category && (
               <>
                 <Link
-                  href={`/collection/${product.category.slug?.current}`}
+                  href={`/category/${product.category.slug.current}`}
                   className="hover:text-fashion-dark transition-colors duration-200 p-1 rounded truncate max-w-[120px] sm:max-w-none"
                 >
                   {product.category.title}
                 </Link>
-                <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4 text-gray-400 " />
+                <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4 text-zinc-400 " />
               </>
             )}
             <span className="text-fashion-dark font-medium truncate">{product.title}</span>
