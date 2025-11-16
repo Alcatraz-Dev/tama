@@ -234,7 +234,7 @@ export function ProductDetails({ product }: { product: Product }) {
 
   const handleShare = (platform: string) => {
     const url = encodeURIComponent(shareUrl);
-    const text = encodeURIComponent(`Check out this ${product.title}!`);
+    const text = encodeURIComponent(t('checkOutThisProduct', { title: product.title }));
 
     let shareLink = '';
     switch (platform) {
@@ -247,7 +247,7 @@ export function ProductDetails({ product }: { product: Product }) {
       case 'instagram':
         // Instagram doesn't support direct sharing, so we'll copy to clipboard
         navigator.clipboard.writeText(`${text} ${shareUrl}`);
-        toast.success("Link copied to clipboard!");
+        toast.success(t('linkCopiedToClipboard'));
         return;
       case 'linkedin':
         shareLink = `https://www.linkedin.com/sharing/share-offsite/?url=${url}`;
@@ -327,7 +327,7 @@ export function ProductDetails({ product }: { product: Product }) {
           <nav className="flex items-center space-x-1 sm:space-x-2 text-xs sm:text-sm text-zinc-600 dark:text-zinc-400">
             <Link href="/" className="flex items-center hover:text-fashion-dark transition-colors duration-200 p-1 rounded">
               <Home className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
-              <span className="hidden sm:inline">Home</span>
+              <span className="hidden sm:inline"> {t("home")} </span>
             </Link>
             <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4 text-zinc-400" />
             {product.collection && (
@@ -617,7 +617,7 @@ export function ProductDetails({ product }: { product: Product }) {
                 {/* Materials */}
                 {product.materials && product.materials.length > 0 && (
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Materials</h3>
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">{t('materials')}</h3>
                     <ul className="list-disc list-inside text-gray-600 dark:text-gray-400 space-y-1">
                       {product.materials.map((material: string, i: number) => (
                         <li key={i}>{material}</li>
@@ -629,7 +629,7 @@ export function ProductDetails({ product }: { product: Product }) {
                 {/* Care Instructions */}
                 {product.careInstructions && product.careInstructions.length > 0 && (
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Care Instructions</h3>
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">{t('careInstructions')}</h3>
                     <ul className="list-disc list-inside text-gray-600 dark:text-gray-400 space-y-1">
                       {product.careInstructions.map((instruction: string, i: number) => (
                         <li key={i}>{instruction}</li>
@@ -641,7 +641,7 @@ export function ProductDetails({ product }: { product: Product }) {
                 {/* Product Details */}
                 {product.productDetails && product.productDetails.length > 0 && (
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Details</h3>
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">{t('details')}</h3>
                     <div className="space-y-2">
                       {product.productDetails.map((detail, i: number) => (
                         <div key={i} className="flex justify-between py-2 border-b border-gray-100 dark:border-gray-700 last:border-b-0">
@@ -658,27 +658,27 @@ export function ProductDetails({ product }: { product: Product }) {
                   <div className="flex items-start space-x-3">
                     <Truck className="w-4 h-4 text-gray-600 dark:text-gray-400 mt-1" />
                     <div>
-                      <h4 className="font-semibold text-gray-900 dark:text-white text-sm">Shipping Information</h4>
+                      <h4 className="font-semibold text-gray-900 dark:text-white text-sm">{t('shippingInformation')}</h4>
                       <p className="text-gray-600 dark:text-gray-400 text-xs mt-1">
-                        {product.shippingInfo || "Free shipping on orders over 100 DT. Standard delivery within 3-5 business days."}
+                        {product.shippingInfo || t('freeShippingInfo')}
                       </p>
                     </div>
                   </div>
                   <div className="flex items-start space-x-3">
                     <RotateCcw className="w-4 h-4 text-gray-600 dark:text-gray-400 mt-1" />
                     <div>
-                      <h4 className="font-semibold text-gray-900 dark:text-white text-sm">Returns & Exchanges</h4>
+                      <h4 className="font-semibold text-gray-900 dark:text-white text-sm">{t('returnsExchanges')}</h4>
                       <p className="text-gray-600 dark:text-gray-400 text-xs mt-1">
-                        {product.returnPolicy || "30-day return policy. Items must be unused and in original packaging."}
+                        {product.returnPolicy || t('returnPolicy')}
                       </p>
                     </div>
                   </div>
                   <div className="flex items-start space-x-3">
                     <Shield className="w-4 h-4 text-gray-600 dark:text-gray-400 mt-1" />
                     <div>
-                      <h4 className="font-semibold text-gray-900 dark:text-white text-sm">Warranty</h4>
+                      <h4 className="font-semibold text-gray-900 dark:text-white text-sm">{t('warranty')}</h4>
                       <p className="text-gray-600 dark:text-gray-400 text-xs mt-1">
-                        1-year warranty against manufacturing defects.
+                        {t('warrantyInfo')}
                       </p>
                     </div>
                   </div>
@@ -719,22 +719,22 @@ export function ProductDetails({ product }: { product: Product }) {
           {/* Review Form */}
           {showReviewForm && (
             <div className="mb-8 p-4 bg-gray-50 dark:bg-zinc-900 rounded-lg">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Write Your Review</h3>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">{t('writeYourReview')}</h3>
               <form onSubmit={handleReviewSubmit} className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Your Name</label>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('yourName')}</label>
                   <input
                     type="text"
                     value={reviewerName}
                     onChange={(e) => setReviewerName(e.target.value)}
-                    placeholder="Enter your name"
+                    placeholder={t('enterYourName')}
                     className="w-full border border-gray-300 dark:border-zinc-600 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-fashion-gold bg-white dark:bg-zinc-800 text-black dark:text-white"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Rating</label>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('rating')}</label>
                   <div className="flex space-x-1">
                     {[1, 2, 3, 4, 5].map((star) => (
                       <button
@@ -752,11 +752,11 @@ export function ProductDetails({ product }: { product: Product }) {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Your Review</label>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('yourReview')}</label>
                   <textarea
                     value={reviewText}
                     onChange={(e) => setReviewText(e.target.value)}
-                    placeholder="Share your thoughts about this product..."
+                    placeholder={t('shareThoughts')}
                     rows={4}
                     className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-fashion-gold bg-white dark:bg-zinc-800 text-black dark:text-white resize-none"
                     required
@@ -769,7 +769,7 @@ export function ProductDetails({ product }: { product: Product }) {
                     disabled={isSubmittingReview}
                     className="bg-fashion-gold hover:bg-yellow-500 text-black font-semibold px-6 py-2 rounded-lg transition-colors disabled:opacity-50"
                   >
-                    {isSubmittingReview ? "Submitting..." : "Submit Review"}
+                    {isSubmittingReview ? t('submitting') : t('submitReview')}
                   </Button>
                   <Button
                     type="button"
@@ -777,7 +777,7 @@ export function ProductDetails({ product }: { product: Product }) {
                     variant="outline"
                     className="px-6 py-2"
                   >
-                    Cancel
+                    {t('cancel')}
                   </Button>
                 </div>
               </form>
@@ -808,7 +808,7 @@ export function ProductDetails({ product }: { product: Product }) {
                           </div>
                           {review.verifiedPurchase && (
                             <span className="text-[9px] bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 px-2 py-1 rounded-full">
-                              Verified Purchase
+                              {t('verifiedPurchase')}
                             </span>
                           )}
                         </div>
@@ -825,8 +825,8 @@ export function ProductDetails({ product }: { product: Product }) {
           ) : (
             <div className="text-center py-12">
               <Star className="w-10 h-10 lg:w-14 lg:h-14 text-gray-300 dark:text-gray-600 mx-auto mb-4" />
-              <p className="text-gray-600 dark:text-gray-400 lg:text-lg text-sm">No reviews yet</p>
-              <p className="text-gray-500 dark:text-gray-500 lg:text-lg text-sm">Be the first to review this product!</p>
+              <p className="text-gray-600 dark:text-gray-400 lg:text-lg text-sm">{t('noReviewsYet')}</p>
+              <p className="text-gray-500 dark:text-gray-500 lg:text-lg text-sm">{t('beFirstToReview')}</p>
             </div>
           )}
         </div>
@@ -836,7 +836,7 @@ export function ProductDetails({ product }: { product: Product }) {
           <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-4">
             <div className="bg-card rounded-2xl p-8 max-w-md w-full max-h-[90vh] overflow-y-auto">
               <div className="flex items-center justify-between mb-6">
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white">Complete Your Order</h3>
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white">{t('completeYourOrder')}</h3>
                 <button
                   onClick={() => setShowShopForm(false)}
                   className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors"
@@ -847,10 +847,10 @@ export function ProductDetails({ product }: { product: Product }) {
 
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Full Name</label>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('fullName')}</label>
                   <input
                     type="text"
-                    placeholder="Enter your full name"
+                    placeholder={t('enterYourFullName')}
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
                     className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white bg-white dark:bg-gray-700 text-black dark:text-white"
@@ -859,14 +859,14 @@ export function ProductDetails({ product }: { product: Product }) {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Town</label>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('town')}</label>
                   <select
                     value={town}
                     onChange={(e) => setTown(e.target.value)}
                     className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white bg-white dark:bg-gray-700 text-black dark:text-white"
                     required
                   >
-                    <option value="">Select your town</option>
+                    <option value="">{t('selectYourTown')}</option>
                     {tunisianTowns.map((t, i) => (
                       <option key={i} value={t}>
                         {t}
@@ -876,10 +876,10 @@ export function ProductDetails({ product }: { product: Product }) {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Location</label>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('location')}</label>
                   <input
                     type="text"
-                    placeholder="Enter your location"
+                    placeholder={t('enterYourLocation')}
                     value={location}
                     onChange={(e) => setLocation(e.target.value)}
                     className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white bg-white dark:bg-gray-700 text-black dark:text-white"
@@ -888,10 +888,10 @@ export function ProductDetails({ product }: { product: Product }) {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Phone Number</label>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('phoneNumber')}</label>
                   <input
                     type="tel"
-                    placeholder="Enter your phone number"
+                    placeholder={t('enterYourPhoneNumber')}
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white bg-white dark:bg-gray-700 text-black dark:text-white"
@@ -904,7 +904,7 @@ export function ProductDetails({ product }: { product: Product }) {
                   className="w-full bg-black dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-200 text-white dark:text-black py-4 rounded-lg font-semibold text-lg"
                   disabled={isSubmitting}
                 >
-                  {isSubmitting ? "Submitting..." : "Complete Order"}
+                  {isSubmitting ? t('submitting') : t('completeOrder')}
                 </Button>
               </form>
             </div>

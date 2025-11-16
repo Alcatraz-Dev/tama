@@ -158,7 +158,46 @@ export type TranslationKey =
   | 'discoverProductsInStyleStory'
   | 'noProductsInStyleStory'
   | 'styleStoryNoProductsYet'
-  | 'browseAllProducts';
+  | 'browseAllProducts'
+  | 'materials'
+  | 'careInstructions'
+  | 'details'
+  | 'shippingInformation'
+  | 'freeShippingInfo'
+  | 'returnsExchanges'
+  | 'returnPolicy'
+  | 'warranty'
+  | 'warrantyInfo'
+  | 'writeYourReview'
+  | 'yourName'
+  | 'enterYourName'
+  | 'rating'
+  | 'yourReview'
+  | 'shareThoughts'
+  | 'submitting'
+  | 'submitReview'
+  | 'noReviewsYet'
+  | 'beFirstToReview'
+  | 'verifiedPurchase'
+  | 'completeYourOrder'
+  | 'fullName'
+  | 'enterYourFullName'
+  | 'town'
+  | 'selectYourTown'
+  | 'location'
+  | 'enterYourLocation'
+  | 'phoneNumber'
+  | 'enterYourPhoneNumber'
+  | 'completeOrder'
+  | 'quantity'
+  | 'buyNow'
+  | 'shareProduct'
+  | 'cancelReview'
+  | 'writeReview'
+  | 'reviewSubmitted'
+  | 'thankYouFeedback'
+  | 'checkOutThisProduct'
+  | 'linkCopiedToClipboard';
 
 export const translations = {
   en: {
@@ -315,6 +354,44 @@ export const translations = {
     discoverProductsInStyleStory: 'Discover the products featured in this {{title}} style story.',
     noProductsInStyleStory: 'No Products in this Style Story',
     styleStoryNoProductsYet: 'This style story doesn\'t have any products yet.',
+    materials: 'Materials',
+    careInstructions: 'Care Instructions',
+    details: 'Details',
+    shippingInformation: 'Shipping Information',
+    freeShippingInfo: 'Free shipping on orders over 100 DT. Standard delivery within 3-5 business days.',
+    returnsExchanges: 'Returns & Exchanges',
+    returnPolicy: '30-day return policy. Items must be unused and in original packaging.',
+    warranty: 'Warranty',
+    warrantyInfo: '1-year warranty against manufacturing defects.',
+    writeYourReview: 'Write Your Review',
+    yourName: 'Your Name',
+    enterYourName: 'Enter your name',
+    rating: 'Rating',
+    yourReview: 'Your Review',
+    shareThoughts: 'Share your thoughts about this product...',
+    submitting: 'Submitting...',
+    submitReview: 'Submit Review',
+    noReviewsYet: 'No reviews yet',
+    beFirstToReview: 'Be the first to review this product!',
+    verifiedPurchase: 'Verified Purchase',
+    completeYourOrder: 'Complete Your Order',
+    fullName: 'Full Name',
+    enterYourFullName: 'Enter your full name',
+    town: 'Town',
+    selectYourTown: 'Select your town',
+    location: 'Location',
+    enterYourLocation: 'Enter your location',
+    phoneNumber: 'Phone Number',
+    enterYourPhoneNumber: 'Enter your phone number',
+    completeOrder: 'Complete Order',
+    quantity: 'Quantity',
+    buyNow: 'Buy Now',
+    shareProduct: 'Share Product',
+    cancelReview: 'Cancel Review',
+    reviewSubmitted: 'Review Submitted',
+    thankYouFeedback: 'Thank you for your feedback!',
+    checkOutThisProduct: 'Check out this {{title}}!',
+    linkCopiedToClipboard: 'Link copied to clipboard!',
   },
   fr: {
     home: 'Accueil',
@@ -470,6 +547,44 @@ export const translations = {
     discoverProductsInStyleStory: 'Découvrez les produits présentés dans cette histoire de style {{title}}.',
     noProductsInStyleStory: 'Aucun Produit dans cette Histoire de Style',
     styleStoryNoProductsYet: 'Cette histoire de style n\'a pas encore de produits.',
+    materials: 'Matériaux',
+    careInstructions: 'Instructions d\'entretien',
+    details: 'Détails',
+    shippingInformation: 'Informations de livraison',
+    freeShippingInfo: 'Livraison gratuite pour les commandes de plus de 100 DT. Livraison standard sous 3-5 jours ouvrables.',
+    returnsExchanges: 'Retours et Échanges',
+    returnPolicy: 'Politique de retour de 30 jours. Les articles doivent être inutilisés et dans leur emballage d\'origine.',
+    warranty: 'Garantie',
+    warrantyInfo: 'Garantie de 1 an contre les défauts de fabrication.',
+    writeYourReview: 'Écrivez Votre Avis',
+    yourName: 'Votre Nom',
+    enterYourName: 'Entrez votre nom',
+    rating: 'Évaluation',
+    yourReview: 'Votre Avis',
+    shareThoughts: 'Partagez vos pensées sur ce produit...',
+    submitting: 'Soumission...',
+    submitReview: 'Soumettre l\'Avis',
+    noReviewsYet: 'Aucun avis pour le moment',
+    beFirstToReview: 'Soyez le premier à donner votre avis sur ce produit !',
+    verifiedPurchase: 'Achat Vérifié',
+    completeYourOrder: 'Complétez Votre Commande',
+    fullName: 'Nom Complet',
+    enterYourFullName: 'Entrez votre nom complet',
+    town: 'Ville',
+    selectYourTown: 'Sélectionnez votre ville',
+    location: 'Emplacement',
+    enterYourLocation: 'Entrez votre emplacement',
+    phoneNumber: 'Numéro de Téléphone',
+    enterYourPhoneNumber: 'Entrez votre numéro de téléphone',
+    completeOrder: 'Compléter la Commande',
+    quantity: 'Quantité',
+    buyNow: 'Acheter Maintenant',
+    shareProduct: 'Partager le Produit',
+    cancelReview: 'Annuler l\'Avis',
+    reviewSubmitted: 'Avis Soumis',
+    thankYouFeedback: 'Merci pour votre retour !',
+    checkOutThisProduct: 'Découvrez ce {{title}} !',
+    linkCopiedToClipboard: 'Lien copié dans le presse-papiers !',
   },
   ar: {
     home: 'الرئيسية',
@@ -625,5 +740,43 @@ export const translations = {
     discoverProductsInStyleStory: 'اكتشف المنتجات المميزة في قصة الأسلوب هذه {{title}}.',
     noProductsInStyleStory: 'لا توجد منتجات في قصة الأسلوب هذه',
     styleStoryNoProductsYet: 'قصة الأسلوب هذه لا تحتوي على أي منتجات بعد.',
+    materials: 'المواد',
+    careInstructions: 'تعليمات العناية',
+    details: 'التفاصيل',
+    shippingInformation: 'معلومات الشحن',
+    freeShippingInfo: 'شحن مجاني للطلبات التي تزيد عن 100 دينار تونسي. التسليم القياسي خلال 3-5 أيام عمل.',
+    returnsExchanges: 'الإرجاع والتبادل',
+    returnPolicy: 'سياسة إرجاع لمدة 30 يوماً. يجب أن تكون العناصر غير مستخدمة وفي تغليفها الأصلي.',
+    warranty: 'الضمان',
+    warrantyInfo: 'ضمان لمدة عام واحد ضد عيوب التصنيع.',
+    writeYourReview: 'اكتب مراجعتك',
+    yourName: 'اسمك',
+    enterYourName: 'أدخل اسمك',
+    rating: 'التقييم',
+    yourReview: 'مراجعتك',
+    shareThoughts: 'شارك أفكارك حول هذا المنتج...',
+    submitting: 'جارٍ الإرسال...',
+    submitReview: 'إرسال المراجعة',
+    noReviewsYet: 'لا توجد مراجعات بعد',
+    beFirstToReview: 'كن أول من يراجع هذا المنتج!',
+    verifiedPurchase: 'شراء موثق',
+    completeYourOrder: 'أكمل طلبك',
+    fullName: 'الاسم الكامل',
+    enterYourFullName: 'أدخل اسمك الكامل',
+    town: 'المدينة',
+    selectYourTown: 'اختر مدينتك',
+    location: 'الموقع',
+    enterYourLocation: 'أدخل موقعك',
+    phoneNumber: 'رقم الهاتف',
+    enterYourPhoneNumber: 'أدخل رقم هاتفك',
+    completeOrder: 'إتمام الطلب',
+    quantity: 'الكمية',
+    buyNow: 'اشترِ الآن',
+    shareProduct: 'مشاركة المنتج',
+    cancelReview: 'إلغاء المراجعة',
+    reviewSubmitted: 'تم إرسال المراجعة',
+    thankYouFeedback: 'شكراً لملاحظاتك!',
+    checkOutThisProduct: 'تحقق من هذا {{title}}!',
+    linkCopiedToClipboard: 'تم نسخ الرابط إلى الحافظة!',
   },
 };
