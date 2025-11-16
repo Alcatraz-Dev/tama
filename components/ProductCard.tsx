@@ -45,7 +45,7 @@ export default function ProductCard({
   const secondImage = product.gallery?.[1]?.asset?.url;
   const { addToCart } = useCartStore();
   const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlistStore();
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
 
   useEffect(() => {
     setMounted(true);
@@ -220,7 +220,7 @@ export default function ProductCard({
         </div>
 
         <h3 className="text-sm sm:text-base lg:text-lg font-semibold line-clamp-2 text-center max-w-[90%] mt-8 mb-2 leading-tight">
-          {highlightText(product.title, searchQuery)}
+          {highlightText(language === 'en' ? product.title : (product[`title_${language}` as keyof Product] as string) || product.title, searchQuery)}
         </h3>
 
         {/* Reviews */}
@@ -243,9 +243,9 @@ export default function ProductCard({
           </div>
         )}
 
-        {product.description && product.description.trim() && (
+        {(language === 'en' ? product.description : (product[`description_${language}` as keyof Product] as string) || product.description) && (language === 'en' ? product.description : (product[`description_${language}` as keyof Product] as string) || product.description)?.trim() && (
           <p className="text-black dark:text-zinc-300 font-semibold text-xs sm:text-sm my-1 line-clamp-2 text-center leading-relaxed">
-            {highlightText(product.description, searchQuery)}
+            {highlightText(language === 'en' ? product.description : (product[`description_${language}` as keyof Product] as string) || product.description, searchQuery)}
           </p>
         )}
 

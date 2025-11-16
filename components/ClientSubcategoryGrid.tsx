@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { useTranslation } from "@/lib/translationContext";
 
 interface Category {
   _id: string;
@@ -14,6 +15,7 @@ interface Props {
 }
 
 export default function ClientSubcategoryGrid({ categories }: Props) {
+  const { t } = useTranslation();
   const containerVariants = {
     hidden: {},
     visible: {
@@ -29,7 +31,7 @@ export default function ClientSubcategoryGrid({ categories }: Props) {
   return (
     <section className="w-full max-w-7xl mx-auto px-6 py-12">
       <h2 className="text-2xl md:text-4xl font-semibold text-center mb-8 px-10 capitalize flex justify-start text-black dark:text-white">
-        Our Category List
+        {t('ourCategoryList')}
       </h2>
       <motion.div
         className="grid grid-cols-2 md:grid-cols-3 gap-6 px-6"
@@ -65,7 +67,7 @@ export default function ClientSubcategoryGrid({ categories }: Props) {
                 {sub.title}
               </h3>
               <p className="text-sm md:text-base drop-shadow-2xl">
-                {sub.productCount} items
+                {sub.productCount} {t('categoryItems')}
               </p>
             </div>
           </motion.div>

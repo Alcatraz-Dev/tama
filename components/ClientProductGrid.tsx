@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { ProductGridSkeleton } from "./ui/skeleton";
 import ProductCard from "./ProductCard";
 import { Product } from "@/lib/types";
+import { useTranslation } from "@/lib/translationContext";
 
 interface Props {
   products: Product[];
@@ -11,6 +12,7 @@ interface Props {
 
 
 export default function ClientProductGrid({ products, loading = false }: Props) {
+  const { t } = useTranslation();
   const containerVariants = {
     hidden: {},
     visible: {
@@ -28,7 +30,7 @@ export default function ClientProductGrid({ products, loading = false }: Props) 
           transition={{ duration: 0.6 }}
           className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-6 sm:mb-8 md:mb-12 tracking-tight text-fashion-dark dark:text-white"
         >
-          Our Products
+          {t('ourProducts')}
         </motion.h2>
 
         {loading ? (
@@ -40,8 +42,8 @@ export default function ClientProductGrid({ products, loading = false }: Props) 
             className="text-center py-12"
           >
             <div className="text-6xl mb-4">🛍️</div>
-            <h3 className="text-xl font-semibold text-fashion-dark dark:text-white mb-2">No products found</h3>
-            <p className="text-fashion-charcoal/70 dark:text-gray-400">Try adjusting your search or filters</p>
+            <h3 className="text-xl font-semibold text-fashion-dark dark:text-white mb-2">{t('noProductsFound')}</h3>
+            <p className="text-fashion-charcoal/70 dark:text-gray-400">{t('tryAdjustingSearch')}</p>
           </motion.div>
         ) : (
           <motion.div

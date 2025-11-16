@@ -7,10 +7,12 @@ import { Button } from "./ui/button";
 import { ArrowRight } from "lucide-react";
 import { getCollectionsLimit } from "@/lib/useQuery";
 import { Category } from "@/lib/types";
+import { useTranslation } from "@/lib/translationContext";
 
 export default function CollectionGrid() {
   const [collections, setCollections] = useState<Category[]>([]);
   const router = useRouter();
+  const { t } = useTranslation();
 
   useEffect(() => {
     getCollectionsLimit(5).then(setCollections);
@@ -19,7 +21,7 @@ export default function CollectionGrid() {
   return (
     <section className="py-12">
       <h2 className="text-2xl md:text-4xl font-bold text-center mb-12 tracking-tight mt-10 text-black dark:text-white">
-        Our Featured Collections
+        {t('ourFeaturedCollections')}
       </h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-6 max-w-7xl mx-auto">

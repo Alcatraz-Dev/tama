@@ -1,6 +1,7 @@
 import { Search, Clock, Mic, MicOff } from "lucide-react";
 import React, { useState, useEffect, useRef } from "react";
 import { getSearchSuggestions } from "@/lib/useQuery";
+import { useTranslation } from "@/lib/translationContext";
 
 interface SpeechRecognition extends EventTarget {
   continuous: boolean;
@@ -61,6 +62,7 @@ function SearchInput({
   onChange,
   onSuggestionSelect,
 }: SearchInputProps) {
+  const { t } = useTranslation();
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -186,7 +188,7 @@ function SearchInput({
       !("webkitSpeechRecognition" in window) &&
       !("SpeechRecognition" in window)
     ) {
-      alert("Voice search is not supported in this browser.");
+      alert(t('voiceSearchNotSupported'));
       return;
     }
 
@@ -272,7 +274,7 @@ function SearchInput({
           onChange={(e) => handleInputChange(e.target.value)}
           onKeyDown={handleKeyDown}
           onFocus={() => setShowSuggestions(true)}
-          placeholder="Search products..."
+          placeholder={t('searchPlaceholder')}
           className="flex-1 outline-none text-sm sm:text-base bg-transparent placeholder:text-gray-400 dark:placeholder:text-gray-500"
         />
         <button
@@ -282,8 +284,8 @@ function SearchInput({
               ? "bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-400 hover:bg-red-200 dark:hover:bg-red-800"
               : "hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
           } active:scale-95`}
-          title={isListening ? "Stop voice search" : "Start voice search"}
-          aria-label={isListening ? "Stop voice search" : "Start voice search"}
+          title={isListening ? t('stopVoiceSearch') : t('startVoiceSearch')}
+          aria-label={isListening ? t('stopVoiceSearch') : t('startVoiceSearch')}
         >
           {isListening ? (
             <MicOff className="w-4 h-4" />
@@ -328,7 +330,7 @@ function SearchInput({
             ) : (
               <>
                 <div className="px-4 py-3 text-xs font-semibold text-fashion-dark dark:text-white border-b border-gray-100 dark:border-gray-600 bg-gray-50 dark:bg-gray-700">
-                  Recent Searches
+                  {t('recentSearches')}
                 </div>
                 <div className="py-2">
                   {recentSearches.map((searchTerm, index) => (

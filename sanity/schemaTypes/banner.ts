@@ -15,17 +15,47 @@ export default defineType({
     },
     {
       name: "title",
-      title: "Title",
+      title: "Title (English)",
+      type: "string",
+    },
+    {
+      name: "title_fr",
+      title: "Title (French)",
+      type: "string",
+    },
+    {
+      name: "title_ar",
+      title: "Title (Arabic)",
       type: "string",
     },
     {
       name: "subtitle",
-      title: "Subtitle",
+      title: "Subtitle (English)",
+      type: "string",
+    },
+    {
+      name: "subtitle_fr",
+      title: "Subtitle (French)",
+      type: "string",
+    },
+    {
+      name: "subtitle_ar",
+      title: "Subtitle (Arabic)",
       type: "string",
     },
     {
       name: "buttonText",
-      title: "Button Text",
+      title: "Button Text (English)",
+      type: "string",
+    },
+    {
+      name: "buttonText_fr",
+      title: "Button Text (French)",
+      type: "string",
+    },
+    {
+      name: "buttonText_ar",
+      title: "Button Text (Arabic)",
       type: "string",
     },
     {

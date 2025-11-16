@@ -9,9 +9,19 @@ export default defineType({
   fields: [
     defineField({
       name: "title",
-      title: "Card Title",
+      title: "Card Title (English)",
       type: "string",
       validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: "title_fr",
+      title: "Card Title (French)",
+      type: "string",
+    }),
+    defineField({
+      name: "title_ar",
+      title: "Card Title (Arabic)",
+      type: "string",
     }),
     defineField({
       name: "cardType",
@@ -29,7 +39,19 @@ export default defineType({
     }),
     defineField({
       name: "content",
-      title: "Card Content (for text card)",
+      title: "Card Content (English, for text card)",
+      type: "text",
+      hidden: ({ parent }) => parent?.cardType !== "text",
+    }),
+    defineField({
+      name: "content_fr",
+      title: "Card Content (French, for text card)",
+      type: "text",
+      hidden: ({ parent }) => parent?.cardType !== "text",
+    }),
+    defineField({
+      name: "content_ar",
+      title: "Card Content (Arabic, for text card)",
       type: "text",
       hidden: ({ parent }) => parent?.cardType !== "text",
     }),
@@ -44,7 +66,19 @@ export default defineType({
     }),
     defineField({
       name: "buttonText",
-      title: "Button Text",
+      title: "Button Text (English)",
+      type: "string",
+      hidden: ({ parent }) => parent?.cardType !== "text",
+    }),
+    defineField({
+      name: "buttonText_fr",
+      title: "Button Text (French)",
+      type: "string",
+      hidden: ({ parent }) => parent?.cardType !== "text",
+    }),
+    defineField({
+      name: "buttonText_ar",
+      title: "Button Text (Arabic)",
       type: "string",
       hidden: ({ parent }) => parent?.cardType !== "text",
     }),

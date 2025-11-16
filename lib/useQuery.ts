@@ -13,10 +13,16 @@ export async function getHeroCards() {
   const query = `*[_type == "heroCard"] | order(order asc){
     _id,
     title,
+    title_fr,
+    title_ar,
     content,
+    content_fr,
+    content_ar,
     cardType,
     "imageUrl": image.asset->url,
     buttonText,
+    buttonText_fr,
+    buttonText_ar,
     buttonLink,
     withButton,
     withIcon,
@@ -28,9 +34,15 @@ export async function getHeroCards() {
   return results.map((item: Record<string, unknown>) => ({
     type: item.cardType,
     title: item.title,
+    title_fr: item.title_fr,
+    title_ar: item.title_ar,
     subtitle: item.content,
+    subtitle_fr: item.content_fr,
+    subtitle_ar: item.content_ar,
     image: item.imageUrl,
     buttonText: item.buttonText,
+    buttonText_fr: item.buttonText_fr,
+    buttonText_ar: item.buttonText_ar,
     buttonLink: item.buttonLink,
     withButton: item.withButton,
     withIcon: item.withIcon,
@@ -58,9 +70,13 @@ export async function getProducts() {
 *[_type == "product"]{
   _id,
   title,
+  title_fr,
+  title_ar,
   price,
   originalPrice,
   description,
+  description_fr,
+  description_ar,
   "slug": slug.current,
   gallery[]{
     _type,
@@ -92,7 +108,11 @@ export async function getProductBySlug(slug: string) {
 *[_type == "product" && slug.current == $slug][0]{
   _id,
   title,
+  title_fr,
+  title_ar,
   description,
+  description_fr,
+  description_ar,
   price,
   originalPrice,
   inStock,
@@ -134,8 +154,14 @@ export async function getBanner() {
   const query = `
 *[_type == "banner"][0]{
   title,
+  title_fr,
+  title_ar,
   subtitle,
+  subtitle_fr,
+  subtitle_ar,
   buttonText,
+  buttonText_fr,
+  buttonText_ar,
   buttonLink,
   "backgroundImageUrl": backgroundImage.asset->url
 }
@@ -150,8 +176,12 @@ export async function getAllProducts() {
 *[_type == "product"]{
   _id,
   title,
+  title_fr,
+  title_ar,
   "slug": slug.current,
   description,
+  description_fr,
+  description_ar,
   price,
   originalPrice,
   inStock,
@@ -207,10 +237,14 @@ export async function getCategoryBySlug(slug: string, productLimit = 12, product
   "products": *[_type == "product" && category._ref == ^._id]{
     _id,
     title,
+    title_fr,
+    title_ar,
     "slug": slug.current,
     price,
     originalPrice,
     description,
+    description_fr,
+    description_ar,
     gallery[]{
       ...,
       _key,
@@ -352,10 +386,14 @@ export async function getCollectionBySlug(slug: string, productLimit = 12, produ
   products${productFilter}[$offset...$limit]->{
     _id,
     title,
+    title_fr,
+    title_ar,
     "slug": slug.current,
     price,
     originalPrice,
     description,
+    description_fr,
+    description_ar,
     "image": gallery[0].asset->url,
     inStock,
     category->{
@@ -427,11 +465,34 @@ export async function getLookbookBySlug(slug: string) {
   "products": products[]->{
     _id,
     title,
+    title_fr,
+    title_ar,
     "slug": slug.current,
     price,
+    originalPrice,
     description,
-    "image": gallery[0].asset->url,
-    inStock
+    description_fr,
+    description_ar,
+    gallery[]{
+      ...,
+      _key,
+      _type,
+      _type == "image" => {
+        asset->{_id, url}
+      },
+      _type == "file" => {
+        ...,
+        asset->{_id, url, originalFilename, mimeType}
+      }
+    },
+    colors[]{hex, name},
+    sizes,
+    inStock,
+    category->{...,},
+    "reviews": {
+      "count": count(*[_type == "review" && product._ref == ^._id]),
+      "averageRating": math::avg(*[_type == "review" && product._ref == ^._id].rating)
+    }
   }
 }
 `;
@@ -459,6 +520,8 @@ export async function getRelatedProducts(categoryId: string, currentProductId: s
 *[_type == "product" && category._ref == $categoryId && _id != $currentProductId][0...${limit}]{
   _id,
   title,
+  title_fr,
+  title_ar,
   price,
   "slug": slug.current,
   gallery[]{

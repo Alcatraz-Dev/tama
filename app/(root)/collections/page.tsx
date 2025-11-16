@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -6,20 +8,26 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, Package, Grid3X3 } from "lucide-react";
 import { Collection } from "@/lib/types";
+import { useTranslation } from "@/lib/translationContext";
 
-export default async function CollectionsPage() {
-  const collections = await getCollections() as Collection[];
+export default function CollectionsPage() {
+  const { t } = useTranslation();
+  const [collections, setCollections] = React.useState<Collection[]>([]);
+
+  React.useEffect(() => {
+    getCollections().then(setCollections);
+  }, []);
 
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative py-20 px-6 bg-gradient-to-br from-zinc-50 to-zinc-100 dark:from-zinc-900 dark:to-zinc-800">
+      <section className="relative py-5 px-6 bg-gradient-to-br from-zinc-50 to-zinc-100 dark:from-zinc-900 dark:to-zinc-800">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-4 mb-6">
             <Link href="/products">
               <Button variant="outline" size="sm" className="border-zinc-300 dark:border-zinc-600 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-700">
                 <ArrowLeft className="w-4 h-4 mr-2" />
-                Back to Products
+                {t('backToProducts')}
               </Button>
             </Link>
           </div>
@@ -28,20 +36,19 @@ export default async function CollectionsPage() {
             <div className="flex items-center justify-center gap-3 mb-6">
               <Grid3X3 className="w-8 h-8 text-zinc-600 dark:text-zinc-400" />
               <h1 className="text-4xl md:text-6xl font-bold text-black dark:text-white">
-                Collections
+                {t('collections')}
               </h1>
             </div>
             <p className="text-lg md:text-xl text-zinc-600 dark:text-zinc-400 max-w-2xl mx-auto leading-relaxed">
-              Explore our curated collections, each telling a unique story through fashion.
-              From seasonal trends to timeless pieces, find your perfect style.
+              {t('collectionsDescription')}
             </p>
 
             <div className="flex items-center justify-center gap-4 mt-6">
               <Badge variant="secondary" className="bg-zinc-200 dark:bg-zinc-700 text-zinc-800 dark:text-zinc-200 px-4 py-2">
-                {collections.length} Collections
+                {collections.length} {t('collections')}
               </Badge>
               <Badge variant="secondary" className="bg-zinc-200 dark:bg-zinc-700 text-zinc-800 dark:text-zinc-200 px-4 py-2">
-                {collections.reduce((total: number, collection) => total + (collection.products?.length || 0), 0)} Products
+                {collections.reduce((total: number, collection) => total + (collection.products?.length || 0), 0)} {t('products')}
               </Badge>
             </div>
           </div>
@@ -84,11 +91,11 @@ export default async function CollectionsPage() {
 
                     <div className="flex items-center justify-between">
                       <Badge variant="outline" className="border-zinc-300 dark:border-zinc-600 text-zinc-700 dark:text-zinc-300">
-                        {collection.products?.length || 0} items
+                        {collection.products?.length || 0} {t('items')}
                       </Badge>
 
                       <div className="text-fashion-gold font-semibold text-sm group-hover:translate-x-1 transition-transform">
-                        Explore Now →
+                        {t('exploreNow')} →
                       </div>
                     </div>
                   </div>
@@ -100,7 +107,7 @@ export default async function CollectionsPage() {
           <div className="text-center py-16">
             <Package className="w-16 h-16 text-zinc-300 dark:text-zinc-600 mx-auto mb-4" />
             <h3 className="text-xl font-semibold text-zinc-600 dark:text-zinc-400 mb-2">
-              No Collections Available
+              {t('noCollectionsAvailable')}
             </h3>
             <p className="text-zinc-500 dark:text-zinc-500 mb-6">
                We&apos;re working on bringing you amazing collections. Check back soon!
@@ -115,16 +122,4 @@ export default async function CollectionsPage() {
       </section>
     </div>
   );
-}
-
-// Generate metadata for SEO
-export async function generateMetadata() {
-  return {
-    title: "Collections | Tama Shop",
-    description: "Explore our curated fashion collections. From seasonal trends to timeless pieces, discover your perfect style with Tama Shop.",
-    openGraph: {
-      title: "Collections | Tama Shop",
-      description: "Explore our curated fashion collections",
-    },
-  };
 }

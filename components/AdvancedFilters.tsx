@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { X, SlidersHorizontal } from "lucide-react";
 import { useFilter } from "@/useFilter";
+import { useTranslation } from "@/lib/translationContext";
 
 interface AdvancedFiltersProps {
   isOpen: boolean;
@@ -21,6 +22,7 @@ export default function AdvancedFilters({
   availableMaterials,
   maxPrice,
 }: AdvancedFiltersProps) {
+  const { t } = useTranslation();
   const {
     priceRange,
     selectedSizes,
@@ -67,7 +69,7 @@ export default function AdvancedFilters({
         <div className="flex items-center justify-between p-3 md:p-4 border-b border-gray-200 dark:border-gray-700">
           <h2 className="text-base md:text-lg font-semibold flex items-center gap-2 text-gray-900 dark:text-white">
             <SlidersHorizontal className="w-4 h-4 md:w-5 md:h-5 text-gray-600 dark:text-gray-300" />
-            Filters
+            {t('filters')}
           </h2>
           <button
             onClick={onClose}
@@ -80,7 +82,7 @@ export default function AdvancedFilters({
         <div className="p-3 md:p-4 space-y-4 md:space-y-6">
           {/* Price Range */}
           <div>
-            <h3 className="text-sm md:text-base font-medium mb-2 md:mb-3 text-gray-900 dark:text-white">Price Range</h3>
+            <h3 className="text-sm md:text-base font-medium mb-2 md:mb-3 text-gray-900 dark:text-white">{t('priceRange')}</h3>
             <div className="space-y-2">
               <div className="flex gap-2">
                 <input
@@ -102,14 +104,14 @@ export default function AdvancedFilters({
                 onClick={applyPriceFilter}
                 className="w-full bg-black dark:bg-white text-white dark:text-black py-1.5 md:py-2 rounded-md text-xs md:text-sm hover:bg-gray-800 dark:hover:bg-gray-200"
               >
-                Apply Price Filter
+                {t('applyPriceFilter')}
               </button>
             </div>
           </div>
 
           {/* Sizes */}
           <div>
-            <h3 className="text-sm md:text-base font-medium mb-2 md:mb-3 text-gray-900 dark:text-white">Size</h3>
+            <h3 className="text-sm md:text-base font-medium mb-2 md:mb-3 text-gray-900 dark:text-white">{t('filterSize')}</h3>
             <div className="grid grid-cols-4 gap-1 md:gap-2">
               {availableSizes.map((size) => (
                 <button
@@ -129,7 +131,7 @@ export default function AdvancedFilters({
 
           {/* Colors */}
           <div>
-            <h3 className="text-sm md:text-base font-medium mb-2 md:mb-3 text-gray-900 dark:text-white">Color</h3>
+            <h3 className="text-sm md:text-base font-medium mb-2 md:mb-3 text-gray-900 dark:text-white">{t('filterColor')}</h3>
             <div className="grid grid-cols-6 gap-2 md:gap-3">
               {availableColors.map((color) => {
                 const bgColor = color.startsWith('#') ? color : color;
@@ -152,7 +154,7 @@ export default function AdvancedFilters({
 
           {/* Materials */}
           <div>
-            <h3 className="text-sm md:text-base font-medium mb-2 md:mb-3 text-gray-900 dark:text-white">Material</h3>
+            <h3 className="text-sm md:text-base font-medium mb-2 md:mb-3 text-gray-900 dark:text-white">{t('material')}</h3>
             <div className="space-y-1 md:space-y-2">
               {availableMaterials.map((material) => (
                 <label key={material} className="flex items-center gap-1 md:gap-2">
@@ -170,7 +172,7 @@ export default function AdvancedFilters({
 
           {/* Special Filters */}
           <div>
-            <h3 className="text-sm md:text-base font-medium mb-2 md:mb-3 text-gray-900 dark:text-white">Special Offers</h3>
+            <h3 className="text-sm md:text-base font-medium mb-2 md:mb-3 text-gray-900 dark:text-white">{t('specialOffers')}</h3>
             <div className="space-y-1 md:space-y-2">
               <label className="flex items-center gap-1 md:gap-2">
                 <input
@@ -179,7 +181,7 @@ export default function AdvancedFilters({
                   onChange={(e) => setOnSale(e.target.checked)}
                   className="rounded"
                 />
-                <span className="text-xs md:text-sm text-gray-900 dark:text-white">On Sale</span>
+                <span className="text-xs md:text-sm text-gray-900 dark:text-white">{t('onSale')}</span>
               </label>
               <label className="flex items-center gap-1 md:gap-2">
                 <input
@@ -188,24 +190,24 @@ export default function AdvancedFilters({
                   onChange={(e) => setNewArrivals(e.target.checked)}
                   className="rounded"
                 />
-                <span className="text-xs md:text-sm text-gray-900 dark:text-white">New Arrivals</span>
+                <span className="text-xs md:text-sm text-gray-900 dark:text-white">{t('newArrivals')}</span>
               </label>
             </div>
           </div>
 
           {/* Sort Options */}
           <div>
-            <h3 className="text-sm md:text-base font-medium mb-2 md:mb-3 text-gray-900 dark:text-white">Sort By</h3>
+            <h3 className="text-sm md:text-base font-medium mb-2 md:mb-3 text-gray-900 dark:text-white">{t('filterSortBy')}</h3>
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as 'default' | 'price-low' | 'price-high' | 'newest' | 'popularity')}
               className="w-full px-2 py-1 md:px-3 md:py-2 border border-gray-300 dark:border-gray-600 rounded-md text-xs md:text-sm bg-white dark:bg-zinc-900 text-gray-900 dark:text-white"
             >
-              <option value="default">Default</option>
-              <option value="price-low">Price: Low to High</option>
-              <option value="price-high">Price: High to Low</option>
-              <option value="newest">Newest</option>
-              <option value="popularity">Popularity</option>
+              <option value="default">{t('filterDefault')}</option>
+              <option value="price-low">{t('priceLow')}</option>
+              <option value="price-high">{t('priceHigh')}</option>
+              <option value="newest">{t('newest')}</option>
+              <option value="popularity">{t('popularity')}</option>
             </select>
           </div>
         </div>
@@ -216,13 +218,13 @@ export default function AdvancedFilters({
             onClick={handleReset}
             className="flex-1 bg-orange-100 dark:bg-orange-900 text-orange-700 dark:text-orange-300 py-1.5 md:py-2 rounded-md text-xs md:text-sm hover:bg-orange-200 dark:hover:bg-orange-800"
           >
-            Reset All
+            {t('resetAll')}
           </button>
           <button
             onClick={onClose}
             className="flex-1 bg-black dark:bg-white text-white dark:text-black py-1.5 md:py-2 rounded-md text-xs md:text-sm hover:bg-gray-800 dark:hover:bg-gray-200"
           >
-            Apply Filters
+            {t('applyFilters')}
           </button>
         </div>
       </div>

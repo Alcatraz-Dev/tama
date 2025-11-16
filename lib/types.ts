@@ -1,10 +1,14 @@
 export interface Product {
   _id: string;
   title: string;
+  title_fr?: string;
+  title_ar?: string;
   slug: {
     current: string;
   };
   description: string;
+  description_fr?: string;
+  description_ar?: string;
   price: number;
   originalPrice?: number;
   gallery: Array<{
@@ -70,8 +74,14 @@ export interface HeroCard {
   _id: string;
   type: "text" | "image";
   title?: string;
+  title_fr?: string;
+  title_ar?: string;
   subtitle?: string;
+  subtitle_fr?: string;
+  subtitle_ar?: string;
   buttonText?: string;
+  buttonText_fr?: string;
+  buttonText_ar?: string;
   buttonLink?: string;
   withButton?: boolean;
   withIcon?: boolean;
@@ -116,9 +126,7 @@ export interface Collection {
 export interface Lookbook {
   _id: string;
   title: string;
-  slug: {
-    current: string;
-  };
+  slug: string;
   description?: string;
   coverImage?: {
     asset: {

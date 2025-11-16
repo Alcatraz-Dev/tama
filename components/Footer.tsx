@@ -6,29 +6,31 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { SocialLink } from "@/lib/types";
 import { useTheme } from "next-themes";
-const footerLinks = {
-  Company: [
-    { name: "About", href: "/about" },
-    { name: "Meet the Team", href: "#" },
-    { name: "Careers", href: "#" },
-  ],
-  "Helpful Links": [
-    { name: "Contact", href: "#" },
-    { name: "FAQs", href: "#" },
-    { name: "Live Chat", href: "#" },
-  ],
-  Legal: [
-    { name: "Accessibility", href: "#" },
-    { name: "Returns Policy", href: "#" },
-    { name: "Refund Policy", href: "#" },
-    { name: "Terms & Conditions", href: "#" },
-  ],
-};
-
+import { useTranslation } from "@/lib/translationContext";
 export function Footer() {
   const [socialLinks, setSocialLinks] = useState<SocialLink[]>([]);
   const { theme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const { t } = useTranslation();
+
+  const footerLinks = {
+    [t('company')]: [
+      { name: t('about'), href: "/about" },
+      { name: t('meetTheTeam'), href: "#" },
+      { name: t('careers'), href: "#" },
+    ],
+    [t('helpfulLinks')]: [
+      { name: t('contact'), href: "#" },
+      { name: t('faqs'), href: "#" },
+      { name: t('liveChat'), href: "#" },
+    ],
+    [t('legal')]: [
+      { name: t('accessibility'), href: "#" },
+      { name: t('returnsPolicy'), href: "#" },
+      { name: t('refundPolicy'), href: "#" },
+      { name: t('termsAndConditions'), href: "#" },
+    ],
+  };
 
   useEffect(() => {
     setMounted(true);
@@ -56,8 +58,7 @@ export function Footer() {
             </Link>
 
             <p className="mt-4 max-w-xs text-black/80 dark:text-gray-300 text-sm leading-relaxed font-semibold flex items-center lg:justify-start justify-center lg:text-start text-center">
-              Premium clothing brand for modern lifestyle. Crafted with passion,
-              designed for comfort.
+              {t('footerDescription')}
             </p>
 
             {/* Social Icons with animation */}
@@ -116,11 +117,10 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="pt-6 border-t border-black/30 dark:border-gray-600 flex flex-col sm:flex-row items-center justify-between">
           <p className="text-xs text-black/60 dark:text-gray-400 font-semibold">
-            &copy; {new Date().getFullYear()} Tama Clothing. All rights
-            reserved.
+            {t('copyright', { year: new Date().getFullYear() })}
           </p>
           <p className="text-xs text-black/60 dark:text-gray-400 mt-2 sm:mt-0 font-semibold">
-            Made with ❤️ for fashion lovers
+            {t('madeWithLove')}
           </p>
         </div>
       </div>

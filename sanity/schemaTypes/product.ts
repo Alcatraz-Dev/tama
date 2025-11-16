@@ -7,8 +7,19 @@ export default defineType({
   fields: [
     defineField({
       name: "title",
+      title: "Title (English)",
       type: "string",
       validation: (r) => r.required(),
+    }),
+    defineField({
+      name: "title_fr",
+      title: "Title (French)",
+      type: "string",
+    }),
+    defineField({
+      name: "title_ar",
+      title: "Title (Arabic)",
+      type: "string",
     }),
     defineField({
       name: "slug",
@@ -18,6 +29,17 @@ export default defineType({
     }),
     defineField({
       name: "description",
+      title: "Description (English)",
+      type: "text",
+    }),
+    defineField({
+      name: "description_fr",
+      title: "Description (French)",
+      type: "text",
+    }),
+    defineField({
+      name: "description_ar",
+      title: "Description (Arabic)",
       type: "text",
     }),
     defineField({

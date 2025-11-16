@@ -18,8 +18,9 @@ const links = [
   { href: "/products", key: "products" },
   { href: "/categories", key: "categories" },
   { href: "/collections", key: "collections" },
+  { href: "/gallery", key: "gallery" },
   { href: "/about", key: "about" },
-  { href: "/lookbooks", key: "lookbooks" },
+  { href: "/style-stories", key: "styleStories" },
 ];
 
 export default function Navbar() {
@@ -50,30 +51,69 @@ export default function Navbar() {
         scrolled ? "shadow-md bg-background/70" : "bg-transparent"
       }`}
     >
-      <div className="container mx-auto flex items-center justify-between py-4 px-6 relative">
-        {/* Hamburger menu */}
-        <Button
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="md:hidden hover:cursor-pointer w-8 h-8 "
-        >
-          <CiMenuFries className="w-3 h-3  hover:text-black" />
-        </Button>
+      <div className="container mx-auto py-4 px-4 lg:px-6 xl:px-8 relative">
+        {/* Mobile Layout */}
+        <div className="flex items-center justify-between md:hidden">
+          <Button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="hover:cursor-pointer w-8 h-8"
+          >
+            <CiMenuFries className="w-3 h-3 hover:text-black" />
+          </Button>
 
-        {/* Center Logo */}
-        <Link href="/" className="absolute left-1/2 transform -translate-x-1/2">
-          <Image
-            src={mounted && theme === "dark" ? "/tama-light.svg" : "/tama.svg"}
-            alt="Tama Logo"
-            width={150}
-            height={150}
-            className="w-[70px] h-[70px] md:w-[100px] md:h-[100px]"
-          />
-        </Link>
+          <Link href="/" className="absolute left-1/2 transform -translate-x-1/2">
+            <Image
+              src={mounted && theme === "dark" ? "/tama-light.svg" : "/tama.svg"}
+              alt="Tama Logo"
+              width={150}
+              height={150}
+              className="w-[70px] h-[70px]"
+            />
+          </Link>
 
-        {/* Right side nav */}
-        <div className="flex items-center gap-2 sm:gap-3 md:gap-4 ml-auto">
-          <nav className="hidden md:flex gap-6">
-            {links.map((link) => (
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <LanguageSwitcher />
+            <Link href="/wishlist" className="relative bg-card p-1 rounded-md">
+              <Heart className="w-3.5 h-3.5 text-zinc-700 dark:text-zinc-300 hover:text-red-500 dark:hover:text-red-400" />
+              <AnimatePresence>
+                {wishlistItems.length > 0 && (
+                  <motion.span
+                    key={wishlistItems.length}
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    exit={{ scale: 0 }}
+                    className="absolute -top-1 -right-1 bg-red-500 text-white text-[9px] w-3.5 h-3.5 rounded-full flex items-center justify-center"
+                  >
+                    {wishlistItems.length}
+                  </motion.span>
+                )}
+              </AnimatePresence>
+            </Link>
+            <Link href="/cart" className="relative bg-card p-1 rounded-md">
+              <ShoppingBasket className="w-3.5 h-3.5 text-zinc-700 dark:text-zinc-300 hover:text-black dark:hover:text-white" />
+              <AnimatePresence>
+                {cartItems.length > 0 && (
+                  <motion.span
+                    key={cartItems.length}
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    exit={{ scale: 0 }}
+                    className="absolute -top-1 -right-1 bg-black dark:bg-gray-600 text-white text-[9px] w-3.5 h-3.5 rounded-full flex items-center justify-center"
+                  >
+                    {cartItems.length}
+                  </motion.span>
+                )}
+              </AnimatePresence>
+            </Link>
+          </div>
+        </div>
+
+        {/* Desktop Layout - Logo centered between navigation */}
+        <div className="hidden md:flex items-center justify-between">
+          {/* Left Navigation */}
+          <nav className="flex gap-4 lg:gap-6 xl:gap-8">
+            {links.slice(0, 3).map((link) => (
               <motion.div
                 key={link.href}
                 whileHover={{ scale: 1.1 }}
@@ -81,7 +121,7 @@ export default function Navbar() {
               >
                 <Link
                   href={link.href}
-                  className="text-zinc-700 dark:text-zinc-300 hover:text-black dark:hover:text-white text-sm font-semibold transition"
+                  className="text-zinc-700 dark:text-zinc-300 hover:text-black dark:hover:text-white text-sm font-semibold transition hover:drop-shadow-sm dark:hover:drop-shadow-[0_0_8px_rgba(139,128,0,0.4)]"
                 >
                   {t(link.key as any)}
                 </Link>
@@ -89,45 +129,73 @@ export default function Navbar() {
             ))}
           </nav>
 
-          <ThemeToggle />
-
-          <LanguageSwitcher />
-
-          {/* Wishlist */}
-          <Link href="/wishlist" className="relative bg-card p-1 sm:p-2 rounded-md sm:rounded-lg">
-            <Heart className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-zinc-700 dark:text-zinc-300 hover:text-red-500 dark:hover:text-red-400" />
-            <AnimatePresence>
-              {wishlistItems.length > 0 && (
-                <motion.span
-                  key={wishlistItems.length}
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  exit={{ scale: 0 }}
-                  className="absolute -top-1 sm:-top-2 -right-1 sm:-right-2 bg-red-500 text-white text-[9px] sm:text-xs w-3.5 h-3.5 sm:w-5 sm:h-5 rounded-full flex items-center justify-center"
-                >
-                  {wishlistItems.length}
-                </motion.span>
-              )}
-            </AnimatePresence>
+          {/* Center Logo */}
+          <Link href="/" className="flex items-center mx-8">
+            <Image
+              src={mounted && theme === "dark" ? "/tama-light.svg" : "/tama.svg"}
+              alt="Tama Logo"
+              width={150}
+              height={150}
+              className="w-[80px] h-[80px] lg:w-[100px] lg:h-[100px]"
+            />
           </Link>
 
-          {/* Cart */}
-          <Link href="/cart" className="relative bg-card p-1 sm:p-2 rounded-md sm:rounded-lg">
-            <ShoppingBasket className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-zinc-700 dark:text-zinc-300 hover:text-black dark:hover:text-white" />
-            <AnimatePresence>
-              {cartItems.length > 0 && (
-                <motion.span
-                  key={cartItems.length}
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  exit={{ scale: 0 }}
-                  className="absolute -top-1 sm:-top-2 -right-1 sm:-right-2 bg-black dark:bg-gray-600 text-white text-[9px] sm:text-xs w-3.5 h-3.5 sm:w-5 sm:h-5 rounded-full flex items-center justify-center"
+          {/* Right Navigation */}
+          <div className="flex items-center gap-3 lg:gap-4">
+            <nav className="flex gap-4 lg:gap-6 xl:gap-8">
+              {links.slice(3).map((link) => (
+                <motion.div
+                  key={link.href}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
                 >
-                  {cartItems.length}
-                </motion.span>
-              )}
-            </AnimatePresence>
-          </Link>
+                  <Link
+                    href={link.href}
+                    className="text-zinc-700 dark:text-zinc-300 hover:text-black dark:hover:text-white text-sm font-semibold transition hover:drop-shadow-sm dark:hover:drop-shadow-[0_0_8px_rgba(139,128,0,0.4)]"
+                  >
+                    {t(link.key as any)}
+                  </Link>
+                </motion.div>
+              ))}
+            </nav>
+
+            <ThemeToggle />
+            <LanguageSwitcher />
+
+            <Link href="/wishlist" className="relative bg-card p-2 rounded-lg">
+              <Heart className="w-4 h-4 text-zinc-700 dark:text-zinc-300 hover:text-red-500 dark:hover:text-red-400" />
+              <AnimatePresence>
+                {wishlistItems.length > 0 && (
+                  <motion.span
+                    key={wishlistItems.length}
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    exit={{ scale: 0 }}
+                    className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center"
+                  >
+                    {wishlistItems.length}
+                  </motion.span>
+                )}
+              </AnimatePresence>
+            </Link>
+
+            <Link href="/cart" className="relative bg-card p-2 rounded-lg">
+              <ShoppingBasket className="w-4 h-4 text-zinc-700 dark:text-zinc-300 hover:text-black dark:hover:text-white" />
+              <AnimatePresence>
+                {cartItems.length > 0 && (
+                  <motion.span
+                    key={cartItems.length}
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    exit={{ scale: 0 }}
+                    className="absolute -top-2 -right-2 bg-black dark:bg-gray-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center"
+                  >
+                    {cartItems.length}
+                  </motion.span>
+                )}
+              </AnimatePresence>
+            </Link>
+          </div>
         </div>
       </div>
 
@@ -208,8 +276,7 @@ export default function Navbar() {
             {/* Footer */}
             <div className="p-6 border-t border-zinc-100 dark:border-zinc-700">
               <p className="text-sm text-zinc-500 dark:text-zinc-400 text-center">
-                &copy; {new Date().getFullYear()} Tama Clothing. All rights
-                reserved.
+                {t('copyright', { year: new Date().getFullYear() })}
               </p>
             </div>
           </motion.div>

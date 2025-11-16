@@ -3,7 +3,7 @@ import { defineType, defineField } from "sanity";
 
 export default defineType({
   name: "lookbook",
-  title: "Lookbook",
+  title: "Style Story",
   type: "document",
   fields: [
     defineField({
@@ -14,7 +14,15 @@ export default defineType({
     defineField({
       name: "slug",
       type: "slug",
-      options: { source: "title", maxLength: 96 },
+      options: {
+        source: "title",
+        maxLength: 96,
+        slugify: (input: string) => input
+          .toLowerCase()
+          .replace(/\s+/g, '-')
+          .replace(/[^\w\-]+/g, '')
+          .slice(0, 96)
+      },
       validation: (Rule) => Rule.required(),
     }),
     defineField({
@@ -60,13 +68,6 @@ export default defineType({
       title: "Lookbook Images",
       of: [{ type: "image", options: { hotspot: true } }],
       validation: (Rule) => Rule.required().min(1),
-    }),
-    defineField({
-      name: "mainImage",
-      type: "image",
-      title: "Main Image",
-      description: "Primary image for the lookbook (deprecated - use images array)",
-      options: { hotspot: true },
     }),
     defineField({
       name: "products",

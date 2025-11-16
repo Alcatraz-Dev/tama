@@ -12,6 +12,7 @@ import {colorInput} from '@sanity/color-input'
 import {apiVersion, dataset, projectId} from './sanity/env'
 import {schema} from './sanity/schemaTypes'
 import {structure} from './sanity/structure'
+import { translateAction } from './sanity/actions/translateAction'
 
 export default defineConfig({
   basePath: '/studio',
@@ -20,6 +21,9 @@ export default defineConfig({
   useCdn: false,
   // Add and edit the content schema in the './sanity/schemaTypes' folder
   schema,
+  document: {
+    actions: [translateAction],
+  },
   plugins: [
     structureTool({structure}),
     // Vision is for querying with GROQ from inside the Studio

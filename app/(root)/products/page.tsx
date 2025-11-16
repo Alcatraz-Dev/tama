@@ -8,6 +8,7 @@ import ProductCard from "@/components/ProductCard";
 import AdvancedFilters from "@/components/AdvancedFilters";
 import { useFilter } from "@/useFilter";
 import { Product } from "@/lib/types";
+import { useTranslation } from "@/lib/translationContext";
 
 function ProductsContent() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -16,6 +17,7 @@ function ProductsContent() {
   const itemsPerPage = 12;
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { t } = useTranslation();
 
   const {
     searchQuery,
@@ -314,10 +316,10 @@ function ProductsContent() {
 
       <div className="flex justify-between items-center my-8 mx-5 md:mx-12 ">
         <h1 className="text-2xl md:text-3xl font-bold text-black dark:text-white">
-          All Products
+          {t('allProductsPage')}
         </h1>
         <p className="text-sm text-zinc-600 dark:text-zinc-400">
-          {filteredProducts.length} products found
+          {t('productsFoundCount', { count: filteredProducts.length })}
         </p>
       </div>
 
