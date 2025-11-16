@@ -44,41 +44,53 @@ function ProductsContent() {
   useEffect(() => {
     const params = new URLSearchParams(searchParams.toString());
 
-    if (params.get('q')) setSearchQuery(params.get('q')!);
-    if (params.get('category')) setCategory(params.get('category'));
-    if (params.get('subcategory')) setSubcategory(params.get('subcategory'));
-    if (params.get('minPrice') || params.get('maxPrice')) {
+    if (params.get("q")) setSearchQuery(params.get("q")!);
+    if (params.get("category")) setCategory(params.get("category"));
+    if (params.get("subcategory")) setSubcategory(params.get("subcategory"));
+    if (params.get("minPrice") || params.get("maxPrice")) {
       setPriceRange([
-        Number(params.get('minPrice')) || 0,
-        Number(params.get('maxPrice')) || 1000,
+        Number(params.get("minPrice")) || 0,
+        Number(params.get("maxPrice")) || 1000,
       ]);
     }
-    if (params.get('sizes')) setSizes(params.get('sizes')!.split(','));
-    if (params.get('colors')) setColors(params.get('colors')!.split(','));
-    if (params.get('materials')) setMaterials(params.get('materials')!.split(','));
-    if (params.get('onSale')) setOnSale(params.get('onSale') === 'true');
-    if (params.get('newArrivals')) setNewArrivals(params.get('newArrivals') === 'true');
-    if (params.get('sort')) setSortBy(params.get('sort') as 'default' | 'price-low' | 'price-high' | 'newest' | 'popularity');
+    if (params.get("sizes")) setSizes(params.get("sizes")!.split(","));
+    if (params.get("colors")) setColors(params.get("colors")!.split(","));
+    if (params.get("materials"))
+      setMaterials(params.get("materials")!.split(","));
+    if (params.get("onSale")) setOnSale(params.get("onSale") === "true");
+    if (params.get("newArrivals"))
+      setNewArrivals(params.get("newArrivals") === "true");
+    if (params.get("sort"))
+      setSortBy(
+        params.get("sort") as
+          | "default"
+          | "price-low"
+          | "price-high"
+          | "newest"
+          | "popularity"
+      );
   }, []);
 
   // Update URL when filters change
   useEffect(() => {
     const params = new URLSearchParams();
 
-    if (searchQuery) params.set('q', searchQuery);
-    if (category) params.set('category', category);
-    if (subcategory) params.set('subcategory', subcategory);
-    if (priceRange[0] > 0) params.set('minPrice', priceRange[0].toString());
-    if (priceRange[1] < 1000) params.set('maxPrice', priceRange[1].toString());
-    if (selectedSizes.length > 0) params.set('sizes', selectedSizes.join(','));
-    if (selectedColors.length > 0) params.set('colors', selectedColors.join(','));
-    if (selectedMaterials.length > 0) params.set('materials', selectedMaterials.join(','));
-    if (onSale) params.set('onSale', 'true');
-    if (newArrivals) params.set('newArrivals', 'true');
-    if (sortBy !== 'default') params.set('sort', sortBy);
+    if (searchQuery) params.set("q", searchQuery);
+    if (category) params.set("category", category);
+    if (subcategory) params.set("subcategory", subcategory);
+    if (priceRange[0] > 0) params.set("minPrice", priceRange[0].toString());
+    if (priceRange[1] < 1000) params.set("maxPrice", priceRange[1].toString());
+    if (selectedSizes.length > 0) params.set("sizes", selectedSizes.join(","));
+    if (selectedColors.length > 0)
+      params.set("colors", selectedColors.join(","));
+    if (selectedMaterials.length > 0)
+      params.set("materials", selectedMaterials.join(","));
+    if (onSale) params.set("onSale", "true");
+    if (newArrivals) params.set("newArrivals", "true");
+    if (sortBy !== "default") params.set("sort", sortBy);
 
     const queryString = params.toString();
-    const newUrl = queryString ? `/products?${queryString}` : '/products';
+    const newUrl = queryString ? `/products?${queryString}` : "/products";
 
     router.replace(newUrl, { scroll: false });
   }, [
@@ -100,7 +112,19 @@ function ProductsContent() {
       console.log("Fetched products:", data);
       setProducts(data);
     });
-  }, [searchParams, setCategory, setColors, setMaterials, setNewArrivals, setOnSale, setPriceRange, setSearchQuery, setSizes, setSortBy, setSubcategory]);
+  }, [
+    searchParams,
+    setCategory,
+    setColors,
+    setMaterials,
+    setNewArrivals,
+    setOnSale,
+    setPriceRange,
+    setSearchQuery,
+    setSizes,
+    setSortBy,
+    setSubcategory,
+  ]);
 
   // Get available filter options
   const availableOptions = useMemo(() => {
@@ -115,7 +139,7 @@ function ProductsContent() {
       }
       if (product.colors) {
         product.colors.forEach((color) => {
-          if (typeof color === 'string') {
+          if (typeof color === "string") {
             colors.add(color);
           } else {
             if (color.name) colors.add(color.name);
@@ -124,7 +148,9 @@ function ProductsContent() {
         });
       }
       if (product.materials) {
-        product.materials.forEach((material: string) => materials.add(material));
+        product.materials.forEach((material: string) =>
+          materials.add(material)
+        );
       }
       if (product.price > maxPrice) maxPrice = product.price;
     });
@@ -144,18 +170,17 @@ function ProductsContent() {
 
     // Search filter
     if (query) {
-      result = result.filter((p) =>
-        p.title?.toLowerCase().includes(query) ||
-        p.description?.toLowerCase().includes(query)
+      result = result.filter(
+        (p) =>
+          p.title?.toLowerCase().includes(query) ||
+          p.description?.toLowerCase().includes(query)
       );
     }
 
     // Category filter
     if (category) {
       result = result.filter(
-        (p) =>
-          p.category?._id === category ||
-          p.category?.title === category
+        (p) => p.category?._id === category || p.category?.title === category
       );
     }
 
@@ -185,10 +210,10 @@ function ProductsContent() {
     if (selectedColors.length > 0) {
       result = result.filter((p) =>
         p.colors?.some((color) => {
-          if (typeof color === 'string') {
+          if (typeof color === "string") {
             return selectedColors.includes(color);
           } else {
-            return selectedColors.includes(color.name || color.hex || '');
+            return selectedColors.includes(color.name || color.hex || "");
           }
         })
       );
@@ -197,7 +222,9 @@ function ProductsContent() {
     // Material filter
     if (selectedMaterials.length > 0) {
       result = result.filter((p) =>
-        p.materials?.some((material: string) => selectedMaterials.includes(material))
+        p.materials?.some((material: string) =>
+          selectedMaterials.includes(material)
+        )
       );
     }
 
@@ -210,26 +237,27 @@ function ProductsContent() {
     if (newArrivals) {
       const thirtyDaysAgo = new Date();
       thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-      result = result.filter((p) =>
-        p._createdAt && new Date(p._createdAt) > thirtyDaysAgo
+      result = result.filter(
+        (p) => p._createdAt && new Date(p._createdAt) > thirtyDaysAgo
       );
     }
 
     // Sorting
     switch (sortBy) {
-      case 'price-low':
+      case "price-low":
         result.sort((a, b) => a.price - b.price);
         break;
-      case 'price-high':
+      case "price-high":
         result.sort((a, b) => b.price - a.price);
         break;
-      case 'newest':
+      case "newest":
         result.sort(
           (a, b) =>
-            (b._createdAt ? new Date(b._createdAt).getTime() : 0) - (a._createdAt ? new Date(a._createdAt).getTime() : 0)
+            (b._createdAt ? new Date(b._createdAt).getTime() : 0) -
+            (a._createdAt ? new Date(a._createdAt).getTime() : 0)
         );
         break;
-      case 'popularity':
+      case "popularity":
         result.sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
         break;
       default:
@@ -265,13 +293,16 @@ function ProductsContent() {
   }, [filteredProducts.length]);
 
   return (
-    <section className="py-8 md:py-12">
+    <section className="py-10 md:py-12">
       {/* Filtering controls */}
-      <div className="my-5 flex flex-col items-center gap-4">
-        <SearchAndFiltering onOpenAdvancedFilters={() => setShowAdvancedFilters(true)} />
+      <div className="my-6 flex flex-col items-center gap-4">
+        <SearchAndFiltering
+          onOpenAdvancedFilters={() => setShowAdvancedFilters(true)}
+        />
       </div>
 
       {/* Advanced Filters Modal */}
+
       <AdvancedFilters
         isOpen={showAdvancedFilters}
         onClose={() => setShowAdvancedFilters(false)}
@@ -281,7 +312,7 @@ function ProductsContent() {
         maxPrice={availableOptions.maxPrice}
       />
 
-      <div className="flex justify-between items-center mb-8 mx-5 md:mx-12">
+      <div className="flex justify-between items-center my-8 mx-5 md:mx-12 ">
         <h1 className="text-2xl md:text-3xl font-bold text-black dark:text-white">
           All Products
         </h1>
@@ -319,7 +350,8 @@ function ProductsContent() {
           </button>
 
           {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-            const pageNum = Math.max(1, Math.min(totalPages - 4, currentPage - 2)) + i;
+            const pageNum =
+              Math.max(1, Math.min(totalPages - 4, currentPage - 2)) + i;
             if (pageNum > totalPages) return null;
             return (
               <button
@@ -337,7 +369,9 @@ function ProductsContent() {
           })}
 
           <button
-            onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+            onClick={() =>
+              setCurrentPage(Math.min(totalPages, currentPage + 1))
+            }
             disabled={currentPage === totalPages}
             className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 dark:hover:bg-gray-700 text-black dark:text-white"
           >
@@ -361,7 +395,10 @@ function LoadingFallback() {
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-8 px-4 sm:px-6 md:px-12">
         {Array.from({ length: 8 }).map((_, i) => (
-          <div key={i} className="bg-gray-200 dark:bg-gray-700 rounded-lg h-80 animate-pulse"></div>
+          <div
+            key={i}
+            className="bg-gray-200 dark:bg-gray-700 rounded-lg h-80 animate-pulse"
+          ></div>
         ))}
       </div>
     </section>

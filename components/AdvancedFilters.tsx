@@ -61,7 +61,7 @@ export default function AdvancedFilters({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 dark:bg-black/50">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 dark:bg-black/50 ">
       <div className="bg-card rounded-lg shadow-xl max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto">
         {/* Header */}
         <div className="flex items-center justify-between p-3 md:p-4 border-b border-gray-200 dark:border-gray-700">

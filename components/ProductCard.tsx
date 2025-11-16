@@ -141,7 +141,7 @@ export default function ProductCard({
         {(product.colors && product.colors.length > 0) || (product.sizes && product.sizes.length > 0) ? (
           <div className="mt-1.5 space-y-1.5">
             {product.colors && product.colors.length > 0 && (
-              <div className="flex items-center justify-start gap-2 bg-slate-200/50 dark:bg-zinc-900 rounded-md py-1.5 px-2">
+              <div className="flex items-center justify-start gap-2 bg-slate-200/50 dark:bg-gray-800/30 rounded-md py-1.5 px-2">
                 <span className="text-[10px] font-semibold text-black dark:text-white tracking-wide">COLOR</span>
                 <div className="flex gap-1 flex-wrap">
                   {product.colors.slice(0, 4).map((color, i: number) => {
@@ -158,7 +158,7 @@ export default function ProductCard({
                         onClick={() => setSelectedColor(bgColor)}
                         className={`w-4 h-4 rounded-full border-2 shadow-sm transition-all duration-300 hover:scale-125 hover:shadow-lg ${
                           selectedColor === bgColor
-                            ? "border-fashion-gold scale-125 shadow-lg ring-2 ring-fashion-gold/30"
+                            ? "border-fashion-gold scale-105 shadow-lg ring-1 ring-fashion-gold/30"
                             : "border-white dark:border-zinc-600 hover:border-fashion-gold/50"
                         }`}
                         style={{ backgroundColor: bgColor }}
@@ -175,7 +175,7 @@ export default function ProductCard({
             )}
 
             {product.sizes && product.sizes.length > 0 && (
-              <div className="flex items-center justify-start gap-2 bg-slate-200/50 dark:bg-zinc-900 rounded-md py-1.5 px-2">
+              <div className="flex items-center justify-start gap-2 bg-slate-200/50 dark:bg-gray-800/30 rounded-md py-1.5 px-2">
                 <span className="text-[10px] font-semibold text-black dark:text-white tracking-wide">SIZE</span>
                 <div className="flex gap-1 flex-wrap">
                   {product.sizes.map((size: string, i: number) => (
@@ -185,7 +185,7 @@ export default function ProductCard({
                       className={`px-2 py-0.5 border-2 rounded text-xs font-bold transition-all duration-300 hover:scale-105 text-[10px] ${
                         selectedSize === size
                           ? "bg-fashion-gold text-black border-fashion-gold shadow-lg scale-105"
-                          : "border-zinc-300 dark:border-zinc-600 text-black dark:text-white bg-white dark:bg-zinc-800 hover:border-fashion-gold hover:bg-fashion-gold/10 dark:hover:bg-fashion-gold/20 hover:shadow-md"
+                          : "border-zinc-300 dark:border-zinc-600 text-black dark:text-white bg-white dark:bg-zinc-900 hover:border-fashion-gold hover:bg-fashion-gold/10 dark:hover:bg-fashion-gold/20 hover:shadow-md"
                       }`}
                     >
                       {size}
