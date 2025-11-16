@@ -137,12 +137,12 @@ export default function ProductCard({
           {highlightText(product.description || "", searchQuery)}
         </p>
 
-        {/* Variants */}
+        {/* Variants - inline with content */}
         {(product.colors && product.colors.length > 0) || (product.sizes && product.sizes.length > 0) ? (
-          <div className="mt-3 px-2 space-y-2">
+          <div className="mt-1.5 space-y-1.5">
             {product.colors && product.colors.length > 0 && (
-              <div className="flex items-center gap-2 ">
-                <span className="text-xs font-medium text-black dark:text-white">Color:</span>
+              <div className="flex items-center justify-start gap-2 bg-slate-200/50 dark:bg-zinc-900 rounded-md py-1.5 px-2">
+                <span className="text-[10px] font-semibold text-black dark:text-white tracking-wide">COLOR</span>
                 <div className="flex gap-1 flex-wrap">
                   {product.colors.slice(0, 4).map((color, i: number) => {
                     const bgColor =
@@ -156,17 +156,17 @@ export default function ProductCard({
                         key={i}
                         title={colorName}
                         onClick={() => setSelectedColor(bgColor)}
-                        className={`w-4 h-4 rounded-full border shadow-sm transition-transform hover:scale-110 ${
+                        className={`w-4 h-4 rounded-full border-2 shadow-sm transition-all duration-300 hover:scale-125 hover:shadow-lg ${
                           selectedColor === bgColor
-                            ? "border-black dark:border-white scale-110 ring-1 ring-black dark:ring-white"
-                            : "border-black/50 dark:border-zinc-400"
+                            ? "border-fashion-gold scale-125 shadow-lg ring-2 ring-fashion-gold/30"
+                            : "border-white dark:border-zinc-600 hover:border-fashion-gold/50"
                         }`}
                         style={{ backgroundColor: bgColor }}
                       />
                     );
                   })}
                   {product.colors.length > 4 && (
-                    <span className="text-xs text-black dark:text-white font-semibold ml-1">
+                    <span className="text-xs text-black dark:text-white font-bold ml-1 self-center">
                       +{product.colors.length - 4}
                     </span>
                   )}
@@ -175,17 +175,17 @@ export default function ProductCard({
             )}
 
             {product.sizes && product.sizes.length > 0 && (
-              <div className="flex items-center gap-2 mt-3">
-                <span className="text-xs font-medium text-black dark:text-white">Size:</span>
+              <div className="flex items-center justify-start gap-2 bg-slate-200/50 dark:bg-zinc-900 rounded-md py-1.5 px-2">
+                <span className="text-[10px] font-semibold text-black dark:text-white tracking-wide">SIZE</span>
                 <div className="flex gap-1 flex-wrap">
                   {product.sizes.map((size: string, i: number) => (
                     <button
                       key={i}
                       onClick={() => setSelectedSize(size)}
-                      className={`px-1.5 py-0.5 border rounded-sm text-xs font-semibold transition-all duration-200 ${
+                      className={`px-2 py-0.5 border-2 rounded text-xs font-bold transition-all duration-300 hover:scale-105 text-[10px] ${
                         selectedSize === size
-                          ? "bg-fashion-gold text-black border-fashion-gold shadow-md scale-105 text-xs"
-                          : "border-zinc-300 dark:border-zinc-600 text-black dark:text-white hover:border-fashion-gold hover:bg-fashion-gold/10 dark:hover:bg-fashion-gold/20"
+                          ? "bg-fashion-gold text-black border-fashion-gold shadow-lg scale-105"
+                          : "border-zinc-300 dark:border-zinc-600 text-black dark:text-white bg-white dark:bg-zinc-800 hover:border-fashion-gold hover:bg-fashion-gold/10 dark:hover:bg-fashion-gold/20 hover:shadow-md"
                       }`}
                     >
                       {size}
