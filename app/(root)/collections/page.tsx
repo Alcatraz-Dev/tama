@@ -2,7 +2,6 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { getCollections } from "@/lib/useQuery";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, Palette, Sparkles, ArrowRight } from "lucide-react";
 import { Collection } from "@/lib/types";
@@ -45,7 +44,7 @@ export default async function CollectionsPage() {
                     />
                   ) : (
                     <div className="w-full h-full bg-gradient-to-br from-zinc-200 to-zinc-300 dark:from-zinc-700 dark:to-zinc-800 flex items-center justify-center">
-                      <Palette className="w-12 h-12 text-gray-400" />
+                      <Palette className="w-12 h-12 text-zinc-400" />
                     </div>
                   )}
                   <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-300" />
@@ -108,7 +107,7 @@ export default async function CollectionsPage() {
           </div>
         ) : (
           <div className="text-center py-16">
-            <Palette className="w-16 h-16 text-gray-300 dark:text-gray-600 mx-auto mb-4" />
+            <Palette className="w-16 h-16 text-zinc-300 dark:text-zinc-600 mx-auto mb-4" />
             <h3 className="text-xl font-semibold text-zinc-600 dark:text-zinc-400 mb-2">
               No Collections Available
             </h3>
