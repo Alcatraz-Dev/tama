@@ -41,7 +41,28 @@ export default function ProductCard({
   const firstImage = product.gallery?.[0]?.asset?.url;
   const secondImage = product.gallery?.[1]?.asset?.url;
   const { addToCart } = useCartStore();
+
+  // Check if Quick Add should be disabled
+  const isQuickAddDisabled =
+    (product.colors && product.colors.length > 0 && !selectedColor) ||
+    (product.sizes && product.sizes.length > 0 && !selectedSize);
   const handleAdd = () => {
+    // Check if color selection is required but not selected
+    if (product.colors && product.colors.length > 0 && !selectedColor) {
+      toast.error("Please select a color", {
+        description: "Choose a color before adding to cart.",
+      });
+      return;
+    }
+
+    // Check if size selection is required but not selected
+    if (product.sizes && product.sizes.length > 0 && !selectedSize) {
+      toast.error("Please select a size", {
+        description: "Choose a size before adding to cart.",
+      });
+      return;
+    }
+
     const colorToUse = selectedColor || (
       product.colors && product.colors.length > 0
         ? typeof product.colors[0] === "string"
@@ -213,8 +234,13 @@ export default function ProductCard({
         {/* Quick actions for mobile */}
         <div className="flex gap-2 mt-3 w-full px-2  ">
           <button
-            className="flex-1 bg-black dark:bg-white text-white dark:text-black py-2 px-3 rounded-lg text-xs font-medium transition-all cursor-pointer hover:bg-black/90 dark:hover:bg-zinc-200 active:scale-95"
+            className={`flex-1 py-2 px-3 rounded-lg text-xs font-medium transition-all active:scale-95 ${
+              isQuickAddDisabled
+                ? "bg-zinc-400 dark:bg-zinc-600 text-zinc-200 dark:text-zinc-400 cursor-not-allowed opacity-60"
+                : "bg-black dark:bg-white text-white dark:text-black cursor-pointer hover:bg-black/90 dark:hover:bg-zinc-200"
+            }`}
             onClick={handleAdd}
+            disabled={isQuickAddDisabled}
           >
             Quick Add
           </button>
