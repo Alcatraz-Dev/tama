@@ -96,6 +96,10 @@ export interface Collection {
   description?: string;
   imageUrl?: string;
   products?: Product[];
+  season?: string;
+  year?: number;
+  theme?: string;
+  stylingTips?: string;
 }
 
 export interface Lookbook {

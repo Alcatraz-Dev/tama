@@ -53,6 +53,11 @@ export function ProductDetails({ product }: { product: Product }) {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showReviewForm, setShowReviewForm] = useState(false);
+  const [reviewRating, setReviewRating] = useState(5);
+  const [reviewText, setReviewText] = useState("");
+  const [reviewerName, setReviewerName] = useState("");
+  const [isSubmittingReview, setIsSubmittingReview] = useState(false);
 
   const [fullName, setFullName] = useState("");
   const [location, setLocation] = useState("");
@@ -257,6 +262,60 @@ export function ProductDetails({ product }: { product: Product }) {
 
   const increaseQuantity = () => setQuantity(prev => prev + 1);
   const decreaseQuantity = () => setQuantity(prev => prev > 1 ? prev - 1 : 1);
+
+  const handleReviewSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (isSubmittingReview) return;
+
+    if (!reviewerName.trim()) {
+      toast.error("Name Required", {
+        description: "Please enter your name.",
+      });
+      return;
+    }
+
+    if (!reviewText.trim()) {
+      toast.error("Review Required", {
+        description: "Please write your review.",
+      });
+      return;
+    }
+
+    setIsSubmittingReview(true);
+
+    try {
+      await client.create({
+        _type: "review",
+        customerName: reviewerName.trim(),
+        reviewText: reviewText.trim(),
+        rating: reviewRating,
+        reviewDate: new Date().toISOString(),
+        verifiedPurchase: false, // Could be enhanced to check if user purchased
+        product: { _type: "reference", _ref: product._id },
+      });
+
+      // Reset form
+      setReviewerName("");
+      setReviewText("");
+      setReviewRating(5);
+      setShowReviewForm(false);
+
+      // Refresh reviews
+      const updatedReviews = await getProductReviews(product._id);
+      setReviews(updatedReviews);
+
+      toast.success("Review Submitted!", {
+        description: "Thank you for your feedback!",
+      });
+    } catch (error) {
+      console.error("Review submission failed:", error);
+      toast.error("Failed to submit review", {
+        description: "Please try again.",
+      });
+    } finally {
+      setIsSubmittingReview(false);
+    }
+  };
   if (loading) {
     return <ProductDetailsSkeleton />;
   }
@@ -621,6 +680,84 @@ export function ProductDetails({ product }: { product: Product }) {
             </div>
           </div>
 
+          {/* Write Review Button */}
+          <div className="mb-6">
+            <Button
+              onClick={() => setShowReviewForm(!showReviewForm)}
+              className="bg-fashion-gold hover:bg-yellow-500 text-black font-semibold px-4 py-2 rounded-lg transition-colors"
+            >
+              {showReviewForm ? "Cancel Review" : "Write a Review"}
+            </Button>
+          </div>
+
+          {/* Review Form */}
+          {showReviewForm && (
+            <div className="mb-8 p-4 bg-gray-50 dark:bg-zinc-900 rounded-lg">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Write Your Review</h3>
+              <form onSubmit={handleReviewSubmit} className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Your Name</label>
+                  <input
+                    type="text"
+                    value={reviewerName}
+                    onChange={(e) => setReviewerName(e.target.value)}
+                    placeholder="Enter your name"
+                    className="w-full border border-gray-300 dark:border-zinc-600 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-fashion-gold bg-white dark:bg-zinc-800 text-black dark:text-white"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Rating</label>
+                  <div className="flex space-x-1">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <button
+                        key={star}
+                        type="button"
+                        onClick={() => setReviewRating(star)}
+                        className="focus:outline-none"
+                      >
+                        <Star
+                          className={`w-6 h-6 ${star <= reviewRating ? 'text-yellow-400 fill-current' : 'text-gray-300'}`}
+                        />
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Your Review</label>
+                  <textarea
+                    value={reviewText}
+                    onChange={(e) => setReviewText(e.target.value)}
+                    placeholder="Share your thoughts about this product..."
+                    rows={4}
+                    className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-fashion-gold bg-white dark:bg-zinc-800 text-black dark:text-white resize-none"
+                    required
+                  />
+                </div>
+
+                <div className="flex gap-3">
+                  <Button
+                    type="submit"
+                    disabled={isSubmittingReview}
+                    className="bg-fashion-gold hover:bg-yellow-500 text-black font-semibold px-6 py-2 rounded-lg transition-colors disabled:opacity-50"
+                  >
+                    {isSubmittingReview ? "Submitting..." : "Submit Review"}
+                  </Button>
+                  <Button
+                    type="button"
+                    onClick={() => setShowReviewForm(false)}
+                    variant="outline"
+                    className="px-6 py-2"
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              </form>
+            </div>
+          )}
+
           {reviews.length > 0 ? (
             <div className="space-y-6">
               {reviews.map((review, i) => (
@@ -634,17 +771,17 @@ export function ProductDetails({ product }: { product: Product }) {
                       </div>
                       <div>
                         <p className="font-semibold text-gray-900 dark:text-white">{review.customerName}</p>
-                        <div className="flex items-center space-x-2">
+                        <div className="flex items-center space-x-2 mt-1">
                           <div className="flex items-center space-x-1">
                             {[...Array(5)].map((_, j) => (
                               <Star
                                 key={j}
-                                className={`w-4 h-4 ${j < review.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'}`}
+                                className={`w-3 h-3 ${j < review.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'}`}
                               />
                             ))}
                           </div>
                           {review.verifiedPurchase && (
-                            <span className="text-xs bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 px-2 py-1 rounded-full">
+                            <span className="text-[9px] bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 px-2 py-1 rounded-full">
                               Verified Purchase
                             </span>
                           )}

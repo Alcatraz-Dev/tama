@@ -1,5 +1,6 @@
 // components/ProductCard.tsx
 "use client";
+import { useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Product } from "@/lib/types";
@@ -36,10 +37,24 @@ export default function ProductCard({
   product,
   searchQuery = "",
 }: ProductCardProps) {
+  const [selectedColor, setSelectedColor] = useState<string | null>(null);
+  const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const firstImage = product.gallery?.[0]?.asset?.url;
   const secondImage = product.gallery?.[1]?.asset?.url;
   const { addToCart } = useCartStore();
   const handleAdd = () => {
+    const colorToUse = selectedColor || (
+      product.colors && product.colors.length > 0
+        ? typeof product.colors[0] === "string"
+          ? product.colors[0]
+          : product.colors[0].hex || product.colors[0].value || ""
+        : undefined
+    );
+
+    const sizeToUse = selectedSize || (
+      product.sizes && product.sizes.length > 0 ? product.sizes[0] : undefined
+    );
+
     addToCart({
       _id: product._id,
       title: product.title,
@@ -47,8 +62,8 @@ export default function ProductCard({
         typeof product.slug === "string" ? product.slug : product.slug?.current,
       price: product.price,
       gallery: product.gallery,
-      color: "#fffff",
-      size: "L",
+      color: colorToUse,
+      size: sizeToUse,
       quantity: 1,
       inStock: product.inStock,
     });
@@ -62,10 +77,10 @@ export default function ProductCard({
       key={product._id}
       whileHover={{ scale: 1.02, y: -2 }}
       whileTap={{ scale: 0.98 }}
-      className="group relative block rounded-t-3xl rounded-b-4xl overflow-hidden shadow-lg hover:shadow-xl dark:hover:shadow-2xl transition-all duration-300 bg-card cursor-pointer"
+      className="group relative block rounded-t-3xl rounded-b-4xl overflow-hidden shadow-lg hover:shadow-xl dark:hover:shadow-2xl transition-all duration-300 bg-card shadow-luxury cursor-pointer"
     >
       {/* Image wrapper */}
-      <div className="relative w-full aspect-square rounded-t-3xl rounded-b-[50px] overflow-hidden max-h-[250px] sm:max-h-[350px] bg-gray-100 dark:bg-gray-800">
+      <div className="relative w-full aspect-square rounded-t-3xl rounded-b-[50px] overflow-hidden max-h-[250px] sm:max-h-[350px] bg-card shadow-luxury">
         {firstImage && (
           <>
             <Image
@@ -95,7 +110,7 @@ export default function ProductCard({
 
         {/* Wishlist button */}
         <button
-          className="absolute top-3 right-3 w-8 h-8 bg-white/20 dark:bg-gray-700/50 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-white/30 dark:hover:bg-gray-600/50"
+          className="absolute top-3 right-3 w-8 h-8 bg-white/20 dark:bg-zinc-700/50 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-white/30 dark:hover:bg-zinc-600/50"
           aria-label="Add to wishlist"
         >
           <svg
@@ -119,43 +134,77 @@ export default function ProductCard({
         <h3 className="text-sm sm:text-base lg:text-lg font-semibold line-clamp-2 text-center max-w-[90%] my-2 leading-tight">
           {highlightText(product.title, searchQuery)}
         </h3>
-        <p className="text-black dark:text-gray-300 font-semibold text-xs sm:text-sm my-1 line-clamp-2 text-center leading-relaxed">
+        <p className="text-black dark:text-zinc-300 font-semibold text-xs sm:text-sm my-1 line-clamp-2 text-center leading-relaxed">
           {highlightText(product.description || "", searchQuery)}
         </p>
 
-        <div className="flex items-center justify-between gap-2 mt-3 w-full px-2">
-          {product.colors && product.colors.length > 0 && (
-            <div className="flex gap-1 flex-wrap justify-start">
-              {product.colors.slice(0, 4).map((color, i: number) => {
-                const bgColor =
-                  typeof color === "string"
-                    ? color
-                    : color.hex || color.value || "";
-                const colorName =
-                  typeof color === "string" ? color : color.name || bgColor;
-                return (
-                  <span
-                    key={i}
-                    title={colorName}
-                    className="w-3 h-3 sm:w-4 sm:h-4 rounded-full border border-black/50 dark:border-gray-400 shadow-sm transition-transform hover:scale-110"
-                    style={{ backgroundColor: bgColor }}
-                  />
-                );
-              })}
-              {product.colors.length > 4 && (
-                <span className="text-xs text-black dark:text-white font-semibold ml-1">
-                  +{product.colors.length - 4}
-                </span>
-              )}
-            </div>
-          )}
+        {/* Variants */}
+        {(product.colors && product.colors.length > 0) || (product.sizes && product.sizes.length > 0) ? (
+          <div className="mt-3 px-2 space-y-2">
+            {product.colors && product.colors.length > 0 && (
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-medium text-black dark:text-white">Color:</span>
+                <div className="flex gap-1 flex-wrap">
+                  {product.colors.slice(0, 4).map((color, i: number) => {
+                    const bgColor =
+                      typeof color === "string"
+                        ? color
+                        : color.hex || color.value || "";
+                    const colorName =
+                      typeof color === "string" ? color : color.name || bgColor;
+                    return (
+                      <button
+                        key={i}
+                        title={colorName}
+                        onClick={() => setSelectedColor(bgColor)}
+                        className={`w-4 h-4 rounded-full border shadow-sm transition-transform hover:scale-110 ${
+                          selectedColor === bgColor
+                            ? "border-black dark:border-white scale-110 ring-1 ring-black dark:ring-white"
+                            : "border-black/50 dark:border-zinc-400"
+                        }`}
+                        style={{ backgroundColor: bgColor }}
+                      />
+                    );
+                  })}
+                  {product.colors.length > 4 && (
+                    <span className="text-xs text-black dark:text-white font-semibold ml-1">
+                      +{product.colors.length - 4}
+                    </span>
+                  )}
+                </div>
+              </div>
+            )}
 
+            {product.sizes && product.sizes.length > 0 && (
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-medium text-black dark:text-white">Size:</span>
+                <div className="flex gap-1 flex-wrap">
+                  {product.sizes.map((size: string, i: number) => (
+                    <button
+                      key={i}
+                      onClick={() => setSelectedSize(size)}
+                      className={`px-1.5 py-0.5 border rounded-sm text-xs font-semibold transition-all duration-200 ${
+                        selectedSize === size
+                          ? "bg-fashion-gold text-black border-fashion-gold shadow-md scale-105 text-xs"
+                          : "border-zinc-300 dark:border-zinc-600 text-black dark:text-white hover:border-fashion-gold hover:bg-fashion-gold/10 dark:hover:bg-fashion-gold/20"
+                      }`}
+                    >
+                      {size}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        ) : null}
+
+        <div className="flex items-center justify-end mt-3 px-2">
           <div className="flex flex-col items-end">
             <p className="text-sm sm:text-base lg:text-lg font-extrabold text-black dark:text-white">
               {product.price} DT
             </p>
             {product.originalPrice && product.originalPrice > product.price && (
-              <p className="text-xs text-black dark:text-gray-400 font-semibold line-through">
+              <p className="text-xs text-black dark:text-zinc-400 font-semibold line-through">
                 {product.originalPrice} DT
               </p>
             )}
@@ -165,7 +214,7 @@ export default function ProductCard({
         {/* Quick actions for mobile */}
         <div className="flex gap-2 mt-3 w-full px-2  ">
           <button
-            className="flex-1 bg-black dark:bg-white text-white dark:text-black py-2 px-3 rounded-lg text-xs font-medium transition-all cursor-pointer hover:bg-black/90 dark:hover:bg-gray-200 active:scale-95"
+            className="flex-1 bg-black dark:bg-white text-white dark:text-black py-2 px-3 rounded-lg text-xs font-medium transition-all cursor-pointer hover:bg-black/90 dark:hover:bg-zinc-200 active:scale-95"
             onClick={handleAdd}
           >
             Quick Add

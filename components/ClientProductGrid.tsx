@@ -45,7 +45,7 @@ export default function ClientProductGrid({ products, loading = false }: Props) 
           </motion.div>
         ) : (
           <motion.div
-            className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4 sm:gap-6 md:gap-10 z-20"
+            className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 gap-4 sm:gap-6 md:gap-10 z-20"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
