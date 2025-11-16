@@ -50,7 +50,11 @@ export interface Product {
   };
   onSale?: boolean;
   _createdAt?: string;
-  popularity?: number;
+  popularity?: string;
+  reviews?: {
+    count: number;
+    averageRating: number;
+  };
 }
 
 export interface Review {

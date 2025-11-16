@@ -150,10 +150,43 @@ export default function ProductCard({
       </div>
 
       {/* Details */}
-      <div className="mt-4 mb-4 mx-4 sm:mx-5 flex flex-col items-center rounded-b-3xl text-black dark:text-white font-semibold drop-shadow-2xl z-10">
-        <h3 className="text-sm sm:text-base lg:text-lg font-semibold line-clamp-2 text-center max-w-[90%] my-2 leading-tight">
+      <div className="mt-4 mb-4 mx-4 sm:mx-5 flex flex-col items-center rounded-b-3xl text-black dark:text-white font-semibold drop-shadow-2xl z-10 relative">
+        {/* Stock Status - Top Right */}
+        <div className="absolute top-0 right-0">
+          <div className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-xs font-semibold ${
+            product.inStock
+              ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300'
+              : 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300'
+          }`}>
+            <div className={`w-1.5 h-1.5 rounded-full ${product.inStock ? 'bg-green-500' : 'bg-red-500'}`}></div>
+            <span className="text-[10px]">{product.inStock ? 'In Stock' : 'Out of Stock'}</span>
+          </div>
+        </div>
+
+        <h3 className="text-sm sm:text-base lg:text-lg font-semibold line-clamp-2 text-center max-w-[90%] mt-8 mb-2 leading-tight">
           {highlightText(product.title, searchQuery)}
         </h3>
+
+        {/* Reviews */}
+        {product.reviews && product.reviews.count > 0 && (
+          <div className="flex items-center justify-center gap-1 mb-1">
+            <div className="flex items-center space-x-0.5">
+              {[...Array(5)].map((_, i) => (
+                <svg
+                  key={i}
+                  className={`w-3 h-3 ${i < Math.floor(product.reviews!.averageRating) ? 'text-yellow-400 fill-current' : 'text-gray-300'}`}
+                  viewBox="0 0 20 20"
+                >
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                </svg>
+              ))}
+            </div>
+            <span className="text-xs text-black dark:text-zinc-300 font-medium">
+              ({product.reviews.count})
+            </span>
+          </div>
+        )}
+
         <p className="text-black dark:text-zinc-300 font-semibold text-xs sm:text-sm my-1 line-clamp-2 text-center leading-relaxed">
           {highlightText(product.description || "", searchQuery)}
         </p>
@@ -218,15 +251,21 @@ export default function ProductCard({
           </div>
         ) : null}
 
-        <div className="flex items-center justify-end mt-3 px-2">
-          <div className="flex flex-col items-end">
-            <p className="text-sm sm:text-base lg:text-lg font-extrabold text-black dark:text-white">
+        {/* Price Section */}
+        <div className="flex items-center justify-center gap-3 mt-2 px-2">
+          <div className="flex items-center gap-2">
+            <p className="text-lg sm:text-xl lg:text-2xl font-extrabold text-black dark:text-white">
               {product.price} DT
             </p>
             {product.originalPrice && product.originalPrice > product.price && (
-              <p className="text-xs text-black dark:text-zinc-400 font-semibold line-through">
-                {product.originalPrice} DT
-              </p>
+              <>
+                <span className="bg-red-500 text-white text-xs px-2 py-1 rounded-full font-bold">
+                  -{Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}%
+                </span>
+                <p className="text-sm text-black dark:text-zinc-400 font-semibold line-through">
+                  {product.originalPrice} DT
+                </p>
+              </>
             )}
           </div>
         </div>

@@ -59,7 +59,8 @@ export async function getProducts() {
   _id,
   title,
   price,
-  description, 
+  originalPrice,
+  description,
   "slug": slug.current,
   gallery[]{
     _type,
@@ -69,12 +70,16 @@ export async function getProducts() {
     }
   },
   colors[]{
-    value,   
-    hex,     
+    value,
+    hex,
   },
   sizes,
-    category->{...,},
-
+  inStock,
+  category->{...,},
+  "reviews": {
+    "count": count(*[_type == "review" && product._ref == ^._id]),
+    "averageRating": math::avg(*[_type == "review" && product._ref == ^._id].rating)
+  }
 }
 `;
 
@@ -89,6 +94,7 @@ export async function getProductBySlug(slug: string) {
   title,
   description,
   price,
+  originalPrice,
   inStock,
   gallery[]{
    ...,
@@ -114,6 +120,10 @@ export async function getProductBySlug(slug: string) {
     _id,
     title,
     slug
+  },
+  "reviews": {
+    "count": count(*[_type == "review" && product._ref == ^._id]),
+    "averageRating": math::avg(*[_type == "review" && product._ref == ^._id].rating)
   }
 }
 `;
@@ -140,9 +150,10 @@ export async function getAllProducts() {
 *[_type == "product"]{
   _id,
   title,
-  slug,
+  "slug": slug.current,
   description,
   price,
+  originalPrice,
   inStock,
   gallery[]{
     ...,
@@ -162,9 +173,11 @@ export async function getAllProducts() {
   onSale,
   popularity,
   _createdAt,
-
   category->{...,},
-
+  "reviews": {
+    "count": count(*[_type == "review" && product._ref == ^._id]),
+    "averageRating": math::avg(*[_type == "review" && product._ref == ^._id].rating)
+  }
 }
 `;
 
@@ -196,6 +209,7 @@ export async function getCategoryBySlug(slug: string, productLimit = 12, product
     title,
     "slug": slug.current,
     price,
+    originalPrice,
     description,
     gallery[]{
       ...,
@@ -211,7 +225,11 @@ export async function getCategoryBySlug(slug: string, productLimit = 12, product
     },
     inStock,
     colors[]{hex, name},
-    sizes
+    sizes,
+    "reviews": {
+      "count": count(*[_type == "review" && product._ref == ^._id]),
+      "averageRating": math::avg(*[_type == "review" && product._ref == ^._id].rating)
+    }
   }
 }
 `;
@@ -249,7 +267,8 @@ export async function getAndFilterProducts(filter: string) {
   _id,
   title,
   price,
-  description, 
+  originalPrice,
+  description,
   "slug": slug.current,
   gallery[]{
     _type,
@@ -262,7 +281,12 @@ export async function getAndFilterProducts(filter: string) {
     value,    // if using simple string list
     hex,      // if using @sanity/color-input
   },
-  sizes
+  sizes,
+  inStock,
+  "reviews": {
+    "count": count(*[_type == "review" && product._ref == ^._id]),
+    "averageRating": math::avg(*[_type == "review" && product._ref == ^._id].rating)
+  }
 }
 `;
   const results = await client.fetch(query, { filter });
@@ -330,12 +354,17 @@ export async function getCollectionBySlug(slug: string, productLimit = 12, produ
     title,
     "slug": slug.current,
     price,
+    originalPrice,
     description,
     "image": gallery[0].asset->url,
     inStock,
     category->{
       _id,
       title
+    },
+    "reviews": {
+      "count": count(*[_type == "review" && product._ref == ^._id]),
+      "averageRating": math::avg(*[_type == "review" && product._ref == ^._id].rating)
     }
   }
 }
@@ -367,7 +396,13 @@ export async function getLookbook(){
     title,
     "slug": slug.current,
     price,
-    "image": gallery[0].asset->url
+    originalPrice,
+    "image": gallery[0].asset->url,
+    inStock,
+    "reviews": {
+      "count": count(*[_type == "review" && product._ref == ^._id]),
+      "averageRating": math::avg(*[_type == "review" && product._ref == ^._id].rating)
+    }
   }
 }
 `;

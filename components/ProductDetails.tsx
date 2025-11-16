@@ -463,7 +463,23 @@ export function ProductDetails({ product }: { product: Product }) {
               <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-4">{product.description}</p>
 
               <div className="flex items-center justify-between mb-6">
-                <p className="lg:text-xl text-lg font-bold text-gray-900 dark:text-white">{product.price} DT</p>
+                <div className="flex flex-col">
+                  <div className="flex items-center gap-3">
+                    <p className="lg:text-xl text-lg font-bold text-gray-900 dark:text-white">
+                      {product.price} DT
+                    </p>
+                    {product.originalPrice && product.originalPrice > product.price && (
+                      <span className="bg-red-500 text-white text-sm px-2 py-1 rounded font-bold">
+                        -{Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}%
+                      </span>
+                    )}
+                  </div>
+                  {product.originalPrice && product.originalPrice > product.price && (
+                    <p className="text-sm text-gray-500 dark:text-gray-400 font-semibold line-through">
+                      {product.originalPrice} DT
+                    </p>
+                  )}
+                </div>
                 <div className="flex items-center space-x-2">
                   <div className={`w-3 h-3 rounded-full ${product.inStock ? 'bg-green-500' : 'bg-red-500'}`}></div>
                   <span className={`font-medium ${product.inStock ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>

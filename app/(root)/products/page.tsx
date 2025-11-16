@@ -258,7 +258,7 @@ function ProductsContent() {
         );
         break;
       case "popularity":
-        result.sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
+        result.sort((a, b) => (parseInt(b.popularity || "3") || 3) - (parseInt(a.popularity || "3") || 3));
         break;
       default:
         // Keep original order

@@ -26,6 +26,15 @@ export default defineType({
       validation: (r) => r.min(0),
     }),
 
+    // ✅ Original Price (for discounts)
+    defineField({
+      name: "originalPrice",
+      title: "Original Price",
+      type: "number",
+      description: "Original price before discount (leave empty if no discount)",
+      validation: (r) => r.min(0),
+    }),
+
     // ✅ Product Media (Images + optional video)
     defineField({
       name: "gallery",
@@ -112,7 +121,27 @@ export default defineType({
       title: "Materials",
       type: "array",
       of: [{ type: "string" }],
-      description: "List of materials used in the product",
+      options: {
+        list: [
+          { title: "Cotton", value: "Cotton" },
+          { title: "Polyester", value: "Polyester" },
+          { title: "Silk", value: "Silk" },
+          { title: "Wool", value: "Wool" },
+          { title: "Linen", value: "Linen" },
+          { title: "Leather", value: "Leather" },
+          { title: "Denim", value: "Denim" },
+          { title: "Chiffon", value: "Chiffon" },
+          { title: "Satin", value: "Satin" },
+          { title: "Velvet", value: "Velvet" },
+          { title: "Lace", value: "Lace" },
+          { title: "Mesh", value: "Mesh" },
+          { title: "Nylon", value: "Nylon" },
+          { title: "Spandex", value: "Spandex" },
+          { title: "Rayon", value: "Rayon" },
+          { title: "Acrylic", value: "Acrylic" },
+        ],
+      },
+      description: "Select materials used in the product",
     }),
 
     // ✅ Care Instructions
@@ -121,7 +150,25 @@ export default defineType({
       title: "Care Instructions",
       type: "array",
       of: [{ type: "string" }],
-      description: "Care instructions for the product",
+      options: {
+        list: [
+          { title: "Machine wash cold", value: "Machine wash cold" },
+          { title: "Hand wash only", value: "Hand wash only" },
+          { title: "Do not wash", value: "Do not wash" },
+          { title: "Dry clean only", value: "Dry clean only" },
+          { title: "Tumble dry low", value: "Tumble dry low" },
+          { title: "Hang dry", value: "Hang dry" },
+          { title: "Do not tumble dry", value: "Do not tumble dry" },
+          { title: "Iron on low heat", value: "Iron on low heat" },
+          { title: "Do not iron", value: "Do not iron" },
+          { title: "Do not bleach", value: "Do not bleach" },
+          { title: "Bleach when needed", value: "Bleach when needed" },
+          { title: "Store in cool, dry place", value: "Store in cool, dry place" },
+          { title: "Avoid direct sunlight", value: "Avoid direct sunlight" },
+          { title: "Professional cleaning recommended", value: "Professional cleaning recommended" },
+        ],
+      },
+      description: "Select care instructions for the product",
     }),
 
     // ✅ Product Details
@@ -153,16 +200,37 @@ export default defineType({
     defineField({
       name: "shippingInfo",
       title: "Shipping Information",
-      type: "text",
-      description: "Shipping and delivery information",
+      type: "string",
+      options: {
+        list: [
+          { title: "Free shipping on orders over 100 DT", value: "Free shipping on orders over 100 DT. Standard delivery within 3-5 business days." },
+          { title: "Express shipping available", value: "Express shipping available for 15 DT. Standard delivery within 3-5 business days." },
+          { title: "International shipping available", value: "International shipping available. Delivery time 7-14 business days depending on location." },
+          { title: "Local pickup available", value: "Local pickup available at our store. Free shipping on orders over 50 DT." },
+          { title: "Same day delivery in Tunis", value: "Same day delivery available in Tunis for orders placed before 2 PM." },
+          { title: "Premium shipping", value: "Premium shipping available for 25 DT. Guaranteed delivery within 2 business days." },
+        ],
+      },
+      description: "Select shipping information for the product",
     }),
 
     // ✅ Return Policy
     defineField({
       name: "returnPolicy",
       title: "Return Policy",
-      type: "text",
-      description: "Return and exchange policy",
+      type: "string",
+      options: {
+        list: [
+          { title: "30-day return policy", value: "30-day return policy. Items must be unused and in original packaging." },
+          { title: "14-day return policy", value: "14-day return policy. Items must be unused and in original packaging." },
+          { title: "7-day return policy", value: "7-day return policy. Items must be unused and in original packaging." },
+          { title: "No returns on sale items", value: "No returns on sale items. Final sale items are not eligible for return." },
+          { title: "Free returns and exchanges", value: "Free returns and exchanges within 30 days. Items must be unused and in original packaging." },
+          { title: "Store credit only", value: "Returns accepted within 30 days for store credit only. Items must be unused and in original packaging." },
+          { title: "No returns", value: "No returns accepted on this item. All sales are final." },
+        ],
+      },
+      description: "Select return policy for the product",
     }),
 
     // ✅ Sale
@@ -178,9 +246,18 @@ export default defineType({
     defineField({
       name: "popularity",
       title: "Popularity Score",
-      type: "number",
-      initialValue: 0,
-      description: "Popularity score for sorting (higher = more popular)",
+      type: "string",
+      options: {
+        list: [
+          { title: "Very Low (0-20)", value: "1" },
+          { title: "Low (21-40)", value: "2" },
+          { title: "Medium (41-60)", value: "3" },
+          { title: "High (61-80)", value: "4" },
+          { title: "Very High (81-100)", value: "5" },
+        ],
+      },
+      initialValue: "3",
+      description: "Select popularity score for sorting (higher = more popular)",
     }),
   ],
   preview: {
