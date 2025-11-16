@@ -1,10 +1,11 @@
 // components/ProductCard.tsx
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Product } from "@/lib/types";
 import { useCartStore } from "@/store/cart";
+import { useWishlistStore } from "@/store/wishlist";
 import { toast } from "sonner";
 
 interface ProductCardProps {
@@ -38,9 +39,15 @@ export default function ProductCard({
 }: ProductCardProps) {
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
   const firstImage = product.gallery?.[0]?.asset?.url;
   const secondImage = product.gallery?.[1]?.asset?.url;
   const { addToCart } = useCartStore();
+  const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlistStore();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Check if Quick Add should be disabled
   const isQuickAddDisabled =
@@ -92,6 +99,22 @@ export default function ProductCard({
       description: `${1} ${product.title} added to your cart.`,
     });
   };
+
+  const handleWishlistToggle = () => {
+    const isInWishlistAlready = isInWishlist(product._id);
+
+    if (isInWishlistAlready) {
+      removeFromWishlist(product._id);
+      toast.success("Removed from wishlist", {
+        description: `${product.title} removed from your wishlist.`,
+      });
+    } else {
+      addToWishlist(product);
+      toast.success("Added to wishlist!", {
+        description: `${product.title} added to your wishlist.`,
+      });
+    }
+  };
   return (
     <motion.div
       key={product._id}
@@ -128,25 +151,56 @@ export default function ProductCard({
           </>
         )}
 
+
         {/* Wishlist button */}
-        <button
-          className="absolute top-3 right-3 w-8 h-8 bg-white/20 dark:bg-zinc-700/50 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-white/30 dark:hover:bg-zinc-600/50"
-          aria-label="Add to wishlist"
-        >
-          <svg
-            className="w-4 h-4 text-black dark:text-white font-semibold"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
+        {mounted ? (
+          <button
+            onClick={handleWishlistToggle}
+            className={`absolute top-3 right-3 w-8 h-8 backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-300 ${
+              isInWishlist(product._id)
+                ? "bg-red-50 dark:bg-red-900/20 opacity-100"
+                : "bg-white/20 dark:bg-zinc-700/50 opacity-0 group-hover:opacity-100 hover:bg-white/30 dark:hover:bg-zinc-600/50"
+            }`}
+            aria-label={isInWishlist(product._id) ? "Remove from wishlist" : "Add to wishlist"}
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-            />
-          </svg>
-        </button>
+            <svg
+              className={`w-4 h-4 font-semibold transition-colors ${
+                isInWishlist(product._id)
+                  ? "text-red-600 fill-current"
+                  : "text-black dark:text-white"
+              }`}
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+              />
+            </svg>
+          </button>
+        ) : (
+          <button
+            className="absolute top-3 right-3 w-8 h-8 bg-white/20 dark:bg-zinc-700/50 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300"
+            aria-label="Add to wishlist"
+          >
+            <svg
+              className="w-4 h-4 text-black dark:text-white font-semibold transition-colors"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+              />
+            </svg>
+          </button>
+        )}
       </div>
 
       {/* Details */}
@@ -187,9 +241,11 @@ export default function ProductCard({
           </div>
         )}
 
-        <p className="text-black dark:text-zinc-300 font-semibold text-xs sm:text-sm my-1 line-clamp-2 text-center leading-relaxed">
-          {highlightText(product.description || "", searchQuery)}
-        </p>
+        {product.description && product.description.trim() && (
+          <p className="text-black dark:text-zinc-300 font-semibold text-xs sm:text-sm my-1 line-clamp-2 text-center leading-relaxed">
+            {highlightText(product.description, searchQuery)}
+          </p>
+        )}
 
         {/* Variants - inline with content */}
         {(product.colors && product.colors.length > 0) || (product.sizes && product.sizes.length > 0) ? (

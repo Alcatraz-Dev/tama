@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { ShoppingBasket, X } from "lucide-react";
+import { ShoppingBasket, Heart, X } from "lucide-react";
 import { useCartStore } from "@/store/cart";
+import { useWishlistStore } from "@/store/wishlist";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "./ui/button";
@@ -20,6 +21,7 @@ const links = [
 
 export default function Navbar() {
   const { cartItems } = useCartStore();
+  const { wishlistItems } = useWishlistStore();
   const { theme } = useTheme();
   const [scrolled, setScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -65,7 +67,7 @@ export default function Navbar() {
         </Link>
 
         {/* Right side nav */}
-        <div className="flex items-center gap-4 md:gap-6 ml-auto">
+        <div className="flex items-center gap-2 sm:gap-4 md:gap-6 ml-auto">
           <nav className="hidden md:flex gap-6">
             {links.map((link) => (
               <motion.div
@@ -85,9 +87,27 @@ export default function Navbar() {
 
           <ThemeToggle />
 
+          {/* Wishlist */}
+          <Link href="/wishlist" className="relative bg-card p-1 sm:p-2 rounded-md sm:rounded-lg">
+            <Heart className="w-3.5 h-3.5 sm:w-5 sm:h-5 text-zinc-700 dark:text-zinc-300 hover:text-red-500 dark:hover:text-red-400" />
+            <AnimatePresence>
+              {wishlistItems.length > 0 && (
+                <motion.span
+                  key={wishlistItems.length}
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  exit={{ scale: 0 }}
+                  className="absolute -top-1 sm:-top-2 -right-1 sm:-right-2 bg-red-500 text-white text-[9px] sm:text-xs w-3.5 h-3.5 sm:w-5 sm:h-5 rounded-full flex items-center justify-center"
+                >
+                  {wishlistItems.length}
+                </motion.span>
+              )}
+            </AnimatePresence>
+          </Link>
+
           {/* Cart */}
-          <Link href="/cart" className="relative bg-card p-2 rounded-lg">
-            <ShoppingBasket className="w-5 h-5 text-zinc-700 dark:text-zinc-300 hover:text-black dark:hover:text-white" />
+          <Link href="/cart" className="relative bg-card p-1 sm:p-2 rounded-md sm:rounded-lg">
+            <ShoppingBasket className="w-3.5 h-3.5 sm:w-5 sm:h-5 text-zinc-700 dark:text-zinc-300 hover:text-black dark:hover:text-white" />
             <AnimatePresence>
               {cartItems.length > 0 && (
                 <motion.span
@@ -95,7 +115,7 @@ export default function Navbar() {
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   exit={{ scale: 0 }}
-                  className="absolute -top-2 -right-2 bg-black dark:bg-gray-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center"
+                  className="absolute -top-1 sm:-top-2 -right-1 sm:-right-2 bg-black dark:bg-gray-600 text-white text-[9px] sm:text-xs w-3.5 h-3.5 sm:w-5 sm:h-5 rounded-full flex items-center justify-center"
                 >
                   {cartItems.length}
                 </motion.span>
