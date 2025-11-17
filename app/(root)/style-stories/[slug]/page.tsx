@@ -85,7 +85,7 @@ export default function LookbookPage() {
             <Link href="/style-stories">
               <Button variant="outline" size="sm" className="border-zinc-300 dark:border-zinc-600 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-700">
                 <ArrowLeft className="w-4 h-4 mr-2" />
-                {t('backToStyleStories')}
+                {t('backToTamaStories')}
               </Button>
             </Link>
           </div>
@@ -106,7 +106,7 @@ export default function LookbookPage() {
             )}
 
             <p className="text-lg md:text-xl text-zinc-600 dark:text-zinc-400 max-w-2xl mx-auto leading-relaxed mb-6">
-              {lookbook.description || t('discoverProductsInStyleStory', { title: lookbook.title })}
+              {lookbook.description || t('discoverProductsInTamaStory', { title: lookbook.title })}
             </p>
 
             {/* Metadata badges */}
@@ -159,10 +159,10 @@ export default function LookbookPage() {
           <div className="text-center py-16">
             <ShoppingBag className="w-16 h-16 text-zinc-300 dark:text-zinc-600 mx-auto mb-4" />
             <h3 className="text-xl font-semibold text-zinc-600 dark:text-zinc-400 mb-2">
-              {t('noProductsInStyleStory')}
+              {t('noProductsInTamaStory')}
             </h3>
             <p className="text-zinc-500 dark:text-zinc-500 mb-6">
-              {t('styleStoryNoProductsYet')}
+              {t('tamaStoryNoProductsYet')}
             </p>
             <Link href="/products">
               <Button className="bg-black dark:bg-white text-white dark:text-black hover:bg-zinc-800 dark:hover:bg-zinc-200">

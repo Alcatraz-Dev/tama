@@ -253,7 +253,7 @@ export default function ProductCard({
         {(product.colors && product.colors.length > 0) || (product.sizes && product.sizes.length > 0) ? (
           <div className="mt-1.5 space-y-1.5">
             {product.colors && product.colors.length > 0 && (
-              <div className="flex items-center justify-start gap-2 bg-slate-200/50 dark:bg-gray-800/30 rounded-md py-1.5 px-2">
+              <div className="flex items-center justify-start gap-2 bg-white dark:bg-zinc-800 rounded-lg py-1.5 px-2 border border-gray-300 dark:border-zinc-600">
                 <span className="text-[10px] font-semibold text-black dark:text-white tracking-wide">{t('color').toUpperCase()}</span>
                 <div className="flex gap-1 flex-wrap">
                   {product.colors.slice(0, 4).map((color, i: number) => {
@@ -268,10 +268,10 @@ export default function ProductCard({
                         key={i}
                         title={colorName}
                         onClick={() => setSelectedColor(bgColor)}
-                        className={`w-4 h-4 rounded-full border-2 shadow-sm transition-all duration-300 hover:scale-125 hover:shadow-lg ${
+                        className={`w-4 h-4 rounded-full border-2 shadow-sm transition-all duration-300 hover:scale-125 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-fashion-gold ${
                           selectedColor === bgColor
                             ? "border-fashion-gold scale-105 shadow-lg ring-1 ring-fashion-gold/30"
-                            : "border-white dark:border-zinc-600 hover:border-fashion-gold/50"
+                            : "border-gray-300 dark:border-zinc-600 hover:border-fashion-gold/50"
                         }`}
                         style={{ backgroundColor: bgColor }}
                       />
@@ -287,17 +287,17 @@ export default function ProductCard({
             )}
 
             {product.sizes && product.sizes.length > 0 && (
-              <div className="flex items-center justify-start gap-2 bg-slate-200/50 dark:bg-gray-800/30 rounded-md py-1.5 px-2">
+              <div className="flex items-center justify-start gap-2 bg-white dark:bg-zinc-800 rounded-lg py-1.5 px-2 border border-gray-300 dark:border-zinc-600">
                 <span className="text-[10px] font-semibold text-black dark:text-white tracking-wide">{t('size').toUpperCase()}</span>
                 <div className="flex gap-1 flex-wrap">
                   {product.sizes.map((size: string, i: number) => (
                     <button
                       key={i}
                       onClick={() => setSelectedSize(size)}
-                      className={`px-2 py-0.5 border-2 rounded text-xs font-bold transition-all duration-300 hover:scale-105 text-[10px] ${
+                      className={`px-2 py-0.5 border-2 rounded text-xs font-bold transition-all duration-300 hover:scale-105 text-[10px] focus:outline-none focus:ring-2 focus:ring-fashion-gold ${
                         selectedSize === size
                           ? "bg-fashion-gold text-black border-fashion-gold shadow-lg scale-105"
-                          : "border-zinc-300 dark:border-zinc-600 text-black dark:text-white bg-white dark:bg-zinc-900 hover:border-fashion-gold hover:bg-fashion-gold/10 dark:hover:bg-fashion-gold/20 hover:shadow-md"
+                          : "border-gray-300 dark:border-zinc-600 text-black dark:text-white bg-white dark:bg-zinc-800 hover:border-fashion-gold hover:bg-fashion-gold/10 dark:hover:bg-fashion-gold/20 hover:shadow-md"
                       }`}
                     >
                       {size}
@@ -313,7 +313,7 @@ export default function ProductCard({
         <div className="flex items-center justify-center gap-3 mt-2 px-2">
           <div className="flex items-center gap-2">
             <p className="text-lg sm:text-xl lg:text-2xl font-extrabold text-black dark:text-white">
-              {product.price} DT
+              {product.price} {t('currency')}
             </p>
             {product.originalPrice && product.originalPrice > product.price && (
               <>
@@ -321,7 +321,7 @@ export default function ProductCard({
                   -{Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}%
                 </span>
                 <p className="text-sm text-black dark:text-zinc-400 font-semibold line-through">
-                  {product.originalPrice} DT
+                  {product.originalPrice} {t('currency')}
                 </p>
               </>
             )}

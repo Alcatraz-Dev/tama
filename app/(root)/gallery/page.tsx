@@ -179,7 +179,7 @@ export default function GalleryPage() {
                         {image.productTitle}
                       </h3>
                       <div className="flex items-center text-white/90">
-                        <span>View Product</span>
+                        <span>{t('viewProduct')}</span>
                         <ChevronRight className="w-4 h-4 ml-2" />
                       </div>
                     </div>
@@ -230,7 +230,7 @@ export default function GalleryPage() {
                       {image.productTitle}
                     </p>
                     <div className="flex items-center text-xs text-white/80">
-                      <span>View Product</span>
+                      <span>{t('viewProduct')}</span>
                       <ChevronRight className="w-3 h-3 ml-1" />
                     </div>
                   </div>

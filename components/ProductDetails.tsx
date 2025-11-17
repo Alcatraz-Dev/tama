@@ -468,7 +468,7 @@ export function ProductDetails({ product }: { product: Product }) {
                 <div className="flex flex-col">
                   <div className="flex items-center gap-3">
                     <p className="lg:text-xl text-lg font-bold text-gray-900 dark:text-white">
-                      {product.price} DT
+                      {product.price} {t('currency')}
                     </p>
                     {product.originalPrice && product.originalPrice > product.price && (
                       <span className="bg-red-500 text-white text-sm px-2 py-1 rounded font-bold">
@@ -478,7 +478,7 @@ export function ProductDetails({ product }: { product: Product }) {
                   </div>
                   {product.originalPrice && product.originalPrice > product.price && (
                     <p className="text-sm text-gray-500 dark:text-gray-400 font-semibold line-through">
-                      {product.originalPrice} DT
+                      {product.originalPrice} {t('currency')}
                     </p>
                   )}
                 </div>

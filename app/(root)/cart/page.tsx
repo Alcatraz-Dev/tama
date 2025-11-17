@@ -7,8 +7,9 @@ import { Trash2, Plus, Minus, ShoppingCart } from "lucide-react";
 import { client } from "@/sanity/lib/client";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { useTranslation } from "@/lib/translationContext";
 
-const tunisianTowns = [
+const tunisianTownsEn = [
   "Tunis",
   "Ariana",
   "Ben Arous",
@@ -35,7 +36,62 @@ const tunisianTowns = [
   "Kebili",
 ];
 
+const tunisianTownsFr = [
+  "Tunis",
+  "Ariana",
+  "Ben Arous",
+  "La Manouba",
+  "Nabeul",
+  "Zaghouan",
+  "Bizerte",
+  "Béja",
+  "Jendouba",
+  "Le Kef",
+  "Siliana",
+  "Kairouan",
+  "Kasserine",
+  "Sidi Bouzid",
+  "Sousse",
+  "Monastir",
+  "Mahdia",
+  "Sfax",
+  "Gabès",
+  "Medenine",
+  "Tataouine",
+  "Gafsa",
+  "Tozeur",
+  "Kebili",
+];
+
+const tunisianTownsAr = [
+  "تونس",
+  "أريانة",
+  "بن عروس",
+  "منوبة",
+  "نابل",
+  "زغوان",
+  "بنزرت",
+  "باجة",
+  "جندوبة",
+  "الكاف",
+  "سليانة",
+  "القيروان",
+  "القصرين",
+  "سيدي بوزيد",
+  "سوسة",
+  "المنستير",
+  "المهدية",
+  "صفاقس",
+  "قابس",
+  "مدنين",
+  "تطاوين",
+  "قفصة",
+  "توزر",
+  "قبلي",
+];
+
 export default function CartPage() {
+  const { t, language } = useTranslation();
   const {
     cartItems,
     removeFromCart,
@@ -43,6 +99,17 @@ export default function CartPage() {
     decreaseQuantity,
     clearCart,
   } = useCartStore();
+
+  const getTunisianTowns = () => {
+    switch (language) {
+      case 'fr':
+        return tunisianTownsFr;
+      case 'ar':
+        return tunisianTownsAr;
+      default:
+        return tunisianTownsEn;
+    }
+  };
 
   const [showCheckoutForm, setShowCheckoutForm] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -141,7 +208,7 @@ export default function CartPage() {
       setShowCheckoutForm(false);
     } catch (err) {
       console.error("Cart order failed:", err);
-      toast("Failed to submit order", { description: "Please try again." });
+      toast(t("failedToSubmitOrder"), { description: t("pleaseTryAgain") });
     } finally {
       setIsSubmitting(false);
     }
@@ -151,7 +218,7 @@ export default function CartPage() {
     return (
       <div className="p-6 text-center my-20">
         <ShoppingCart className="w-14 h-14 mx-auto text-gray-400 dark:text-gray-600 mb-4" />
-        <p className="text-lg font-medium text-black dark:text-white">Your cart is empty.</p>
+        <p className="text-lg font-medium text-black dark:text-white">{t('yourCartIsEmpty')}</p>
       </div>
     );
   }
@@ -159,7 +226,7 @@ export default function CartPage() {
   return (
     <div className="p-4 sm:p-6 max-w-6xl mx-auto bg-background min-h-screen">
       <h1 className="text-2xl sm:text-3xl font-bold my-6 flex items-center gap-2 text-black dark:text-white">
-        <ShoppingCart className="w-6 h-6 sm:w-7 sm:h-7" /> Your Cart
+        <ShoppingCart className="w-6 h-6 sm:w-7 sm:h-7" /> {t('yourCart')}
       </h1>
 
       <ul className="space-y-6">
@@ -185,11 +252,11 @@ export default function CartPage() {
                 {item.title}
               </h2>
               <p className="text-gray-600 dark:text-gray-400 text-sm sm:text-base">
-                {item.price.toFixed(2)} DT
+                {item.price.toFixed(2)} {t('currency')}
               </p>
               <div className="flex items-center justify-between gap-2 mt-3 w-full px-2">
                 <div className="flex items-center gap-2">
-                  {item.size && <span className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">Size: {item.size}</span>}
+                  {item.size && <span className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">{t('sizeLabel')}: {item.size}</span>}
                   {item.color && item.color.startsWith('#') && (
                     <div className="flex gap-1 flex-wrap justify-start">
                       <span
@@ -203,7 +270,7 @@ export default function CartPage() {
 
                 <div className="flex flex-col items-end">
                   <p className="text-sm sm:text-base lg:text-lg font-extrabold text-black dark:text-white">
-                    {item.price.toFixed(2)} DT
+                    {item.price.toFixed(2)} {t('currency')}
                   </p>
                 </div>
               </div>
@@ -236,7 +303,7 @@ export default function CartPage() {
                 onClick={() => removeFromCart(item._id)}
                 className="flex items-center gap-1 text-red-500 hover:text-red-700 text-xs sm:text-sm"
               >
-                <Trash2 className="w-3 h-3 sm:w-4 sm:h-4" /> Remove
+                <Trash2 className="w-3 h-3 sm:w-4 sm:h-4" /> {t('remove')}
               </button>
             </div>
           </li>
@@ -249,10 +316,10 @@ export default function CartPage() {
           {/* Order Summary */}
           <div className="w-full flex flex-col gap-2">
             <p className="text-sm text-gray-600 dark:text-gray-400">
-              Subtotal: {subtotal.toFixed(2)} DT
+              {t('subtotal')}: {subtotal.toFixed(2)} {t('currency')}
             </p>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Shipping: {shippingFee} DT</p>
-            <p className="text-xl font-bold text-black dark:text-white">Total: {total.toFixed(2)} DT</p>
+            <p className="text-sm text-gray-600 dark:text-gray-400">{t('shipping')}: {shippingFee} {t('currency')}</p>
+            <p className="text-xl font-bold text-black dark:text-white">{t('total')}: {total.toFixed(2)} {t('currency')}</p>
           </div>
 
           {/* Checkout Form / Button */}
@@ -262,7 +329,7 @@ export default function CartPage() {
                 className="w-full max-w-sm rounded-lg"
                 onClick={() => setShowCheckoutForm(true)}
               >
-                Proceed to Checkout
+                {t('proceedToCheckout')}
               </Button>
             ) : (
               <form
@@ -271,7 +338,7 @@ export default function CartPage() {
               >
                 <input
                   type="text"
-                  placeholder="Full Name"
+                  placeholder={t('fullName')}
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
                   className="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 w-full bg-white dark:bg-zinc-800 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white"
@@ -283,8 +350,8 @@ export default function CartPage() {
                   className="border border-zinc-300 dark:border-zinc-600 rounded-lg px-3 py-2 w-full bg-white dark:bg-zinc-800 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white"
                   required
                 >
-                  <option value="">Select Tunisian Town</option>
-                  {tunisianTowns.map((t, i) => (
+                  <option value="">{t('selectTunisianTown')}</option>
+                  {getTunisianTowns().map((t, i) => (
                     <option key={i} value={t}>
                       {t}
                     </option>
@@ -292,7 +359,7 @@ export default function CartPage() {
                 </select>
                 <input
                   type="text"
-                  placeholder="Location"
+                  placeholder={t('location')}
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
                   className="border border-zinc-300 dark:border-zinc-600 rounded-lg px-3 py-2 w-full bg-white dark:bg-zinc-800 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white"
@@ -300,7 +367,7 @@ export default function CartPage() {
                 />
                 <input
                   type="tel"
-                  placeholder="Phone Number"
+                  placeholder={t('phoneNumber')}
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   className="border border-zinc-300 dark:border-zinc-600 rounded-lg px-3 py-2 w-full bg-white dark:bg-zinc-800 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white"
@@ -313,14 +380,14 @@ export default function CartPage() {
                     className="flex-1 rounded-lg bg-zinc-200 dark:bg-zinc-700 text-black dark:text-white hover:bg-zinc-300 dark:hover:bg-zinc-600"
                     onClick={() => setShowCheckoutForm(false)}
                   >
-                    Cancel
+                    {t('cancel')}
                   </Button>
                   <Button
                     type="submit"
                     className="flex-1 rounded-lg"
                     disabled={isSubmitting}
                   >
-                    {isSubmitting ? "Submitting..." : "Submit Order"}
+                    {isSubmitting ? t('submitting') : t('submitOrder')}
                   </Button>
                 </div>
               </form>

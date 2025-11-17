@@ -20,7 +20,7 @@ const links = [
   { href: "/collections", key: "collections" },
   { href: "/gallery", key: "gallery" },
   { href: "/about", key: "about" },
-  { href: "/style-stories", key: "styleStories" },
+  { href: "/style-stories", key: "tamaStories" },
 ];
 
 export default function Navbar() {
@@ -109,41 +109,12 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Desktop Layout - Logo centered between navigation */}
-        <div className="hidden md:flex items-center justify-between">
-          {/* Left Navigation */}
-          <nav className="flex gap-4 lg:gap-6 xl:gap-8">
-            {links.slice(0, 3).map((link) => (
-              <motion.div
-                key={link.href}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Link
-                  href={link.href}
-                  className="text-zinc-700 dark:text-zinc-300 hover:text-black dark:hover:text-white text-sm font-semibold transition hover:drop-shadow-sm dark:hover:drop-shadow-[0_0_8px_rgba(139,128,0,0.4)]"
-                >
-                  {t(link.key as any)}
-                </Link>
-              </motion.div>
-            ))}
-          </nav>
-
-          {/* Center Logo */}
-          <Link href="/" className="flex items-center mx-8">
-            <Image
-              src={mounted && theme === "dark" ? "/tama-light.svg" : "/tama.svg"}
-              alt="Tama Logo"
-              width={150}
-              height={150}
-              className="w-[80px] h-[80px] lg:w-[100px] lg:h-[100px]"
-            />
-          </Link>
-
-          {/* Right Navigation */}
-          <div className="flex items-center gap-3 lg:gap-4">
+        {/* Desktop Layout - Logo perfectly centered */}
+        <div className="hidden md:flex items-center">
+          {/* Left Navigation - takes equal space */}
+          <div className="flex-1 flex justify-start">
             <nav className="flex gap-4 lg:gap-6 xl:gap-8">
-              {links.slice(3).map((link) => (
+              {links.slice(0, 3).map((link) => (
                 <motion.div
                   key={link.href}
                   whileHover={{ scale: 1.1 }}
@@ -158,43 +129,78 @@ export default function Navbar() {
                 </motion.div>
               ))}
             </nav>
+          </div>
 
-            <ThemeToggle />
-            <LanguageSwitcher />
-
-            <Link href="/wishlist" className="relative bg-card p-2 rounded-lg">
-              <Heart className="w-4 h-4 text-zinc-700 dark:text-zinc-300 hover:text-red-500 dark:hover:text-red-400" />
-              <AnimatePresence>
-                {wishlistItems.length > 0 && (
-                  <motion.span
-                    key={wishlistItems.length}
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    exit={{ scale: 0 }}
-                    className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center"
-                  >
-                    {wishlistItems.length}
-                  </motion.span>
-                )}
-              </AnimatePresence>
+          {/* Center Logo - absolutely positioned in center */}
+          <div className="absolute left-1/2 transform -translate-x-1/2">
+            <Link href="/" className="flex items-center">
+              <Image
+                src={mounted && theme === "dark" ? "/tama-light.svg" : "/tama.svg"}
+                alt="Tama Logo"
+                width={150}
+                height={150}
+                className="w-[80px] h-[80px] lg:w-[100px] lg:h-[100px]"
+              />
             </Link>
+          </div>
 
-            <Link href="/cart" className="relative bg-card p-2 rounded-lg">
-              <ShoppingBasket className="w-4 h-4 text-zinc-700 dark:text-zinc-300 hover:text-black dark:hover:text-white" />
-              <AnimatePresence>
-                {cartItems.length > 0 && (
-                  <motion.span
-                    key={cartItems.length}
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    exit={{ scale: 0 }}
-                    className="absolute -top-2 -right-2 bg-black dark:bg-gray-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center"
+          {/* Right Navigation - takes equal space */}
+          <div className="flex-1 flex justify-end">
+            <div className="flex items-center gap-3 lg:gap-4">
+              <nav className="flex gap-4 lg:gap-6 xl:gap-8">
+                {links.slice(3).map((link) => (
+                  <motion.div
+                    key={link.href}
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.95 }}
                   >
-                    {cartItems.length}
-                  </motion.span>
-                )}
-              </AnimatePresence>
-            </Link>
+                    <Link
+                      href={link.href}
+                      className="text-zinc-700 dark:text-zinc-300 hover:text-black dark:hover:text-white text-sm font-semibold transition hover:drop-shadow-sm dark:hover:drop-shadow-[0_0_8px_rgba(139,128,0,0.4)]"
+                    >
+                      {t(link.key as any)}
+                    </Link>
+                  </motion.div>
+                ))}
+              </nav>
+
+              <ThemeToggle />
+              <LanguageSwitcher />
+
+              <Link href="/wishlist" className="relative bg-card p-2 rounded-lg">
+                <Heart className="w-4 h-4 text-zinc-700 dark:text-zinc-300 hover:text-red-500 dark:hover:text-red-400" />
+                <AnimatePresence>
+                  {wishlistItems.length > 0 && (
+                    <motion.span
+                      key={wishlistItems.length}
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      exit={{ scale: 0 }}
+                      className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center"
+                    >
+                      {wishlistItems.length}
+                    </motion.span>
+                  )}
+                </AnimatePresence>
+              </Link>
+
+              <Link href="/cart" className="relative bg-card p-2 rounded-lg">
+                <ShoppingBasket className="w-4 h-4 text-zinc-700 dark:text-zinc-300 hover:text-black dark:hover:text-white" />
+                <AnimatePresence>
+                  {cartItems.length > 0 && (
+                    <motion.span
+                      key={cartItems.length}
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      exit={{ scale: 0 }}
+                      className="absolute -top-2 -right-2 bg-black dark:bg-gray-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center"
+                    >
+                      {cartItems.length}
+                    </motion.span>
+                  )}
+                </AnimatePresence>
+              </Link>
+            </div>
           </div>
         </div>
       </div>

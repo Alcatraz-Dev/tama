@@ -140,9 +140,9 @@ export type TranslationKey =
   | 'whyTitle'
   | 'whyQuestion'
   | 'whyDescription'
-  | 'styleStories'
+  | 'tamaStories'
   | 'lookbookNotFound'
-  | 'backToStyleStories'
+  | 'backToTamaStories'
   | 'theLook'
   | 'shopTheLook'
   | 'shopTheLookDescription'
@@ -150,14 +150,14 @@ export type TranslationKey =
   | 'shareWithFriends'
   | 'saveForLater'
   | 'stylingTips'
-  | 'discoverStyleStories'
-  | 'styleStory'
+  | 'discoverTamaStories'
+  | 'tamaStory'
   | 'viewStory'
-  | 'noStyleStoriesAvailable'
-  | 'workingOnStyleStories'
-  | 'discoverProductsInStyleStory'
-  | 'noProductsInStyleStory'
-  | 'styleStoryNoProductsYet'
+  | 'noTamaStoriesAvailable'
+  | 'workingOnTamaStories'
+  | 'discoverProductsInTamaStory'
+  | 'noProductsInTamaStory'
+  | 'tamaStoryNoProductsYet'
   | 'browseAllProducts'
   | 'materials'
   | 'careInstructions'
@@ -197,7 +197,36 @@ export type TranslationKey =
   | 'reviewSubmitted'
   | 'thankYouFeedback'
   | 'checkOutThisProduct'
-  | 'linkCopiedToClipboard';
+  | 'linkCopiedToClipboard'
+  | 'viewProduct'
+  | 'missingFullName'
+  | 'enterYourFullName'
+  | 'missingTown'
+  | 'selectYourTown'
+  | 'missingLocation'
+  | 'enterYourLocation'
+  | 'missingPhoneNumber'
+  | 'enterYourPhoneNumber'
+  | 'orderSubmittedSuccessfully'
+  | 'orderReceivedMessage'
+  | 'failedToSubmitOrder'
+  | 'pleaseTryAgain'
+  | 'yourCartIsEmpty'
+  | 'yourCart'
+  | 'sizeLabel'
+  | 'remove'
+  | 'subtotal'
+  | 'shipping'
+  | 'total'
+  | 'proceedToCheckout'
+  | 'fullName'
+  | 'selectTunisianTown'
+  | 'location'
+  | 'phoneNumber'
+  | 'cancel'
+  | 'submitting'
+  | 'submitOrder'
+  | 'currency';
 
 export const translations = {
   en: {
@@ -336,9 +365,9 @@ export const translations = {
     whyTitle: 'Why ',
     whyQuestion: '? ',
     whyDescription: 'At Tama, we believe clothing is more than fabric — it\'s a story. From handpicked materials to carefully designed collections, we ensure each piece represents the richness of Tunisian heritage with a modern twist.',
-    styleStories: 'Style Stories',
-    lookbookNotFound: 'Style Story Not Found',
-    backToStyleStories: 'Back to Style Stories',
+    tamaStories: 'Tama Stories',
+    lookbookNotFound: 'Tama Story Not Found',
+    backToTamaStories: 'Back to Tama Stories',
     theLook: 'The Look',
     shopTheLook: 'Shop the Look',
     shopTheLookDescription: 'Discover the pieces that make this look complete. Each item is carefully selected to bring the vision to life.',
@@ -346,14 +375,14 @@ export const translations = {
     shareWithFriends: 'Share it with your friends and followers',
     saveForLater: 'Save for Later',
     stylingTips: 'Styling Tips',
-    discoverStyleStories: 'Discover our curated style stories that showcase fashion inspiration and trends.',
-    styleStory: 'Style Story',
+    discoverTamaStories: 'Discover our curated Tama stories that showcase fashion inspiration and trends.',
+    tamaStory: 'Tama Story',
     viewStory: 'View Story →',
-    noStyleStoriesAvailable: 'No Style Stories Available',
-    workingOnStyleStories: 'We\'re working on creating amazing style stories. Check back soon or browse our products in the meantime.',
-    discoverProductsInStyleStory: 'Discover the products featured in this {{title}} style story.',
-    noProductsInStyleStory: 'No Products in this Style Story',
-    styleStoryNoProductsYet: 'This style story doesn\'t have any products yet.',
+    noTamaStoriesAvailable: 'No Tama Stories Available',
+    workingOnTamaStories: 'We\'re working on creating amazing Tama stories. Check back soon or browse our products in the meantime.',
+    discoverProductsInTamaStory: 'Discover the products featured in this {{title}} Tama story.',
+    noProductsInTamaStory: 'No Products in this Tama Story',
+    tamaStoryNoProductsYet: 'This Tama story doesn\'t have any products yet.',
     materials: 'Materials',
     careInstructions: 'Care Instructions',
     details: 'Details',
@@ -392,6 +421,23 @@ export const translations = {
     thankYouFeedback: 'Thank you for your feedback!',
     checkOutThisProduct: 'Check out this {{title}}!',
     linkCopiedToClipboard: 'Link copied to clipboard!',
+    viewProduct: 'View Product',
+    missingFullName: 'Missing Full Name',
+    orderSubmittedSuccessfully: 'Order submitted successfully!',
+    orderReceivedMessage: 'We have received your order and will process it shortly.',
+    failedToSubmitOrder: 'Failed to submit order',
+    pleaseTryAgain: 'Please try again.',
+    yourCartIsEmpty: 'Your cart is empty.',
+    yourCart: 'Your Cart',
+    sizeLabel: 'Size',
+    remove: 'Remove',
+    subtotal: 'Subtotal',
+    shipping: 'Shipping',
+    total: 'Total',
+    proceedToCheckout: 'Proceed to Checkout',
+    selectTunisianTown: 'Select Tunisian Town',
+    submitOrder: 'Submit Order',
+    currency: 'DT',
   },
   fr: {
     home: 'Accueil',
@@ -529,9 +575,9 @@ export const translations = {
     whyTitle: 'Pourquoi ',
     whyQuestion: '? ',
     whyDescription: 'Chez Tama, nous croyons que les vêtements sont plus que du tissu — c\'est une histoire. Des matériaux soigneusement sélectionnés aux collections conçues avec soin, nous nous assurons que chaque pièce représente la richesse de l\'héritage tunisien avec une touche moderne.',
-    styleStories: 'Histoires de Style',
-    lookbookNotFound: 'Histoire de Style Non Trouvée',
-    backToStyleStories: 'Retour aux Histoires de Style',
+    tamaStories: 'Histoires Tama',
+    lookbookNotFound: 'Histoire Tama Non Trouvée',
+    backToTamaStories: 'Retour aux Histoires Tama',
     theLook: 'Le Look',
     shopTheLook: 'Acheter le Look',
     shopTheLookDescription: 'Découvrez les pièces qui complètent ce look. Chaque article est soigneusement sélectionné pour donner vie à la vision.',
@@ -539,14 +585,14 @@ export const translations = {
     shareWithFriends: 'Partagez-le avec vos amis et abonnés',
     saveForLater: 'Sauvegarder pour Plus Tard',
     stylingTips: 'Conseils de Style',
-    discoverStyleStories: 'Découvrez nos histoires de style organisées qui mettent en valeur l\'inspiration et les tendances de la mode.',
-    styleStory: 'Histoire de Style',
+    discoverTamaStories: 'Découvrez nos histoires Tama organisées qui mettent en valeur l\'inspiration et les tendances de la mode.',
+    tamaStory: 'Histoire Tama',
     viewStory: 'Voir l\'Histoire →',
-    noStyleStoriesAvailable: 'Aucune Histoire de Style Disponible',
-    workingOnStyleStories: 'Nous travaillons à créer des histoires de style étonnantes. Revenez bientôt ou parcourez nos produits en attendant.',
-    discoverProductsInStyleStory: 'Découvrez les produits présentés dans cette histoire de style {{title}}.',
-    noProductsInStyleStory: 'Aucun Produit dans cette Histoire de Style',
-    styleStoryNoProductsYet: 'Cette histoire de style n\'a pas encore de produits.',
+    noTamaStoriesAvailable: 'Aucune Histoire Tama Disponible',
+    workingOnTamaStories: 'Nous travaillons à créer des histoires Tama étonnantes. Revenez bientôt ou parcourez nos produits en attendant.',
+    discoverProductsInTamaStory: 'Découvrez les produits présentés dans cette histoire Tama {{title}}.',
+    noProductsInTamaStory: 'Aucun Produit dans cette Histoire Tama',
+    tamaStoryNoProductsYet: 'Cette histoire Tama n\'a pas encore de produits.',
     materials: 'Matériaux',
     careInstructions: 'Instructions d\'entretien',
     details: 'Détails',
@@ -585,6 +631,23 @@ export const translations = {
     thankYouFeedback: 'Merci pour votre retour !',
     checkOutThisProduct: 'Découvrez ce {{title}} !',
     linkCopiedToClipboard: 'Lien copié dans le presse-papiers !',
+    viewProduct: 'Voir le Produit',
+    missingFullName: 'Nom complet manquant',
+    orderSubmittedSuccessfully: 'Commande soumise avec succès !',
+    orderReceivedMessage: 'Nous avons reçu votre commande et la traiterons sous peu.',
+    failedToSubmitOrder: 'Échec de soumission de la commande',
+    pleaseTryAgain: 'Veuillez réessayer.',
+    yourCartIsEmpty: 'Votre panier est vide.',
+    yourCart: 'Votre Panier',
+    sizeLabel: 'Taille',
+    remove: 'Supprimer',
+    subtotal: 'Sous-total',
+    shipping: 'Livraison',
+    total: 'Total',
+    proceedToCheckout: 'Procéder au paiement',
+    selectTunisianTown: 'Sélectionner une ville tunisienne',
+    submitOrder: 'Soumettre la commande',
+    currency: 'DT',
   },
   ar: {
     home: 'الرئيسية',
@@ -722,9 +785,9 @@ export const translations = {
     whyTitle: 'لماذا ',
     whyQuestion: '؟ ',
     whyDescription: 'في تاما، نؤمن أن الملابس أكثر من مجرد قماش — إنها قصة. من المواد المختارة بعناية إلى المجموعات المصممة بعناية، نحن نضمن أن كل قطعة تمثل غنى التراث التونسي بلمسة حديثة.',
-    styleStories: 'قصص الأسلوب',
-    lookbookNotFound: 'لم يتم العثور على قصة الأسلوب',
-    backToStyleStories: 'العودة إلى قصص الأسلوب',
+    tamaStories: 'قصص تاما',
+    lookbookNotFound: 'لم يتم العثور على قصة تاما',
+    backToTamaStories: 'العودة إلى قصص تاما',
     theLook: 'المظهر',
     shopTheLook: 'تسوق المظهر',
     shopTheLookDescription: 'اكتشف القطع التي تكمل هذا المظهر. كل عنصر تم اختياره بعناية لإحياء الرؤية.',
@@ -732,14 +795,14 @@ export const translations = {
     shareWithFriends: 'شاركه مع أصدقائك ومتابعيك',
     saveForLater: 'حفظ لوقت لاحق',
     stylingTips: 'نصائح التصميم',
-    discoverStyleStories: 'اكتشف قصص أسلوبنا المنظمة التي تبرز الإلهام والاتجاهات في الموضة.',
-    styleStory: 'قصة الأسلوب',
+    discoverTamaStories: 'اكتشف قصص تاما المنظمة التي تبرز الإلهام والاتجاهات في الموضة.',
+    tamaStory: 'قصة تاما',
     viewStory: 'عرض القصة →',
-    noStyleStoriesAvailable: 'لا توجد قصص أسلوب متاحة',
-    workingOnStyleStories: 'نحن نعمل على إنشاء قصص أسلوب رائعة. تحقق مرة أخرى قريباً أو تصفح منتجاتنا في الوقت الحالي.',
-    discoverProductsInStyleStory: 'اكتشف المنتجات المميزة في قصة الأسلوب هذه {{title}}.',
-    noProductsInStyleStory: 'لا توجد منتجات في قصة الأسلوب هذه',
-    styleStoryNoProductsYet: 'قصة الأسلوب هذه لا تحتوي على أي منتجات بعد.',
+    noTamaStoriesAvailable: 'لا توجد قصص تاما متاحة',
+    workingOnTamaStories: 'نحن نعمل على إنشاء قصص تاما رائعة. تحقق مرة أخرى قريباً أو تصفح منتجاتنا في الوقت الحالي.',
+    discoverProductsInTamaStory: 'اكتشف المنتجات المميزة في قصة تاما هذه {{title}}.',
+    noProductsInTamaStory: 'لا توجد منتجات في قصة تاما هذه',
+    tamaStoryNoProductsYet: 'قصة تاما هذه لا تحتوي على أي منتجات بعد.',
     materials: 'المواد',
     careInstructions: 'تعليمات العناية',
     details: 'التفاصيل',
@@ -778,5 +841,22 @@ export const translations = {
     thankYouFeedback: 'شكراً لملاحظاتك!',
     checkOutThisProduct: 'تحقق من هذا {{title}}!',
     linkCopiedToClipboard: 'تم نسخ الرابط إلى الحافظة!',
+    viewProduct: 'عرض المنتج',
+    missingFullName: 'الاسم الكامل مفقود',
+    orderSubmittedSuccessfully: 'تم تقديم الطلب بنجاح!',
+    orderReceivedMessage: 'لقد تلقينا طلبك وسنقوم بمعالجته قريباً.',
+    failedToSubmitOrder: 'فشل في تقديم الطلب',
+    pleaseTryAgain: 'يرجى المحاولة مرة أخرى.',
+    yourCartIsEmpty: 'سلتك فارغة.',
+    yourCart: 'سلتك',
+    sizeLabel: 'الحجم',
+    remove: 'إزالة',
+    subtotal: 'المجموع الفرعي',
+    shipping: 'الشحن',
+    total: 'المجموع',
+    proceedToCheckout: 'المتابعة للدفع',
+    selectTunisianTown: 'اختر مدينة تونسية',
+    submitOrder: 'تقديم الطلب',
+    currency: 'دينار تونسي',
   },
 };

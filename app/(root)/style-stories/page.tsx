@@ -49,11 +49,11 @@ export default function LookbooksPage() {
             <div className="flex items-center justify-center gap-3 mb-6">
               <Grid3X3 className="w-8 h-8 text-zinc-600 dark:text-zinc-400" />
               <h1 className="text-4xl md:text-6xl font-bold text-black dark:text-white">
-                {t("styleStories")}
+                {t("tamaStories")}
               </h1>
             </div>
             <p className="text-lg md:text-xl text-zinc-600 dark:text-zinc-400 max-w-2xl mx-auto leading-relaxed">
-              {t('discoverStyleStories')}
+              {t('discoverTamaStories')}
             </p>
 
             {lookbooks.length > 0 && (
@@ -62,7 +62,7 @@ export default function LookbooksPage() {
                   variant="secondary"
                   className="bg-zinc-200 dark:bg-zinc-700 text-zinc-800 dark:text-zinc-200 px-4 py-2"
                 >
-                  {lookbooks.length} {t("styleStories")}
+                  {lookbooks.length} {t("tamaStories")}
                 </Badge>
                 <Badge
                   variant="secondary"
@@ -126,7 +126,7 @@ export default function LookbooksPage() {
                       <div className="relative w-full aspect-square overflow-hidden bg-gradient-to-br from-zinc-200 to-zinc-300 dark:from-zinc-700 dark:to-zinc-800 flex items-center justify-center">
                         <div className="text-zinc-500 dark:text-zinc-400 text-center">
                           <Grid3X3 className="w-12 h-12 mx-auto mb-2 opacity-50" />
-                          <p className="text-sm">{t('styleStory')}</p>
+                          <p className="text-sm">{t('tamaStory')}</p>
                         </div>
                       </div>
                     )}
@@ -175,10 +175,10 @@ export default function LookbooksPage() {
           <div className="text-center py-16">
             <Package className="w-16 h-16 text-zinc-300 dark:text-zinc-600 mx-auto mb-4" />
             <h3 className="text-xl font-semibold text-zinc-600 dark:text-zinc-400 mb-2">
-              {t('noStyleStoriesAvailable')}
+              {t('noTamaStoriesAvailable')}
             </h3>
             <p className="text-zinc-500 dark:text-zinc-500 mb-6">
-              {t('workingOnStyleStories')}
+              {t('workingOnTamaStories')}
             </p>
             <Link href="/products">
               <Button className="bg-black dark:bg-white text-white dark:text-black hover:bg-zinc-800 dark:hover:bg-zinc-200">
