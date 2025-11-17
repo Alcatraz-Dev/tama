@@ -11,7 +11,7 @@ export function Footer() {
   const [socialLinks, setSocialLinks] = useState<SocialLink[]>([]);
   const { theme } = useTheme();
   const [mounted, setMounted] = useState(false);
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
 
   const footerLinks = {
     [t('company')]: [
@@ -45,7 +45,7 @@ export function Footer() {
   }, []);
 
   return (
-    <footer className="bg-card w-full max-w-7xl mx-auto px-6 py-12 rounded-3xl mb-6 shadow-luxury">
+    <footer className="bg-card w-full max-w-7xl mx-auto px-6 py-12 rounded-3xl mb-6 shadow-luxury" dir={language === "ar" ? "rtl" : "ltr"}>
       <div className="mx-auto  space-y-10 px-4 sm:px-6 lg:space-y-16 lg:px-8">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-3">
           {/* Logo + About */}

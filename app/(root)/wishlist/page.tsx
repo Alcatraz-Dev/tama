@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Heart, ShoppingBag, ArrowLeft, Home, ChevronRight } from "lucide-react";
+import { Heart, ShoppingBag, ArrowLeft, ArrowRight, Home, ChevronRight, ChevronLeft } from "lucide-react";
 import { useWishlistStore } from "@/store/wishlist";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -13,7 +13,12 @@ import { useTranslation } from "@/lib/translationContext";
 export default function WishlistPage() {
   const { wishlistItems, clearWishlist } = useWishlistStore();
   const [mounted, setMounted] = useState(false);
-  const { t } = useTranslation();
+    const { t, language } = useTranslation();
+
+  const getTranslatedField = (obj: any, field: string) => {
+    if (language === 'en') return obj[field];
+    return obj[`${field}_${language}`] || obj[field];
+  };
 
   useEffect(() => {
     setMounted(true);
@@ -22,23 +27,27 @@ export default function WishlistPage() {
 
   if (!mounted) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
+      <div className="min-h-screen bg-background flex items-center justify-center" dir={language === "ar" ? "rtl" : "ltr"}>
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-fashion-gold"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen" dir={language === "ar" ? "rtl" : "ltr"}>
       {/* Breadcrumb Navigation */}
       <div className="border-b border-zinc-300 dark:border-zinc-600">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
-          <nav className="flex items-center space-x-1 sm:space-x-2 text-xs sm:text-sm text-zinc-600 dark:text-zinc-400">
-            <Link href="/" className="flex items-center hover:text-fashion-dark transition-colors duration-200 p-1 rounded">
-              <Home className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
-              <span className="hidden sm:inline">{t('home')}</span>
+          <nav className={`flex items-center space-x-1 sm:space-x-2 text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 ${language === "ar" ? "flex-row-reverse space-x-reverse" : ""}`}>
+            <Link href="/" className={`flex items-center hover:text-fashion-dark transition-colors duration-200 p-1 rounded ${language === "ar" ? "flex-row-reverse" : ""}`}>
+              <Home className="w-3 h-3 sm:w-4 sm:h-4" />
+              <span className={`hidden sm:inline ${language === "ar" ? "mr-1" : "ml-1"}`}>{t('home')}</span>
             </Link>
-            <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4 text-zinc-400" />
+            {language === "ar" ? (
+              <ChevronLeft className="w-3 h-3 sm:w-4 sm:h-4 text-zinc-400" />
+            ) : (
+              <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4 text-zinc-400" />
+            )}
             <span className="text-fashion-dark font-medium">{t('myWishlist')}</span>
           </nav>
         </div>
@@ -50,7 +59,11 @@ export default function WishlistPage() {
           <div className="flex items-center gap-4 mb-6">
             <Link href="/products">
               <Button variant="outline" size="sm" className="border-zinc-300 dark:border-zinc-600 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-700">
-                <ArrowLeft className="w-4 h-4 mr-2" />
+                {language === "ar" ? (
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                ) : (
+                  <ArrowLeft className="w-4 h-4 mr-2" />
+                )}
                 {t('continueShopping')}
               </Button>
             </Link>
@@ -102,7 +115,7 @@ export default function WishlistPage() {
             </p>
             <Link href="/products">
               <Button className="bg-black dark:bg-white text-white dark:text-black hover:bg-zinc-800 dark:hover:bg-zinc-200">
-                <ShoppingBag className="w-4 h-4 mr-2" />
+                <ShoppingBag className={`w-4 h-4 ${language === "ar" ? "ml-2" : "mr-2"}`} />
                 {t('browseProducts')}
               </Button>
             </Link>

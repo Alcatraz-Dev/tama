@@ -27,6 +27,11 @@ export default function HeroWithCards() {
   const [cards, setCards] = useState<Card[]>([]);
   const { t, language } = useTranslation();
 
+  const getTranslatedField = (obj: any, field: string) => {
+    if (language === 'en') return obj[field];
+    return obj[`${field}_${language}`] || obj[field];
+  };
+
   useEffect(() => {
     getHeroCards().then(setCards);
   }, []);
@@ -49,7 +54,7 @@ export default function HeroWithCards() {
           }`}
           whileHover={{ scale: 1.03 }}
         >
-          {(language === 'en' ? card.title : (card[`title_${language}` as keyof typeof card] as string) || card.title) && (
+          {getTranslatedField(card, 'title') && (
             <h2
               className={` font-bold mb-3 text-black dark:text-white  ${
                 card.variant === "large"
@@ -57,26 +62,26 @@ export default function HeroWithCards() {
                   : "text-2xl text-center max-w-[200px] mx-auto"
               }`}
             >
-              {language === 'en' ? card.title : (card[`title_${language}` as keyof typeof card] as string) || card.title}
+              {getTranslatedField(card, 'title')}
             </h2>
           )}
 
-          {(language === 'en' ? card.subtitle : (card[`subtitle_${language}` as keyof typeof card] as string) || card.subtitle) && (
+          {getTranslatedField(card, 'subtitle') && (
             <p className="text-black dark:text-gray-300 font-semibold/80 mb-4 mt-6 font-medium">
-              {language === 'en' ? card.subtitle : (card[`subtitle_${language}` as keyof typeof card] as string) || card.subtitle}
+              {getTranslatedField(card, 'subtitle')}
             </p>
           )}
 
-          {card.withButton && (language === 'en' ? card.buttonText : (card[`buttonText_${language}` as keyof typeof card] as string) || card.buttonText) && card.buttonLink && (
+          {card.withButton && getTranslatedField(card, 'buttonText') && card.buttonLink && (
             <Link
               href={card.buttonLink}
               className={`flex gap-2  ${card.variant === "large" ? "mt-8" : "mt-4 flex items-center justify-center"}`}
             >
               <Button
-                aria-label={language === 'en' ? card.buttonText : (card[`buttonText_${language}` as keyof typeof card] as string) || card.buttonText}
+                aria-label={getTranslatedField(card, 'buttonText')}
                 className="inline-flex items-center gap-2 bg-black dark:bg-white text-white dark:text-black px-6 py-3 rounded-full hover:bg-black/90 dark:hover:bg-gray-200 transition-all duration-300 hover:cursor-pointer font-semibold "
               >
-                {language === 'en' ? card.buttonText : (card[`buttonText_${language}` as keyof typeof card] as string) || card.buttonText}
+                {getTranslatedField(card, 'buttonText')}
               </Button>
 
               {card.withIcon && (
@@ -149,7 +154,7 @@ export default function HeroWithCards() {
   const displayCards = cards;
 
   return (
-    <section className="w-full max-w-7xl mx-auto px-6 py-12">
+    <section className="w-full max-w-7xl mx-auto px-6 py-12" dir={language === "ar" ? "rtl" : "ltr"}>
       {/* Top Row (large cards) */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         <AnimatePresence>

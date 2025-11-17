@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
-import { SlidersHorizontal } from "lucide-react";
+import { SlidersHorizontal, ArrowUpDown } from "lucide-react";
+import { useTranslation } from "@/lib/translationContext";
 
 interface Category {
   _id: string;
@@ -32,6 +33,12 @@ export default function Category({
   onSortChange,
   onOpenAdvancedFilters,
 }: CategoryProps) {
+  const { t, language } = useTranslation();
+
+  const getTranslatedField = (obj: any, field: string) => {
+    if (language === 'en') return obj[field];
+    return obj[`${field}_${language}`] || obj[field];
+  };
   return (
     <div className="flex flex-row flex-wrap justify-center gap-1.5 sm:gap-2 overflow-x-auto sm:overflow-x-visible">
       {/* Category buttons */}
@@ -43,7 +50,7 @@ export default function Category({
             : "bg-card text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
         }`}
       >
-        All
+        {t('all')}
       </button>
 
       {categories.map((c) => (
@@ -56,7 +63,7 @@ export default function Category({
               : "bg-card text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
           }`}
         >
-          {c.title}
+          {getTranslatedField(c, 'title')}
         </button>
       ))}
 
@@ -70,7 +77,7 @@ export default function Category({
               : "bg-card text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
           }`}
         >
-          On Sale
+          {t('onSale')}
         </button>
       )}
 
@@ -83,21 +90,24 @@ export default function Category({
               : "bg-card text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
           }`}
         >
-          New
+          {t('newArrivals')}
         </button>
       )}
 
       {onSortChange && (
-        <select
-          value={sortBy}
-          onChange={(e) => onSortChange(e.target.value as "default" | "price-low" | "price-high" | "newest" | "popularity")}
-          className="flex justify-center items-center px-4 py-1.5 rounded-full shadow-sm text-xs bg-card text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border-0 outline-none cursor-pointer touch-manipulation"
-        >
-          <option value="default">Sort</option>
-          <option value="price-low">Price: Low</option>
-          <option value="price-high">Price: High</option>
-          <option value="newest">Newest</option>
-        </select>
+        <div className={`relative ${language === "ar" ? "mx-1" : ""}`}>
+          <select
+            value={sortBy}
+            onChange={(e) => onSortChange(e.target.value as "default" | "price-low" | "price-high" | "newest" | "popularity")}
+            className="flex justify-center items-center pl-2 pr-6 py-1.5 rounded-full shadow-sm text-xs bg-card text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border-0 outline-none cursor-pointer touch-manipulation appearance-none w-auto"
+          >
+            <option value="default">{t('filterSortBy')}</option>
+            <option value="price-low">{t('priceLow')}</option>
+            <option value="price-high">{t('priceHigh')}</option>
+            <option value="newest">{t('newest')}</option>
+          </select>
+          <ArrowUpDown className="absolute right-2 top-1/2 transform -translate-y-1/2 w-3 h-3 text-gray-700 dark:text-gray-300 pointer-events-none" />
+        </div>
       )}
 
       {onOpenAdvancedFilters && (
@@ -105,8 +115,8 @@ export default function Category({
           onClick={onOpenAdvancedFilters}
           className="flex justify-center items-center px-4 py-1.5 rounded-full shadow-sm text-xs bg-card text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 whitespace-nowrap  touch-manipulation"
         >
-          <SlidersHorizontal className="w-3 h-3 mr-1" />
-          More
+          <SlidersHorizontal className={`w-3 h-3 ${language === "ar" ? "ml-1" : "mr-1"}`} />
+          {t('more')}
         </button>
       )}
     </div>

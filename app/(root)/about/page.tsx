@@ -6,14 +6,14 @@ import { useTranslation } from "@/lib/translationContext";
 
 function About() {
   const { theme } = useTheme();
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
   return (
-    <div className="flex justify-center items-center md:m-10 m-5">
+    <div className="flex justify-center items-center md:m-10 m-5" dir={language === "ar" ? "rtl" : "ltr"}>
       <section className="w-full max-w-5xl mx-auto px-6 py-16 bg-card rounded-3xl p-5">
 
           <div className="flex justify-center items-center lg:mx-0 mx-auto ">

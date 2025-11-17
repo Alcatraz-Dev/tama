@@ -11,8 +11,13 @@ import { ArrowLeft, Package, Grid3X3 } from "lucide-react";
 import { useTranslation } from "@/lib/translationContext";
 
 export default function LookbooksPage() {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
   const [lookbooks, setLookbooks] = React.useState<Lookbook[]>([]);
+
+  const getTranslatedField = (obj: any, field: string) => {
+    if (language === 'en') return obj[field];
+    return obj[`${field}_${language}`] || obj[field];
+  };
 
   React.useEffect(() => {
     async function fetchLookbooks() {
@@ -28,7 +33,7 @@ export default function LookbooksPage() {
   }, []);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen" dir={language === "ar" ? "rtl" : "ltr"}>
       {/* Hero Section */}
       <section className="relative py-5 px-6 bg-gradient-to-br from-zinc-50 to-zinc-100 dark:from-zinc-900 dark:to-zinc-800">
         <div className="max-w-7xl mx-auto">
@@ -111,7 +116,7 @@ export default function LookbooksPage() {
                           <div className="absolute top-3 left-3 flex gap-2">
                             {lookbook.season && (
                               <Badge variant="secondary" className="bg-white/90 dark:bg-zinc-800/90 text-zinc-800 dark:text-zinc-200 text-xs">
-                                {lookbook.season.charAt(0).toUpperCase() + lookbook.season.slice(1)}
+                                {t(lookbook.season as any)}
                               </Badge>
                             )}
                             {lookbook.year && (
@@ -133,23 +138,23 @@ export default function LookbooksPage() {
 
                     <div className="p-6">
                       <h2 className="text-xl font-bold mb-2 text-black dark:text-white group-hover:text-fashion-gold transition-colors">
-                        {lookbook.title}
+                        {getTranslatedField(lookbook, 'title')}
                       </h2>
 
                       {lookbook.theme && (
                         <Badge variant="outline" className="mb-3 border-zinc-300 dark:border-zinc-600 text-zinc-700 dark:text-zinc-300 text-xs">
-                          {lookbook.theme}
+                          {t(lookbook.theme as any)}
                         </Badge>
                       )}
 
                       <p className="text-zinc-600 dark:text-zinc-400 text-sm mb-4 line-clamp-2">
-                        {lookbook.description}
+                        {getTranslatedField(lookbook, 'description')}
                       </p>
 
-                      {lookbook.stylingTips && (
+                      {getTranslatedField(lookbook, 'stylingTips') && (
                         <div className="mb-4 p-3 bg-zinc-50 dark:bg-zinc-700/50 rounded-lg">
                           <p className="text-zinc-700 dark:text-zinc-300 text-xs line-clamp-2 italic">
-                            💡 {lookbook.stylingTips}
+                            💡 {getTranslatedField(lookbook, 'stylingTips')}
                           </p>
                         </div>
                       )}

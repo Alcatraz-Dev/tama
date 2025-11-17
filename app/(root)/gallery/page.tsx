@@ -15,7 +15,7 @@ export default function GalleryPage() {
   const [products, setProducts] = useState<any[]>([]);
   const [isAutoScrolling, setIsAutoScrolling] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -56,7 +56,7 @@ export default function GalleryPage() {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen" dir={language === "ar" ? "rtl" : "ltr"}>
       {/* Breadcrumb Navigation */}
    
 

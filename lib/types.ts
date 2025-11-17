@@ -142,7 +142,7 @@ export interface Lookbook {
   }>;
   products?: Product[];
   season?: string;
-  year?: number;
+  year?: string;
   theme?: string;
   stylingTips?: string;
 }

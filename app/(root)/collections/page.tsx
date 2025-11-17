@@ -11,15 +11,20 @@ import { Collection } from "@/lib/types";
 import { useTranslation } from "@/lib/translationContext";
 
 export default function CollectionsPage() {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
   const [collections, setCollections] = React.useState<Collection[]>([]);
+
+  const getTranslatedField = (obj: any, field: string) => {
+    if (language === 'en') return obj[field];
+    return obj[`${field}_${language}`] || obj[field];
+  };
 
   React.useEffect(() => {
     getCollections().then(setCollections);
   }, []);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen" dir={language === "ar" ? "rtl" : "ltr"}>
       {/* Hero Section */}
       <section className="relative py-5 px-6 bg-gradient-to-br from-zinc-50 to-zinc-100 dark:from-zinc-900 dark:to-zinc-800">
         <div className="max-w-7xl mx-auto">
@@ -81,11 +86,11 @@ export default function CollectionsPage() {
 
                   <div className="p-6">
                     <h2 className="text-xl font-bold mb-2 text-black dark:text-white group-hover:text-fashion-gold transition-colors">
-                      {collection.title}
+                      {getTranslatedField(collection, 'title')}
                     </h2>
-                    {collection.description && (
+                    {getTranslatedField(collection, 'description') && (
                       <p className="text-zinc-600 dark:text-zinc-400 text-sm mb-4">
-                        {collection.description}
+                        {getTranslatedField(collection, 'description')}
                       </p>
                     )}
 
@@ -113,9 +118,9 @@ export default function CollectionsPage() {
                We&apos;re working on bringing you amazing collections. Check back soon!
             </p>
             <Link href="/products">
-              <button className="inline-flex items-center gap-2 bg-black dark:bg-white text-white dark:text-black px-4 py-2 rounded-full hover:bg-black/90 dark:hover:bg-zinc-200 transition-all duration-300 hover:cursor-pointer font-semibold text-sm">
-                Browse All Products
-              </button>
+              <Button className="bg-black dark:bg-white text-white dark:text-black hover:bg-zinc-800 dark:hover:bg-zinc-200">
+                {t('browseAllProducts')}
+              </Button>
             </Link>
           </div>
         )}

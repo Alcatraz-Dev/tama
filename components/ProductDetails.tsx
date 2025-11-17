@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { PlaySquare, Star, Heart, Truck, Shield, RotateCcw, ChevronRight, Minus, Plus, ZoomIn, Home, X } from "lucide-react";
+import { PlaySquare, Star, Heart, Truck, Shield, RotateCcw, ChevronRight, ChevronLeft, Minus, Plus, ZoomIn, Home, X } from "lucide-react";
 import { Button } from "./ui/button";
 import { client } from "@/sanity/lib/client";
 import { toast } from "sonner";
@@ -64,7 +64,7 @@ export function ProductDetails({ product }: { product: Product }) {
   const [phone, setPhone] = useState("");
   const [town, setTown] = useState("");
   const { addToCart } = useCartStore();
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
 
   useEffect(() => {
     const loadAdditionalData = async () => {
@@ -320,16 +320,20 @@ export function ProductDetails({ product }: { product: Product }) {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background" dir={language === "ar" ? "rtl" : "ltr"}>
       {/* Breadcrumb Navigation */}
       <div className=" border-b border-zinc-300 dark:border-zinc-600">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
-          <nav className="flex items-center space-x-1 sm:space-x-2 text-xs sm:text-sm text-zinc-600 dark:text-zinc-400">
-            <Link href="/" className="flex items-center hover:text-fashion-dark transition-colors duration-200 p-1 rounded">
-              <Home className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
-              <span className="hidden sm:inline"> {t("home")} </span>
+          <nav className={`flex items-center space-x-1 sm:space-x-2 text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 ${language === "ar" ? "flex-row-reverse space-x-reverse" : ""}`}>
+            <Link href="/" className={`flex items-center hover:text-fashion-dark transition-colors duration-200 p-1 rounded ${language === "ar" ? "flex-row-reverse" : ""}`}>
+              <Home className="w-3 h-3 sm:w-4 sm:h-4" />
+              <span className={`hidden sm:inline ${language === "ar" ? "mr-1" : "ml-1"}`}> {t("home")} </span>
             </Link>
-            <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4 text-zinc-400" />
+            {language === "ar" ? (
+              <ChevronLeft className="w-3 h-3 sm:w-4 sm:h-4 text-zinc-400" />
+            ) : (
+              <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4 text-zinc-400" />
+            )}
             {product.collection && (
               <>
                 <Link
@@ -338,7 +342,11 @@ export function ProductDetails({ product }: { product: Product }) {
                 >
                   {product.collection.title}
                 </Link>
-                <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4 text-zinc-400 " />
+                {language === "ar" ? (
+                  <ChevronLeft className="w-3 h-3 sm:w-4 sm:h-4 text-zinc-400 " />
+                ) : (
+                  <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4 text-zinc-400 " />
+                )}
               </>
             )}
             {product.category && (
@@ -349,7 +357,11 @@ export function ProductDetails({ product }: { product: Product }) {
                 >
                   {product.category.title}
                 </Link>
-                <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4 text-zinc-400 " />
+                {language === "ar" ? (
+                  <ChevronLeft className="w-3 h-3 sm:w-4 sm:h-4 text-zinc-400 " />
+                ) : (
+                  <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4 text-zinc-400 " />
+                )}
               </>
             )}
             <span className="text-fashion-dark font-medium truncate">{product.title}</span>

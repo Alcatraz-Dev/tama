@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { getCategoryBySlug, getCategories } from "@/lib/useQuery";
@@ -7,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, Package, ChevronRight, Home, SlidersHorizontal } from "lucide-react";
 import { Product } from "@/lib/types";
+import { useTranslation } from "@/lib/translationContext";
 
 interface Category {
   _id: string;
@@ -18,38 +21,78 @@ interface Category {
   productCount?: number;
 }
 
-interface CategoryPageProps {
-  params: Promise<{
-    slug: string;
-  }>;
-  searchParams: Promise<{
-    page?: string;
-  }>;
+interface Category {
+  _id: string;
+  title: string;
+  title_fr?: string;
+  title_ar?: string;
+  slug: {
+    current: string;
+  };
+  imageUrl?: string;
+  productCount?: number;
+  description?: string;
+  description_fr?: string;
+  description_ar?: string;
+  totalProducts: number;
+  products?: Product[];
 }
 
-export default async function CategoryPage({ params, searchParams }: CategoryPageProps) {
-  const resolvedParams = await params;
-  const resolvedSearchParams = await searchParams;
+export default function CategoryPage({ params, searchParams }: { params: { slug: string }, searchParams: { page?: string } }) {
+  const [category, setCategory] = useState<Category | null>(null);
+  const [relatedCategories, setRelatedCategories] = useState<Category[]>([]);
+  const [loading, setLoading] = useState(true);
+  const { t, language } = useTranslation();
 
-  const page = parseInt(resolvedSearchParams.page || '1');
+  const page = parseInt(searchParams.page || '1');
   const limit = 12;
   const offset = (page - 1) * limit;
 
-  const [category, relatedCategories] = await Promise.all([
-    getCategoryBySlug(resolvedParams.slug, limit, offset),
-    getCategories(6) // Get 6 related categories
-  ]) as [any, Category[]];
+  const getTranslatedField = (obj: any, field: string) => {
+    if (language === 'en') return obj[field];
+    return obj[`${field}_${language}`] || obj[field];
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [categoryData, relatedData] = await Promise.all([
+          getCategoryBySlug(params.slug, limit, offset),
+          getCategories(6)
+        ]);
+        setCategory(categoryData);
+        setRelatedCategories(relatedData);
+      } catch (error) {
+        console.error("Error fetching category data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [params.slug, page]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-fashion-gold mx-auto mb-4"></div>
+          <p className="text-zinc-600 dark:text-zinc-400">{t('loading')}</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!category) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <Package className="w-16 h-16 text-zinc-300 dark:text-zinc-600 mx-auto mb-4" />
-          <h1 className="text-2xl font-bold mb-4 text-black dark:text-white">Category Not Found</h1>
-          <p className="text-zinc-600 dark:text-zinc-400 mb-6">The category you're looking for doesn't exist.</p>
+          <h1 className="text-2xl font-bold mb-4 text-black dark:text-white">{t('categoryNotFound')}</h1>
+          <p className="text-zinc-600 dark:text-zinc-400 mb-6">{t('categoryNotFoundDesc')}</p>
           <Link href="/products">
             <Button className="bg-black dark:bg-white text-white dark:text-black hover:bg-zinc-800 dark:hover:bg-zinc-200">
-              Browse All Products
+              {t('browseAllProducts')}
             </Button>
           </Link>
         </div>
@@ -58,21 +101,21 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen" dir={language === "ar" ? "rtl" : "ltr"}>
       {/* Breadcrumb Navigation */}
       <div className="border-b border-zinc-300 dark:border-zinc-600">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
           <nav className="flex items-center space-x-1 sm:space-x-2 text-xs sm:text-sm text-zinc-600 dark:text-zinc-400">
             <Link href="/" className="flex items-center hover:text-fashion-dark transition-colors duration-200 p-1 rounded">
               <Home className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
-              <span className="hidden sm:inline">Home</span>
+              <span className="hidden sm:inline">{t('home')}</span>
             </Link>
             <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4 text-zinc-400" />
             <Link href="/products" className="hover:text-fashion-dark transition-colors duration-200 p-1 rounded">
-              Products
+              {t('products')}
             </Link>
             <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4 text-zinc-400" />
-            <span className="text-fashion-dark font-medium truncate">{category.title}</span>
+            <span className="text-fashion-dark font-medium truncate">{getTranslatedField(category, 'title')}</span>
           </nav>
         </div>
       </div>
@@ -84,7 +127,7 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
             <Link href="/products">
               <Button variant="outline" size="sm" className="border-zinc-300 dark:border-zinc-600 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-700">
                 <ArrowLeft className="w-4 h-4 mr-2" />
-                Back to Products
+                {t('backToProducts')}
               </Button>
             </Link>
           </div>
@@ -104,15 +147,15 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
 
             <div className="flex-1">
               <h1 className="text-4xl md:text-6xl font-bold mb-4 text-black dark:text-white">
-                {category.title}
+                {getTranslatedField(category, 'title')}
               </h1>
               <p className="text-lg md:text-xl text-zinc-600 dark:text-zinc-400 max-w-2xl leading-relaxed">
-                Discover our {category.title.toLowerCase()} collection featuring {category.totalProducts || 0} carefully curated pieces.
+                {getTranslatedField(category, 'description') || `Discover our ${getTranslatedField(category, 'title').toLowerCase()} collection featuring ${category.totalProducts || 0} carefully curated pieces.`}
               </p>
 
               <div className="flex items-center gap-4 mt-6">
                 <Badge variant="secondary" className="bg-zinc-200 dark:bg-zinc-700 text-zinc-800 dark:text-zinc-200 px-4 py-2">
-                  {category.totalProducts || 0} Products
+                  {category.totalProducts || 0} {t('products')}
                 </Badge>
               </div>
             </div>
@@ -126,10 +169,10 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
             <div>
               <h2 className="text-2xl md:text-3xl font-bold mb-2 text-black dark:text-white">
-                {category.title} Collection
+                {getTranslatedField(category, 'title')} {t('collections')}
               </h2>
               <p className="text-zinc-600 dark:text-zinc-400">
-                Browse through our complete {category.title.toLowerCase()} selection
+                {t('discoverCollection', { category: getTranslatedField(category, 'title').toLowerCase() })}
               </p>
             </div>
 
@@ -137,11 +180,11 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
             <div className="flex items-center gap-2">
               <SlidersHorizontal className="w-4 h-4 text-zinc-500" />
               <select className="border border-zinc-300 dark:border-zinc-600 rounded-lg px-3 py-2 bg-white dark:bg-zinc-800 text-black dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-fashion-gold">
-                <option value="default">Default Order</option>
-                <option value="price-low">Price: Low to High</option>
-                <option value="price-high">Price: High to Low</option>
-                <option value="newest">Newest First</option>
-                <option value="popularity">Most Popular</option>
+                <option value="default">{t('filterDefault')}</option>
+                <option value="price-low">{t('priceLow')}</option>
+                <option value="price-high">{t('priceHigh')}</option>
+                <option value="newest">{t('newest')}</option>
+                <option value="popularity">{t('popularity')}</option>
               </select>
             </div>
           </div>
@@ -160,12 +203,12 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
             </div>
 
             {/* Pagination */}
-            {category.totalProducts > limit && (
+            {category.totalProducts && category.totalProducts > limit && (
               <div className="flex justify-center items-center gap-2 mt-12">
                 {page > 1 && (
-                  <Link href={`/category/${resolvedParams.slug}?page=${page - 1}`}>
+                  <Link href={`/category/${params.slug}?page=${page - 1}`}>
                     <Button variant="outline" className="border-zinc-300 dark:border-zinc-600 text-black dark:text-white hover:bg-zinc-50 dark:hover:bg-zinc-700">
-                      Previous
+                      {t('previousPage')}
                     </Button>
                   </Link>
                 )}
@@ -173,7 +216,7 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
                 {Array.from({ length: Math.ceil(category.totalProducts / limit) }, (_, i) => i + 1)
                   .filter(p => p >= Math.max(1, page - 2) && p <= Math.min(Math.ceil(category.totalProducts / limit), page + 2))
                   .map(p => (
-                    <Link key={p} href={`/category/${resolvedParams.slug}?page=${p}`}>
+                    <Link key={p} href={`/category/${params.slug}?page=${p}`}>
                       <Button
                         variant={p === page ? "default" : "outline"}
                         className={p === page
@@ -187,9 +230,9 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
                   ))}
 
                 {page < Math.ceil(category.totalProducts / limit) && (
-                  <Link href={`/category/${resolvedParams.slug}?page=${page + 1}`}>
+                  <Link href={`/category/${params.slug}?page=${page + 1}`}>
                     <Button variant="outline" className="border-zinc-300 dark:border-zinc-600 text-black dark:text-white hover:bg-zinc-50 dark:hover:bg-zinc-700">
-                      Next
+                      {t('nextPage')}
                     </Button>
                   </Link>
                 )}
@@ -200,10 +243,10 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
           <div className="text-center py-16">
             <Package className="w-16 h-16 text-zinc-300 dark:text-zinc-600 mx-auto mb-4" />
             <h3 className="text-xl font-semibold text-zinc-600 dark:text-zinc-400 mb-2">
-              No Products in this Category
+              {t('noProductsFound')}
             </h3>
             <p className="text-zinc-500 dark:text-zinc-500 mb-6">
-              We're working on adding more products to this category. Check back soon!
+              {t('workingOnCategories')}
             </p>
             <Link href="/products">
               <Button className="bg-black dark:bg-white text-white dark:text-black hover:bg-zinc-800 dark:hover:bg-zinc-200">
@@ -220,10 +263,10 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-2xl md:text-3xl font-bold mb-4 text-black dark:text-white">
-                Explore More Categories
+                {t('ourCategoryList')}
               </h2>
               <p className="text-zinc-600 dark:text-zinc-400 max-w-2xl mx-auto">
-                Discover our other collections and find more pieces you'll love
+                {t('categoriesDescription')}
               </p>
             </div>
 
@@ -252,7 +295,7 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
                         {cat.title}
                       </h3>
                       <p className="text-xs text-zinc-500 dark:text-zinc-400 text-center mt-1">
-                        {cat.productCount || 0} items
+                        {cat.productCount || 0} {t('items')}
                       </p>
                     </div>
                   </Link>
@@ -263,21 +306,4 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
       )}
     </div>
   );
-}
-
-// Generate metadata for SEO
-export async function generateMetadata({ params }: CategoryPageProps) {
-  const resolvedParams = await params;
-  const category = await getCategoryBySlug(resolvedParams.slug);
-
-  if (!category) {
-    return {
-      title: 'Category Not Found',
-    };
-  }
-
-  return {
-    title: `${category.title} | Tama Shop`,
-    description: `Explore our ${category.title} collection with ${category.totalProducts || 0} products. Find the perfect pieces for your style.`,
-  };
 }

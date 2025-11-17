@@ -130,22 +130,22 @@ export default function CartPage() {
     if (isSubmitting) return;
 
     if (!fullName.trim()) {
-      toast("Missing Full Name", {
-        description: "Please enter your full name.",
+      toast(t("missingFullName"), {
+        description: t("enterYourFullName"),
       });
       return;
     }
     if (!town) {
-      toast("Missing Town", { description: "Please select your town." });
+      toast(t("missingTown"), { description: t("selectYourTown") });
       return;
     }
     if (!location.trim()) {
-      toast("Missing Location", { description: "Please enter your location." });
+      toast(t("missingLocation"), { description: t("enterYourLocation") });
       return;
     }
     if (!phone.trim()) {
-      toast("Missing Phone Number", {
-        description: "Please enter your phone number.",
+      toast(t("missingPhoneNumber"), {
+        description: t("enterYourPhoneNumber"),
       });
       return;
     }
@@ -172,8 +172,8 @@ export default function CartPage() {
         status: "pending",
         createdAt: new Date().toISOString(),
       });
-      toast("Order submitted successfully!", {
-        description: "We have received your order and will process it shortly.",
+      toast(t("orderSubmittedSuccessfully"), {
+        description: t("orderReceivedMessage"),
       });
       const newOrder = {
         fullName,
@@ -216,7 +216,7 @@ export default function CartPage() {
 
   if (cartItems.length === 0) {
     return (
-      <div className="p-6 text-center my-20">
+      <div className="p-6 text-center my-20" dir={language === "ar" ? "rtl" : "ltr"}>
         <ShoppingCart className="w-14 h-14 mx-auto text-gray-400 dark:text-gray-600 mb-4" />
         <p className="text-lg font-medium text-black dark:text-white">{t('yourCartIsEmpty')}</p>
       </div>
@@ -224,7 +224,7 @@ export default function CartPage() {
   }
 
   return (
-    <div className="p-4 sm:p-6 max-w-6xl mx-auto bg-background min-h-screen">
+    <div className="p-4 sm:p-6 max-w-6xl mx-auto bg-background min-h-screen" dir={language === "ar" ? "rtl" : "ltr"}>
       <h1 className="text-2xl sm:text-3xl font-bold my-6 flex items-center gap-2 text-black dark:text-white">
         <ShoppingCart className="w-6 h-6 sm:w-7 sm:h-7" /> {t('yourCart')}
       </h1>

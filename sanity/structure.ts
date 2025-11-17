@@ -27,7 +27,7 @@ export const structure: StructureResolver = (S) =>
               S.documentTypeListItem("product").title("Products"),
               S.documentTypeListItem("category").title("Categories"),
               S.documentTypeListItem("collection").title("Collections"),
-              S.documentTypeListItem("lookbook").title("Lookbooks"),
+              S.documentTypeListItem("tamastories").title("Tama Stories"),
               S.documentTypeListItem("review").title("Reviews"),
             ])
         ),

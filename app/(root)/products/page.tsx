@@ -17,7 +17,7 @@ function ProductsContent() {
   const itemsPerPage = 12;
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
 
   const {
     searchQuery,
@@ -295,7 +295,7 @@ function ProductsContent() {
   }, [filteredProducts.length]);
 
   return (
-    <section className="py-10 md:py-12">
+    <section className="py-10 md:py-12" dir={language === "ar" ? "rtl" : "ltr"}>
       {/* Filtering controls */}
       <div className="my-6 flex flex-col items-center gap-4">
         <SearchAndFiltering
@@ -327,7 +327,7 @@ function ProductsContent() {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-8 px-4 sm:px-6 md:px-12 z-20">
         {paginatedProducts.length === 0 ? (
           <p className="col-span-full text-center text-zinc-500 dark:text-zinc-400">
-            No products found.
+            {t('noProductsFound')}
           </p>
         ) : (
           paginatedProducts.map((product) => (
@@ -348,7 +348,7 @@ function ProductsContent() {
             disabled={currentPage === 1}
             className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 dark:hover:bg-gray-700 text-black dark:text-white"
           >
-            Previous
+            {t('previousPage')}
           </button>
 
           {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
@@ -377,7 +377,7 @@ function ProductsContent() {
             disabled={currentPage === totalPages}
             className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 dark:hover:bg-gray-700 text-black dark:text-white"
           >
-            Next
+            {t('nextPage')}
           </button>
         </div>
       )}

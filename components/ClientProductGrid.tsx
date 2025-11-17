@@ -12,7 +12,7 @@ interface Props {
 
 
 export default function ClientProductGrid({ products, loading = false }: Props) {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
   const containerVariants = {
     hidden: {},
     visible: {
@@ -22,7 +22,7 @@ export default function ClientProductGrid({ products, loading = false }: Props) 
 
 
   return (
-    <section className="py-8 sm:py-12 md:py-16 bg-fashion-cream ">
+    <section className="py-8 sm:py-12 md:py-16 bg-fashion-cream" dir={language === "ar" ? "rtl" : "ltr"}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}

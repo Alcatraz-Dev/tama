@@ -85,6 +85,8 @@ export type TranslationKey =
   | 'popularity'
   | 'resetAll'
   | 'imagesLabel'
+  | 'all'
+  | 'more'
   | 'productsLabel'
   | 'allProductImages'
   | 'browseVisualCollection'
@@ -226,7 +228,43 @@ export type TranslationKey =
   | 'cancel'
   | 'submitting'
   | 'submitOrder'
-  | 'currency';
+  | 'currency'
+  | 'categoryNotFound'
+  | 'categoryNotFoundDesc'
+  | 'collectionNotFound'
+  | 'backToCollections'
+  | 'collectionPieces'
+  | 'discoverCompleteCollection'
+  | 'filterProducts'
+  | 'allCategories'
+  | 'minPrice'
+  | 'maxPrice'
+  | 'clearFilters'
+  | 'noProductsInCollection'
+  | 'casual'
+  | 'elegant'
+  | 'bohemian'
+  | 'minimalist'
+  | 'streetwear'
+  | 'vintage'
+  | 'romantic'
+  | 'athletic'
+  | 'professional'
+  | 'festive'
+  | 'layer_jacket'
+  | 'neutral_accessories'
+  | 'belt_waist'
+  | 'comfortable_footwear'
+  | 'mix_patterns'
+  | 'day_night_transition'
+  | 'metallic_accents'
+  | 'breathable_fabrics'
+  | 'fitted_relaxed_balance'
+  | 'scarf_shawl'
+  | 'spring'
+  | 'summer'
+  | 'fall'
+  | 'winter';
 
 export const translations = {
   en: {
@@ -314,6 +352,8 @@ export const translations = {
     popularity: 'Popularity',
     resetAll: 'Reset All',
     imagesLabel: 'Images',
+    all: 'All',
+    more: 'More',
     productsLabel: 'Products',
     allProductImages: 'All Product Images',
     browseVisualCollection: 'Browse our visual collection',
@@ -438,6 +478,42 @@ export const translations = {
     selectTunisianTown: 'Select Tunisian Town',
     submitOrder: 'Submit Order',
     currency: 'DT',
+    categoryNotFound: 'Category Not Found',
+    categoryNotFoundDesc: 'The category you\'re looking for doesn\'t exist.',
+    collectionNotFound: 'Collection Not Found',
+    backToCollections: 'Back to Collections',
+    collectionPieces: 'Collection Pieces',
+    discoverCompleteCollection: 'Discover the complete {{title}} collection. Each piece is carefully curated to reflect our vision for {{season}} {{year}}.',
+    filterProducts: 'Filter Products',
+    allCategories: 'All Categories',
+    minPrice: 'Min Price',
+    maxPrice: 'Max Price',
+    clearFilters: 'Clear Filters',
+    noProductsInCollection: 'No products in this collection yet.',
+    casual: 'Casual',
+    elegant: 'Elegant',
+    bohemian: 'Bohemian',
+    minimalist: 'Minimalist',
+    streetwear: 'Streetwear',
+    vintage: 'Vintage',
+    romantic: 'Romantic',
+    athletic: 'Athletic',
+    professional: 'Professional',
+    festive: 'Festive',
+    layer_jacket: 'Layer with a lightweight jacket for transitional weather',
+    neutral_accessories: 'Pair with neutral accessories to keep the focus on the outfit',
+    belt_waist: 'Add a belt to define your waist and enhance the silhouette',
+    comfortable_footwear: 'Complete the look with comfortable yet stylish footwear',
+    mix_patterns: 'Mix patterns carefully for a bold, fashion-forward statement',
+    day_night_transition: 'Choose pieces that can transition from day to night effortlessly',
+    metallic_accents: 'Incorporate metallic accents for a touch of glamour',
+    breathable_fabrics: 'Opt for breathable fabrics perfect for all-day wear',
+    fitted_relaxed_balance: 'Balance fitted and relaxed pieces for optimal comfort and style',
+    scarf_shawl: 'Add a scarf or shawl for an instant style upgrade',
+    spring: 'Spring',
+    summer: 'Summer',
+    fall: 'Fall',
+    winter: 'Winter',
   },
   fr: {
     home: 'Accueil',
@@ -524,6 +600,8 @@ export const translations = {
     popularity: 'Popularité',
     resetAll: 'Tout réinitialiser',
     imagesLabel: 'Images',
+    all: 'Tous',
+    more: 'Plus',
     productsLabel: 'Produits',
     allProductImages: 'Toutes les images de produits',
     browseVisualCollection: 'Parcourez notre collection visuelle',
@@ -648,6 +726,42 @@ export const translations = {
     selectTunisianTown: 'Sélectionner une ville tunisienne',
     submitOrder: 'Soumettre la commande',
     currency: 'DT',
+    categoryNotFound: 'Catégorie Non Trouvée',
+    categoryNotFoundDesc: 'La catégorie que vous cherchez n\'existe pas.',
+    collectionNotFound: 'Collection Non Trouvée',
+    backToCollections: 'Retour aux Collections',
+    collectionPieces: 'Pièces de Collection',
+    discoverCompleteCollection: 'Découvrez la collection complète {{title}}. Chaque pièce est soigneusement sélectionnée pour refléter notre vision pour {{season}} {{year}}.',
+    filterProducts: 'Filtrer les Produits',
+    allCategories: 'Toutes les Catégories',
+    minPrice: 'Prix Min',
+    maxPrice: 'Prix Max',
+    clearFilters: 'Effacer les Filtres',
+    noProductsInCollection: 'Aucun produit dans cette collection pour le moment.',
+    casual: 'Décontracté',
+    elegant: 'Élégant',
+    bohemian: 'Bohème',
+    minimalist: 'Minimaliste',
+    streetwear: 'Streetwear',
+    vintage: 'Vintage',
+    romantic: 'Romantique',
+    athletic: 'Sportif',
+    professional: 'Professionnel',
+    festive: 'Festif',
+    layer_jacket: 'Superposez avec une veste légère pour un temps de transition',
+    neutral_accessories: 'Associez avec des accessoires neutres pour garder le focus sur la tenue',
+    belt_waist: 'Ajoutez une ceinture pour définir votre taille et améliorer la silhouette',
+    comfortable_footwear: 'Complétez le look avec des chaussures confortables mais stylées',
+    mix_patterns: 'Mélangez les motifs avec soin pour une déclaration audacieuse et avant-gardiste',
+    day_night_transition: 'Choisissez des pièces qui peuvent passer du jour à la nuit sans effort',
+    metallic_accents: 'Incorporez des accents métalliques pour une touche de glamour',
+    breathable_fabrics: 'Optez pour des tissus respirants parfaits pour le port toute la journée',
+    fitted_relaxed_balance: 'Équilibrez les pièces ajustées et décontractées pour un confort et un style optimaux',
+    scarf_shawl: 'Ajoutez un foulard ou un châle pour une mise à niveau instantanée du style',
+    spring: 'Printemps',
+    summer: 'Été',
+    fall: 'Automne',
+    winter: 'Hiver',
   },
   ar: {
     home: 'الرئيسية',
@@ -734,6 +848,8 @@ export const translations = {
     popularity: 'الشعبية',
     resetAll: 'إعادة تعيين الكل',
     imagesLabel: 'الصور',
+    all: 'الكل',
+    more: 'المزيد',
     productsLabel: 'المنتجات',
     allProductImages: 'جميع صور المنتجات',
     browseVisualCollection: 'تصفح مجموعتنا البصرية',
@@ -858,5 +974,41 @@ export const translations = {
     selectTunisianTown: 'اختر مدينة تونسية',
     submitOrder: 'تقديم الطلب',
     currency: 'دينار تونسي',
+    categoryNotFound: 'لم يتم العثور على الفئة',
+    categoryNotFoundDesc: 'الفئة التي تبحث عنها غير موجودة.',
+    collectionNotFound: 'لم يتم العثور على المجموعة',
+    backToCollections: 'العودة إلى المجموعات',
+    collectionPieces: 'قطع المجموعة',
+    discoverCompleteCollection: 'اكتشف مجموعة {{title}} الكاملة. كل قطعة تم اختيارها بعناية لتعكس رؤيتنا لـ {{season}} {{year}}.',
+    filterProducts: 'تصفية المنتجات',
+    allCategories: 'جميع الفئات',
+    minPrice: 'السعر الأدنى',
+    maxPrice: 'السعر الأعلى',
+    clearFilters: 'مسح المرشحات',
+    noProductsInCollection: 'لا توجد منتجات في هذه المجموعة بعد.',
+    casual: 'عارض',
+    elegant: 'أنيق',
+    bohemian: 'بوهيمي',
+    minimalist: 'بسيط',
+    streetwear: 'شارعي',
+    vintage: 'عتيق',
+    romantic: 'رومانسي',
+    athletic: 'رياضي',
+    professional: 'مهني',
+    festive: 'احتفالي',
+    layer_jacket: 'طبق مع جاكيت خفيف للطقس الانتقالي',
+    neutral_accessories: 'اقرن مع إكسسوارات محايدة للحفاظ على التركيز على الإطلالة',
+    belt_waist: 'أضف حزاماً لتحديد خصرك وتعزيز الخطوط العريضة',
+    comfortable_footwear: 'أكمل الإطلالة بأحذية مريحة وأنيقة',
+    mix_patterns: 'اخلط الأنماط بعناية لبيان جريء ومتقدم في الموضة',
+    day_night_transition: 'اختر قطع يمكن أن تنتقل من النهار إلى الليل بسهولة',
+    metallic_accents: 'أدرج لمسات معدنية لقدحة من البريق',
+    breathable_fabrics: 'اختر أقمشة قابلة للتنفس مثالية للارتداء طوال اليوم',
+    fitted_relaxed_balance: 'وازن بين القطع الضيقة والمريحة للراحة والأناقة المثالية',
+    scarf_shawl: 'أضف وشاحاً أو شالاً لترقية فورية للأسلوب',
+    spring: 'ربيع',
+    summer: 'صيف',
+    fall: 'خريف',
+    winter: 'شتاء',
   },
 };

@@ -17,7 +17,12 @@ export default function LookbookPage() {
   const params = useParams();
   const [lookbook, setLookbook] = useState<Lookbook | null>(null);
   const [loading, setLoading] = useState(true);
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
+
+  const getTranslatedField = (obj: any, field: string) => {
+    if (language === 'en') return obj[field];
+    return obj[`${field}_${language}`] || obj[field];
+  };
 
   const containerVariants = {
     hidden: {},
@@ -54,7 +59,7 @@ export default function LookbookPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center" dir={language === "ar" ? "rtl" : "ltr"}>
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-fashion-gold mx-auto mb-4"></div>
           <p className="text-zinc-600 dark:text-zinc-400">{t('loading')}</p>
@@ -65,7 +70,7 @@ export default function LookbookPage() {
 
   if (!lookbook) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center" dir={language === "ar" ? "rtl" : "ltr"} >
         <div className="text-center">
           <h1 className="text-2xl font-bold mb-4">{t('lookbookNotFound')}</h1>
           <Link href="/style-stories">
@@ -77,7 +82,7 @@ export default function LookbookPage() {
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen" dir={language === "ar" ? "rtl" : "ltr"}>
       {/* Hero Section */}
       <section className="relative py-5 px-6 bg-gradient-to-br from-zinc-50 to-zinc-100 dark:from-zinc-900 dark:to-zinc-800">
         <div className="max-w-7xl mx-auto">
@@ -94,19 +99,19 @@ export default function LookbookPage() {
             <div className="flex items-center justify-center gap-3 mb-6">
               <Palette className="w-8 h-8 text-zinc-600 dark:text-zinc-400" />
               <h1 className="text-4xl md:text-6xl font-bold text-black dark:text-white">
-                {lookbook.title}
+                {getTranslatedField(lookbook, 'title')}
               </h1>
             </div>
 
             {/* Theme badge */}
             {lookbook.theme && (
               <Badge variant="secondary" className="mb-4 bg-fashion-gold/10 text-fashion-gold border-fashion-gold/20 px-4 py-2">
-                {lookbook.theme}
+                {t(lookbook.theme as any)}
               </Badge>
             )}
 
             <p className="text-lg md:text-xl text-zinc-600 dark:text-zinc-400 max-w-2xl mx-auto leading-relaxed mb-6">
-              {lookbook.description || t('discoverProductsInTamaStory', { title: lookbook.title })}
+              {getTranslatedField(lookbook, 'description') || t('discoverProductsInTamaStory', { title: getTranslatedField(lookbook, 'title') })}
             </p>
 
             {/* Metadata badges */}
@@ -116,7 +121,7 @@ export default function LookbookPage() {
               </Badge>
               {lookbook.season && (
                 <Badge variant="secondary" className="bg-zinc-200 dark:bg-zinc-700 text-zinc-800 dark:text-zinc-200 px-4 py-2">
-                  {lookbook.season.charAt(0).toUpperCase() + lookbook.season.slice(1)}
+                  {t(lookbook.season as any)}
                 </Badge>
               )}
               {lookbook.year && (
@@ -133,7 +138,7 @@ export default function LookbookPage() {
                   <Sparkles className="w-5 h-5 mr-2 text-yellow-500" />
                   {t('stylingTips')}
                 </h3>
-                <p className="text-zinc-700 dark:text-zinc-300 leading-relaxed">{lookbook.stylingTips}</p>
+                <p className="text-zinc-700 dark:text-zinc-300 leading-relaxed">{getTranslatedField(lookbook, 'stylingTips')}</p>
               </div>
             )}
           </div>
@@ -144,7 +149,7 @@ export default function LookbookPage() {
       <section className="py-10 md:py-12 ">
         {lookbook.products && lookbook.products.length > 0 ? (
           <motion.div
-          className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 gap-4 sm:gap-6 md:gap-10 z-20 px-10"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
@@ -178,7 +183,7 @@ export default function LookbookPage() {
         <section className="py-16 px-6 ">
           <div className="max-w-7xl mx-auto">
             <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">{t('theLook')}</h2>
-            <LookbookGallery images={lookbook.images} title={lookbook.title} />
+            <LookbookGallery images={lookbook.images} title={getTranslatedField(lookbook, 'title')} />
           </div>
         </section>
       )}

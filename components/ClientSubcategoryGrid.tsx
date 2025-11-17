@@ -6,6 +6,8 @@ import { useTranslation } from "@/lib/translationContext";
 interface Category {
   _id: string;
   title: string;
+  title_fr?: string;
+  title_ar?: string;
   imageUrl?: string;
   productCount: number;
 }
@@ -15,7 +17,12 @@ interface Props {
 }
 
 export default function ClientSubcategoryGrid({ categories }: Props) {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
+
+  const getTranslatedField = (obj: any, field: string) => {
+    if (language === 'en') return obj[field];
+    return obj[`${field}_${language}`] || obj[field];
+  };
   const containerVariants = {
     hidden: {},
     visible: {
@@ -64,7 +71,7 @@ export default function ClientSubcategoryGrid({ categories }: Props) {
             {/* Text Overlay */}
             <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 text-white text-center p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               <h3 className="text-lg md:text-xl font-semibold drop-shadow-2xl">
-                {sub.title}
+                {getTranslatedField(sub, 'title')}
               </h3>
               <p className="text-sm md:text-base drop-shadow-2xl">
                 {sub.productCount} {t('categoryItems')}

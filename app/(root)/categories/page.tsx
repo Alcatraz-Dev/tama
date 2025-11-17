@@ -12,6 +12,11 @@ import { useTranslation } from "@/lib/translationContext";
 interface Category {
   _id: string;
   title: string;
+  title_fr?: string;
+  title_ar?: string;
+  description?: string;
+  description_fr?: string;
+  description_ar?: string;
   slug?: {
     current: string;
   } | string;
@@ -26,15 +31,20 @@ function getSlugValue(slug?: { current: string } | string): string {
 }
 
 export default function CategoriesPage() {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
   const [categories, setCategories] = React.useState<Category[]>([]);
+
+  const getTranslatedField = (obj: any, field: string) => {
+    if (language === 'en') return obj[field];
+    return obj[`${field}_${language}`] || obj[field];
+  };
 
   React.useEffect(() => {
     getCategories(50).then(setCategories);
   }, []);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen" dir={language === "ar" ? "rtl" : "ltr"}>
       {/* Hero Section */}
       <section className="relative py-5 px-6 bg-gradient-to-br from-zinc-50 to-zinc-100 dark:from-zinc-900 dark:to-zinc-800">
         <div className="max-w-7xl mx-auto">
@@ -96,10 +106,10 @@ export default function CategoriesPage() {
 
                   <div className="p-6">
                     <h2 className="text-xl font-bold mb-2 text-black dark:text-white group-hover:text-fashion-gold transition-colors">
-                      {category.title}
+                      {getTranslatedField(category, 'title')}
                     </h2>
                     <p className="text-zinc-600 dark:text-zinc-400 text-sm mb-4">
-                      {t('discoverCollection', { category: category.title.toLowerCase() })}
+                      {t('discoverCollection', { category: getTranslatedField(category, 'title').toLowerCase() })}
                     </p>
 
                     <div className="flex items-center justify-between">

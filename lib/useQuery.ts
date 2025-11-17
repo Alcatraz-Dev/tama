@@ -218,6 +218,11 @@ export async function getCategories(limit = 5) {
   const query = `*[_type == "category"][0...${limit}]{
     _id,
     title,
+    title_fr,
+    title_ar,
+    description,
+    description_fr,
+    description_ar,
     slug,
     "imageUrl": image.asset->url,
     "productCount": count(*[_type == "product" && category._ref == ^._id])
@@ -231,7 +236,12 @@ export async function getCategoryBySlug(slug: string, productLimit = 12, product
 *[_type == "category" && slug.current == $slug][0]{
   _id,
   title,
+  title_fr,
+  title_ar,
   "slug": slug.current,
+  description,
+  description_fr,
+  description_ar,
   "imageUrl": image.asset->url,
   "totalProducts": count(*[_type == "product" && category._ref == ^._id]),
   "products": *[_type == "product" && category._ref == ^._id]{
@@ -330,9 +340,15 @@ export async function getCollectionsLimit(limit = 5) {
   const query = `*[_type == "collection"][0...${limit}]{
     _id,
     title,
+    title_fr,
+    title_ar,
     "slug": slug.current,
     description,
+    description_fr,
+    description_ar,
     stylingTips,
+    stylingTips_fr,
+    stylingTips_ar,
     season,
     year,
     theme,
@@ -345,9 +361,15 @@ export async function getCollections() {
   const query = `*[_type == "collection"]{
     _id,
     title,
+    title_fr,
+    title_ar,
     "slug": slug.current,
     description,
+    description_fr,
+    description_ar,
     stylingTips,
+    stylingTips_fr,
+    stylingTips_ar,
     season,
     year,
     theme,
@@ -375,8 +397,14 @@ export async function getCollectionBySlug(slug: string, productLimit = 12, produ
 *[_type == "collection" && slug.current == $slug][0]{
   _id,
   title,
+  title_fr,
+  title_ar,
   description,
+  description_fr,
+  description_ar,
   stylingTips,
+  stylingTips_fr,
+  stylingTips_ar,
   season,
   year,
   theme,
@@ -417,12 +445,18 @@ export async function getCollectionBySlug(slug: string, productLimit = 12, produ
 
 export async function getLookbook(){
   const query = `
-*[_type == "lookbook"]{
+*[_type == "tamastories"]{
   _id,
   title,
+  title_fr,
+  title_ar,
   "slug": slug.current,
   description,
+  description_fr,
+  description_ar,
   stylingTips,
+  stylingTips_fr,
+  stylingTips_ar,
   season,
   year,
   theme,
@@ -432,11 +466,30 @@ export async function getLookbook(){
   "products": products[]->{
     _id,
     title,
+    title_fr,
+    title_ar,
     "slug": slug.current,
     price,
     originalPrice,
-    "image": gallery[0].asset->url,
+    description,
+    description_fr,
+    description_ar,
+    gallery[]{
+      ...,
+      _key,
+      _type,
+      _type == "image" => {
+        asset->{_id, url}
+      },
+      _type == "file" => {
+        ...,
+        asset->{_id, url, originalFilename, mimeType}
+      }
+    },
+    colors[]{hex, name},
+    sizes,
     inStock,
+    category->{...,},
     "reviews": {
       "count": count(*[_type == "review" && product._ref == ^._id]),
       "averageRating": math::avg(*[_type == "review" && product._ref == ^._id].rating)
@@ -450,12 +503,18 @@ export async function getLookbook(){
 
 export async function getLookbookBySlug(slug: string) {
   const query = `
-*[_type == "lookbook" && slug.current == $slug][0]{
+*[_type == "tamastories" && slug.current == $slug][0]{
   _id,
   title,
+  title_fr,
+  title_ar,
   "slug": slug.current,
   description,
+  description_fr,
+  description_ar,
   stylingTips,
+  stylingTips_fr,
+  stylingTips_ar,
   season,
   year,
   theme,

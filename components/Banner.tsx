@@ -13,6 +13,11 @@ export default function Banner() {
   const [bannerData, setBannerData] = useState<any>(null);
   const { language } = useTranslation();
 
+  const getTranslatedField = (obj: any, field: string) => {
+    if (language === 'en') return obj[field];
+    return obj[`${field}_${language}`] || obj[field];
+  };
+
   useEffect(() => {
     const fetchBanner = async () => {
       const data = await getBanner();
@@ -40,17 +45,17 @@ export default function Banner() {
 
           <div className="relative z-10 flex flex-col items-center gap-4 sm:gap-6 px-6 sm:px-10">
             <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold drop-shadow-xl">
-              {language === 'en' ? bannerData.title : bannerData[`title_${language}`] || bannerData.title}
+              {getTranslatedField(bannerData, 'title')}
             </h1>
             <p className="text-base sm:text-lg md:text-2xl max-w-xl sm:max-w-2xl drop-shadow-xl mt-10">
-              {language === 'en' ? bannerData.subtitle : bannerData[`subtitle_${language}`] || bannerData.subtitle}
+              {getTranslatedField(bannerData, 'subtitle')}
             </p>
             <Link href={bannerData.buttonLink} className="mt-8 gap-3 flex">
               <Button
-                aria-label={language === 'en' ? bannerData.buttonText : bannerData[`buttonText_${language}`] || bannerData.buttonText}
+                aria-label={getTranslatedField(bannerData, 'buttonText')}
                 className="inline-flex items-center gap-2 bg-white  text-black  px-8 py-6 rounded-full hover:bg-slate-200  transition hover:cursor-pointer"
               >
-                {language === 'en' ? bannerData.buttonText : bannerData[`buttonText_${language}`] || bannerData.buttonText}
+                {getTranslatedField(bannerData, 'buttonText')}
               </Button>
               <Button className="mt-1 inline-flex items-center gap-2 bg-white  text-black  px-5 py-5 rounded-full hover:bg-slate-100  transition -rotate-45 hover:rotate-0 hover:cursor-pointer">
                 <ArrowRight className="w-4 h-4" />
