@@ -8,9 +8,11 @@ import banner from "./banner";
 import order from "./order";
 import socialLinks from "./socialLinks";
 import review from "./review";
+import contact from "./contact";
+import contactInfo from "./contactInfo";
 
 
 export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [heroCard, product , category , collection , banner, lookbook , order , socialLinks, review
+  types: [heroCard, product , category , collection , banner, lookbook , order , socialLinks, review, contact, contactInfo
   ],
 };

@@ -20,6 +20,8 @@ const links = [
   { href: "/collections", key: "collections" },
   { href: "/gallery", key: "gallery" },
   { href: "/about", key: "about" },
+  { href: "/contact", key: "contact" },
+  { href: "/size-guide", key: "sizeGuide" },
   { href: "/style-stories", key: "tamaStories" },
 ];
 
@@ -114,7 +116,7 @@ export default function Navbar() {
           {/* Left Navigation - takes equal space */}
           <div className="flex-1 flex justify-start">
             <nav className="flex gap-4 lg:gap-6 xl:gap-8">
-              {links.slice(0, 3).map((link) => (
+              {links.slice(0, 5).map((link) => (
                 <motion.div
                   key={link.href}
                   whileHover={{ scale: 1.1 }}
@@ -148,7 +150,7 @@ export default function Navbar() {
           <div className="flex-1 flex justify-end">
             <div className="flex items-center gap-3 lg:gap-4">
               <nav className="flex gap-4 lg:gap-6 xl:gap-8">
-                {links.slice(3).map((link) => (
+                {links.slice(5).map((link) => (
                   <motion.div
                     key={link.href}
                     whileHover={{ scale: 1.1 }}

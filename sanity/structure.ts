@@ -38,7 +38,10 @@ export const structure: StructureResolver = (S) =>
         .child(
           S.list()
             .title("Orders & Customers")
-            .items([S.documentTypeListItem("order").title("Orders")])
+            .items([
+              S.documentTypeListItem("order").title("Orders"),
+              S.documentTypeListItem("contact").title("Contact Messages"),
+            ])
         ),
 
       // Settings / Other
@@ -47,6 +50,9 @@ export const structure: StructureResolver = (S) =>
         .child(
           S.list()
             .title("Settings")
-            .items([S.documentTypeListItem("socialLinks").title("Social Links")])
+            .items([
+              S.documentTypeListItem("socialLinks").title("Social Links"),
+              S.documentTypeListItem("contactInfo").title("Contact Information"),
+            ])
         ),
     ]);

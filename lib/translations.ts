@@ -264,7 +264,57 @@ export type TranslationKey =
   | 'spring'
   | 'summer'
   | 'fall'
-  | 'winter';
+  | 'winter'
+  | 'contactTitle'
+  | 'contactDescription'
+  | 'getInTouch'
+  | 'sendMessage'
+  | 'address'
+  | 'phone'
+  | 'email'
+  | 'businessHours'
+  | 'contactName'
+  | 'contactEmail'
+  | 'contactSubject'
+  | 'contactMessage'
+  | 'sendMessageBtn'
+  | 'messageSent'
+  | 'messageSentDesc'
+  | 'enterContactName'
+  | 'enterContactEmail'
+  | 'enterContactSubject'
+  | 'enterContactMessage'
+  | 'sizeGuide'
+  | 'sizeGuideDescription'
+  | 'howToMeasure'
+  | 'measurementTips'
+  | 'chest'
+  | 'waist'
+  | 'hips'
+  | 'inseam'
+  | 'shoulder'
+  | 'sleeve'
+  | 'tops'
+  | 'bottoms'
+  | 'dresses'
+  | 'outerwear'
+  | 'guideSize'
+  | 'xs'
+  | 's'
+  | 'm'
+  | 'l'
+  | 'xl'
+  | 'xxl'
+  | 'measurements'
+  | 'inches'
+  | 'cm'
+  | 'sizeGuideHelp'
+  | 'contactUsBtn'
+  | 'measurementTips'
+  | 'chestInstruction'
+  | 'waistInstruction'
+  | 'hipsInstruction'
+  | 'inseamInstruction';
 
 export const translations = {
   en: {
@@ -514,6 +564,55 @@ export const translations = {
     summer: 'Summer',
     fall: 'Fall',
     winter: 'Winter',
+    contactTitle: 'Contact Us',
+    contactDescription: 'Get in touch with us. We\'re here to help with any questions about our products or services.',
+    getInTouch: 'Get In Touch',
+    sendMessage: 'Send us a Message',
+    address: 'Address',
+    phone: 'Phone',
+    email: 'Email',
+    businessHours: 'Business Hours',
+    contactName: 'Your Name',
+    contactEmail: 'Your Email',
+    contactSubject: 'Subject',
+    contactMessage: 'Your Message',
+    sendMessageBtn: 'Send Message',
+    messageSent: 'Message Sent',
+    messageSentDesc: 'Thank you for your message. We\'ll get back to you soon!',
+    enterContactName: 'Enter your full name',
+    enterContactEmail: 'Enter your email address',
+    enterContactSubject: 'Enter the subject',
+    enterContactMessage: 'Tell us how we can help...',
+    sizeGuide: 'Size Guide',
+    sizeGuideDescription: 'Find your perfect fit with our detailed size guide. Accurate measurements ensure the best shopping experience.',
+    howToMeasure: 'How to Measure',
+    measurementTips: 'For the most accurate measurements, wear form-fitting clothing and measure yourself in front of a mirror.',
+    chest: 'Chest',
+    waist: 'Waist',
+    hips: 'Hips',
+    inseam: 'Inseam',
+    shoulder: 'Shoulder',
+    sleeve: 'Sleeve',
+    tops: 'Tops',
+    bottoms: 'Bottoms',
+    dresses: 'Dresses',
+    outerwear: 'Outerwear',
+    guideSize: 'Size',
+    xs: 'XS',
+    s: 'S',
+    m: 'M',
+    l: 'L',
+    xl: 'XL',
+    xxl: 'XXL',
+    measurements: 'Measurements',
+    inches: 'inches',
+    cm: 'cm',
+    sizeGuideHelp: 'Still unsure about your size? Contact our customer service for personalized assistance.',
+    contactUsBtn: 'Contact Us',
+    chestInstruction: 'Measure around the fullest part of your chest',
+    waistInstruction: 'Measure around your natural waistline',
+    hipsInstruction: 'Measure around the fullest part of your hips',
+    inseamInstruction: 'Measure from crotch to ankle',
   },
   fr: {
     home: 'Accueil',
@@ -762,6 +861,55 @@ export const translations = {
     summer: 'Été',
     fall: 'Automne',
     winter: 'Hiver',
+    contactTitle: 'Contactez-nous',
+    contactDescription: 'Entrez en contact avec nous. Nous sommes là pour vous aider avec toutes vos questions sur nos produits ou services.',
+    getInTouch: 'Entrer en contact',
+    sendMessage: 'Envoyez-nous un message',
+    address: 'Adresse',
+    phone: 'Téléphone',
+    email: 'Email',
+    businessHours: 'Heures d\'ouverture',
+    contactName: 'Votre nom',
+    contactEmail: 'Votre email',
+    contactSubject: 'Sujet',
+    contactMessage: 'Votre message',
+    sendMessageBtn: 'Envoyer le message',
+    messageSent: 'Message envoyé',
+    messageSentDesc: 'Merci pour votre message. Nous vous répondrons bientôt !',
+    enterContactName: 'Entrez votre nom complet',
+    enterContactEmail: 'Entrez votre adresse email',
+    enterContactSubject: 'Entrez le sujet',
+    enterContactMessage: 'Dites-nous comment nous pouvons vous aider...',
+    sizeGuide: 'Guide des tailles',
+    sizeGuideDescription: 'Trouvez votre taille parfaite avec notre guide détaillé. Des mesures précises assurent la meilleure expérience d\'achat.',
+    howToMeasure: 'Comment mesurer',
+    measurementTips: 'Pour les mesures les plus précises, portez des vêtements près du corps et mesurez-vous devant un miroir.',
+    chest: 'Poitrine',
+    waist: 'Taille',
+    hips: 'Hanches',
+    inseam: 'Entrejambe',
+    shoulder: 'Épaule',
+    sleeve: 'Manche',
+    tops: 'Hauts',
+    bottoms: 'Bas',
+    dresses: 'Robes',
+    outerwear: 'Vêtements d\'extérieur',
+    guideSize: 'Taille',
+    xs: 'XS',
+    s: 'S',
+    m: 'M',
+    l: 'L',
+    xl: 'XL',
+    xxl: 'XXL',
+    measurements: 'Mesures',
+    inches: 'pouces',
+    cm: 'cm',
+    sizeGuideHelp: 'Toujours incertain sur votre taille ? Contactez notre service client pour une assistance personnalisée.',
+    contactUsBtn: 'Contactez-nous',
+    chestInstruction: 'Mesurez autour de la partie la plus pleine de votre poitrine',
+    waistInstruction: 'Mesurez autour de votre taille naturelle',
+    hipsInstruction: 'Mesurez autour de la partie la plus pleine de vos hanches',
+    inseamInstruction: 'Mesurez de l\'entrejambe à la cheville',
   },
   ar: {
     home: 'الرئيسية',
@@ -1010,5 +1158,54 @@ export const translations = {
     summer: 'صيف',
     fall: 'خريف',
     winter: 'شتاء',
+    contactTitle: 'اتصل بنا',
+    contactDescription: 'تواصل معنا. نحن هنا لمساعدتك في أي أسئلة حول منتجاتنا أو خدماتنا.',
+    getInTouch: 'تواصل معنا',
+    sendMessage: 'أرسل لنا رسالة',
+    address: 'العنوان',
+    phone: 'الهاتف',
+    email: 'البريد الإلكتروني',
+    businessHours: 'ساعات العمل',
+    contactName: 'اسمك',
+    contactEmail: 'بريدك الإلكتروني',
+    contactSubject: 'الموضوع',
+    contactMessage: 'رسالتك',
+    sendMessageBtn: 'إرسال الرسالة',
+    messageSent: 'تم إرسال الرسالة',
+    messageSentDesc: 'شكراً لرسالتك. سنعود إليك قريباً!',
+    enterContactName: 'أدخل اسمك الكامل',
+    enterContactEmail: 'أدخل عنوان بريدك الإلكتروني',
+    enterContactSubject: 'أدخل الموضوع',
+    enterContactMessage: 'أخبرنا كيف يمكننا مساعدتك...',
+    sizeGuide: 'دليل المقاسات',
+    sizeGuideDescription: 'اعثر على مقاسك المثالي مع دليلنا التفصيلي. القياسات الدقيقة تضمن أفضل تجربة تسوق.',
+    howToMeasure: 'كيفية القياس',
+    measurementTips: 'للحصول على أدق القياسات، ارتدِ ملابس ضيقة وقيس نفسك أمام المرآة.',
+    chest: 'الصدر',
+    waist: 'الخصر',
+    hips: 'الوركين',
+    inseam: 'الطول الداخلي',
+    shoulder: 'الكتف',
+    sleeve: 'الكم',
+    tops: 'الملابس العلوية',
+    bottoms: 'الملابس السفلية',
+    dresses: 'الفساتين',
+    outerwear: 'الملابس الخارجية',
+    guideSize: 'المقاس',
+    xs: 'XS',
+    s: 'S',
+    m: 'M',
+    l: 'L',
+    xl: 'XL',
+    xxl: 'XXL',
+    measurements: 'القياسات',
+    inches: 'بوصة',
+    cm: 'سم',
+    sizeGuideHelp: 'لا تزال غير متأكد من مقاسك؟ اتصل بخدمة العملاء للحصول على مساعدة شخصية.',
+    contactUsBtn: 'اتصل بنا',
+    chestInstruction: 'قيس حول الجزء الأكثر امتلاءً من صدرك',
+    waistInstruction: 'قيس حول خصرك الطبيعي',
+    hipsInstruction: 'قيس حول الجزء الأكثر امتلاءً من وركيك',
+    inseamInstruction: 'قيس من المنطقة بين الساقين إلى الكاحل',
   },
 };
