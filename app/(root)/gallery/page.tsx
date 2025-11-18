@@ -2,7 +2,7 @@
 
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, use, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { getAllProducts } from "@/lib/useQuery";
@@ -13,8 +13,10 @@ import { useTranslation } from "@/lib/translationContext";
 
 export default function GalleryPage() {
   const [products, setProducts] = useState<any[]>([]);
-  const [isAutoScrolling, setIsAutoScrolling] = useState(false);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isAutoScrolling, setIsAutoScrolling] = useState(true);
+  const [columns, setColumns] = useState(2);
+  const [currentMainImage, setCurrentMainImage] = useState<any>(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const { t, language } = useTranslation();
 
   useEffect(() => {
@@ -25,8 +27,15 @@ export default function GalleryPage() {
     fetchProducts();
   }, []);
 
+  useEffect(() => {
+    const updateColumns = () => setColumns(window.innerWidth >= 768 ? 4 : 2);
+    updateColumns();
+    window.addEventListener('resize', updateColumns);
+    return () => window.removeEventListener('resize', updateColumns);
+  }, []);
+
   // Collect all images from all products
-  const allImages = products.flatMap((product: any) =>
+  const allImages = useMemo(() => products.flatMap((product: any) =>
     product.gallery
       .filter((item: any) => item._type === "image")
       .map((item: any) => {
@@ -38,18 +47,28 @@ export default function GalleryPage() {
           productId: product._id,
         };
       })
-  );
+  ), [products]);
 
-  // Auto-scroll functionality
   useEffect(() => {
-    let interval: NodeJS.Timeout;
-    if (isAutoScrolling && allImages.length > 0) {
-      interval = setInterval(() => {
-        setCurrentImageIndex((prev) => (prev + 1) % allImages.length);
-      }, 3000); // Change image every 3 seconds
+    if (allImages.length > 0 && !currentMainImage) {
+      setCurrentMainImage(allImages[0]);
     }
-    return () => clearInterval(interval);
-  }, [isAutoScrolling, allImages.length]);
+  }, [allImages, currentMainImage]);
+
+  // Auto-scroll functionality for main image
+  useEffect(() => {
+    if (isAutoScrolling && allImages.length > 0) {
+      const interval = setInterval(() => {
+        setCurrentIndex((prev) => {
+          const next = (prev + 1) % allImages.length;
+          setCurrentMainImage(allImages[next]);
+          return next;
+        });
+      }, 3000);
+      return () => clearInterval(interval);
+    }
+  }, [isAutoScrolling, allImages]);
+
 
   const toggleAutoScroll = () => {
     setIsAutoScrolling(!isAutoScrolling);
@@ -96,7 +115,7 @@ export default function GalleryPage() {
       </section>
 
       {/* Gallery Section */}
-      <section className="py-16 px-6 max-w-7xl mx-auto">
+      <section className="py-16 px-6 max-w-7xl mx-auto bg-gradient-to-b from-transparent via-zinc-50/30 to-transparent dark:from-transparent dark:via-zinc-900/30 dark:to-transparent">
         <div className="mb-8">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
             <div>
@@ -147,99 +166,47 @@ export default function GalleryPage() {
               </Button>
             </Link>
           </div>
-        ) : isAutoScrolling ? (
-          // Auto-scroll carousel view
-          <div className="relative overflow-hidden rounded-lg">
-            <div
-              className="flex transition-transform duration-1000 ease-in-out"
-              style={{
-                transform: `translateX(-${currentImageIndex * 100}%)`,
-              }}
-            >
-              {allImages.map((image: any, index: number) => (
-                <div
-                  key={`${image.productId}-${index}`}
-                  className="flex-shrink-0 w-full aspect-[16/9] relative"
-                >
-                  <Link href={`/product/${encodeURIComponent(image.productSlug)}`}>
-                    <Image
-                      src={image.asset.url}
-                      alt={image.productTitle}
-                      fill
-                      className="object-cover"
-                      priority={index === 0}
-                    />
-
-                    {/* Overlay */}
-                    <div className="absolute inset-0 bg-black/20" />
-
-                    {/* Product Title Overlay */}
-                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-6">
-                      <h3 className="text-white text-xl font-bold mb-2">
-                        {image.productTitle}
-                      </h3>
-                      <div className="flex items-center text-white/90">
-                        <span>{t('viewProduct')}</span>
-                        <ChevronRight className="w-4 h-4 ml-2" />
-                      </div>
-                    </div>
+        ) : (
+          // Gallery featured view with optional auto-scroll on bottom
+          <div className="gallery-featured">
+            <div className="mb-4 flex justify-center">
+              <div className="relative group">
+                <img
+                  src={currentMainImage?.asset.url}
+                  alt={currentMainImage?.productTitle}
+                  className="w-full max-w-2xl h-auto rounded-2xl cursor-pointer hover:scale-105 transition-transform"
+                />
+                {/* Overlay */}
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-300 rounded-2xl" />
+                {/* Product Title Overlay */}
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-6 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 backdrop-blur-sm rounded-b-2xl">
+                  <h3 className="text-white text-xl font-bold mb-2">
+                    {currentMainImage?.productTitle}
+                  </h3>
+                  <Link href={`/product/${currentMainImage?.productSlug}`}>
+                    <Button className="bg-white text-black hover:bg-zinc-200">
+                      {t('viewProduct')}
+                    </Button>
                   </Link>
                 </div>
-              ))}
-            </div>
-
-            {/* Carousel Indicators */}
-            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
-              {allImages.slice(0, 10).map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentImageIndex(index)}
-                  className={`w-2 h-2 rounded-full transition-colors ${
-                    index === currentImageIndex ? 'bg-white' : 'bg-white/50'
-                  }`}
-                />
-              ))}
-            </div>
-          </div>
-        ) : (
-          // Regular grid view
-          <div className="gallery-grid">
-            {allImages.map((image: any, index: number) => (
-              <div
-                key={`${image.productId}-${index}`}
-                className="gallery-item group relative aspect-square overflow-hidden rounded-lg bg-muted shadow-md hover:shadow-xl transition-all duration-500 hover:scale-105"
-                style={{
-                  animationDelay: `${index * 0.1}s`
-                }}
-              >
-                <Link href={`/product/${encodeURIComponent(image.productSlug)}`}>
-                  <Image
-                    src={image.asset.url}
-                    alt={image.productTitle}
-                    fill
-                    sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, (max-width: 1280px) 25vw, 20vw"
-                    className="object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
-
-                  {/* Overlay */}
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-300" />
-
-                  {/* Product Title Overlay */}
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-                    <p className="text-white text-sm font-medium truncate mb-1">
-                      {image.productTitle}
-                    </p>
-                    <div className="flex items-center text-xs text-white/80">
-                      <span>{t('viewProduct')}</span>
-                      <ChevronRight className="w-3 h-3 ml-1" />
-                    </div>
-                  </div>
-
-                  {/* Hover Effect Border */}
-                  <div className="absolute inset-0 border-2 border-transparent group-hover:border-white/20 rounded-lg transition-all duration-300" />
-                </Link>
               </div>
-            ))}
+            </div>
+            <div className="bottom-gallery">
+              <div className="thumbnail-scroll">
+                {allImages.map((image, i) => (
+                  <img
+                    key={i}
+                    src={image?.asset.url}
+                    alt={image?.productTitle}
+                    className={`flex-shrink-0 w-32 h-32 object-cover rounded-2xl cursor-pointer transition-all ${i === currentIndex ? 'ring-2 ring-fashion-gold scale-110' : ''}`}
+                    onClick={() => {
+                      setCurrentMainImage(image);
+                      setCurrentIndex(i);
+                    }}
+                  />
+                ))}
+              </div>
+            </div>
           </div>
         )}
 
@@ -260,11 +227,18 @@ export default function GalleryPage() {
       </section>
 
       <style jsx>{`
-        .gallery-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-          gap: 1rem;
+        .gallery-featured {
           animation: fadeInUp 0.6s ease-out;
+        }
+
+        .thumbnail-scroll {
+          display: flex;
+          gap: 1rem;
+          overflow-x: auto;
+          scrollbar-width: none;
+          -webkit-scrollbar {
+            display: none;
+          }
         }
 
         .gallery-item {
@@ -293,19 +267,15 @@ export default function GalleryPage() {
         @keyframes fadeInScale {
           from {
             opacity: 0;
-            transform: scale(0.9);
+            transform: scale(0.8) translateY(20px);
           }
           to {
             opacity: 1;
-            transform: scale(1);
+            transform: scale(1) translateY(0);
           }
         }
 
         /* Auto-scroll animation */
-        .gallery-grid.auto-scroll .gallery-item {
-          animation: autoScroll 30s linear infinite;
-        }
-
         @keyframes autoScroll {
           0% {
             transform: translateX(0);
