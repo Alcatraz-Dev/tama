@@ -213,7 +213,7 @@ function SizeGuide() {
                   }`}
                 >
                   <Icon className="w-2.5 h-2.5 lg:w-4 lg:h-4" />
-                  <span className="text-[9px] lg:text-sm">{tab.label}</span>
+                  <span className="text-[10px] lg:text-sm">{tab.label}</span>
                 </button>
               );
             })}
