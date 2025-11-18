@@ -18,35 +18,35 @@ function FAQ() {
 
   const faqData = [
     {
-      question: language === 'en' ? 'How long does shipping take?' : language === 'fr' ? 'Combien de temps prend la livraison ?' : 'كم يستغرق الشحن؟',
+      question: language === 'en' ? 'How long does shipping take ?' : language === 'fr' ? 'Combien de temps prend la livraison ?' : 'كم يستغرق الشحن ؟',
       answer: language === 'en' ? 'Standard shipping within Tunisia takes 3-5 business days. International shipping takes 7-14 business days depending on the destination.' : language === 'fr' ? 'La livraison standard en Tunisie prend 3-5 jours ouvrables. La livraison internationale prend 7-14 jours ouvrables selon la destination.' : 'الشحن القياسي داخل تونس يستغرق 3-5 أيام عمل. الشحن الدولي يستغرق 7-14 يوم عمل حسب الوجهة.'
     },
     {
-      question: language === 'en' ? 'What is your return policy?' : language === 'fr' ? 'Quelle est votre politique de retour ?' : 'ما هي سياسة الإرجاع الخاصة بك؟',
+      question: language === 'en' ? 'What is your return policy ?' : language === 'fr' ? 'Quelle est votre politique de retour ?' : 'ما هي سياسة الإرجاع الخاصة بك ؟',
       answer: language === 'en' ? 'We offer a 30-day return policy for unused items in their original packaging. Returns are free within Tunisia.' : language === 'fr' ? 'Nous offrons une politique de retour de 30 jours pour les articles non utilisés dans leur emballage d\'origine. Les retours sont gratuits en Tunisie.' : 'نحن نقدم سياسة إرجاع لمدة 30 يوماً للعناصر غير المستخدمة في تغليفها الأصلي. الإرجاع مجاني داخل تونس.'
     },
     {
-      question: language === 'en' ? 'What payment methods do you accept?' : language === 'fr' ? 'Quels modes de paiement acceptez-vous ?' : 'ما هي طرق الدفع التي تقبلها؟',
+      question: language === 'en' ? 'What payment methods do you accept ?' : language === 'fr' ? 'Quels modes de paiement acceptez-vous ?' : 'ما هي طرق الدفع التي تقبلها ؟',
       answer: language === 'en' ? 'We accept credit cards, debit cards, and cash on delivery for local orders.' : language === 'fr' ? 'Nous acceptons les cartes de crédit, les cartes de débit et le paiement à la livraison pour les commandes locales.' : 'نحن نقبل بطاقات الائتمان وبطاقات الخصم والدفع عند التسليم للطلبات المحلية.'
     },
     {
-      question: language === 'en' ? 'How do I find my correct size?' : language === 'fr' ? 'Comment trouver ma taille correcte ?' : 'كيف أجد مقاسي الصحيح؟',
+      question: language === 'en' ? 'How do I find my correct size ?' : language === 'fr' ? 'Comment trouver ma taille correcte ?' : 'كيف أجد مقاسي الصحيح ؟',
       answer: language === 'en' ? 'Check our detailed size guide with measurements in both inches and centimeters. If you\'re still unsure, contact our customer service for personalized assistance.' : language === 'fr' ? 'Consultez notre guide des tailles détaillé avec les mesures en pouces et centimètres. Si vous n\'êtes toujours pas sûr, contactez notre service client pour une assistance personnalisée.' : 'تحقق من دليل المقاسات التفصيلي الخاص بنا مع القياسات بالبوصات والسنتيمترات. إذا كنت لا تزال غير متأكد، اتصل بخدمة العملاء للحصول على مساعدة شخصية.'
     },
     {
-      question: language === 'en' ? 'What is the quality of your products?' : language === 'fr' ? 'Quelle est la qualité de vos produits ?' : 'ما هي جودة منتجاتك؟',
+      question: language === 'en' ? 'What is the quality of your products ?' : language === 'fr' ? 'Quelle est la qualité de vos produits ?' : 'ما هي جودة منتجاتك ؟',
       answer: language === 'en' ? 'All our products are made with high-quality materials and undergo strict quality control. We stand behind our craftsmanship with a 1-year warranty.' : language === 'fr' ? 'Tous nos produits sont fabriqués avec des matériaux de haute qualité et subissent un contrôle qualité strict. Nous défendons notre savoir-faire avec une garantie de 1 an.' : 'جميع منتجاتنا مصنوعة من مواد عالية الجودة وتخضع لمراقبة جودة صارمة. نحن نقف وراء حرفيتنا بضمان لمدة عام واحد.'
     },
     {
-      question: language === 'en' ? 'How should I care for my Tama clothing?' : language === 'fr' ? 'Comment dois-je prendre soin de mes vêtements Tama ?' : 'كيف يجب أن أعتني بملابسي تاما؟',
+      question: language === 'en' ? 'How should I care for my Tama clothing ?' : language === 'fr' ? 'Comment dois-je prendre soin de mes vêtements Tama ?' : 'كيف يجب أن أعتني بملابسي تاما ؟',
       answer: language === 'en' ? 'Follow the care instructions on each product label. Most items can be machine washed on gentle cycle and hung to dry.' : language === 'fr' ? 'Suivez les instructions d\'entretien sur l\'étiquette de chaque produit. La plupart des articles peuvent être lavés en machine sur un cycle doux et suspendus pour sécher.' : 'اتبع تعليمات العناية على ملصق كل منتج. معظم العناصر يمكن غسلها في الغسالة على دورة لطيفة وتعليقها لتجف.'
     },
     {
-      question: language === 'en' ? 'How can I track my order?' : language === 'fr' ? 'Comment puis-je suivre ma commande ?' : 'كيف يمكنني تتبع طلبي؟',
+      question: language === 'en' ? 'How can I track my order ?' : language === 'fr' ? 'Comment puis-je suivre ma commande ?' : 'كيف يمكنني تتبع طلبي ؟',
       answer: language === 'en' ? 'Once your order ships, you\'ll receive a tracking number via email. You can also check your order status by contacting our customer service.' : language === 'fr' ? 'Une fois votre commande expédiée, vous recevrez un numéro de suivi par email. Vous pouvez également vérifier le statut de votre commande en contactant notre service client.' : 'بمجرد شحن طلبك، ستتلقى رقم تتبع عبر البريد الإلكتروني. يمكنك أيضاً التحقق من حالة طلبك من خلال الاتصال بخدمة العملاء.'
     },
     {
-      question: language === 'en' ? 'How can I contact customer service?' : language === 'fr' ? 'Comment contacter le service client ?' : 'كيف يمكنني الاتصال بخدمة العملاء؟',
+      question: language === 'en' ? 'How can I contact customer service ?' : language === 'fr' ? 'Comment contacter le service client ?' : 'كيف يمكنني الاتصال بخدمة العملاء ؟',
       answer: language === 'en' ? 'You can reach us through our contact form, by phone, or email. We\'re here to help Monday through Saturday.' : language === 'fr' ? 'Vous pouvez nous joindre via notre formulaire de contact, par téléphone ou par email. Nous sommes là pour vous aider du lundi au samedi.' : 'يمكنك الوصول إلينا من خلال نموذج الاتصال الخاص بنا، أو الهاتف، أو البريد الإلكتروني. نحن هنا للمساعدة من الاثنين إلى السبت.'
     }
   ];
