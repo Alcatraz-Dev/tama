@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "@/lib/translationContext";
-import { MapPin, Phone, Mail, Clock } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, MessageSquare } from "lucide-react";
 import { toast } from "sonner";
 import { client } from "@/sanity/lib/client";
 
@@ -83,11 +83,15 @@ function Contact() {
   return (
     <div className="min-h-screen" dir={language === "ar" ? "rtl" : "ltr"}>
       {/* Hero Section */}
-      <section className="relative py-20 px-6 bg-gradient-to-br from-zinc-50 to-zinc-100 dark:from-zinc-900 dark:to-zinc-800">
+    
+         <section className="relative py-20 px-6 bg-gradient-to-br from-zinc-50 to-zinc-100 dark:from-zinc-900 dark:to-zinc-800">
         <div className="max-w-7xl mx-auto text-center">
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 text-black dark:text-white">
-            {t('contactTitle')}
-          </h1>
+          <div className="flex items-center justify-center mb-6">
+            <MessageSquare className={`w-12 h-12 text-zinc-600 dark:text-zinc-400 ${language === 'ar' ? 'ml-4' : 'mr-4'} `} />
+            <h1 className="text-4xl md:text-6xl font-bold text-black dark:text-white">
+              {t('contactTitle')}
+            </h1>
+          </div>
           <p className="text-lg md:text-xl text-zinc-600 dark:text-zinc-400 max-w-2xl mx-auto">
             {t('contactDescription')}
           </p>

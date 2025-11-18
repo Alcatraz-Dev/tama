@@ -314,7 +314,26 @@ export type TranslationKey =
   | 'chestInstruction'
   | 'waistInstruction'
   | 'hipsInstruction'
-  | 'inseamInstruction';
+  | 'inseamInstruction'
+  | 'faq'
+  | 'faqDescription'
+  | 'faqShipping'
+  | 'faqShippingAnswer'
+  | 'faqReturns'
+  | 'faqReturnsAnswer'
+  | 'faqPayment'
+  | 'faqPaymentAnswer'
+  | 'faqSize'
+  | 'faqSizeAnswer'
+  | 'faqQuality'
+  | 'faqQualityAnswer'
+  | 'faqCare'
+  | 'faqCareAnswer'
+  | 'faqOrder'
+  | 'faqOrderAnswer'
+  | 'faqContact'
+  | 'faqContactAnswer'
+  | 'navFaq';
 
 export const translations = {
   en: {
@@ -613,6 +632,26 @@ export const translations = {
     waistInstruction: 'Measure around your natural waistline',
     hipsInstruction: 'Measure around the fullest part of your hips',
     inseamInstruction: 'Measure from crotch to ankle',
+    faq: 'Frequently Asked Questions',
+    faqDescription: 'Find answers to the most common questions about our products, shipping, and services.',
+    faqShipping: 'How long does shipping take?',
+    faqShippingAnswer: 'Standard shipping within Tunisia takes 3-5 business days. International shipping takes 7-14 business days depending on the destination.',
+    faqReturns: 'What is your return policy?',
+    faqReturnsAnswer: 'We offer a 30-day return policy for unused items in their original packaging. Returns are free within Tunisia.',
+    faqPayment: 'What payment methods do you accept?',
+    faqPaymentAnswer: 'We accept credit cards, debit cards, and cash on delivery for local orders.',
+    faqSize: 'How do I find my correct size?',
+    faqSizeAnswer: 'Check our detailed size guide with measurements in both inches and centimeters. If you\'re still unsure, contact our customer service for personalized assistance.',
+    faqQuality: 'What is the quality of your products?',
+    faqQualityAnswer: 'All our products are made with high-quality materials and undergo strict quality control. We stand behind our craftsmanship with a 1-year warranty.',
+    faqCare: 'How should I care for my Tama clothing?',
+    faqCareAnswer: 'Follow the care instructions on each product label. Most items can be machine washed on gentle cycle and hung to dry.',
+    faqOrder: 'How can I track my order?',
+    faqOrderAnswer: 'Once your order ships, you\'ll receive a tracking number via email. You can also check your order status by contacting our customer service.',
+    faqContact: 'How can I contact customer service?',
+    faqContactAnswer: 'You can reach us through our contact form, by phone, or email. We\'re here to help Monday through Saturday.',
+    navFaq: 'FAQ',
+
   },
   fr: {
     home: 'Accueil',
@@ -910,6 +949,9 @@ export const translations = {
     waistInstruction: 'Mesurez autour de votre taille naturelle',
     hipsInstruction: 'Mesurez autour de la partie la plus pleine de vos hanches',
     inseamInstruction: 'Mesurez de l\'entrejambe à la cheville',
+    stillHaveQuestions: 'Vous avez encore des questions ?',
+    cantFindAnswer: 'Vous ne trouvez pas la réponse que vous cherchez ? Notre équipe de service client est là pour vous aider.',
+    contactUs: 'Contactez-nous',
   },
   ar: {
     home: 'الرئيسية',
@@ -1207,5 +1249,8 @@ export const translations = {
     waistInstruction: 'قيس حول خصرك الطبيعي',
     hipsInstruction: 'قيس حول الجزء الأكثر امتلاءً من وركيك',
     inseamInstruction: 'قيس من المنطقة بين الساقين إلى الكاحل',
+    stillHaveQuestions: 'لديك أسئلة أخرى؟',
+    cantFindAnswer: 'لا تجد الإجابة التي تبحث عنها؟ فريق خدمة العملاء لدينا هنا للمساعدة.',
+    contactUs: 'اتصل بنا',
   },
 };

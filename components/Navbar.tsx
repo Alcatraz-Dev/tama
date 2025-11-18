@@ -22,6 +22,7 @@ const links = [
   { href: "/about", key: "about" },
   { href: "/contact", key: "contact" },
   { href: "/size-guide", key: "sizeGuide" },
+  { href: "/faq", key: "navFaq" },
   { href: "/style-stories", key: "tamaStories" },
 ];
 
@@ -124,7 +125,7 @@ export default function Navbar() {
                 >
                   <Link
                     href={link.href}
-                    className="text-zinc-700 dark:text-zinc-300 hover:text-black dark:hover:text-white text-sm font-semibold transition hover:drop-shadow-sm dark:hover:drop-shadow-[0_0_8px_rgba(139,128,0,0.4)]"
+                    className="text-zinc-700 dark:text-zinc-300 hover:text-black dark:hover:text-white text-xs font-semibold transition hover:drop-shadow-sm dark:hover:drop-shadow-[0_0_8px_rgba(139,128,0,0.4)]"
                   >
                     {t(link.key as any)}
                   </Link>
@@ -158,7 +159,7 @@ export default function Navbar() {
                   >
                     <Link
                       href={link.href}
-                      className="text-zinc-700 dark:text-zinc-300 hover:text-black dark:hover:text-white text-sm font-semibold transition hover:drop-shadow-sm dark:hover:drop-shadow-[0_0_8px_rgba(139,128,0,0.4)]"
+                      className="text-zinc-700 dark:text-zinc-300 hover:text-black dark:hover:text-white text-xs font-semibold transition hover:drop-shadow-sm dark:hover:drop-shadow-[0_0_8px_rgba(139,128,0,0.4)]"
                     >
                       {t(link.key as any)}
                     </Link>
