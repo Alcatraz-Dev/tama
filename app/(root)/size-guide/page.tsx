@@ -19,7 +19,7 @@ function SizeGuide() {
 
   const sizeData = {
     tops: {
-      sizes: ["XS", "S", "M", "L", "XL", "XXL"],
+      sizes: [t("xs"), t("s"), t("m"), t("l"), t("xl"), t("xxl")],
       measurements: [
         {
           label: t("chest"),
@@ -44,7 +44,7 @@ function SizeGuide() {
       ],
     },
     bottoms: {
-      sizes: ["XS", "S", "M", "L", "XL", "XXL"],
+      sizes: [t("xs"), t("s"), t("m"), t("l"), t("xl"), t("xxl")],
       measurements: [
         {
           label: t("waist"),
@@ -64,7 +64,7 @@ function SizeGuide() {
       ],
     },
     dresses: {
-      sizes: ["XS", "S", "M", "L", "XL", "XXL"],
+      sizes: [t("xs"), t("s"), t("m"), t("l"), t("xl"), t("xxl")],
       measurements: [
         {
           label: t("chest"),
@@ -84,7 +84,7 @@ function SizeGuide() {
       ],
     },
     outerwear: {
-      sizes: ["XS", "S", "M", "L", "XL", "XXL"],
+      sizes: [t("xs"), t("s"), t("m"), t("l"), t("xl"), t("xxl")],
       measurements: [
         {
           label: t("chest"),
@@ -199,78 +199,76 @@ function SizeGuide() {
         {/* Size Guide Tabs */}
         <div className="bg-card rounded-2xl shadow-lg overflow-hidden">
           {/* Tab Navigation */}
-          <div className="flex border-b border-zinc-200 dark:border-zinc-700">
+          <div className="flex border-b border-zinc-200 dark:border-zinc-700 ">
             {tabs.map((tab) => {
               const Icon = tab.icon;
               return (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex-1 flex items-center justify-center space-x-2 py-4 px-6 text-sm font-medium transition-colors ${
+                  className={`flex-1 flex items-center justify-center space-x-1 py-4 px-6  font-extrabold transition-colors ${
                     activeTab === tab.id
                       ? "bg-black dark:bg-white text-white dark:text-black"
                       : "text-zinc-600 dark:text-zinc-400 hover:text-black dark:hover:text-white hover:bg-zinc-50 dark:hover:bg-zinc-800"
                   }`}
                 >
-                  <Icon className="w-4 h-4" />
-                  <span>{tab.label}</span>
+                  <Icon className="w-2.5 h-2.5 lg:w-4 lg:h-4" />
+                  <span className="text-[9px] lg:text-sm">{tab.label}</span>
                 </button>
               );
             })}
           </div>
 
           {/* Size Chart */}
-          <div className="p-8">
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b border-zinc-200 dark:border-zinc-700">
-                    <th className="text-left py-4 px-4 font-semibold text-black dark:text-white">
-                      {t("guideSize")}
-                    </th>
-                    {sizeData[activeTab as keyof typeof sizeData].sizes.map(
-                      (size) => (
-                        <th
-                          key={size}
-                          className="text-center py-4 px-4 font-semibold text-black dark:text-white"
+          <div className="p-2 sm:p-8">
+            <table className="w-full text-xs sm:text-sm">
+              <thead>
+                <tr className="border-b border-zinc-200 dark:border-zinc-700">
+                  <th className="text-left py-1 sm:py-4 px-1 sm:px-4 font-semibold text-black dark:text-white">
+                    {t("guideSize")}
+                  </th>
+                  {sizeData[activeTab as keyof typeof sizeData].sizes.map(
+                    (size) => (
+                      <th
+                        key={size}
+                        className="text-center py-1 sm:py-4 px-0.5 sm:px-4 font-semibold text-black dark:text-white"
+                      >
+                        {size}
+                      </th>
+                    )
+                  )}
+                </tr>
+              </thead>
+              <tbody>
+                {sizeData[
+                  activeTab as keyof typeof sizeData
+                ].measurements.map((measurement, index) => (
+                  <tr
+                    key={index}
+                    className="border-b border-zinc-100 dark:border-zinc-800"
+                  >
+                    <td className="py-1 sm:py-4 px-1 sm:px-4 font-medium text-zinc-900 dark:text-zinc-100">
+                      {measurement.label}
+                    </td>
+                    {measurement.inches.map(
+                      (inchValue: string, i: number) => (
+                        <td
+                          key={i}
+                          className="text-center py-1 sm:py-4 px-0.5 sm:px-4 text-zinc-600 dark:text-zinc-400"
                         >
-                          {size}
-                        </th>
+                          <div className="text-xs">
+                            {inchValue} {t("inches")}
+                          </div>
+                          <div className="text-xs text-zinc-500 dark:text-zinc-500 mt-0.5">
+                            ({measurement.cm[i]} {t("cm")})
+                          </div>
+                        </td>
                       )
                     )}
                   </tr>
-                </thead>
-                <tbody>
-                  {sizeData[
-                    activeTab as keyof typeof sizeData
-                  ].measurements.map((measurement, index) => (
-                    <tr
-                      key={index}
-                      className="border-b border-zinc-100 dark:border-zinc-800"
-                    >
-                      <td className="py-4 px-4 font-medium text-zinc-900 dark:text-zinc-100">
-                        {measurement.label}
-                      </td>
-                      {measurement.inches.map(
-                        (inchValue: string, i: number) => (
-                          <td
-                            key={i}
-                            className="text-center py-4 px-4 text-zinc-600 dark:text-zinc-400"
-                          >
-                            <div className="text-sm">
-                              {inchValue} {t("inches")}
-                            </div>
-                            <div className="text-xs text-zinc-500 dark:text-zinc-500 mt-1">
-                              ({measurement.cm[i]} {t("cm")})
-                            </div>
-                          </td>
-                        )
-                      )}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
 
