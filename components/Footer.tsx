@@ -14,21 +14,15 @@ export function Footer() {
   const { t, language } = useTranslation();
 
   const footerLinks = {
-    [t('company')]: [
-      { name: t('about'), href: "/about" },
-      { name: t('meetTheTeam'), href: "#" },
-      { name: t('careers'), href: "#" },
+    company: [
+      { name: 'about', href: "/about" },
     ],
-    [t('helpfulLinks')]: [
-      { name: t('contact'), href: "#" },
-      { name: t('faqs'), href: "#" },
-      { name: t('liveChat'), href: "#" },
-    ],
-    [t('legal')]: [
-      { name: t('accessibility'), href: "#" },
-      { name: t('returnsPolicy'), href: "#" },
-      { name: t('refundPolicy'), href: "#" },
-      { name: t('termsAndConditions'), href: "#" },
+    helpfulLinks: [
+      { name: 'products', href: "/products" },
+      { name: 'categories', href: "/categories" },
+      { name: 'contact', href: "/contact" },
+      { name: 'faqs', href: "/faq" },
+      { name: 'sizeGuide', href: "/size-guide" },
     ],
   };
 
@@ -96,7 +90,7 @@ export function Footer() {
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:col-span-2 gap-8 md:items-center ">
             {Object.entries(footerLinks).map(([section, links]) => (
               <div key={section}>
-                <p className="font-semibold text-black dark:text-white">{section}</p>
+                <p className="font-semibold text-black dark:text-white">{t(section as any)}</p>
                 <ul className="mt-6 space-y-3 text-sm">
                   {links.map((link, idx) => (
                     <li key={idx}>
@@ -104,7 +98,7 @@ export function Footer() {
                         href={link.href}
                         className="text-black/70 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors font-semibold"
                       >
-                        {link.name}
+                        {t(link.name as any)}
                       </a>
                     </li>
                   ))}
