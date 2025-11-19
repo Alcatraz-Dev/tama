@@ -235,7 +235,7 @@ export default function Navbar() {
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
-            <div className="flex items-center justify-between p-6 border-b border-zinc-100">
+            <div className="flex items-center justify-between p-4 border-b border-zinc-100">
               <div
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                 className="flex items-center space-x-3 cursor-pointer"
@@ -245,7 +245,7 @@ export default function Navbar() {
                   alt="Tama Logo"
                   width={50}
                   height={50}
-                  className="w-20 h-20"
+                  className="w-12 h-12"
                 />
               </div>
               <Button
@@ -259,7 +259,7 @@ export default function Navbar() {
             </div>
 
             {/* Navigation Links */}
-            <nav className="flex-1 px-6 py-8">
+            <nav className="flex-1 px-6 py-8 overflow-y-auto">
               <div className="space-y-4">
                 {links.map((link, index) => (
                   <motion.div

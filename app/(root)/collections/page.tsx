@@ -67,7 +67,7 @@ export default function CollectionsPage() {
             {collections.map((collection: Collection) => (
               <Link
                 key={collection._id}
-                href={`/collection/${collection.slug.current}`}
+                href={`/collection/${collection.slug}`}
                 className="group"
               >
                 <div className="bg-white dark:bg-zinc-800 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 group-hover:scale-105 overflow-hidden">

@@ -120,13 +120,13 @@ export default function CollectionPage({ params, searchParams }: { params: Promi
             <div className="flex flex-wrap justify-center gap-4 mb-8">
               {collection.season && (
                 <Badge variant="secondary" className="bg-white/20 text-white border-white/30">
-                  <Sparkles className="w-4 h-4 mr-2" />
+                  <Sparkles className={`w-4 h-4 ${language === "ar" ? "ml-2" : "mr-2"}`} />
                   {t(collection.season as any)}
                 </Badge>
               )}
               {collection.year && (
                 <Badge variant="secondary" className="bg-white/20 text-white border-white/30">
-                  <Calendar className="w-4 h-4 mr-2" />
+                  <Calendar className={`w-4 h-4 ${language === "ar" ? "ml-2" : "mr-2"}`} />
                   {collection.year}
                 </Badge>
               )}
