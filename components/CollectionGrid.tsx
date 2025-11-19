@@ -53,7 +53,7 @@ export default function CollectionGrid() {
             <div className="absolute bottom-0 left-0 right-0 bg-black/10 dark:bg-black/50 flex items-center justify-between p-4 text-white">
               <h3 className="font-semibold drop-shadow">{getTranslatedField(c, 'title')}</h3>
 
-              <Button onClick={(e) => { e.stopPropagation(); router.push("/products"); }} className="inline-flex items-center justify-center bg-white  text-black  w-8 h-8 rounded-full hover:bg-slate-100  transition-transform duration-300 -rotate-45 hover:rotate-0" aria-label={`View ${getTranslatedField(c, 'title')}`}>
+              <Button onClick={(e) => { e.preventDefault(); e.stopPropagation(); router.push(`/collection/${c.slug}`); }} className="inline-flex items-center justify-center bg-white  text-black  w-8 h-8 rounded-full hover:bg-slate-100  transition-transform duration-300 -rotate-45 hover:rotate-0" aria-label={`View ${getTranslatedField(c, 'title')}`}>
                 {language === "ar" ? (
                   <ArrowLeft className="w-4 h-4" />
                 ) : (

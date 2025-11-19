@@ -22,6 +22,7 @@ import { Button } from "./ui/button";
 import { client } from "@/sanity/lib/client";
 import { toast } from "sonner";
 import { useCartStore } from "@/store/cart";
+import { useWishlistStore } from "@/store/wishlist";
 import { getProductReviews } from "@/lib/useQuery";
 import { FiFacebook, FiTwitter, FiInstagram, FiLinkedin } from "react-icons/fi";
 import { ProductDetailsSkeleton } from "./ui/skeleton";
@@ -78,11 +79,49 @@ export function ProductDetails({ product }: { product: Product }) {
   const [phone, setPhone] = useState("");
   const [town, setTown] = useState("");
   const { addToCart } = useCartStore();
+  const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlistStore();
   const { t, language } = useTranslation();
 
   const getTranslatedField = (obj: any, field: string) => {
     if (language === "en") return obj[field];
     return obj[`${field}_${language}`] || obj[field];
+  };
+
+  const translateMaterial = (material: string) => {
+    const materialKey = material.toLowerCase().replace(/\s+/g, '_');
+    return t(materialKey as any) || material;
+  };
+
+  const translateCareInstruction = (instruction: string) => {
+    const instructionKey = instruction.toLowerCase().replace(/\s+/g, '_').replace(/[^\w_]/g, '');
+    return t(instructionKey as any) || instruction;
+  };
+
+  const translateShippingInfo = (info: string) => {
+    // Map specific shipping info text to translation keys
+    const shippingMap: Record<string, string> = {
+      'Free shipping on orders over 100 DT. Standard delivery within 3-5 business days.': 'free_shipping_over_100',
+      'Express shipping available for 15 DT. Standard delivery within 3-5 business days.': 'express_shipping_15',
+      'International shipping available. Delivery time 7-14 business days depending on location.': 'international_shipping',
+      'Local pickup available at our store. Free shipping on orders over 50 DT.': 'local_pickup',
+      'Same day delivery available in Tunis for orders placed before 2 PM.': 'same_day_delivery_tunis',
+      'Premium shipping available for 25 DT. Guaranteed delivery within 2 business days.': 'premium_shipping_25'
+    };
+    return shippingMap[info] ? t(shippingMap[info] as any) : info;
+  };
+
+  const translateReturnPolicy = (policy: string) => {
+    // Map specific return policy text to translation keys
+    const policyMap: Record<string, string> = {
+      '30-day return policy. Items must be unused and in original packaging.': 'return_policy_30_days',
+      '14-day return policy. Items must be unused and in original packaging.': 'return_policy_14_days',
+      '7-day return policy. Items must be unused and in original packaging.': 'return_policy_7_days',
+      'No returns on sale items. Final sale items are not eligible for return.': 'no_returns_on_sale',
+      'Free returns and exchanges within 30 days. Items must be unused and in original packaging.': 'free_returns_exchanges',
+      'Store credit only. Returns accepted within 30 days for store credit only. Items must be unused and in original packaging.': 'store_credit_only',
+      'No returns accepted on this item. All sales are final.': 'no_returns'
+    };
+    return policyMap[policy] ? t(policyMap[policy] as any) : policy;
   };
 
   useEffect(() => {
@@ -252,6 +291,22 @@ export function ProductDetails({ product }: { product: Product }) {
     });
   };
 
+  const handleWishlistToggle = () => {
+    const isInWishlistAlready = isInWishlist(product._id);
+
+    if (isInWishlistAlready) {
+      removeFromWishlist(product._id);
+      toast.success(t("removedFromWishlist"), {
+        description: `${product.title} ${t("removedFromWishlist").toLowerCase()}.`,
+      });
+    } else {
+      addToWishlist(product);
+      toast.success(t("addedToWishlist"), {
+        description: `${product.title} ${t("addedToWishlist").toLowerCase()}.`,
+      });
+    }
+  };
+
   const handleShare = (platform: string) => {
     const url = encodeURIComponent(shareUrl);
     const text = encodeURIComponent(
@@ -355,7 +410,7 @@ export function ProductDetails({ product }: { product: Product }) {
               className={`flex items-center hover:text-fashion-dark transition-colors duration-200 p-1 rounded ${language === "ar" ? "flex-row-reverse" : ""}`}
             >
               <Home
-                className={`w-3 h-3 sm:w-4 sm:h-4 ${language === "ar" ? "ml-1" : "mr-1"} `}
+                className={`w-3 h-3 sm:w-4 sm:h-4 ${language === "ar" ? "ml-2" : "mr-2"} `}
               />
               <span className={`hidden sm:inline `}> {t("home")} </span>
             </Link>
@@ -512,8 +567,22 @@ export function ProductDetails({ product }: { product: Product }) {
                       </div>
                     </div>
                   </div>
-                  <button className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors">
-                    <Heart className="w-4 h-4 text-gray-400 hover:text-red-500" />
+                  <button
+                    onClick={handleWishlistToggle}
+                    className={`p-2 rounded-full transition-all duration-300 ${
+                      isInWishlist(product._id)
+                        ? "bg-red-50 dark:bg-red-900/20"
+                        : "hover:bg-gray-100 dark:hover:bg-gray-700"
+                    }`}
+                    aria-label={isInWishlist(product._id) ? "Remove from wishlist" : "Add to wishlist"}
+                  >
+                    <Heart
+                      className={`w-4 h-4 transition-colors ${
+                        isInWishlist(product._id)
+                          ? "text-red-600 fill-current"
+                          : "text-gray-400 hover:text-red-500"
+                      }`}
+                    />
                   </button>
                 </div>
 
@@ -708,7 +777,7 @@ export function ProductDetails({ product }: { product: Product }) {
                       <ul className="list-disc list-inside text-gray-600 dark:text-gray-400 space-y-1">
                         {product.materials.map(
                           (material: string, i: number) => (
-                            <li key={i}>{material}</li>
+                            <li key={i}>{translateMaterial(material)}</li>
                           )
                         )}
                       </ul>
@@ -725,7 +794,7 @@ export function ProductDetails({ product }: { product: Product }) {
                         <ul className="list-disc list-inside text-gray-600 dark:text-gray-400 space-y-1">
                           {product.careInstructions.map(
                             (instruction: string, i: number) => (
-                              <li key={i}>{instruction}</li>
+                              <li key={i}>{translateCareInstruction(instruction)}</li>
                             )
                           )}
                         </ul>
@@ -739,21 +808,21 @@ export function ProductDetails({ product }: { product: Product }) {
                         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
                           {t("details")}
                         </h3>
-                        <div className="space-y-2">
-                          {product.productDetails.map((detail, i: number) => (
-                            <div
-                              key={i}
-                              className="flex justify-between py-2 border-b border-gray-100 dark:border-gray-700 last:border-b-0"
-                            >
-                              <span className="font-medium text-gray-700 dark:text-gray-300">
-                                {detail.label}
-                              </span>
-                              <span className="text-gray-600 dark:text-gray-400">
-                                {detail.value}
-                              </span>
-                            </div>
-                          ))}
-                        </div>
+                        <ul className="list-disc list-inside text-gray-600 dark:text-gray-400 space-y-1">
+                          {product.productDetails.map(
+                            (detail: any, i: number) => {
+                              // Handle both old format (object with label/value) and new format (string)
+                              if (typeof detail === 'string') {
+                                // Check if it's a translation key
+                                const translatedDetail = t(detail as any) || detail;
+                                return <li key={i}>{translatedDetail}</li>;
+                              } else if (detail && typeof detail === 'object' && detail.label && detail.value) {
+                                return <li key={i}>{detail.label}: {detail.value}</li>;
+                              }
+                              return null;
+                            }
+                          )}
+                        </ul>
                       </div>
                     )}
 
@@ -766,7 +835,7 @@ export function ProductDetails({ product }: { product: Product }) {
                           {t("shippingInformation")}
                         </h4>
                         <p className="text-gray-600 dark:text-gray-400 text-xs mt-1">
-                          {product.shippingInfo || t("freeShippingInfo")}
+                          {product.shippingInfo ? translateShippingInfo(product.shippingInfo) : t("freeShippingInfo")}
                         </p>
                       </div>
                     </div>
@@ -777,7 +846,7 @@ export function ProductDetails({ product }: { product: Product }) {
                           {t("returnsExchanges")}
                         </h4>
                         <p className="text-gray-600 dark:text-gray-400 text-xs mt-1">
-                          {product.returnPolicy || t("returnPolicy")}
+                          {product.returnPolicy ? translateReturnPolicy(product.returnPolicy) : t("returnPolicy")}
                         </p>
                       </div>
                     </div>

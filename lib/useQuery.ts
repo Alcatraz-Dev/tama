@@ -139,6 +139,8 @@ export async function getProductBySlug(slug: string) {
   "collection": *[_type == "collection" && references(^._id)][0]{
     _id,
     title,
+    title_fr,
+    title_ar,
     slug
   },
   "reviews": {
@@ -149,27 +151,6 @@ export async function getProductBySlug(slug: string) {
 `;
   const product = await client.fetch(query, { slug });
   return product;
-}
-export async function getBanner() {
-  const query = `
-*[_type == "banner"][0]{
-  title,
-  title_fr,
-  title_ar,
-  subtitle,
-  subtitle_fr,
-  subtitle_ar,
-  buttonText,
-  buttonText_fr,
-  buttonText_ar,
-  buttonLink,
-  "backgroundImageUrl": backgroundImage.asset->url
-}
-`;
-
-  const results = await client.fetch(query);
-
-  return results;
 }
 export async function getAllProducts() {
   const query = `
@@ -422,8 +403,21 @@ export async function getCollectionBySlug(slug: string, productLimit = 12, produ
     description,
     description_fr,
     description_ar,
-    "image": gallery[0].asset->url,
+    gallery[]{
+      ...,
+      _key,
+      _type,
+      _type == "image" => {
+        asset->{_id, url}
+      },
+      _type == "file" => {
+        ...,
+        asset->{_id, url, originalFilename, mimeType}
+      }
+    },
     inStock,
+    colors[]{hex, name},
+    sizes,
     category->{
       _id,
       title
@@ -607,4 +601,42 @@ export async function getSearchSuggestions(query: string, limit = 10) {
   `;
   const suggestions = await client.fetch(groqQuery);
   return suggestions;
+}
+
+export async function getAds(activeOnly = true) {
+  const query = `
+    *[_type == "ads"${activeOnly ? ' && active == true' : ''}] | order(order asc){
+      _id,
+      title,
+      title_fr,
+      title_ar,
+      description,
+      description_fr,
+      description_ar,
+      media[]{
+        _type,
+        _key,
+        asset,
+        _type == "image" => {
+          asset->{_id, url}
+        },
+        _type == "file" => {
+          ...,
+          asset->{_id, url, originalFilename, mimeType}
+        }
+      },
+      product->{
+        _id,
+        slug
+      },
+      active,
+      startDate,
+      endDate,
+      order,
+      position
+    }
+  `;
+
+  const ads = await client.fetch(query);
+  return ads;
 }

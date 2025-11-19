@@ -198,24 +198,75 @@ export default defineType({
       name: "productDetails",
       title: "Product Details",
       type: "array",
-      of: [
-        {
-          type: "object",
-          fields: [
-            {
-              name: "label",
-              type: "string",
-              title: "Label",
-            },
-            {
-              name: "value",
-              type: "string",
-              title: "Value",
-            },
-          ],
-        },
-      ],
-      description: "Additional product details like fit, style, etc.",
+      of: [{ type: "string" }],
+      options: {
+        list: [
+          // Fit options
+          { title: "Fit: Regular", value: "fit_regular" },
+          { title: "Fit: Slim", value: "fit_slim" },
+          { title: "Fit: Loose", value: "fit_loose" },
+          { title: "Fit: Oversized", value: "fit_oversized" },
+
+          // Style options
+          { title: "Style: Casual", value: "style_casual" },
+          { title: "Style: Formal", value: "style_formal" },
+          { title: "Style: Bohemian", value: "style_bohemian" },
+          { title: "Style: Minimalist", value: "style_minimalist" },
+          { title: "Style: Streetwear", value: "style_streetwear" },
+          { title: "Style: Vintage", value: "style_vintage" },
+          { title: "Style: Romantic", value: "style_romantic" },
+          { title: "Style: Athletic", value: "style_athletic" },
+          { title: "Style: Professional", value: "style_professional" },
+          { title: "Style: Festive", value: "style_festive" },
+
+          // Neckline options
+          { title: "Neckline: V-neck", value: "neckline_vneck" },
+          { title: "Neckline: Round neck", value: "neckline_round" },
+          { title: "Neckline: Scoop neck", value: "neckline_scoop" },
+          { title: "Neckline: Square neck", value: "neckline_square" },
+
+          // Sleeve options
+          { title: "Sleeve: Short sleeve", value: "sleeve_short" },
+          { title: "Sleeve: Long sleeve", value: "sleeve_long" },
+          { title: "Sleeve: Sleeveless", value: "sleeve_sleeveless" },
+          { title: "Sleeve: 3/4 sleeve", value: "sleeve_threequarter" },
+
+          // Length options
+          { title: "Length: Mini", value: "length_mini" },
+          { title: "Length: Knee-length", value: "length_knee" },
+          { title: "Length: Midi", value: "length_midi" },
+          { title: "Length: Maxi", value: "length_maxi" },
+          { title: "Length: Cropped", value: "length_cropped" },
+
+          // Pattern options
+          { title: "Pattern: Solid", value: "pattern_solid" },
+          { title: "Pattern: Striped", value: "pattern_striped" },
+          { title: "Pattern: Floral", value: "pattern_floral" },
+          { title: "Pattern: Polka dot", value: "pattern_polkadot" },
+          { title: "Pattern: Geometric", value: "pattern_geometric" },
+          { title: "Pattern: Animal print", value: "pattern_animal" },
+
+          // Occasion options
+          { title: "Occasion: Everyday", value: "occasion_everyday" },
+          { title: "Occasion: Work", value: "occasion_work" },
+          { title: "Occasion: Party", value: "occasion_party" },
+          { title: "Occasion: Wedding", value: "occasion_wedding" },
+          { title: "Occasion: Beach", value: "occasion_beach" },
+
+          // Season options
+          { title: "Season: Spring", value: "season_spring" },
+          { title: "Season: Summer", value: "season_summer" },
+          { title: "Season: Fall", value: "season_fall" },
+          { title: "Season: Winter", value: "season_winter" },
+
+          // Closure options
+          { title: "Closure: Button", value: "closure_button" },
+          { title: "Closure: Zipper", value: "closure_zipper" },
+          { title: "Closure: Tie", value: "closure_tie" },
+          { title: "Closure: Elastic", value: "closure_elastic" },
+        ],
+      },
+      description: "Select product details like fit, style, etc.",
     }),
 
     // ✅ Shipping Info

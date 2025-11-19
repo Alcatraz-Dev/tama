@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 import { useTranslation } from "@/lib/translationContext";
 
 interface Category {
@@ -8,6 +9,9 @@ interface Category {
   title: string;
   title_fr?: string;
   title_ar?: string;
+  slug: {
+    current: string;
+  };
   imageUrl?: string;
   productCount: number;
 }
@@ -17,6 +21,7 @@ interface Props {
 }
 
 export default function ClientSubcategoryGrid({ categories }: Props) {
+  const router = useRouter();
   const { t, language } = useTranslation();
 
   const getTranslatedField = (obj: any, field: string) => {
@@ -50,6 +55,15 @@ export default function ClientSubcategoryGrid({ categories }: Props) {
           <motion.div
             key={sub._id}
             variants={itemVariants}
+            onClick={() => {
+              console.log('Subcategory clicked:', sub._id, 'slug:', sub.slug?.current);
+              // Navigate to the category page using the slug
+              if (sub.slug?.current) {
+                router.push(`/category/${sub.slug.current}`);
+              } else {
+                router.push('/products');
+              }
+            }}
             className={`
               group relative rounded-xl overflow-hidden shadow hover:shadow-lg transition-transform duration-300
               hover:scale-105 cursor-pointer
@@ -69,7 +83,7 @@ export default function ClientSubcategoryGrid({ categories }: Props) {
             )}
 
             {/* Text Overlay */}
-            <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 text-white text-center p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 text-white text-center p-2 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">
               <h3 className="text-lg md:text-xl font-semibold drop-shadow-2xl">
                 {getTranslatedField(sub, 'title')}
               </h3>

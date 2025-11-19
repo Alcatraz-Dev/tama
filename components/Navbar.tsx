@@ -18,6 +18,7 @@ const links = [
   { href: "/products", key: "products" },
   { href: "/categories", key: "categories" },
   { href: "/collections", key: "collections" },
+  { href: "/ads", key: "ads" },
   { href: "/gallery", key: "gallery" },
   { href: "/about", key: "about" },
   { href: "/contact", key: "contact" },
@@ -272,7 +273,7 @@ export default function Navbar() {
                     <Link
                       href={link.href}
                       onClick={() => setIsMenuOpen(false)}
-                      className="flex items-center space-x-3 text-zinc-700 dark:text-zinc-300 hover:text-black dark:hover:text-white text-lg font-medium transition-all duration-300 py-4 px-4 rounded-xl hover:bg-white dark:hover:bg-zinc-800 hover:shadow-md group"
+                      className="flex items-center space-x-3 text-zinc-700 dark:text-zinc-300 hover:text-black dark:hover:text-white text-sm font-medium transition-all duration-300 py-4 px-4 rounded-xl hover:bg-white dark:hover:bg-zinc-800 hover:shadow-md group"
                     >
                       <span className="w-2 h-2 bg-zinc-400 dark:bg-zinc-500 rounded-full group-hover:bg-black dark:group-hover:bg-white transition-colors"></span>
                       <span>{t(link.key as any)}</span>

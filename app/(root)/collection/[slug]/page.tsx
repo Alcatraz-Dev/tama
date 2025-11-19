@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, use } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { getCollectionBySlug } from "@/lib/useQuery";
@@ -30,19 +30,21 @@ interface Collection {
   products?: Product[];
 }
 
-export default function CollectionPage({ params, searchParams }: { params: { slug: string }, searchParams: { page?: string, category?: string, minPrice?: string, maxPrice?: string } }) {
+export default function CollectionPage({ params, searchParams }: { params: Promise<{ slug: string }>, searchParams: Promise<{ page?: string, category?: string, minPrice?: string, maxPrice?: string }> }) {
+  const resolvedParams = use(params);
+  const resolvedSearchParams = use(searchParams);
   const [collection, setCollection] = useState<Collection | null>(null);
   const [loading, setLoading] = useState(true);
   const { t, language } = useTranslation();
 
-  const page = parseInt(searchParams.page || '1');
+  const page = parseInt(resolvedSearchParams.page || '1');
   const limit = 12;
   const offset = (page - 1) * limit;
 
   const filters = {
-    category: searchParams.category,
-    minPrice: searchParams.minPrice ? parseFloat(searchParams.minPrice) : undefined,
-    maxPrice: searchParams.maxPrice ? parseFloat(searchParams.maxPrice) : undefined,
+    category: resolvedSearchParams.category,
+    minPrice: resolvedSearchParams.minPrice ? parseFloat(resolvedSearchParams.minPrice) : undefined,
+    maxPrice: resolvedSearchParams.maxPrice ? parseFloat(resolvedSearchParams.maxPrice) : undefined,
   };
 
   const getTranslatedField = (obj: any, field: string) => {
@@ -53,7 +55,7 @@ export default function CollectionPage({ params, searchParams }: { params: { slu
   useEffect(() => {
     const fetchCollection = async () => {
       try {
-        const data = await getCollectionBySlug(params.slug, limit, offset, filters);
+        const data = await getCollectionBySlug(resolvedParams.slug, limit, offset, filters);
         setCollection(data);
       } catch (error) {
         console.error("Error fetching collection:", error);
@@ -63,7 +65,7 @@ export default function CollectionPage({ params, searchParams }: { params: { slu
     };
 
     fetchCollection();
-  }, [params.slug, page, filters.category, filters.minPrice, filters.maxPrice]);
+  }, [resolvedParams.slug, page, filters.category, filters.minPrice, filters.maxPrice]);
 
   if (loading) {
     return (
@@ -169,7 +171,7 @@ export default function CollectionPage({ params, searchParams }: { params: { slu
               <label className="block text-sm font-medium mb-2 text-black dark:text-white">{t('category')}</label>
               <select
                 name="category"
-                defaultValue={searchParams.category || ''}
+                defaultValue={resolvedSearchParams.category || ''}
                 className="px-3 py-2 border border-zinc-300 dark:border-zinc-600 rounded-md focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white bg-white dark:bg-zinc-700 text-black dark:text-white"
               >
                 <option value="">{t('allCategories')}</option>
@@ -181,7 +183,7 @@ export default function CollectionPage({ params, searchParams }: { params: { slu
               <input
                 type="number"
                 name="minPrice"
-                defaultValue={searchParams.minPrice || ''}
+                defaultValue={resolvedSearchParams.minPrice || ''}
                 placeholder="0"
                 className="px-3 py-2 border border-zinc-300 dark:border-zinc-600 rounded-md focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white w-24 bg-white dark:bg-zinc-700 text-black dark:text-white"
               />
@@ -191,14 +193,14 @@ export default function CollectionPage({ params, searchParams }: { params: { slu
               <input
                 type="number"
                 name="maxPrice"
-                defaultValue={searchParams.maxPrice || ''}
+                defaultValue={resolvedSearchParams.maxPrice || ''}
                 placeholder="1000"
                 className="px-3 py-2 border border-zinc-300 dark:border-zinc-600 rounded-md focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white w-24 bg-white dark:bg-zinc-700 text-black dark:text-white"
               />
             </div>
             <Button type="submit" variant="outline" className="border-zinc-300 dark:border-zinc-600 text-black dark:text-white hover:bg-zinc-50 dark:hover:bg-zinc-700">{t('applyFilters')}</Button>
-            {(searchParams.category || searchParams.minPrice || searchParams.maxPrice) && (
-              <Link href={`/collection/${params.slug}`}>
+            {(resolvedSearchParams.category || resolvedSearchParams.minPrice || resolvedSearchParams.maxPrice) && (
+              <Link href={`/collection/${resolvedParams.slug}`}>
                 <Button variant="ghost" className="text-black dark:text-white hover:bg-zinc-50 dark:hover:bg-zinc-700">{t('clearFilters')}</Button>
               </Link>
             )}
@@ -207,7 +209,7 @@ export default function CollectionPage({ params, searchParams }: { params: { slu
 
         {collection.products && collection.products.length > 0 ? (
           <>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 sm:gap-8 px-4 sm:px-6 md:px-12 z-20">
               {collection.products.map((product: Product) => (
                 <ProductCard key={product._id} product={product} />
               ))}
@@ -217,7 +219,7 @@ export default function CollectionPage({ params, searchParams }: { params: { slu
             {collection.totalProducts && collection.totalProducts > limit && (
               <div className="flex justify-center items-center space-x-2 mt-12">
                 {page > 1 && (
-                  <Link href={`/collection/${params.slug}?${new URLSearchParams({ ...searchParams, page: (page - 1).toString() }).toString()}`}>
+                  <Link href={`/collection/${resolvedParams.slug}?${new URLSearchParams({ ...resolvedSearchParams, page: (page - 1).toString() }).toString()}`}>
                     <Button variant="outline">{t('previousPage')}</Button>
                   </Link>
                 )}
@@ -225,13 +227,13 @@ export default function CollectionPage({ params, searchParams }: { params: { slu
                 {Array.from({ length: Math.ceil(collection.totalProducts / limit) }, (_, i) => i + 1)
                   .filter(p => p >= Math.max(1, page - 2) && p <= Math.min(Math.ceil(collection.totalProducts / limit), page + 2))
                   .map(p => (
-                    <Link key={p} href={`/collection/${params.slug}?${new URLSearchParams({ ...searchParams, page: p.toString() }).toString()}`}>
+                    <Link key={p} href={`/collection/${resolvedParams.slug}?${new URLSearchParams({ ...resolvedSearchParams, page: p.toString() }).toString()}`}>
                       <Button variant={p === page ? "default" : "outline"}>{p}</Button>
                     </Link>
                   ))}
 
                 {page < Math.ceil(collection.totalProducts / limit) && (
-                  <Link href={`/collection/${params.slug}?${new URLSearchParams({ ...searchParams, page: (page + 1).toString() }).toString()}`}>
+                  <Link href={`/collection/${resolvedParams.slug}?${new URLSearchParams({ ...resolvedSearchParams, page: (page + 1).toString() }).toString()}`}>
                     <Button variant="outline">{t('nextPage')}</Button>
                   </Link>
                 )}

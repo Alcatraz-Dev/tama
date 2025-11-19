@@ -3,7 +3,7 @@ import Hero from "@/components/Hero";
 import ProductGrid from "@/components/ProductGrid";
 import CollectionGrid from "@/components/CollectionGrid";
 import SubcategoryGrid from "@/components/Subcategory";
-import Banner from "@/components/Banner";
+import AdsSlider from "@/components/AdsSlider";
 
 export default async function HomePage() {
   return (
@@ -11,9 +11,9 @@ export default async function HomePage() {
       <Hero />
       <SubcategoryGrid />
       <ProductGrid />
-      <Banner />
+      <AdsSlider />
       <CollectionGrid />
-   
+
     </>
   );
 }

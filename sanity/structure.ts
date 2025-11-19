@@ -13,7 +13,6 @@ export const structure: StructureResolver = (S) =>
             .title("Hero Section")
             .items([
               S.documentTypeListItem("heroCard").title("Hero Cards"),
-              S.documentTypeListItem("banner").title("Banners"),
             ])
         ),
 
@@ -28,6 +27,7 @@ export const structure: StructureResolver = (S) =>
               S.documentTypeListItem("category").title("Categories"),
               S.documentTypeListItem("collection").title("Collections"),
               S.documentTypeListItem("tamastories").title("Tama Stories"),
+              S.documentTypeListItem("ads").title("Ads"),
               S.documentTypeListItem("review").title("Reviews"),
             ])
         ),

@@ -333,7 +333,123 @@ export type TranslationKey =
   | 'faqOrderAnswer'
   | 'faqContact'
   | 'faqContactAnswer'
-  | 'navFaq';
+  | 'navFaq'
+  | 'adsTitle'
+  | 'adsDescription'
+  | 'noAdsAvailable'
+  | 'inactive'
+  | 'from'
+  | 'to'
+  | 'learnMore'
+  | 'sliderView'
+  | 'gridView'
+  | 'comingSoon'
+  | 'adCurrentlyInactive'
+  | 'checkBackSoon'
+  | 'video'
+  | 'ad'
+  | 'ads'
+  | 'banner'
+  | 'sidebar'
+  | 'footer'
+  | 'popup'
+  | 'bannerAds'
+  | 'sidebarAds'
+  | 'footerAds'
+  | 'popupAds'
+  | 'bannerAd'
+  | 'sidebarAd'
+  | 'footerAd'
+  | 'popupAd'
+  | 'fit_regular'
+  | 'fit_slim'
+  | 'fit_loose'
+  | 'fit_oversized'
+  | 'style_casual'
+  | 'style_formal'
+  | 'style_bohemian'
+  | 'style_minimalist'
+  | 'style_streetwear'
+  | 'style_vintage'
+  | 'style_romantic'
+  | 'style_athletic'
+  | 'style_professional'
+  | 'style_festive'
+  | 'neckline_vneck'
+  | 'neckline_round'
+  | 'neckline_scoop'
+  | 'neckline_square'
+  | 'sleeve_short'
+  | 'sleeve_long'
+  | 'sleeve_sleeveless'
+  | 'sleeve_threequarter'
+  | 'length_mini'
+  | 'length_knee'
+  | 'length_midi'
+  | 'length_maxi'
+  | 'length_cropped'
+  | 'pattern_solid'
+  | 'pattern_striped'
+  | 'pattern_floral'
+  | 'pattern_polkadot'
+  | 'pattern_geometric'
+  | 'pattern_animal'
+  | 'occasion_everyday'
+  | 'occasion_work'
+  | 'occasion_party'
+  | 'occasion_wedding'
+  | 'occasion_beach'
+  | 'season_spring'
+  | 'season_summer'
+  | 'season_fall'
+  | 'season_winter'
+  | 'closure_button'
+  | 'closure_zipper'
+  | 'closure_tie'
+  | 'closure_elastic'
+  | 'cotton'
+  | 'polyester'
+  | 'silk'
+  | 'wool'
+  | 'linen'
+  | 'leather'
+  | 'denim'
+  | 'chiffon'
+  | 'satin'
+  | 'velvet'
+  | 'lace'
+  | 'mesh'
+  | 'nylon'
+  | 'spandex'
+  | 'rayon'
+  | 'acrylic'
+  | 'machine_wash_cold'
+  | 'hand_wash_only'
+  | 'do_not_wash'
+  | 'dry_clean_only'
+  | 'tumble_dry_low'
+  | 'hang_dry'
+  | 'do_not_tumble_dry'
+  | 'iron_on_low_heat'
+  | 'do_not_iron'
+  | 'do_not_bleach'
+  | 'bleach_when_needed'
+  | 'store_in_cool_dry_place'
+  | 'avoid_direct_sunlight'
+  | 'professional_cleaning_recommended'
+  | 'free_shipping_over_100'
+  | 'express_shipping_15'
+  | 'international_shipping'
+  | 'local_pickup'
+  | 'same_day_delivery_tunis'
+  | 'premium_shipping_25'
+  | 'return_policy_30_days'
+  | 'return_policy_14_days'
+  | 'return_policy_7_days'
+  | 'no_returns_on_sale'
+  | 'free_returns_exchanges'
+  | 'store_credit_only'
+  | 'no_returns';
 
 export const translations = {
   en: {
@@ -651,6 +767,122 @@ export const translations = {
     faqContact: 'How can I contact customer service?',
     faqContactAnswer: 'You can reach us through our contact form, by phone, or email. We\'re here to help Monday through Saturday.',
     navFaq: 'FAQ',
+    adsTitle: 'Our Ads',
+    adsDescription: 'Discover our latest promotional offers and special deals.',
+    noAdsAvailable: 'No ads available at the moment.',
+    inactive: 'Inactive',
+    from: 'From',
+    to: 'To',
+    learnMore: 'Learn More',
+    sliderView: 'Slider View',
+    gridView: 'Grid View',
+    comingSoon: 'Coming Soon',
+    adCurrentlyInactive: 'This ad is currently not active',
+    checkBackSoon: 'Check back soon for exciting offers and promotions.',
+    video: 'Video',
+    ad: 'ad',
+    ads: 'ads',
+    banner: 'Banner',
+    sidebar: 'Sidebar',
+    footer: 'Footer',
+    popup: 'Popup',
+    bannerAds: 'Banner Ads',
+    sidebarAds: 'Sidebar Ads',
+    footerAds: 'Footer Ads',
+    popupAds: 'Popup Ads',
+    bannerAd: 'Banner Ad',
+    sidebarAd: 'Sidebar Ad',
+    footerAd: 'Footer Ad',
+    popupAd: 'Popup Ad',
+    fit_regular: 'Fit: Regular',
+    fit_slim: 'Fit: Slim',
+    fit_loose: 'Fit: Loose',
+    fit_oversized: 'Fit: Oversized',
+    style_casual: 'Style: Casual',
+    style_formal: 'Style: Formal',
+    style_bohemian: 'Style: Bohemian',
+    style_minimalist: 'Style: Minimalist',
+    style_streetwear: 'Style: Streetwear',
+    style_vintage: 'Style: Vintage',
+    style_romantic: 'Style: Romantic',
+    style_athletic: 'Style: Athletic',
+    style_professional: 'Style: Professional',
+    style_festive: 'Style: Festive',
+    neckline_vneck: 'Neckline: V-neck',
+    neckline_round: 'Neckline: Round neck',
+    neckline_scoop: 'Neckline: Scoop neck',
+    neckline_square: 'Neckline: Square neck',
+    sleeve_short: 'Sleeve: Short sleeve',
+    sleeve_long: 'Sleeve: Long sleeve',
+    sleeve_sleeveless: 'Sleeve: Sleeveless',
+    sleeve_threequarter: 'Sleeve: 3/4 sleeve',
+    length_mini: 'Length: Mini',
+    length_knee: 'Length: Knee-length',
+    length_midi: 'Length: Midi',
+    length_maxi: 'Length: Maxi',
+    length_cropped: 'Length: Cropped',
+    pattern_solid: 'Pattern: Solid',
+    pattern_striped: 'Pattern: Striped',
+    pattern_floral: 'Pattern: Floral',
+    pattern_polkadot: 'Pattern: Polka dot',
+    pattern_geometric: 'Pattern: Geometric',
+    pattern_animal: 'Pattern: Animal print',
+    occasion_everyday: 'Occasion: Everyday',
+    occasion_work: 'Occasion: Work',
+    occasion_party: 'Occasion: Party',
+    occasion_wedding: 'Occasion: Wedding',
+    occasion_beach: 'Occasion: Beach',
+    season_spring: 'Season: Spring',
+    season_summer: 'Season: Summer',
+    season_fall: 'Season: Fall',
+    season_winter: 'Season: Winter',
+    closure_button: 'Closure: Button',
+    closure_zipper: 'Closure: Zipper',
+    closure_tie: 'Closure: Tie',
+    closure_elastic: 'Closure: Elastic',
+    cotton: 'Cotton',
+    polyester: 'Polyester',
+    silk: 'Silk',
+    wool: 'Wool',
+    linen: 'Linen',
+    leather: 'Leather',
+    denim: 'Denim',
+    chiffon: 'Chiffon',
+    satin: 'Satin',
+    velvet: 'Velvet',
+    lace: 'Lace',
+    mesh: 'Mesh',
+    nylon: 'Nylon',
+    spandex: 'Spandex',
+    rayon: 'Rayon',
+    acrylic: 'Acrylic',
+    machine_wash_cold: 'Machine wash cold',
+    hand_wash_only: 'Hand wash only',
+    do_not_wash: 'Do not wash',
+    dry_clean_only: 'Dry clean only',
+    tumble_dry_low: 'Tumble dry low',
+    hang_dry: 'Hang dry',
+    do_not_tumble_dry: 'Do not tumble dry',
+    iron_on_low_heat: 'Iron on low heat',
+    do_not_iron: 'Do not iron',
+    do_not_bleach: 'Do not bleach',
+    bleach_when_needed: 'Bleach when needed',
+    store_in_cool_dry_place: 'Store in cool, dry place',
+    avoid_direct_sunlight: 'Avoid direct sunlight',
+    professional_cleaning_recommended: 'Professional cleaning recommended',
+    free_shipping_over_100: 'Free shipping on orders over 100 DT. Standard delivery within 3-5 business days.',
+    express_shipping_15: 'Express shipping available for 15 DT. Standard delivery within 3-5 business days.',
+    international_shipping: 'International shipping available. Delivery time 7-14 business days depending on location.',
+    local_pickup: 'Local pickup available at our store. Free shipping on orders over 50 DT.',
+    same_day_delivery_tunis: 'Same day delivery available in Tunis for orders placed before 2 PM.',
+    premium_shipping_25: 'Premium shipping available for 25 DT. Guaranteed delivery within 2 business days.',
+    return_policy_30_days: '30-day return policy. Items must be unused and in original packaging.',
+    return_policy_14_days: '14-day return policy. Items must be unused and in original packaging.',
+    return_policy_7_days: '7-day return policy. Items must be unused and in original packaging.',
+    no_returns_on_sale: 'No returns on sale items. Final sale items are not eligible for return.',
+    free_returns_exchanges: 'Free returns and exchanges within 30 days. Items must be unused and in original packaging.',
+    store_credit_only: 'Store credit only. Returns accepted within 30 days for store credit only. Items must be unused and in original packaging.',
+    no_returns: 'No returns accepted on this item. All sales are final.',
 
   },
   fr: {
@@ -952,6 +1184,122 @@ export const translations = {
     stillHaveQuestions: 'Vous avez encore des questions ?',
     cantFindAnswer: 'Vous ne trouvez pas la réponse que vous cherchez ? Notre équipe de service client est là pour vous aider.',
     contactUs: 'Contactez-nous',
+    adsTitle: 'Nos Publicités',
+    adsDescription: 'Découvrez nos dernières offres promotionnelles et offres spéciales.',
+    noAdsAvailable: 'Aucune publicité disponible pour le moment.',
+    inactive: 'Inactif',
+    from: 'À partir de',
+    to: 'À',
+    learnMore: 'En Savoir Plus',
+    sliderView: 'Vue Curseur',
+    gridView: 'Vue Grille',
+    comingSoon: 'Bientôt Disponible',
+    adCurrentlyInactive: 'Cette publicité n\'est actuellement pas active',
+    checkBackSoon: 'Revenez bientôt pour des offres et promotions excitantes.',
+    video: 'Vidéo',
+    ad: 'publicité',
+    ads: 'publicités',
+    banner: 'Bannière',
+    sidebar: 'Barre latérale',
+    footer: 'Pied de page',
+    popup: 'Popup',
+    bannerAds: 'Publicités Bannière',
+    sidebarAds: 'Publicités Barre Latérale',
+    footerAds: 'Publicités Pied de Page',
+    popupAds: 'Publicités Popup',
+    bannerAd: 'Publicité Bannière',
+    sidebarAd: 'Publicité Barre Latérale',
+    footerAd: 'Publicité Pied de Page',
+    popupAd: 'Publicité Popup',
+    fit_regular: 'Coupe: Régulière',
+    fit_slim: 'Coupe: Slim',
+    fit_loose: 'Coupe: Loose',
+    fit_oversized: 'Coupe: Oversized',
+    style_casual: 'Style: Décontracté',
+    style_formal: 'Style: Formel',
+    style_bohemian: 'Style: Bohème',
+    style_minimalist: 'Style: Minimaliste',
+    style_streetwear: 'Style: Streetwear',
+    style_vintage: 'Style: Vintage',
+    style_romantic: 'Style: Romantique',
+    style_athletic: 'Style: Athlétique',
+    style_professional: 'Style: Professionnel',
+    style_festive: 'Style: Festif',
+    neckline_vneck: 'Encolure: V',
+    neckline_round: 'Encolure: Ronde',
+    neckline_scoop: 'Encolure: Scoop',
+    neckline_square: 'Encolure: Carrée',
+    sleeve_short: 'Manche: Courte',
+    sleeve_long: 'Manche: Longue',
+    sleeve_sleeveless: 'Manche: Sans manche',
+    sleeve_threequarter: 'Manche: 3/4',
+    length_mini: 'Longueur: Mini',
+    length_knee: 'Longueur: Au genou',
+    length_midi: 'Longueur: Midi',
+    length_maxi: 'Longueur: Maxi',
+    length_cropped: 'Longueur: Cropped',
+    pattern_solid: 'Motif: Uni',
+    pattern_striped: 'Motif: Rayé',
+    pattern_floral: 'Motif: Floral',
+    pattern_polkadot: 'Motif: Pois',
+    pattern_geometric: 'Motif: Géométrique',
+    pattern_animal: 'Motif: Animal',
+    occasion_everyday: 'Occasion: Quotidienne',
+    occasion_work: 'Occasion: Travail',
+    occasion_party: 'Occasion: Soirée',
+    occasion_wedding: 'Occasion: Mariage',
+    occasion_beach: 'Occasion: Plage',
+    season_spring: 'Saison: Printemps',
+    season_summer: 'Saison: Été',
+    season_fall: 'Saison: Automne',
+    season_winter: 'Saison: Hiver',
+    closure_button: 'Fermeture: Bouton',
+    closure_zipper: 'Fermeture: Fermeture éclair',
+    closure_tie: 'Fermeture: Nœud',
+    closure_elastic: 'Fermeture: Élastique',
+    cotton: 'Coton',
+    polyester: 'Polyester',
+    silk: 'Soie',
+    wool: 'Laine',
+    linen: 'Lin',
+    leather: 'Cuir',
+    denim: 'Jean',
+    chiffon: 'Chiffon',
+    satin: 'Satin',
+    velvet: 'Velours',
+    lace: 'Dentelle',
+    mesh: 'Maille',
+    nylon: 'Nylon',
+    spandex: 'Spandex',
+    rayon: 'Rayonne',
+    acrylic: 'Acrylique',
+    machine_wash_cold: 'Lavage en machine à froid',
+    hand_wash_only: 'Lavage à la main uniquement',
+    do_not_wash: 'Ne pas laver',
+    dry_clean_only: 'Nettoyage à sec uniquement',
+    tumble_dry_low: 'Séchage en tambour à basse température',
+    hang_dry: 'Sécher suspendu',
+    do_not_tumble_dry: 'Ne pas sécher en tambour',
+    iron_on_low_heat: 'Repasser à chaleur douce',
+    do_not_iron: 'Ne pas repasser',
+    do_not_bleach: 'Ne pas blanchir',
+    bleach_when_needed: 'Blanchir si nécessaire',
+    store_in_cool_dry_place: 'Conserver dans un endroit frais et sec',
+    avoid_direct_sunlight: 'Éviter la lumière directe du soleil',
+    professional_cleaning_recommended: 'Nettoyage professionnel recommandé',
+    free_shipping_over_100: 'Livraison gratuite pour les commandes de plus de 100 DT. Livraison standard sous 3-5 jours ouvrables.',
+    express_shipping_15: 'Livraison express disponible pour 15 DT. Livraison standard sous 3-5 jours ouvrables.',
+    international_shipping: 'Livraison internationale disponible. Délai de livraison 7-14 jours ouvrables selon l\'emplacement.',
+    local_pickup: 'Retrait en magasin disponible. Livraison gratuite pour les commandes de plus de 50 DT.',
+    same_day_delivery_tunis: 'Livraison le jour même disponible à Tunis pour les commandes passées avant 14h.',
+    premium_shipping_25: 'Livraison premium disponible pour 25 DT. Livraison garantie sous 2 jours ouvrables.',
+    return_policy_30_days: 'Politique de retour de 30 jours. Les articles doivent être inutilisés et dans leur emballage d\'origine.',
+    return_policy_14_days: 'Politique de retour de 14 jours. Les articles doivent être inutilisés et dans leur emballage d\'origine.',
+    return_policy_7_days: 'Politique de retour de 7 jours. Les articles doivent être inutilisés et dans leur emballage d\'origine.',
+    no_returns_on_sale: 'Pas de retours sur les articles en solde. Les articles soldés ne sont pas éligibles au retour.',
+    free_returns_exchanges: 'Retours et échanges gratuits dans les 30 jours. Les articles doivent être inutilisés et dans leur emballage d\'origine.',
+    store_credit_only: 'Crédit en magasin uniquement. Retours acceptés dans les 30 jours pour crédit en magasin uniquement. Les articles doivent être inutilisés et dans leur emballage d\'origine.',
+    no_returns: 'Aucun retour accepté sur cet article. Toutes les ventes sont définitives.',
   },
   ar: {
     home: 'الرئيسية',
@@ -1252,5 +1600,121 @@ export const translations = {
     stillHaveQuestions: 'لديك أسئلة أخرى؟',
     cantFindAnswer: 'لا تجد الإجابة التي تبحث عنها؟ فريق خدمة العملاء لدينا هنا للمساعدة.',
     contactUs: 'اتصل بنا',
+    adsTitle: 'إعلاناتنا',
+    adsDescription: 'اكتشف أحدث عروضنا الترويجية والصفقات الخاصة.',
+    noAdsAvailable: 'لا توجد إعلانات متاحة في الوقت الحالي.',
+    inactive: 'غير نشط',
+    from: 'من',
+    to: 'إلى',
+    learnMore: 'اعرف المزيد',
+    sliderView: 'عرض المنزلق',
+    gridView: 'عرض الشبكة',
+    comingSoon: 'قريباً',
+    adCurrentlyInactive: 'هذا الإعلان غير نشط حالياً',
+    checkBackSoon: 'تحقق مرة أخرى قريباً للحصول على عروض وترقيات مثيرة.',
+    video: 'فيديو',
+    ad: 'إعلان',
+    ads: 'إعلانات',
+    banner: 'بانر',
+    sidebar: 'الشريط الجانبي',
+    footer: 'التذييل',
+    popup: 'منبثق',
+    bannerAds: 'إعلانات البانر',
+    sidebarAds: 'إعلانات الشريط الجانبي',
+    footerAds: 'إعلانات التذييل',
+    popupAds: 'إعلانات المنبثقة',
+    bannerAd: 'إعلان بانر',
+    sidebarAd: 'إعلان شريط جانبي',
+    footerAd: 'إعلان تذييل',
+    popupAd: 'إعلان منبثق',
+    fit_regular: 'القصة: عادية',
+    fit_slim: 'القصة: ضيقة',
+    fit_loose: 'القصة: واسعة',
+    fit_oversized: 'القصة: كبيرة جداً',
+    style_casual: 'الأسلوب: عارض',
+    style_formal: 'الأسلوب: رسمي',
+    style_bohemian: 'الأسلوب: بوهيمي',
+    style_minimalist: 'الأسلوب: بسيط',
+    style_streetwear: 'الأسلوب: شارعي',
+    style_vintage: 'الأسلوب: عتيق',
+    style_romantic: 'الأسلوب: رومانسي',
+    style_athletic: 'الأسلوب: رياضي',
+    style_professional: 'الأسلوب: مهني',
+    style_festive: 'الأسلوب: احتفالي',
+    neckline_vneck: 'الياقة: V',
+    neckline_round: 'الياقة: دائرية',
+    neckline_scoop: 'الياقة: منحنية',
+    neckline_square: 'الياقة: مربعة',
+    sleeve_short: 'الكم: قصير',
+    sleeve_long: 'الكم: طويل',
+    sleeve_sleeveless: 'الكم: بدون أكمام',
+    sleeve_threequarter: 'الكم: ثلاثة أرباع',
+    length_mini: 'الطول: قصير جداً',
+    length_knee: 'الطول: حتى الركبة',
+    length_midi: 'الطول: متوسط',
+    length_maxi: 'الطول: طويل جداً',
+    length_cropped: 'الطول: مقصوص',
+    pattern_solid: 'النمط: أحادي اللون',
+    pattern_striped: 'النمط: مخطط',
+    pattern_floral: 'النمط: زهري',
+    pattern_polkadot: 'النمط: منقط',
+    pattern_geometric: 'النمط: هندسي',
+    pattern_animal: 'النمط: حيواني',
+    occasion_everyday: 'المناسبة: يومية',
+    occasion_work: 'المناسبة: عمل',
+    occasion_party: 'المناسبة: حفلة',
+    occasion_wedding: 'المناسبة: زفاف',
+    occasion_beach: 'المناسبة: شاطئ',
+    season_spring: 'الموسم: ربيع',
+    season_summer: 'الموسم: صيف',
+    season_fall: 'الموسم: خريف',
+    season_winter: 'الموسم: شتاء',
+    closure_button: 'الإغلاق: زر',
+    closure_zipper: 'الإغلاق: سحاب',
+    closure_tie: 'الإغلاق: ربطة',
+    closure_elastic: 'الإغلاق: مرن',
+    cotton: 'قطن',
+    polyester: 'بوليستر',
+    silk: 'حرير',
+    wool: 'صوف',
+    linen: 'كتان',
+    leather: 'جلد',
+    denim: 'جينز',
+    chiffon: 'شيفون',
+    satin: 'ساتان',
+    velvet: 'مخمل',
+    lace: 'دانتيل',
+    mesh: 'شبكة',
+    nylon: 'نايلون',
+    spandex: 'سباندكس',
+    rayon: 'رايون',
+    acrylic: 'أكريليك',
+    machine_wash_cold: 'غسل في الغسالة بماء بارد',
+    hand_wash_only: 'غسل باليد فقط',
+    do_not_wash: 'لا تغسل',
+    dry_clean_only: 'تنظيف جاف فقط',
+    tumble_dry_low: 'تجفيف في المجفف بدرجة حرارة منخفضة',
+    hang_dry: 'تجفيف معلق',
+    do_not_tumble_dry: 'لا تجفف في المجفف',
+    iron_on_low_heat: 'كي بدرجة حرارة منخفضة',
+    do_not_iron: 'لا تكوي',
+    do_not_bleach: 'لا تبيض',
+    bleach_when_needed: 'بياض عند الحاجة',
+    store_in_cool_dry_place: 'احفظ في مكان بارد وجاف',
+    avoid_direct_sunlight: 'تجنب أشعة الشمس المباشرة',
+    professional_cleaning_recommended: 'يُنصح بتنظيف احترافي',
+    free_shipping_over_100: 'شحن مجاني للطلبات التي تزيد عن 100 دينار تونسي. التسليم القياسي خلال 3-5 أيام عمل.',
+    express_shipping_15: 'شحن سريع متاح مقابل 15 دينار تونسي. التسليم القياسي خلال 3-5 أيام عمل.',
+    international_shipping: 'شحن دولي متاح. وقت التسليم 7-14 يوم عمل حسب الموقع.',
+    local_pickup: 'الاستلام المحلي متاح في متجرنا. شحن مجاني للطلبات التي تزيد عن 50 دينار تونسي.',
+    same_day_delivery_tunis: 'تسليم في نفس اليوم متاح في تونس للطلبات المقدمة قبل الساعة 2 مساءً.',
+    premium_shipping_25: 'شحن مميز متاح مقابل 25 دينار تونسي. تسليم مضمون خلال يومي عمل.',
+    return_policy_30_days: 'سياسة إرجاع لمدة 30 يوماً. يجب أن تكون العناصر غير مستخدمة وفي تغليفها الأصلي.',
+    return_policy_14_days: 'سياسة إرجاع لمدة 14 يوماً. يجب أن تكون العناصر غير مستخدمة وفي تغليفها الأصلي.',
+    return_policy_7_days: 'سياسة إرجاع لمدة 7 أيام. يجب أن تكون العناصر غير مستخدمة وفي تغليفها الأصلي.',
+    no_returns_on_sale: 'لا توجد إرجاعات على العناصر المخفضة. العناصر المخفضة غير مؤهلة للإرجاع.',
+    free_returns_exchanges: 'إرجاعات وتبادلات مجانية خلال 30 يوماً. يجب أن تكون العناصر غير مستخدمة وفي تغليفها الأصلي.',
+    store_credit_only: 'رصيد المتجر فقط. يتم قبول الإرجاعات خلال 30 يوماً لرصيد المتجر فقط. يجب أن تكون العناصر غير مستخدمة وفي تغليفها الأصلي.',
+    no_returns: 'لا توجد إرجاعات مقبولة على هذا العنصر. جميع المبيعات نهائية.',
   },
 };
