@@ -6,6 +6,7 @@ import { getAds } from "@/lib/useQuery";
 import { useTranslation } from "@/lib/translationContext";
 import { TranslationKey } from "@/lib/translations";
 import { ChevronLeft, ChevronRight, Play, Pause } from "lucide-react";
+import CountdownTimer from "./CountdownTimer";
 
 interface Ad {
   _id: string;
@@ -108,7 +109,7 @@ function AdsSlider() {
   return (
     <div className="relative">
       {/* Main Slider */}
-      <div className="relative w-full h-[500px] md:h-[600px] lg:h-[700px] rounded-3xl overflow-hidden shadow-2xl mx-5 mt-8">
+      <div className="relative w-full h-[500px] md:h-[600px] lg:h-[700px] rounded-3xl overflow-hidden shadow-2xl px-5 mt-8">
         {ads.map((ad, index) => {
           const media = ad.media?.[0];
           const videoUrl = media?._type === 'file' ? getVideoUrl(media) : null;
@@ -161,21 +162,10 @@ function AdsSlider() {
                     </p>
                   )}
 
-                  {/* Date Overlay */}
-                  {(ad.startDate || ad.endDate) && (
-                    <div className="absolute bottom-4 left-4 bg-black/70 backdrop-blur-sm text-white px-3 py-2 rounded-lg text-xs">
-                      <div className="flex flex-col gap-1">
-                        {ad.startDate && (
-                          <div>
-                            {t('from') || 'From'}: {new Date(ad.startDate).toLocaleDateString()}
-                          </div>
-                        )}
-                        {ad.endDate && (
-                          <div>
-                            {t('to') || 'To'}: {new Date(ad.endDate).toLocaleDateString()}
-                          </div>
-                        )}
-                      </div>
+                  {/* Countdown Timer */}
+                  {ad.endDate && (
+                    <div className="absolute bottom-4 left-4">
+                      <CountdownTimer endDate={ad.endDate} />
                     </div>
                   )}
 

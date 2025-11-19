@@ -361,6 +361,12 @@ export type TranslationKey =
   | 'sidebarAd'
   | 'footerAd'
   | 'popupAd'
+  | 'expired'
+  | 'endsIn'
+  | 'daysShort'
+  | 'hoursShort'
+  | 'minutesShort'
+  | 'secondsShort'
   | 'fit_regular'
   | 'fit_slim'
   | 'fit_loose'
@@ -794,6 +800,12 @@ export const translations = {
     sidebarAd: 'Sidebar Ad',
     footerAd: 'Footer Ad',
     popupAd: 'Popup Ad',
+    expired: 'Expired',
+    endsIn: 'Ends in',
+    daysShort: 'D',
+    hoursShort: 'H',
+    minutesShort: 'M',
+    secondsShort: 'S',
     fit_regular: 'Fit: Regular',
     fit_slim: 'Fit: Slim',
     fit_loose: 'Fit: Loose',
@@ -1211,6 +1223,12 @@ export const translations = {
     sidebarAd: 'Publicité Barre Latérale',
     footerAd: 'Publicité Pied de Page',
     popupAd: 'Publicité Popup',
+    expired: 'Expiré',
+    endsIn: 'Se termine dans',
+    daysShort: 'J',
+    hoursShort: 'H',
+    minutesShort: 'M',
+    secondsShort: 'S',
     fit_regular: 'Coupe: Régulière',
     fit_slim: 'Coupe: Slim',
     fit_loose: 'Coupe: Loose',
@@ -1627,6 +1645,12 @@ export const translations = {
     sidebarAd: 'إعلان شريط جانبي',
     footerAd: 'إعلان تذييل',
     popupAd: 'إعلان منبثق',
+    expired: 'انتهت',
+    endsIn: 'تنتهي في',
+    daysShort: 'ي',
+    hoursShort: 'س',
+    minutesShort: 'د',
+    secondsShort: 'ث',
     fit_regular: 'القصة: عادية',
     fit_slim: 'القصة: ضيقة',
     fit_loose: 'القصة: واسعة',

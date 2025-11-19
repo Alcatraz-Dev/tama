@@ -8,6 +8,7 @@ import { TranslationKey } from "@/lib/translations";
 import { ChevronLeft, ChevronRight, Play, Pause, Grid3X3, ArrowLeft, Monitor, Sidebar, Footprints, Maximize } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import AnimatedBanner from "@/components/AnimatedBanner";
+import CountdownTimer from "@/components/CountdownTimer";
 
 interface Ad {
   _id: string;
@@ -241,21 +242,10 @@ function Ads() {
                             </p>
                           )}
 
-                          {/* Date Overlay */}
-                          {(ad.startDate || ad.endDate) && (
-                            <div className="absolute bottom-4 left-4 bg-black/70 backdrop-blur-sm text-white px-3 py-2 rounded-lg text-xs">
-                              <div className="flex flex-col gap-1">
-                                {ad.startDate && (
-                                  <div>
-                                    {t('from') || 'From'}: {new Date(ad.startDate).toLocaleDateString()}
-                                  </div>
-                                )}
-                                {ad.endDate && (
-                                  <div>
-                                    {t('to') || 'To'}: {new Date(ad.endDate).toLocaleDateString()}
-                                  </div>
-                                )}
-                              </div>
+                          {/* Countdown Timer */}
+                          {ad.endDate && (
+                            <div className="absolute bottom-4 left-4">
+                              <CountdownTimer endDate={ad.endDate} />
                             </div>
                           )}
 
@@ -453,21 +443,10 @@ function Ads() {
                               </div>
                             )}
 
-                            {/* Date Overlay */}
-                            {(ad.startDate || ad.endDate) && (
-                              <div className="absolute bottom-4 left-4 bg-black/70 backdrop-blur-sm text-white px-3 py-2 rounded-lg text-xs">
-                                <div className="flex flex-col gap-1">
-                                  {ad.startDate && (
-                                    <div>
-                                      {t('from') || 'From'}: {new Date(ad.startDate).toLocaleDateString()}
-                                    </div>
-                                  )}
-                                  {ad.endDate && (
-                                    <div>
-                                      {t('to') || 'To'}: {new Date(ad.endDate).toLocaleDateString()}
-                                    </div>
-                                  )}
-                                </div>
+                            {/* Countdown Timer */}
+                            {ad.endDate && (
+                              <div className="absolute bottom-4 left-4">
+                                <CountdownTimer endDate={ad.endDate} />
                               </div>
                             )}
 
