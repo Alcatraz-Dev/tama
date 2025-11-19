@@ -170,6 +170,9 @@ export type TranslationKey =
   | 'returnPolicy'
   | 'warranty'
   | 'warrantyInfo'
+  | 'shop'
+  | 'support'
+  | 'explore'
   | 'writeYourReview'
   | 'yourName'
   | 'enterYourName'
@@ -895,6 +898,9 @@ export const translations = {
     free_returns_exchanges: 'Free returns and exchanges within 30 days. Items must be unused and in original packaging.',
     store_credit_only: 'Store credit only. Returns accepted within 30 days for store credit only. Items must be unused and in original packaging.',
     no_returns: 'No returns accepted on this item. All sales are final.',
+    shop:"Shop",
+    support:"Support",
+    explore:"Explore"
 
   },
   fr: {
@@ -1189,6 +1195,25 @@ export const translations = {
     cm: 'cm',
     sizeGuideHelp: 'Toujours incertain sur votre taille ? Contactez notre service client pour une assistance personnalisée.',
     contactUsBtn: 'Contactez-nous',
+    faq: 'Questions Fréquemment Posées',
+    faqDescription: 'Trouvez des réponses aux questions les plus courantes sur nos produits, la livraison et les services.',
+    faqShipping: 'Combien de temps prend la livraison ?',
+    faqShippingAnswer: 'La livraison standard en Tunisie prend 3-5 jours ouvrables. La livraison internationale prend 7-14 jours ouvrables selon la destination.',
+    faqReturns: 'Quelle est votre politique de retour ?',
+    faqReturnsAnswer: 'Nous offrons une politique de retour de 30 jours pour les articles non utilisés dans leur emballage d\'origine. Les retours sont gratuits en Tunisie.',
+    faqPayment: 'Quels modes de paiement acceptez-vous ?',
+    faqPaymentAnswer: 'Nous acceptons les cartes de crédit, les cartes de débit et le paiement à la livraison pour les commandes locales.',
+    faqSize: 'Comment trouver ma taille correcte ?',
+    faqSizeAnswer: 'Consultez notre guide des tailles détaillé avec des mesures en pouces et centimètres. Si vous n\'êtes toujours pas sûr, contactez notre service client pour une assistance personnalisée.',
+    faqQuality: 'Quelle est la qualité de vos produits ?',
+    faqQualityAnswer: 'Tous nos produits sont fabriqués avec des matériaux de haute qualité et subissent un contrôle de qualité strict. Nous défendons notre savoir-faire avec une garantie d\'un an.',
+    faqCare: 'Comment prendre soin de mes vêtements Tama ?',
+    faqCareAnswer: 'Suivez les instructions d\'entretien sur chaque étiquette de produit. La plupart des articles peuvent être lavés en machine sur cycle doux et suspendus pour sécher.',
+    faqOrder: 'Comment puis-je suivre ma commande ?',
+    faqOrderAnswer: 'Une fois votre commande expédiée, vous recevrez un numéro de suivi par email. Vous pouvez également vérifier le statut de votre commande en contactant notre service client.',
+    faqContact: 'Comment contacter le service client ?',
+    faqContactAnswer: 'Vous pouvez nous joindre via notre formulaire de contact, par téléphone ou par email. Nous sommes là pour aider du lundi au samedi.',
+    navFaq: 'FAQ',
     chestInstruction: 'Mesurez autour de la partie la plus pleine de votre poitrine',
     waistInstruction: 'Mesurez autour de votre taille naturelle',
     hipsInstruction: 'Mesurez autour de la partie la plus pleine de vos hanches',
@@ -1318,6 +1343,9 @@ export const translations = {
     free_returns_exchanges: 'Retours et échanges gratuits dans les 30 jours. Les articles doivent être inutilisés et dans leur emballage d\'origine.',
     store_credit_only: 'Crédit en magasin uniquement. Retours acceptés dans les 30 jours pour crédit en magasin uniquement. Les articles doivent être inutilisés et dans leur emballage d\'origine.',
     no_returns: 'Aucun retour accepté sur cet article. Toutes les ventes sont définitives.',
+    shop:'Boutique',
+    support:"Le soutien",
+    explore:"Explorer"
   },
   ar: {
     home: 'الرئيسية',
@@ -1611,6 +1639,25 @@ export const translations = {
     cm: 'سم',
     sizeGuideHelp: 'لا تزال غير متأكد من مقاسك؟ اتصل بخدمة العملاء للحصول على مساعدة شخصية.',
     contactUsBtn: 'اتصل بنا',
+    faq: 'الأسئلة الشائعة',
+    faqDescription: 'اعثر على إجابات للأسئلة الأكثر شيوعاً حول منتجاتنا والشحن والخدمات.',
+    faqShipping: 'كم يستغرق الشحن؟',
+    faqShippingAnswer: 'الشحن القياسي داخل تونس يستغرق 3-5 أيام عمل. الشحن الدولي يستغرق 7-14 يوم عمل حسب الوجهة.',
+    faqReturns: 'ما هي سياسة الإرجاع الخاصة بك؟',
+    faqReturnsAnswer: 'نحن نقدم سياسة إرجاع لمدة 30 يوماً للعناصر غير المستخدمة في تغليفها الأصلي. الإرجاعات مجانية داخل تونس.',
+    faqPayment: 'ما هي طرق الدفع التي تقبلها؟',
+    faqPaymentAnswer: 'نحن نقبل بطاقات الائتمان وبطاقات الخصم والدفع عند التسليم للطلبات المحلية.',
+    faqSize: 'كيف أجد مقاسي الصحيح؟',
+    faqSizeAnswer: 'تحقق من دليل المقاسات التفصيلي الخاص بنا مع القياسات بالبوصات والسنتيمترات. إذا كنت لا تزال غير متأكد، اتصل بخدمة العملاء للحصول على مساعدة شخصية.',
+    faqQuality: 'ما هي جودة منتجاتك؟',
+    faqQualityAnswer: 'جميع منتجاتنا مصنوعة من مواد عالية الجودة وتخضع لمراقبة جودة صارمة. نحن نقف وراء حرفيتنا بضمان لمدة عام واحد.',
+    faqCare: 'كيف يجب أن أعتني بملابسي تاما؟',
+    faqCareAnswer: 'اتبع تعليمات العناية على كل ملصق منتج. معظم العناصر يمكن غسلها في الغسالة على دورة لطيفة وتعليقها لتجف.',
+    faqOrder: 'كيف يمكنني تتبع طلبي؟',
+    faqOrderAnswer: 'بمجرد شحن طلبك، ستتلقى رقم تتبع عبر البريد الإلكتروني. يمكنك أيضاً التحقق من حالة طلبك عن طريق الاتصال بخدمة العملاء.',
+    faqContact: 'كيف يمكنني الاتصال بخدمة العملاء؟',
+    faqContactAnswer: 'يمكنك الوصول إلينا من خلال نموذج الاتصال الخاص بنا، أو الهاتف، أو البريد الإلكتروني. نحن هنا للمساعدة من الاثنين إلى السبت.',
+    navFaq: 'الأسئلة الشائعة',
     chestInstruction: 'قيس حول الجزء الأكثر امتلاءً من صدرك',
     waistInstruction: 'قيس حول خصرك الطبيعي',
     hipsInstruction: 'قيس حول الجزء الأكثر امتلاءً من وركيك',
@@ -1740,5 +1787,10 @@ export const translations = {
     free_returns_exchanges: 'إرجاعات وتبادلات مجانية خلال 30 يوماً. يجب أن تكون العناصر غير مستخدمة وفي تغليفها الأصلي.',
     store_credit_only: 'رصيد المتجر فقط. يتم قبول الإرجاعات خلال 30 يوماً لرصيد المتجر فقط. يجب أن تكون العناصر غير مستخدمة وفي تغليفها الأصلي.',
     no_returns: 'لا توجد إرجاعات مقبولة على هذا العنصر. جميع المبيعات نهائية.',
+    shop:"متجر",
+    support:'الدعم',
+    explore:"يستكشف"
+
+
   },
 };

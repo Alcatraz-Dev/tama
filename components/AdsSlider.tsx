@@ -32,6 +32,7 @@ interface Ad {
   endDate?: string;
   order: number;
   position: string;
+  showCountdownTimer: boolean;
 }
 
 function AdsSlider() {
@@ -143,10 +144,10 @@ function AdsSlider() {
               ) : null}
 
               {/* Dynamic Overlay based on position */}
-              <div className={`absolute inset-0 bg-gradient-to-t from-yellow-500/30 via-yellow-500/10 to-transparent`}></div>
+              <div className={`absolute inset-0 bg-gradient-to-t from-yellow-500/20 via-yellow-500/5 to-transparent`}></div>
 
               {/* Content based on position */}
-              <div className="absolute inset-0 flex items-center justify-center">
+              <div className="absolute inset-0 flex items-start justify-center pt-12">
                 <div className="text-center text-white max-w-4xl px-6">
                   {/* Position indicator */}
                   <div className="inline-block bg-black/50 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs font-medium mb-4">
@@ -163,7 +164,7 @@ function AdsSlider() {
                   )}
 
                   {/* Countdown Timer */}
-                  {ad.endDate && (
+                  {ad.endDate && ad.showCountdownTimer && (
                     <div className="absolute bottom-4 left-4">
                       <CountdownTimer endDate={ad.endDate} />
                     </div>

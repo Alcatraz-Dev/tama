@@ -14,15 +14,25 @@ export function Footer() {
   const { t, language } = useTranslation();
 
   const footerLinks = {
-    company: [
-      { name: 'about', href: "/about" },
-    ],
-    helpfulLinks: [
+    shop: [
       { name: 'products', href: "/products" },
       { name: 'categories', href: "/categories" },
+      { name: 'collections', href: "/collections" },
+      { name: 'wishlist', href: "/wishlist" },
+      { name: 'cart', href: "/cart" },
+    ],
+    company: [
+      { name: 'about', href: "/about" },
       { name: 'contact', href: "/contact" },
+    ],
+    support: [
       { name: 'faqs', href: "/faq" },
       { name: 'sizeGuide', href: "/size-guide" },
+    ],
+    explore: [
+      { name: 'gallery', href: "/gallery" },
+      { name: 'tamaStories', href: "/style-stories" },
+      { name: 'ads', href: "/ads" },
     ],
   };
 
@@ -41,7 +51,7 @@ export function Footer() {
   return (
     <footer className="bg-card w-full max-w-7xl mx-auto px-6 py-12 rounded-3xl mb-6 shadow-luxury" dir={language === "ar" ? "rtl" : "ltr"}>
       <div className="mx-auto  space-y-10 px-4 sm:px-6 lg:space-y-16 lg:px-8">
-        <div className="grid grid-cols-1 gap-10 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-4">
           {/* Logo + About */}
           <div>
             <Link
@@ -87,9 +97,9 @@ export function Footer() {
 
           {/* Dynamic Footer Links */}
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:col-span-2 gap-8 md:items-center ">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 lg:col-span-3 gap-8 md:items-center ">
             {Object.entries(footerLinks).map(([section, links]) => (
-              <div key={section}>
+              <div key={section} className="text-center lg:text-left">
                 <p className="font-semibold text-black dark:text-white">{t(section as any)}</p>
                 <ul className="mt-6 space-y-3 text-sm">
                   {links.map((link, idx) => (

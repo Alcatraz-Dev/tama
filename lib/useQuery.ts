@@ -633,7 +633,8 @@ export async function getAds(activeOnly = true) {
       startDate,
       endDate,
       order,
-      position
+      position,
+      showCountdownTimer
     }
   `;
 

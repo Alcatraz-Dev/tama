@@ -102,6 +102,13 @@ export default defineType({
       },
       initialValue: "banner",
     }),
+    defineField({
+      name: "showCountdownTimer",
+      title: "Show Countdown Timer",
+      type: "boolean",
+      initialValue: true,
+      description: "Show countdown timer if end date is set",
+    }),
   ],
   preview: {
     select: {
