@@ -260,7 +260,7 @@ export default function Navbar() {
 
             {/* Navigation Links */}
             <nav className="flex-1 px-6 py-8 overflow-y-auto">
-              <div className="space-y-4">
+              <div className="space-y-2">
                 {links.map((link, index) => (
                   <motion.div
                     key={link.href}
