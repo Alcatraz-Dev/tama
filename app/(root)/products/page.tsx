@@ -324,7 +324,7 @@ function ProductsContent() {
       </div>
 
       {/* Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-8 px-4 sm:px-6 md:px-12 z-20">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 px-4 sm:px-6 md:px-12 z-20">
         {paginatedProducts.length === 0 ? (
           <p className="col-span-full text-center text-zinc-500 dark:text-zinc-400">
             {t('noProductsFound')}
