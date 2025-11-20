@@ -30,7 +30,10 @@ export function TranslationProvider({ children }: { children: ReactNode }) {
   };
 
   const t = (key: TranslationKey, params?: Record<string, string | number>): string => {
-    let text = (translations[language] as any)[key] || (translations.en as any)[key] || key;
+    let text = (translations[language] as any)[key] || (translations.en as any)[key];
+
+    // If no translation found, return the key so fallback can work
+    if (text === undefined || text === null) return key;
 
     if (params) {
       Object.entries(params).forEach(([param, value]) => {

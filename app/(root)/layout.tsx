@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Toaster } from "@/components/ui/sonner";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import ChatWidget from "@/components/ChatWidget";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import { ThemeProvider } from "next-themes";
 import { TranslationProvider } from "@/lib/translationContext";
@@ -49,7 +50,8 @@ export default function RootLayout({
                 <Footer />
               </div>
               <Toaster />
-              <WhatsAppButton />
+              {/* <WhatsAppButton /> */}
+              <ChatWidget />
             </ErrorBoundary>
           </TranslationProvider>
         </ThemeProvider>

@@ -118,6 +118,38 @@ export type TranslationKey =
   | 'stopVoiceSearch'
   | 'startVoiceSearch'
   | 'recentSearches'
+  | 'recentlyViewed'
+  | 'loyaltyProgram'
+  | 'loyaltyDescription'
+  | 'howToEarnPoints'
+  | 'earnPointsPerDT'
+  | 'bonusPointsReviews'
+  | 'doublePointsPromotions'
+  | 'tierBenefits'
+  | 'bronzeTier'
+  | 'silverTier'
+  | 'goldTier'
+  | 'pointsRequired'
+  | 'pointsPerDT'
+  | 'totalPoints'
+  | 'nextTier'
+  | 'recentActivity'
+  | 'startEarningPoints'
+  | 'pointsEarned'
+  | 'pointsEarnedGeneric'
+  | 'keepShopping'
+  | 'newMember'
+  | 'points'
+  | 'pointsPerDT'
+  | 'pointsToGo'
+  | 'liveSupport'
+  | 'online'
+  | 'typeMessage'
+  | 'chatGreeting'
+  | 'chatResponse'
+  | 'chatGreetingFallback'
+  | 'chatResponseFallback'
+  | 'openChat'
   | 'backToProducts'
   | 'categories'
   | 'categoriesDescription'
@@ -579,6 +611,31 @@ export const translations = {
     stopVoiceSearch: 'Stop Voice Search',
     startVoiceSearch: 'Start Voice Search',
     recentSearches: 'Recent Searches',
+    recentlyViewed: 'Recently Viewed',
+    loyaltyProgram: 'Loyalty Program',
+    loyaltyDescription: 'Earn points with every purchase and unlock exclusive rewards',
+    howToEarnPoints: 'How to Earn Points',
+    earnPointsPerDT: 'Earn 1 point for every 1 DT spent',
+    bonusPointsReviews: 'Bonus points for reviews and referrals',
+    doublePointsPromotions: 'Double points on special promotions',
+    tierBenefits: 'Tier Benefits',
+    bronzeTier: 'Bronze',
+    silverTier: 'Silver',
+    goldTier: 'Gold',
+    pointsRequired: '{{points}}+ points',
+    totalPoints: 'Total Points',
+    nextTier: 'Next Tier',
+    recentActivity: 'Recent Activity',
+    startEarningPoints: 'Start shopping to earn loyalty points!',
+    pointsEarned: 'Earned {{points}} loyalty points!',
+    pointsEarnedGeneric: 'Loyalty points earned!',
+    keepShopping: 'Keep shopping to earn more points!',
+    newMember: 'New Member',
+    points: 'points',
+    pointsPerDT: '+1 per DT',
+    liveSupport: 'Live Support',
+    online: 'Online',
+    typeMessage: 'Type your message...',
     backToProducts: 'Back to Products',
     categoriesDescription: 'Explore our curated collections organized by style, occasion, and theme. Find exactly what you\'re looking for.',
     discoverCollection: 'Discover our {{category}} collection',
@@ -898,9 +955,9 @@ export const translations = {
     free_returns_exchanges: 'Free returns and exchanges within 30 days. Items must be unused and in original packaging.',
     store_credit_only: 'Store credit only. Returns accepted within 30 days for store credit only. Items must be unused and in original packaging.',
     no_returns: 'No returns accepted on this item. All sales are final.',
-    shop:"Shop",
-    support:"Support",
-    explore:"Explore"
+    shop: "Shop",
+    support: "Support",
+    explore: "Explore"
 
   },
   fr: {
@@ -1021,6 +1078,35 @@ export const translations = {
     stopVoiceSearch: 'Arrêter la recherche vocale',
     startVoiceSearch: 'Démarrer la recherche vocale',
     recentSearches: 'Recherches récentes',
+    recentlyViewed: 'Récemment consultés',
+    loyaltyProgram: 'Programme de Fidélité',
+    loyaltyDescription: 'Gagnez des points avec chaque achat et débloquez des récompenses exclusives',
+    howToEarnPoints: 'Comment gagner des points',
+    earnPointsPerDT: 'Gagnez 1 point pour chaque 1 DT dépensé',
+    bonusPointsReviews: 'Points bonus pour les avis et parrainages',
+    doublePointsPromotions: 'Points doubles sur les promotions spéciales',
+    tierBenefits: 'Avantages par niveau',
+    bronzeTier: 'Bronze',
+    silverTier: 'Argent',
+    goldTier: 'Or',
+    pointsRequired: '{{points}}+ points',
+    pointsPerDT: '+1 par DT',
+    totalPoints: 'Points Totaux',
+    nextTier: 'Niveau Suivant',
+    recentActivity: 'Activité Récente',
+    startEarningPoints: 'Commencez à magasiner pour gagner des points de fidélité !',
+    pointsEarned: 'Gagné {{points}} points de fidélité !',
+    pointsEarnedGeneric: 'Points de fidélité gagnés !',
+    keepShopping: 'Continuez à magasiner pour gagner plus de points !',
+    newMember: 'Nouveau Membre',
+    points: 'points',
+    pointsToGo: 'à atteindre',
+    liveSupport: 'Support en Direct',
+    online: 'En ligne',
+    typeMessage: 'Tapez votre message...',
+    chatGreeting: 'Bonjour ! Comment puis-je vous aider dans vos achats aujourd\'hui ?',
+    chatResponse: 'Merci pour votre message ! Notre équipe de service client vous répondra bientôt. En attendant, n\'hésitez pas à parcourir nos produits.',
+    openChat: 'Ouvrir le chat',
     backToProducts: 'Retour aux produits',
     categoriesDescription: 'Explorez nos collections organisées par style, occasion et thème. Trouvez exactement ce que vous cherchez.',
     discoverCollection: 'Découvrez notre collection {{category}}',
@@ -1343,9 +1429,9 @@ export const translations = {
     free_returns_exchanges: 'Retours et échanges gratuits dans les 30 jours. Les articles doivent être inutilisés et dans leur emballage d\'origine.',
     store_credit_only: 'Crédit en magasin uniquement. Retours acceptés dans les 30 jours pour crédit en magasin uniquement. Les articles doivent être inutilisés et dans leur emballage d\'origine.',
     no_returns: 'Aucun retour accepté sur cet article. Toutes les ventes sont définitives.',
-    shop:'Boutique',
-    support:"Le soutien",
-    explore:"Explorer"
+    shop: 'Boutique',
+    support: 'Le soutien',
+    explore: 'Explorer'
   },
   ar: {
     home: 'الرئيسية',
@@ -1465,6 +1551,34 @@ export const translations = {
     stopVoiceSearch: 'إيقاف البحث الصوتي',
     startVoiceSearch: 'بدء البحث الصوتي',
     recentSearches: 'عمليات البحث الأخيرة',
+    recentlyViewed: 'المنتجات المُشاهدة مؤخراً',
+    loyaltyProgram: 'برنامج الولاء',
+    loyaltyDescription: 'اكسب نقاطاً مع كل شراء وافتح مكافآت حصرية',
+    howToEarnPoints: 'كيف تكسب النقاط',
+    earnPointsPerDT: 'اكسب نقطة واحدة لكل دينار تونسي تنفقه',
+    bonusPointsReviews: 'نقاط إضافية للمراجعات والإحالات',
+    doublePointsPromotions: 'نقاط مضاعفة في العروض الخاصة',
+    tierBenefits: 'مزايا المستويات',
+    bronzeTier: 'برونزي',
+    silverTier: 'فضي',
+    goldTier: 'ذهبي',
+    pointsRequired: '{{points}}+ نقطة',
+    totalPoints: 'إجمالي النقاط',
+    nextTier: 'المستوى التالي',
+    recentActivity: 'النشاط الأخير',
+    startEarningPoints: 'ابدأ التسوق لكسب نقاط الولاء!',
+    pointsEarned: 'كسبت {{points}} نقطة ولاء!',
+    keepShopping: 'استمر في التسوق لكسب المزيد من النقاط!',
+    newMember: 'عضو جديد',
+    points: 'نقاط',
+    pointsPerDT: '+1 لكل دينار تونسي',
+    pointsToGo: 'متبقي',
+    liveSupport: 'دعم مباشر',
+    online: 'متصل',
+    typeMessage: 'اكتب رسالتك...',
+    chatGreeting: 'مرحبا! كيف يمكنني مساعدتك في تسوقك اليوم؟',
+    chatResponse: 'شكراً لرسالتك! سيرد فريق خدمة العملاء قريباً. في هذه الأثناء، لا تتردد في تصفح منتجاتنا.',
+    openChat: 'فتح الدردشة',
     backToProducts: 'العودة إلى المنتجات',
     categoriesDescription: 'استكشف مجموعاتنا المنظمة حسب الأسلوب والمناسبة والموضوع. ابحث عن ما تبحث عنه بالضبط.',
     discoverCollection: 'اكتشف مجموعتنا {{category}}',
@@ -1787,9 +1901,9 @@ export const translations = {
     free_returns_exchanges: 'إرجاعات وتبادلات مجانية خلال 30 يوماً. يجب أن تكون العناصر غير مستخدمة وفي تغليفها الأصلي.',
     store_credit_only: 'رصيد المتجر فقط. يتم قبول الإرجاعات خلال 30 يوماً لرصيد المتجر فقط. يجب أن تكون العناصر غير مستخدمة وفي تغليفها الأصلي.',
     no_returns: 'لا توجد إرجاعات مقبولة على هذا العنصر. جميع المبيعات نهائية.',
-    shop:"متجر",
-    support:'الدعم',
-    explore:"يستكشف"
+    shop: 'متجر',
+    support: 'الدعم',
+    explore: 'يستكشف'
 
 
   },

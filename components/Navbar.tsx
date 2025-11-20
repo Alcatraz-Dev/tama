@@ -11,6 +11,7 @@ import { CiMenuFries } from "react-icons/ci";
 import Image from "next/image";
 import ThemeToggle from "./ThemeToggle";
 import LanguageSwitcher from "./LanguageSwitcher";
+import LoyaltyStatus from "./LoyaltyStatus";
 import { useTheme } from "next-themes";
 import { useTranslation } from "@/lib/translationContext";
 
@@ -57,29 +58,16 @@ export default function Navbar() {
     >
       <div className="container mx-auto py-4 px-4 lg:px-6 xl:px-8 relative">
         {/* Mobile Layout */}
-        <div className="flex items-center justify-between md:hidden">
-          <Button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="hover:cursor-pointer w-8 h-8"
-          >
-            <CiMenuFries className="w-3 h-3 hover:text-black" />
-          </Button>
-
-          <Link href="/" className="absolute left-1/2 transform -translate-x-1/2">
-            <Image
-              src={mounted && theme === "dark" ? "/tama-light.svg" : "/tama.svg"}
-              alt="Tama Logo"
-              width={150}
-              height={150}
-              className="w-[70px] h-[70px]"
-            />
-          </Link>
-
+        <div className="flex items-center justify-between md:hidden px-2 py-3">
           <div className="flex items-center gap-2">
-            <ThemeToggle />
-            <LanguageSwitcher />
+            <Button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="hover:cursor-pointer w-7 h-7"
+            >
+              <CiMenuFries className="w-3 h-3 hover:text-black" />
+            </Button>
             <Link href="/wishlist" className="relative bg-card p-1 rounded-md">
-              <Heart className="w-3.5 h-3.5 text-zinc-700 dark:text-zinc-300 hover:text-red-500 dark:hover:text-red-400" />
+              <Heart className="w-3 h-3 text-zinc-700 dark:text-zinc-300 hover:text-red-500 dark:hover:text-red-400" />
               <AnimatePresence>
                 {wishlistItems.length > 0 && (
                   <motion.span
@@ -87,7 +75,7 @@ export default function Navbar() {
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     exit={{ scale: 0 }}
-                    className="absolute -top-1 -right-1 bg-red-500 text-white text-[9px] w-3.5 h-3.5 rounded-full flex items-center justify-center"
+                    className="absolute -top-1 -right-1 bg-red-500 text-white text-[8px] w-3 h-3 rounded-full flex items-center justify-center"
                   >
                     {wishlistItems.length}
                   </motion.span>
@@ -95,15 +83,15 @@ export default function Navbar() {
               </AnimatePresence>
             </Link>
             <Link href="/cart" className="relative bg-card p-1 rounded-md">
-              <ShoppingBasket className="w-3.5 h-3.5 text-zinc-700 dark:text-zinc-300 hover:text-black dark:hover:text-white" />
+              <ShoppingBasket className="w-3 h-3 text-zinc-700 dark:text-zinc-300 hover:text-black dark:hover:text-white" />
               <AnimatePresence>
                 {cartItems.length > 0 && (
                   <motion.span
                     key={cartItems.length}
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
-                    exit={{ scale: 0 }}
-                    className="absolute -top-1 -right-1 bg-black dark:bg-gray-600 text-white text-[9px] w-3.5 h-3.5 rounded-full flex items-center justify-center"
+                    exit={{ scale: 1 }}
+                    className="absolute -top-1 -right-1 bg-black dark:bg-gray-600 text-white text-[8px] w-3 h-3 rounded-full flex items-center justify-center"
                   >
                     {cartItems.length}
                   </motion.span>
@@ -111,12 +99,31 @@ export default function Navbar() {
               </AnimatePresence>
             </Link>
           </div>
+
+          {/* Logo in center for all mobile screens */}
+          <Link href="/" className="flex items-center">
+            <Image
+              src={mounted && theme === "dark" ? "/tama-light.svg" : "/tama.svg"}
+              alt="Tama Logo"
+              width={150}
+              height={150}
+              className="w-[70px] h-10"
+            />
+          </Link>
+
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <LanguageSwitcher />
+          </div>
         </div>
 
         {/* Desktop Layout - Logo perfectly centered */}
         <div className="hidden md:flex items-center">
           {/* Left Navigation - takes equal space */}
           <div className="flex-1 flex justify-start">
+            <div className="flex items-center gap-3 lg:gap-4 mr-4">
+              <LoyaltyStatus compact />
+            </div>
             <nav className="flex gap-4 lg:gap-6 xl:gap-8">
               {links.slice(0, 5).map((link) => (
                 <motion.div
@@ -143,7 +150,7 @@ export default function Navbar() {
                 alt="Tama Logo"
                 width={150}
                 height={150}
-                className="w-[80px] h-[80px] lg:w-[100px] lg:h-[100px]"
+                className="w-20 h-20 lg:w-[100px] lg:h-[100px]"
               />
             </Link>
           </div>
@@ -238,15 +245,19 @@ export default function Navbar() {
             <div className="flex items-center justify-between p-4 border-b border-zinc-100">
               <div
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="flex items-center space-x-3 cursor-pointer"
+                className="flex items-center cursor-pointer"
               >
                 <Image
                   src={mounted && theme === "dark" ? "/tama-light.svg" : "/tama.svg"}
                   alt="Tama Logo"
                   width={50}
                   height={50}
-                  className="w-12 h-12"
+                  className="w-[70px] h-10"
                 />
+              </div>
+              <div className="mt-2 ml-10">
+
+              <LoyaltyStatus compact />
               </div>
               <Button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}

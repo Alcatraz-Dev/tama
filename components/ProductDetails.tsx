@@ -28,6 +28,9 @@ import { FiFacebook, FiTwitter, FiInstagram, FiLinkedin } from "react-icons/fi";
 import { ProductDetailsSkeleton } from "./ui/skeleton";
 import { Product, Review } from "@/lib/types";
 import { useTranslation } from "@/lib/translationContext";
+import RecentlyViewed from "./RecentlyViewed";
+import { useRecentlyViewed } from "@/lib/useRecentlyViewed";
+import { useLoyalty } from "@/lib/useLoyalty";
 
 const tunisianTowns = [
   "Tunis",
@@ -80,6 +83,8 @@ export function ProductDetails({ product }: { product: Product }) {
   const [town, setTown] = useState("");
   const { addToCart } = useCartStore();
   const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlistStore();
+  const { addToRecentlyViewed } = useRecentlyViewed();
+  const { addPurchasePoints } = useLoyalty();
   const { t, language } = useTranslation();
 
   const getTranslatedField = (obj: any, field: string) => {
@@ -140,6 +145,18 @@ export function ProductDetails({ product }: { product: Product }) {
 
     loadAdditionalData();
   }, [product._id, product.category?._id]);
+
+  // Add product to recently viewed - separate effect to avoid infinite loops
+  useEffect(() => {
+    addToRecentlyViewed({
+      _id: product._id,
+      slug: product.slug,
+      title: product.title,
+      images: product.gallery,
+      price: product.price,
+      salePrice: product.originalPrice && product.originalPrice > product.price ? product.price : undefined,
+    });
+  }, [product._id, addToRecentlyViewed]); // Only depend on product._id to avoid infinite loops
 
   const getVideoUrl = (media: Product["gallery"][0]) => {
     if (!media?.asset?._ref) return null;
@@ -250,6 +267,12 @@ export function ProductDetails({ product }: { product: Product }) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newOrder),
+      });
+
+      // Award loyalty points
+      addPurchasePoints(product.price, newOrder.status);
+      toast.success(t("pointsEarnedGeneric") || "Loyalty points earned!", {
+        description: t("keepShopping") || "Keep shopping to earn more points!",
       });
 
       // Reset form
@@ -1127,6 +1150,9 @@ export function ProductDetails({ product }: { product: Product }) {
             </div>
           )}
         </section>
+
+        {/* Recently Viewed Products */}
+        <RecentlyViewed />
       </div>
     </>
   );
