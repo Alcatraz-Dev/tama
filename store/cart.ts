@@ -14,15 +14,18 @@ export type CartItem = {
 
 type CartState = {
   cartItems: CartItem[];
+  discount: number;
   addToCart: (item: CartItem) => void;
   removeFromCart: (id: string) => void;
   clearCart: () => void;
   increaseQuantity: (id: string) => void;
   decreaseQuantity: (id: string) => void;
+  setDiscount: (amount: number) => void;
 };
 
 export const useCartStore = create<CartState>((set) => ({
   cartItems: [],
+  discount: 0,
 
   addToCart: (item) =>
     set((state) => {
@@ -63,4 +66,6 @@ export const useCartStore = create<CartState>((set) => ({
           : i
       ),
     })),
+
+  setDiscount: (amount) => set({ discount: amount }),
 }));

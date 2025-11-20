@@ -242,7 +242,7 @@ export function ProductDetails({ product }: { product: Product }) {
     setIsSubmitting(true); // start submission
 
     try {
-      await client.create({
+      const createdOrder = await client.create({
         _type: "order",
         fullName,
         town,
@@ -299,7 +299,7 @@ export function ProductDetails({ product }: { product: Product }) {
       });
 
       // Award loyalty points
-      addPurchasePoints(product.price, newOrder.status);
+      addPurchasePoints(product.price, createdOrder._id);
       toast.success(t("pointsEarnedGeneric") || "Loyalty points earned!", {
         description: t("keepShopping") || "Keep shopping to earn more points!",
       });

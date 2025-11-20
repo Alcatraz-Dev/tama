@@ -44,12 +44,12 @@ export async function POST(req: NextRequest) {
     ">
       <!-- Product Image -->
       <div style="flex-shrink: 0; width: 80px; height: 80px; margin-right: 15px;">
-        <img src="${item.product.image?.[0] || ""}" alt="${item.product.title}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;" />
+        <img src="${item.product.image?.[0] || ""}" alt="${item.product.title || 'Product'}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;" />
       </div>
 
       <!-- Product Info -->
       <div style="flex: 1;">
-        <strong style="font-size: 16px; color: #111827;">${item.product.title}</strong>
+        <strong style="font-size: 16px; color: #111827;">${item.product.title || 'Product'}</strong>
         <p style="margin: 5px 0; color: #6b7280; display: flex; align-items: center; gap: 5px;">
           ${
             item.selectedColor
@@ -73,8 +73,8 @@ export async function POST(req: NextRequest) {
 
       <!-- Price Info -->
       <div style="text-align: right;">
-        <p style="margin: 0; font-weight: bold;">${item.quantity} x ${item.product.price} DT</p>
-        <p style="margin: 0; font-weight: bold;">Subtotal: ${(item.product.price * item.quantity).toFixed(2)} DT</p>
+        <p style="margin: 0; font-weight: bold;">${item.quantity} x ${(item.product.price || 0).toFixed(2)} DT</p>
+        <p style="margin: 0; font-weight: bold;">Subtotal: ${((item.product.price || 0) * item.quantity).toFixed(2)} DT</p>
       </div>
     </div>
   `

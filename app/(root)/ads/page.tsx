@@ -20,6 +20,9 @@ import {
 import { Button } from "@/components/ui/button";
 import AnimatedBanner from "@/components/AnimatedBanner";
 import CountdownTimer from "@/components/CountdownTimer";
+import { useLoyaltyStore } from "@/store/loyalty";
+import { useCartStore } from "@/store/cart";
+import { toast } from "sonner";
 
 interface Ad {
   _id: string;
@@ -55,6 +58,8 @@ function Ads() {
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [viewMode, setViewMode] = useState<"slider" | "grid">("slider");
   const { t, language } = useTranslation();
+  const { points, deductPoints } = useLoyaltyStore();
+  const { setDiscount, cartItems } = useCartStore();
 
   useEffect(() => {
     const fetchAds = async () => {
@@ -130,7 +135,7 @@ function Ads() {
   return (
     <div
       className="min-h-screen bg-background"
-      // dir={language === "ar" ? "rtl" : "ltr"}
+      dir={language === "ar" ? "rtl" : "ltr"}
     >
       {/* Hero Section */}
       <section className="relative py-5 px-6 bg-gradient-to-br from-zinc-50 to-zinc-100 dark:from-zinc-900 dark:to-zinc-800">
@@ -175,6 +180,62 @@ function Ads() {
               >
                 {t("gridView") || "Grid View"}
               </Button>
+            </div>
+
+            {/* Loyalty Points Redemption */}
+            <div className="mt-8 bg-white dark:bg-zinc-800 rounded-2xl p-6 shadow-lg max-w-4xl mx-auto">
+              <div className="text-center">
+                <h3 className="text-lg font-bold text-black dark:text-white mb-2">
+                  {t('redeemLoyaltyPoints')}
+                </h3>
+                <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-4">
+                  {t('usePointsForDiscounts')}
+                </p>
+                <div className="flex items-center justify-center gap-2 mb-4">
+                  <span className="text-2xl font-bold text-black dark:text-white">
+                    {points}
+                  </span>
+                  <span className="text-sm text-zinc-500 dark:text-zinc-400">
+                    {t('pointsAvailable')}
+                  </span>
+                </div>
+                <div className="space-y-3">
+                  <Button
+                    onClick={() => {
+                      if (deductPoints(100, "10 DT discount")) {
+                        setDiscount(10);
+                        toast.success(t('redeemed100Points'));
+                      } else {
+                        toast.error(t('notEnoughPoints'));
+                      }
+                    }}
+                    className="w-full max-w-xs"
+                    disabled={points < 100 || cartItems.length === 0}
+                  >
+                    {t('redeem100Points')}
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      if (deductPoints(200, "25 DT discount")) {
+                        setDiscount(25);
+                        toast.success(t('redeemed200Points'));
+                      } else {
+                        toast.error(t('notEnoughPoints'));
+                      }
+                    }}
+                    variant="outline"
+                     className="w-full max-w-xs"
+                    disabled={points < 200 || cartItems.length === 0}
+                  >
+                    {t('redeem200Points')}
+                  </Button>
+                  {cartItems.length === 0 && (
+                    <p className="text-xs text-gray-500 text-center">
+                      {t('addItemsToRedeem')}
+                    </p>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
         </div>

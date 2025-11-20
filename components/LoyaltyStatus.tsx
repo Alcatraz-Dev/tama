@@ -3,7 +3,7 @@ import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Star, Trophy, Gift, TrendingUp } from 'lucide-react';
-import { useLoyalty } from '@/lib/useLoyalty';
+import { useLoyaltyStore } from '@/store/loyalty';
 import { useTranslation } from '@/lib/translationContext';
 
 interface LoyaltyStatusProps {
@@ -11,7 +11,10 @@ interface LoyaltyStatusProps {
 }
 
 export default function LoyaltyStatus({ compact = false }: LoyaltyStatusProps) {
-  const { points, tier, nextTierThreshold, pointsToNextTier, transactions } = useLoyalty();
+  const { points, transactions, getTier, getNextTierThreshold, getPointsToNextTier } = useLoyaltyStore();
+  const tier = getTier(points);
+  const nextTierThreshold = getNextTierThreshold(points);
+  const pointsToNextTier = getPointsToNextTier(points);
   const { t } = useTranslation();
 
   const getTierColor = (tierKey: string) => {

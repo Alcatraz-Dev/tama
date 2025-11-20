@@ -497,7 +497,16 @@ export type TranslationKey =
   | 'no_returns_on_sale'
   | 'free_returns_exchanges'
   | 'store_credit_only'
-  | 'no_returns';
+  | 'no_returns'
+  | 'redeemLoyaltyPoints'
+  | 'usePointsForDiscounts'
+  | 'pointsAvailable'
+  | 'redeem100Points'
+  | 'redeem200Points'
+  | 'addItemsToRedeem'
+  | 'redeemed100Points'
+  | 'redeemed200Points'
+  | 'notEnoughPoints';
 
 export const translations = {
   en: {
@@ -971,8 +980,16 @@ export const translations = {
     support: "Support",
     explore: "Explore",
     totalItems: "Total items:",
-    validItems: "Valid:"
-
+    validItems: "Valid:",
+    redeemLoyaltyPoints: "Redeem Loyalty Points",
+    usePointsForDiscounts: "Use your points for special discounts",
+    pointsAvailable: "points available",
+    redeem100Points: "Redeem 100 Points (10 DT off)",
+    redeem200Points: "Redeem 200 Points (25 DT off)",
+    addItemsToRedeem: "Add items to cart to redeem points",
+    redeemed100Points: "Redeemed 100 points for 10 DT discount!",
+    redeemed200Points: "Redeemed 200 points for 25 DT discount!",
+    notEnoughPoints: "Not enough points!"
   },
   fr: {
     home: 'Accueil',
@@ -1452,7 +1469,16 @@ export const translations = {
     support: 'Le soutien',
     explore: 'Explorer',
     totalItems: 'Articles totaux:',
-    validItems: 'Valides:'
+    validItems: 'Valides:',
+    redeemLoyaltyPoints: 'Échanger des points de fidélité',
+    usePointsForDiscounts: 'Utilisez vos points pour des remises spéciales',
+    pointsAvailable: 'points disponibles',
+    redeem100Points: 'Échanger 100 points (10 DT de réduction)',
+    redeem200Points: 'Échanger 200 points (25 DT de réduction)',
+    addItemsToRedeem: 'Ajouter des articles au panier pour échanger des points',
+    redeemed100Points: 'Échangé 100 points pour une réduction de 10 DT !',
+    redeemed200Points: 'Échangé 200 points pour une réduction de 25 DT !',
+    notEnoughPoints: 'Pas assez de points !'
   },
   ar: {
     home: 'الرئيسية',
@@ -1931,7 +1957,16 @@ export const translations = {
     support: 'الدعم',
     explore: 'يستكشف',
     totalItems: 'إجمالي العناصر:',
-    validItems: 'صالح:'
+    validItems: 'صالح:',
+    redeemLoyaltyPoints: 'استبدال نقاط الولاء',
+    usePointsForDiscounts: 'استخدم نقاطك للحصول على خصومات خاصة',
+    pointsAvailable: 'نقاط متاحة',
+    redeem100Points: 'استبدال 100 نقطة (خصم 10 دينار تونسي)',
+    redeem200Points: 'استبدال 200 نقطة (خصم 25 دينار تونسي)',
+    addItemsToRedeem: 'أضف عناصر إلى السلة لاستبدال النقاط',
+    redeemed100Points: 'تم استبدال 100 نقطة بخصم 10 دينار تونسي!',
+    redeemed200Points: 'تم استبدال 200 نقطة بخصم 25 دينار تونسي!',
+    notEnoughPoints: 'لا توجد نقاط كافية!'
 
 
   },

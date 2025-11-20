@@ -8,6 +8,7 @@ import { client } from "@/sanity/lib/client";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "@/lib/translationContext";
+import { useLoyaltyStore } from "@/store/loyalty";
 
 const tunisianTownsEn = [
   "Tunis",
@@ -92,8 +93,10 @@ const tunisianTownsAr = [
 
 export default function CartPage() {
   const { t, language } = useTranslation();
+  const { addPurchasePoints } = useLoyaltyStore();
   const {
     cartItems,
+    discount,
     removeFromCart,
     increaseQuantity,
     decreaseQuantity,
@@ -123,7 +126,7 @@ export default function CartPage() {
     (sum, item) => sum + item.price * item.quantity,
     0
   );
-  const total = subtotal + shippingFee;
+  const total = Math.max(0, subtotal + shippingFee - discount);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -153,7 +156,7 @@ export default function CartPage() {
     setIsSubmitting(true);
 
     try {
-      await client.create({
+      const orderDoc = await client.create({
         _type: "order",
         fullName,
         town,
@@ -175,22 +178,30 @@ export default function CartPage() {
       toast(t("orderSubmittedSuccessfully"), {
         description: t("orderReceivedMessage"),
       });
+
+      // Add loyalty points
+      addPurchasePoints(total, orderDoc._id);
+      toast("🎉 Loyalty points added!", {
+        description: "Thank you for your purchase!",
+      });
       const newOrder = {
         fullName,
         town,
         location,
         phone,
         items: cartItems.map((item) => ({
-          _key: crypto.randomUUID(), // <--- Add this
-          product: { _type: "reference", _ref: item._id },
-          quantity: item.quantity,
+          product: {
+            title: item.title,
+            price: item.price,
+            image: item.gallery?.map(g => g.asset?.url) || [],
+          },
           selectedColor: item.color,
           selectedSize: item.size,
+          quantity: item.quantity,
         })),
         subtotal,
         shippingFee,
         total,
-        status: "pending",
       };
 
       // Send email to admin
@@ -270,7 +281,7 @@ export default function CartPage() {
 
                 <div className="flex flex-col items-end">
                   <p className="text-sm sm:text-base lg:text-lg font-extrabold text-black dark:text-white">
-                    {item.price.toFixed(2)} {t('currency')}
+                    {(item.price * item.quantity).toFixed(2)} {t('currency')}
                   </p>
                 </div>
               </div>
@@ -297,7 +308,7 @@ export default function CartPage() {
             {/* Subtotal + remove */}
             <div className="flex sm:flex-col sm:items-end justify-between sm:justify-start gap-2 sm:gap-3 mt-3 sm:mt-0">
               <p className="text-sm sm:text-md font-semibold">
-                {(item.price * item.quantity).toFixed(2)} DT
+                {(item.price * item.quantity).toFixed(2)} {t('currency')}
               </p>
               <button
                 onClick={() => removeFromCart(item._id)}
@@ -319,6 +330,11 @@ export default function CartPage() {
               {t('subtotal')}: {subtotal.toFixed(2)} {t('currency')}
             </p>
             <p className="text-sm text-gray-600 dark:text-gray-400">{t('shipping')}: {shippingFee} {t('currency')}</p>
+            {discount > 0 && (
+              <p className="text-sm text-green-600 dark:text-green-400">
+                Discount: -{discount.toFixed(2)} {t('currency')}
+              </p>
+            )}
             <p className="text-xl font-bold text-black dark:text-white">{t('total')}: {total.toFixed(2)} {t('currency')}</p>
           </div>
 
