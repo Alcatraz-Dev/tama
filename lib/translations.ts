@@ -989,7 +989,8 @@ export const translations = {
     addItemsToRedeem: "Add items to cart to redeem points",
     redeemed100Points: "Redeemed 100 points for 10 DT discount!",
     redeemed200Points: "Redeemed 200 points for 25 DT discount!",
-    notEnoughPoints: "Not enough points!"
+    notEnoughPoints: "Not enough points!",
+    pointsToGo: 'to achieve',
   },
   fr: {
     home: 'Accueil',

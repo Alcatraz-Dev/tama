@@ -24,7 +24,7 @@ export default function LoyaltyPage() {
 
       {/* Content Section */}
       <section className="py-16 px-6 max-w-7xl mx-auto">
-        <div className="bg-card rounded-3xl p-6 sm:p-8 lg:p-12 shadow-lg">
+        <div className="bg-card rounded-3xl p-3 sm:p-8 lg:p-12 shadow-lg">
           {/* Loyalty Status Component */}
           <div className="mb-8 sm:mb-12">
             <LoyaltyStatus />

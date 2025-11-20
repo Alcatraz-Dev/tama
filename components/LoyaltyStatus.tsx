@@ -62,13 +62,13 @@ export default function LoyaltyStatus({ compact = false }: LoyaltyStatusProps) {
 
   // Full version for dedicated pages
   return (
-    <div className="bg-card rounded-2xl p-6 shadow-lg">
+    <div className="bg-card rounded-2xl p-3 shadow-lg">
       <div className="flex items-center justify-between mb-6">
-        <h3 className="text-lg font-bold text-black dark:text-white flex items-center gap-2">
-          <Gift className="w-5 h-5" />
+        <h3 className="text-sm sm:text-lg font-bold text-black dark:text-white flex items-center gap-2">
+          <Gift className="w-4 h-4 sm:w-5 sm:h-5" />
           {t('loyaltyProgram') || 'Loyalty Program'}
         </h3>
-        <div className={`flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium ${getTierColor(tier)} bg-opacity-10`}>
+        <div className={`flex items-center gap-2 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium ${getTierColor(tier)} bg-opacity-10`}>
           {getTierIcon(tier)}
           {getTranslatedTierName(tier)}
         </div>
@@ -78,20 +78,20 @@ export default function LoyaltyStatus({ compact = false }: LoyaltyStatusProps) {
       <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl p-4 mb-6">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
+            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
               {t('totalPoints') || 'Total Points'}
             </p>
-            <p className="text-2xl font-bold text-black dark:text-white">
+            <p className="text-xl sm:text-2xl font-bold text-black dark:text-white">
               {points.toLocaleString()}
             </p>
           </div>
           <div className="text-right">
-            <p className="text-sm text-gray-600 dark:text-gray-400">
+            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
               {t('points') || 'Points'}
             </p>
             <div className="flex items-center gap-1 text-green-600 dark:text-green-400">
-              <TrendingUp className="w-4 h-4" />
-              <span className="text-sm font-medium">{t('pointsPerDT') || '+1 per DT'}</span>
+              <TrendingUp className="w-3 h-3 sm:w-4 sm:h-4" />
+              <span className="text-xs sm:text-sm font-medium">{t('pointsPerDT') || '+1 per DT'}</span>
             </div>
           </div>
         </div>
@@ -99,7 +99,7 @@ export default function LoyaltyStatus({ compact = false }: LoyaltyStatusProps) {
         {/* Progress to next tier */}
         {nextTierThreshold && (
           <div className="mt-4">
-            <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400 mb-2">
+            <div className="flex justify-between text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-2">
               <span>{t('nextTier') || 'Next Tier'}</span>
               <span>{pointsToNextTier} {t('points') || 'points'} {t('pointsToGo') || 'to go'}</span>
             </div>
@@ -118,7 +118,7 @@ export default function LoyaltyStatus({ compact = false }: LoyaltyStatusProps) {
       {/* Recent Transactions */}
       {transactions.length > 0 && (
         <div>
-          <h4 className="text-md font-semibold text-black dark:text-white mb-3">
+          <h4 className="text-sm sm:text-md font-semibold text-black dark:text-white mb-3">
             {t('recentActivity') || 'Recent Activity'}
           </h4>
           <div className="space-y-3 max-h-48 overflow-y-auto">
@@ -130,7 +130,7 @@ export default function LoyaltyStatus({ compact = false }: LoyaltyStatusProps) {
                 className="flex items-center justify-between py-2 border-b border-gray-100 dark:border-gray-700 last:border-b-0"
               >
                 <div className="flex-1">
-                  <p className="text-sm font-medium text-black dark:text-white">
+                  <p className="text-xs sm:text-sm font-medium text-black dark:text-white">
                     {transaction.description}
                   </p>
                   <p className="text-xs text-gray-500 dark:text-gray-400">
@@ -138,7 +138,7 @@ export default function LoyaltyStatus({ compact = false }: LoyaltyStatusProps) {
                   </p>
                 </div>
                 <div className="text-right">
-                  <span className={`text-sm font-bold ${
+                  <span className={`text-xs sm:text-sm font-bold ${
                     transaction.points > 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
                   }`}>
                     +{transaction.points}
@@ -152,9 +152,9 @@ export default function LoyaltyStatus({ compact = false }: LoyaltyStatusProps) {
 
       {/* Empty state */}
       {transactions.length === 0 && (
-        <div className="text-center py-8">
-          <Gift className="w-12 h-12 text-gray-300 dark:text-gray-600 mx-auto mb-3" />
-          <p className="text-gray-600 dark:text-gray-400 text-sm">
+        <div className="text-center py-6 sm:py-8">
+          <Gift className="w-10 h-10 sm:w-12 sm:h-12 text-gray-300 dark:text-gray-600 mx-auto mb-3" />
+          <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm">
             {t('startEarningPoints') || 'Start shopping to earn loyalty points!'}
           </p>
         </div>
