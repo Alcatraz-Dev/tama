@@ -8,6 +8,7 @@ import { useCartStore } from "@/store/cart";
 import { useWishlistStore } from "@/store/wishlist";
 import { toast } from "sonner";
 import { useTranslation } from "@/lib/translationContext";
+import { useRecentlyViewedStore } from "@/store/recentlyViewed";
 
 interface ProductCardProps {
   product: Product;
@@ -44,8 +45,37 @@ export default function ProductCard({
   const firstImage = product.gallery?.[0]?.asset?.url;
   const secondImage = product.gallery?.[1]?.asset?.url;
   const { addToCart } = useCartStore();
-  const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlistStore();
+  const { addToWishlist, removeFromWishlist, isInWishlist } =
+    useWishlistStore();
+  const { addToRecentlyViewed } = useRecentlyViewedStore();
   const { t, language } = useTranslation();
+
+  const handleCardClick = () => {
+    // Add to recently viewed and navigate
+    const slug = typeof product.slug === "string" ? { current: product.slug } : product.slug;
+    addToRecentlyViewed({
+      _id: product._id,
+      slug: slug,
+      title: product.title,
+      gallery: product.gallery,
+      price: product.price,
+      originalPrice: product.originalPrice,
+      description: product.description,
+      inStock: product.inStock,
+      colors: product.colors,
+      sizes: product.sizes,
+      materials: product.materials,
+      careInstructions: product.careInstructions,
+      productDetails: product.productDetails,
+      category: product.category,
+      collection: product.collection,
+      onSale: product.onSale,
+      _createdAt: product._createdAt,
+      popularity: product.popularity,
+      reviews: product.reviews,
+    });
+    window.location.href = `/product/${slug.current}`;
+  };
 
   useEffect(() => {
     setMounted(true);
@@ -72,17 +102,19 @@ export default function ProductCard({
       return;
     }
 
-    const colorToUse = selectedColor || (
-      product.colors && product.colors.length > 0
+    const colorToUse =
+      selectedColor ||
+      (product.colors && product.colors.length > 0
         ? typeof product.colors[0] === "string"
           ? product.colors[0]
           : product.colors[0].hex || product.colors[0].value || ""
-        : undefined
-    );
+        : undefined);
 
-    const sizeToUse = selectedSize || (
-      product.sizes && product.sizes.length > 0 ? product.sizes[0] : undefined
-    );
+    const sizeToUse =
+      selectedSize ||
+      (product.sizes && product.sizes.length > 0
+        ? product.sizes[0]
+        : undefined);
 
     addToCart({
       _id: product._id,
@@ -134,9 +166,7 @@ export default function ProductCard({
               fill
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
               className={`object-cover transition-all duration-500 ${
-                secondImage
-                  ? "group-hover:opacity-0"
-                  : ""
+                secondImage ? "group-hover:opacity-0" : ""
               }`}
             />
             {secondImage && (
@@ -153,7 +183,6 @@ export default function ProductCard({
           </>
         )}
 
-
         {/* Wishlist button */}
         {mounted ? (
           <button
@@ -163,7 +192,11 @@ export default function ProductCard({
                 ? "bg-red-50 dark:bg-red-900/20 opacity-100"
                 : "bg-white/20 dark:bg-zinc-700/50 opacity-0 group-hover:opacity-100 hover:bg-white/30 dark:hover:bg-zinc-600/50"
             }`}
-            aria-label={isInWishlist(product._id) ? "Remove from wishlist" : "Add to wishlist"}
+            aria-label={
+              isInWishlist(product._id)
+                ? "Remove from wishlist"
+                : "Add to wishlist"
+            }
           >
             <svg
               className={`w-4 h-4 font-semibold transition-colors ${
@@ -209,18 +242,30 @@ export default function ProductCard({
       <div className="mt-4 mb-4 mx-4 sm:mx-5 flex flex-col items-center rounded-b-3xl text-black dark:text-white font-semibold drop-shadow-2xl z-10 relative">
         {/* Stock Status - Top Right */}
         <div className="absolute top-0 right-0">
-          <div className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-xs font-semibold ${
-            product.inStock
-              ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300'
-              : 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300'
-          }`}>
-            <div className={`w-1.5 h-1.5 rounded-full ${product.inStock ? 'bg-green-500' : 'bg-red-500'}`}></div>
-            <span className="text-[10px]">{product.inStock ? t('inStock') : t('outOfStock')}</span>
+          <div
+            className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-xs font-semibold ${
+              product.inStock
+                ? "bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300"
+                : "bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300"
+            }`}
+          >
+            <div
+              className={`w-1.5 h-1.5 rounded-full ${product.inStock ? "bg-green-500" : "bg-red-500"}`}
+            ></div>
+            <span className="text-[10px]">
+              {product.inStock ? t("inStock") : t("outOfStock")}
+            </span>
           </div>
         </div>
 
         <h3 className="text-sm sm:text-base lg:text-lg font-semibold line-clamp-2 text-center max-w-[90%] mt-8 mb-2 leading-tight">
-          {highlightText(language === 'en' ? product.title : (product[`title_${language}` as keyof Product] as string) || product.title, searchQuery)}
+          {highlightText(
+            language === "en"
+              ? product.title
+              : (product[`title_${language}` as keyof Product] as string) ||
+                  product.title,
+            searchQuery
+          )}
         </h3>
 
         {/* Reviews */}
@@ -230,7 +275,7 @@ export default function ProductCard({
               {[...Array(5)].map((_, i) => (
                 <svg
                   key={i}
-                  className={`w-3 h-3 ${i < Math.floor(product.reviews!.averageRating) ? 'text-yellow-400 fill-current' : 'text-gray-300'}`}
+                  className={`w-3 h-3 ${i < Math.floor(product.reviews!.averageRating) ? "text-yellow-400 fill-current" : "text-gray-300"}`}
                   viewBox="0 0 20 20"
                 >
                   <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
@@ -243,18 +288,36 @@ export default function ProductCard({
           </div>
         )}
 
-        {(language === 'en' ? product.description : (product[`description_${language}` as keyof Product] as string) || product.description) && (language === 'en' ? product.description : (product[`description_${language}` as keyof Product] as string) || product.description)?.trim() && (
-          <p className="text-black dark:text-zinc-300 font-semibold text-xs sm:text-sm my-1 line-clamp-2 text-center leading-relaxed">
-            {highlightText(language === 'en' ? product.description : (product[`description_${language}` as keyof Product] as string) || product.description, searchQuery)}
-          </p>
-        )}
+        {(language === "en"
+          ? product.description
+          : (product[`description_${language}` as keyof Product] as string) ||
+            product.description) &&
+          (language === "en"
+            ? product.description
+            : (product[`description_${language}` as keyof Product] as string) ||
+              product.description
+          )?.trim() && (
+            <p className="text-black dark:text-zinc-300 font-semibold text-xs sm:text-sm my-1 line-clamp-2 text-center leading-relaxed">
+              {highlightText(
+                language === "en"
+                  ? product.description
+                  : (product[
+                      `description_${language}` as keyof Product
+                    ] as string) || product.description,
+                searchQuery
+              )}
+            </p>
+          )}
 
         {/* Variants - inline with content */}
-        {(product.colors && product.colors.length > 0) || (product.sizes && product.sizes.length > 0) ? (
+        {(product.colors && product.colors.length > 0) ||
+        (product.sizes && product.sizes.length > 0) ? (
           <div className="mt-1.5 space-y-1.5">
             {product.colors && product.colors.length > 0 && (
               <div className="flex items-center justify-start gap-2 bg-white dark:bg-zinc-800 rounded-lg py-1.5 px-2 border border-gray-300 dark:border-zinc-600">
-                <span className="text-[10px] font-semibold text-black dark:text-white tracking-wide">{t('color').toUpperCase()}</span>
+                <span className="text-[10px] font-semibold text-black dark:text-white tracking-wide">
+                  {t("color").toUpperCase()}
+                </span>
                 <div className="flex gap-1 flex-wrap">
                   {product.colors.slice(0, 4).map((color, i: number) => {
                     const bgColor =
@@ -288,7 +351,9 @@ export default function ProductCard({
 
             {product.sizes && product.sizes.length > 0 && (
               <div className="flex items-center justify-start gap-2 bg-white dark:bg-zinc-800 rounded-lg py-1.5 px-2 border border-gray-300 dark:border-zinc-600">
-                <span className="text-[10px] font-semibold text-black dark:text-white tracking-wide">{t('size').toUpperCase()}</span>
+                <span className="text-[10px] font-semibold text-black dark:text-white tracking-wide">
+                  {t("size").toUpperCase()}
+                </span>
                 <div className="flex gap-1 flex-wrap">
                   {product.sizes.map((size: string, i: number) => (
                     <button
@@ -313,15 +378,21 @@ export default function ProductCard({
         <div className="flex items-center justify-center gap-3 mt-2 px-2">
           <div className="flex items-center gap-2">
             <p className="text-lg sm:text-xl lg:text-2xl font-extrabold text-black dark:text-white">
-              {product.price} {t('currency')}
+              {product.price} {t("currency")}
             </p>
             {product.originalPrice && product.originalPrice > product.price && (
               <>
                 <span className="bg-red-500 text-white text-xs px-2 py-1 rounded-full font-bold">
-                  -{Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}%
+                  -
+                  {Math.round(
+                    ((product.originalPrice - product.price) /
+                      product.originalPrice) *
+                      100
+                  )}
+                  %
                 </span>
                 <p className="text-sm text-black dark:text-zinc-400 font-semibold line-through">
-                  {product.originalPrice} {t('currency')}
+                  {product.originalPrice} {t("currency")}
                 </p>
               </>
             )}
@@ -339,19 +410,19 @@ export default function ProductCard({
             onClick={handleAdd}
             disabled={isQuickAddDisabled}
           >
-            {t('quickAdd')}
+            {t("quickAdd")}
           </button>
           <button
             className="flex-1 border border-fashion-gold text-black dark:text-white py-2 px-3 rounded-lg text-xs font-medium transition-all cursor-pointer hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black active:scale-95"
-            onClick={() =>
-              (window.location.href = `/product/${typeof product.slug === "string" ? product.slug : product.slug?.current}`)
-            }
+            onClick={(e) => {
+              e.stopPropagation();
+              handleCardClick();
+            }}
           >
-            {t('viewDetails')}
+            {t("viewDetails")}
           </button>
         </div>
       </div>
     </motion.div>
   );
 }
-

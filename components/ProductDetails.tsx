@@ -28,8 +28,7 @@ import { FiFacebook, FiTwitter, FiInstagram, FiLinkedin } from "react-icons/fi";
 import { ProductDetailsSkeleton } from "./ui/skeleton";
 import { Product, Review } from "@/lib/types";
 import { useTranslation } from "@/lib/translationContext";
-import RecentlyViewed from "./RecentlyViewed";
-import { useRecentlyViewed } from "@/lib/useRecentlyViewed";
+import { useRecentlyViewedStore } from "@/store/recentlyViewed";
 import { useLoyalty } from "@/lib/useLoyalty";
 
 const tunisianTowns = [
@@ -82,8 +81,9 @@ export function ProductDetails({ product }: { product: Product }) {
   const [phone, setPhone] = useState("");
   const [town, setTown] = useState("");
   const { addToCart } = useCartStore();
-  const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlistStore();
-  const { addToRecentlyViewed } = useRecentlyViewed();
+  const { addToWishlist, removeFromWishlist, isInWishlist } =
+    useWishlistStore();
+  const { addToRecentlyViewed } = useRecentlyViewedStore();
   const { addPurchasePoints } = useLoyalty();
   const { t, language } = useTranslation();
 
@@ -93,24 +93,33 @@ export function ProductDetails({ product }: { product: Product }) {
   };
 
   const translateMaterial = (material: string) => {
-    const materialKey = material.toLowerCase().replace(/\s+/g, '_');
+    const materialKey = material.toLowerCase().replace(/\s+/g, "_");
     return t(materialKey as any) || material;
   };
 
   const translateCareInstruction = (instruction: string) => {
-    const instructionKey = instruction.toLowerCase().replace(/\s+/g, '_').replace(/[^\w_]/g, '');
+    const instructionKey = instruction
+      .toLowerCase()
+      .replace(/\s+/g, "_")
+      .replace(/[^\w_]/g, "");
     return t(instructionKey as any) || instruction;
   };
 
   const translateShippingInfo = (info: string) => {
     // Map specific shipping info text to translation keys
     const shippingMap: Record<string, string> = {
-      'Free shipping on orders over 100 DT. Standard delivery within 3-5 business days.': 'free_shipping_over_100',
-      'Express shipping available for 15 DT. Standard delivery within 3-5 business days.': 'express_shipping_15',
-      'International shipping available. Delivery time 7-14 business days depending on location.': 'international_shipping',
-      'Local pickup available at our store. Free shipping on orders over 50 DT.': 'local_pickup',
-      'Same day delivery available in Tunis for orders placed before 2 PM.': 'same_day_delivery_tunis',
-      'Premium shipping available for 25 DT. Guaranteed delivery within 2 business days.': 'premium_shipping_25'
+      "Free shipping on orders over 100 DT. Standard delivery within 3-5 business days.":
+        "free_shipping_over_100",
+      "Express shipping available for 15 DT. Standard delivery within 3-5 business days.":
+        "express_shipping_15",
+      "International shipping available. Delivery time 7-14 business days depending on location.":
+        "international_shipping",
+      "Local pickup available at our store. Free shipping on orders over 50 DT.":
+        "local_pickup",
+      "Same day delivery available in Tunis for orders placed before 2 PM.":
+        "same_day_delivery_tunis",
+      "Premium shipping available for 25 DT. Guaranteed delivery within 2 business days.":
+        "premium_shipping_25",
     };
     return shippingMap[info] ? t(shippingMap[info] as any) : info;
   };
@@ -118,13 +127,19 @@ export function ProductDetails({ product }: { product: Product }) {
   const translateReturnPolicy = (policy: string) => {
     // Map specific return policy text to translation keys
     const policyMap: Record<string, string> = {
-      '30-day return policy. Items must be unused and in original packaging.': 'return_policy_30_days',
-      '14-day return policy. Items must be unused and in original packaging.': 'return_policy_14_days',
-      '7-day return policy. Items must be unused and in original packaging.': 'return_policy_7_days',
-      'No returns on sale items. Final sale items are not eligible for return.': 'no_returns_on_sale',
-      'Free returns and exchanges within 30 days. Items must be unused and in original packaging.': 'free_returns_exchanges',
-      'Store credit only. Returns accepted within 30 days for store credit only. Items must be unused and in original packaging.': 'store_credit_only',
-      'No returns accepted on this item. All sales are final.': 'no_returns'
+      "30-day return policy. Items must be unused and in original packaging.":
+        "return_policy_30_days",
+      "14-day return policy. Items must be unused and in original packaging.":
+        "return_policy_14_days",
+      "7-day return policy. Items must be unused and in original packaging.":
+        "return_policy_7_days",
+      "No returns on sale items. Final sale items are not eligible for return.":
+        "no_returns_on_sale",
+      "Free returns and exchanges within 30 days. Items must be unused and in original packaging.":
+        "free_returns_exchanges",
+      "Store credit only. Returns accepted within 30 days for store credit only. Items must be unused and in original packaging.":
+        "store_credit_only",
+      "No returns accepted on this item. All sales are final.": "no_returns",
     };
     return policyMap[policy] ? t(policyMap[policy] as any) : policy;
   };
@@ -148,13 +163,27 @@ export function ProductDetails({ product }: { product: Product }) {
 
   // Add product to recently viewed - separate effect to avoid infinite loops
   useEffect(() => {
+    const slug = typeof product.slug === "string" ? { current: product.slug } : product.slug;
     addToRecentlyViewed({
       _id: product._id,
-      slug: product.slug,
+      slug: slug,
       title: product.title,
-      images: product.gallery,
+      gallery: product.gallery,
       price: product.price,
-      salePrice: product.originalPrice && product.originalPrice > product.price ? product.price : undefined,
+      originalPrice: product.originalPrice,
+      description: product.description,
+      inStock: product.inStock,
+      colors: product.colors,
+      sizes: product.sizes,
+      materials: product.materials,
+      careInstructions: product.careInstructions,
+      productDetails: product.productDetails,
+      category: product.category,
+      collection: product.collection,
+      onSale: product.onSale,
+      _createdAt: product._createdAt,
+      popularity: product.popularity,
+      reviews: product.reviews,
     });
   }, [product._id, addToRecentlyViewed]); // Only depend on product._id to avoid infinite loops
 
@@ -597,7 +626,11 @@ export function ProductDetails({ product }: { product: Product }) {
                         ? "bg-red-50 dark:bg-red-900/20"
                         : "hover:bg-gray-100 dark:hover:bg-gray-700"
                     }`}
-                    aria-label={isInWishlist(product._id) ? "Remove from wishlist" : "Add to wishlist"}
+                    aria-label={
+                      isInWishlist(product._id)
+                        ? "Remove from wishlist"
+                        : "Add to wishlist"
+                    }
                   >
                     <Heart
                       className={`w-4 h-4 transition-colors ${
@@ -817,7 +850,9 @@ export function ProductDetails({ product }: { product: Product }) {
                         <ul className="list-disc list-inside text-gray-600 dark:text-gray-400 space-y-1">
                           {product.careInstructions.map(
                             (instruction: string, i: number) => (
-                              <li key={i}>{translateCareInstruction(instruction)}</li>
+                              <li key={i}>
+                                {translateCareInstruction(instruction)}
+                              </li>
                             )
                           )}
                         </ul>
@@ -835,12 +870,22 @@ export function ProductDetails({ product }: { product: Product }) {
                           {product.productDetails.map(
                             (detail: any, i: number) => {
                               // Handle both old format (object with label/value) and new format (string)
-                              if (typeof detail === 'string') {
+                              if (typeof detail === "string") {
                                 // Check if it's a translation key
-                                const translatedDetail = t(detail as any) || detail;
+                                const translatedDetail =
+                                  t(detail as any) || detail;
                                 return <li key={i}>{translatedDetail}</li>;
-                              } else if (detail && typeof detail === 'object' && detail.label && detail.value) {
-                                return <li key={i}>{detail.label}: {detail.value}</li>;
+                              } else if (
+                                detail &&
+                                typeof detail === "object" &&
+                                detail.label &&
+                                detail.value
+                              ) {
+                                return (
+                                  <li key={i}>
+                                    {detail.label}: {detail.value}
+                                  </li>
+                                );
                               }
                               return null;
                             }
@@ -858,7 +903,9 @@ export function ProductDetails({ product }: { product: Product }) {
                           {t("shippingInformation")}
                         </h4>
                         <p className="text-gray-600 dark:text-gray-400 text-xs mt-1">
-                          {product.shippingInfo ? translateShippingInfo(product.shippingInfo) : t("freeShippingInfo")}
+                          {product.shippingInfo
+                            ? translateShippingInfo(product.shippingInfo)
+                            : t("freeShippingInfo")}
                         </p>
                       </div>
                     </div>
@@ -869,7 +916,9 @@ export function ProductDetails({ product }: { product: Product }) {
                           {t("returnsExchanges")}
                         </h4>
                         <p className="text-gray-600 dark:text-gray-400 text-xs mt-1">
-                          {product.returnPolicy ? translateReturnPolicy(product.returnPolicy) : t("returnPolicy")}
+                          {product.returnPolicy
+                            ? translateReturnPolicy(product.returnPolicy)
+                            : t("returnPolicy")}
                         </p>
                       </div>
                     </div>
@@ -1150,9 +1199,6 @@ export function ProductDetails({ product }: { product: Product }) {
             </div>
           )}
         </section>
-
-        {/* Recently Viewed Products */}
-        <RecentlyViewed />
       </div>
     </>
   );

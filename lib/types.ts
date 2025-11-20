@@ -199,6 +199,57 @@ export interface CartItem {
   inStock: boolean;
 }
 
+export interface RecentlyViewedProduct {
+  _id: string;
+  slug: { current: string };
+  title: string;
+  gallery: Array<{
+    _key?: string;
+    _type: string;
+    asset: {
+      url: string;
+      _ref?: string;
+    };
+  }>;
+  price: number;
+  originalPrice?: number;
+  description: string;
+  inStock: boolean;
+  colors?: Array<string | {
+    name?: string;
+    hex?: string;
+    value?: string;
+  }>;
+  sizes?: string[];
+  materials?: string[];
+  careInstructions?: string[];
+  productDetails?: Array<{
+    label: string;
+    value: string;
+  }>;
+  category?: {
+    _id: string;
+    title: string;
+    slug: {
+      current: string;
+    };
+  };
+  collection?: {
+    _id: string;
+    title: string;
+    slug: {
+      current: string;
+    };
+  };
+  onSale?: boolean;
+  _createdAt?: string;
+  popularity?: string;
+  reviews?: {
+    count: number;
+    averageRating: number;
+  };
+}
+
 export interface FilterState {
   searchQuery: string;
   category: string;

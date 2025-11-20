@@ -17,6 +17,7 @@ import { useTranslation } from "@/lib/translationContext";
 
 const links = [
   { href: "/products", key: "products" },
+  { href: "/recently-viewed", key: "recentlyViewed" },
   { href: "/categories", key: "categories" },
   { href: "/collections", key: "collections" },
   { href: "/ads", key: "ads" },
@@ -103,7 +104,9 @@ export default function Navbar() {
           {/* Logo in center for all mobile screens */}
           <Link href="/" className="flex items-center">
             <Image
-              src={mounted && theme === "dark" ? "/tama-light.svg" : "/tama.svg"}
+              src={
+                mounted && theme === "dark" ? "/tama-light.svg" : "/tama.svg"
+              }
               alt="Tama Logo"
               width={150}
               height={150}
@@ -121,10 +124,10 @@ export default function Navbar() {
         <div className="hidden md:flex items-center">
           {/* Left Navigation - takes equal space */}
           <div className="flex-1 flex justify-start">
-            <div className="flex items-center gap-3 lg:gap-4 mr-4">
+            <div className="flex items-center gap-2 mr-2  ">
               <LoyaltyStatus compact />
             </div>
-            <nav className="flex gap-4 lg:gap-6 xl:gap-8">
+            <nav className="flex gap-4 lg:gap-6 xl:gap-4 mt-0.5">
               {links.slice(0, 5).map((link) => (
                 <motion.div
                   key={link.href}
@@ -146,7 +149,9 @@ export default function Navbar() {
           <div className="absolute left-1/2 transform -translate-x-1/2">
             <Link href="/" className="flex items-center">
               <Image
-                src={mounted && theme === "dark" ? "/tama-light.svg" : "/tama.svg"}
+                src={
+                  mounted && theme === "dark" ? "/tama-light.svg" : "/tama.svg"
+                }
                 alt="Tama Logo"
                 width={150}
                 height={150}
@@ -158,7 +163,7 @@ export default function Navbar() {
           {/* Right Navigation - takes equal space */}
           <div className="flex-1 flex justify-end">
             <div className="flex items-center gap-3 lg:gap-4">
-              <nav className="flex gap-4 lg:gap-6 xl:gap-8">
+              <nav className="flex gap-4 lg:gap-6 xl:gap-4  mt-0.5">
                 {links.slice(5).map((link) => (
                   <motion.div
                     key={link.href}
@@ -178,7 +183,10 @@ export default function Navbar() {
               <ThemeToggle />
               <LanguageSwitcher />
 
-              <Link href="/wishlist" className="relative bg-card p-2 rounded-lg">
+              <Link
+                href="/wishlist"
+                className="relative bg-card p-2 rounded-lg"
+              >
                 <Heart className="w-4 h-4 text-zinc-700 dark:text-zinc-300 hover:text-red-500 dark:hover:text-red-400" />
                 <AnimatePresence>
                   {wishlistItems.length > 0 && (
@@ -248,7 +256,11 @@ export default function Navbar() {
                 className="flex items-center cursor-pointer"
               >
                 <Image
-                  src={mounted && theme === "dark" ? "/tama-light.svg" : "/tama.svg"}
+                  src={
+                    mounted && theme === "dark"
+                      ? "/tama-light.svg"
+                      : "/tama.svg"
+                  }
                   alt="Tama Logo"
                   width={50}
                   height={50}
@@ -256,8 +268,7 @@ export default function Navbar() {
                 />
               </div>
               <div className="mt-2 ml-10">
-
-              <LoyaltyStatus compact />
+                <LoyaltyStatus compact />
               </div>
               <Button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -297,7 +308,7 @@ export default function Navbar() {
             {/* Footer */}
             <div className="p-6 border-t border-zinc-100 dark:border-zinc-700">
               <p className="text-sm text-zinc-500 dark:text-zinc-400 text-center">
-                {t('copyright', { year: new Date().getFullYear() })}
+                {t("copyright", { year: new Date().getFullYear() })}
               </p>
             </div>
           </motion.div>

@@ -4,6 +4,7 @@ import ProductGrid from "@/components/ProductGrid";
 import CollectionGrid from "@/components/CollectionGrid";
 import SubcategoryGrid from "@/components/Subcategory";
 import AdsSlider from "@/components/AdsSlider";
+import RecentlyViewed from "@/components/RecentlyViewed";
 
 export default async function HomePage() {
   return (
@@ -13,7 +14,7 @@ export default async function HomePage() {
       <ProductGrid />
       <AdsSlider />
       <CollectionGrid />
-
+      <RecentlyViewed />
     </>
   );
 }

@@ -18,6 +18,8 @@ export function Footer() {
       { name: 'products', href: "/products" },
       { name: 'categories', href: "/categories" },
       { name: 'collections', href: "/collections" },
+      { name: 'recentlyViewed', href: "/recently-viewed" },
+      { name: 'loyaltyProgram', href: "/loyalty" },
       { name: 'wishlist', href: "/wishlist" },
       { name: 'cart', href: "/cart" },
     ],
@@ -48,6 +50,18 @@ export function Footer() {
     fetchLinks();
   }, []);
 
+  if (!mounted) {
+    return (
+      <footer className="bg-card w-full max-w-7xl mx-auto px-6 py-12 rounded-3xl mb-6 shadow-luxury">
+        <div className="mx-auto space-y-10 px-4 sm:px-6 lg:space-y-16 lg:px-8">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-300 mx-auto"></div>
+          </div>
+        </div>
+      </footer>
+    );
+  }
+
   return (
     <footer className="bg-card w-full max-w-7xl mx-auto px-6 py-12 rounded-3xl mb-6 shadow-luxury" dir={language === "ar" ? "rtl" : "ltr"}>
       <div className="mx-auto  space-y-10 px-4 sm:px-6 lg:space-y-16 lg:px-8">
@@ -58,7 +72,7 @@ export function Footer() {
               href="/"
               className="flex items-center lg:justify-start justify-center mb-5"
             >
-              <Image src={mounted && theme === "dark" ? "/tama-light.svg" : "/tama.svg"} alt="Logo" width={130} height={130} />
+              <Image src={theme === "dark" ? "/tama-light.svg" : "/tama.svg"} alt="Logo" width={130} height={130} />
             </Link>
 
             <p className="mt-4 max-w-xs text-black/80 dark:text-gray-300 text-sm leading-relaxed font-semibold flex items-center lg:justify-start justify-center lg:text-start text-center">

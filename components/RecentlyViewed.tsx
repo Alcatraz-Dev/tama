@@ -3,35 +3,28 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { useRecentlyViewed } from '@/lib/useRecentlyViewed';
+import { useRecentlyViewedStore } from '@/store/recentlyViewed';
 import { useTranslation } from '@/lib/translationContext';
 import { urlFor } from '@/sanity/lib/image';
 
 export default function RecentlyViewed() {
-  const { recentlyViewed, removeFromRecentlyViewed, clearRecentlyViewed } = useRecentlyViewed();
+  const { recentlyViewedItems, removeFromRecentlyViewed, clearRecentlyViewed } = useRecentlyViewedStore();
   const { t, language } = useTranslation();
 
-  // Filter out invalid products and ensure we have valid data
-  const validProducts = recentlyViewed.filter(product =>
-    product &&
-    product._id &&
-    product.slug &&
-    product.slug.current &&
-    product.title
-  );
-
-  if (validProducts.length === 0) {
-    return null;
-  }
+  // Show only first 3 items with valid slug
+  const validProducts = recentlyViewedItems.filter(product => product.slug?.current).slice(0, 3);
 
   return (
     <section className="py-12" dir={language === "ar" ? "rtl" : "ltr"}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between mb-8">
-          <h2 className="text-2xl font-bold text-black dark:text-white">
-            {t('recentlyViewed') || 'Recently Viewed'}
-          </h2>
-          {recentlyViewed.length > 0 && (
+          <div>
+            <h2 className="text-2xl font-bold text-black dark:text-white">
+              {t('recentlyViewed') || 'Recently Viewed'}
+            </h2>
+            <p className="text-xs text-gray-500">Debug: {recentlyViewedItems.length} items stored</p>
+          </div>
+          {recentlyViewedItems.length > 0 && (
             <button
               onClick={clearRecentlyViewed}
               className="text-sm text-black/60 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors"
@@ -52,9 +45,9 @@ export default function RecentlyViewed() {
             >
               <Link href={`/product/${product.slug.current}`}>
                 <div className="aspect-square relative overflow-hidden rounded-xl bg-gray-100 dark:bg-gray-800 mb-3">
-                  {product.images && product.images[0] && (
+                  {product.gallery && product.gallery[0] && (
                     <Image
-                      src={urlFor(product.images[0]).width(300).height(300).url()}
+                      src={urlFor(product.gallery[0]).width(300).height(300).url()}
                       alt={product.title || 'Product'}
                       fill
                       className="object-cover group-hover:scale-105 transition-transform duration-300"
@@ -83,13 +76,13 @@ export default function RecentlyViewed() {
                   </h3>
                 </Link>
                 <div className="flex items-center gap-2">
-                  {product.salePrice ? (
+                  {product.originalPrice ? (
                     <>
                       <span className="text-sm font-semibold text-red-600 dark:text-red-400">
-                        {product.salePrice} DT
+                        {product.price} DT
                       </span>
                       <span className="text-xs text-gray-500 dark:text-gray-400 line-through">
-                        {product.price} DT
+                        {product.originalPrice} DT
                       </span>
                     </>
                   ) : (

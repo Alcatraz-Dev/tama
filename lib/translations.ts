@@ -119,6 +119,11 @@ export type TranslationKey =
   | 'startVoiceSearch'
   | 'recentSearches'
   | 'recentlyViewed'
+  | 'recentlyViewedDescription'
+  | 'noRecentlyViewed'
+  | 'startBrowsing'
+  | 'yourRecentlyViewed'
+  | 'discoverMoreProducts'
   | 'loyaltyProgram'
   | 'loyaltyDescription'
   | 'howToEarnPoints'
@@ -205,6 +210,8 @@ export type TranslationKey =
   | 'shop'
   | 'support'
   | 'explore'
+  | 'totalItems'
+  | 'validItems'
   | 'writeYourReview'
   | 'yourName'
   | 'enterYourName'
@@ -612,6 +619,11 @@ export const translations = {
     startVoiceSearch: 'Start Voice Search',
     recentSearches: 'Recent Searches',
     recentlyViewed: 'Recently Viewed',
+    recentlyViewedDescription: 'Your recently viewed products are saved here for easy access',
+    noRecentlyViewed: 'No Recently Viewed Products',
+    startBrowsing: 'Start browsing our products to see them here',
+    yourRecentlyViewed: 'Your Recently Viewed Products',
+    discoverMoreProducts: 'Discover more products in our collection',
     loyaltyProgram: 'Loyalty Program',
     loyaltyDescription: 'Earn points with every purchase and unlock exclusive rewards',
     howToEarnPoints: 'How to Earn Points',
@@ -957,7 +969,9 @@ export const translations = {
     no_returns: 'No returns accepted on this item. All sales are final.',
     shop: "Shop",
     support: "Support",
-    explore: "Explore"
+    explore: "Explore",
+    totalItems: "Total items:",
+    validItems: "Valid:"
 
   },
   fr: {
@@ -1079,6 +1093,11 @@ export const translations = {
     startVoiceSearch: 'Démarrer la recherche vocale',
     recentSearches: 'Recherches récentes',
     recentlyViewed: 'Récemment consultés',
+    recentlyViewedDescription: 'Vos produits récemment consultés sont sauvegardés ici pour un accès facile',
+    noRecentlyViewed: 'Aucun produit récemment consulté',
+    startBrowsing: 'Commencez à parcourir nos produits pour les voir ici',
+    yourRecentlyViewed: 'Vos produits récemment consultés',
+    discoverMoreProducts: 'Découvrez plus de produits dans notre collection',
     loyaltyProgram: 'Programme de Fidélité',
     loyaltyDescription: 'Gagnez des points avec chaque achat et débloquez des récompenses exclusives',
     howToEarnPoints: 'Comment gagner des points',
@@ -1431,7 +1450,9 @@ export const translations = {
     no_returns: 'Aucun retour accepté sur cet article. Toutes les ventes sont définitives.',
     shop: 'Boutique',
     support: 'Le soutien',
-    explore: 'Explorer'
+    explore: 'Explorer',
+    totalItems: 'Articles totaux:',
+    validItems: 'Valides:'
   },
   ar: {
     home: 'الرئيسية',
@@ -1552,6 +1573,11 @@ export const translations = {
     startVoiceSearch: 'بدء البحث الصوتي',
     recentSearches: 'عمليات البحث الأخيرة',
     recentlyViewed: 'المنتجات المُشاهدة مؤخراً',
+    recentlyViewedDescription: 'منتجاتك المُشاهدة مؤخراً محفوظة هنا للوصول السهل',
+    noRecentlyViewed: 'لا توجد منتجات مُشاهدة مؤخراً',
+    startBrowsing: 'ابدأ في تصفح منتجاتنا لرؤيتها هنا',
+    yourRecentlyViewed: 'منتجاتك المُشاهدة مؤخراً',
+    discoverMoreProducts: 'اكتشف المزيد من المنتجات في مجموعتنا',
     loyaltyProgram: 'برنامج الولاء',
     loyaltyDescription: 'اكسب نقاطاً مع كل شراء وافتح مكافآت حصرية',
     howToEarnPoints: 'كيف تكسب النقاط',
@@ -1903,7 +1929,9 @@ export const translations = {
     no_returns: 'لا توجد إرجاعات مقبولة على هذا العنصر. جميع المبيعات نهائية.',
     shop: 'متجر',
     support: 'الدعم',
-    explore: 'يستكشف'
+    explore: 'يستكشف',
+    totalItems: 'إجمالي العناصر:',
+    validItems: 'صالح:'
 
 
   },
