@@ -11,7 +11,7 @@ interface LoyaltyStatusProps {
 }
 
 export default function LoyaltyStatus({ compact = false }: LoyaltyStatusProps) {
-  const { points, tier } = useLoyalty();
+  const { points, tier, nextTierThreshold, pointsToNextTier, transactions } = useLoyalty();
   const { t } = useTranslation();
 
   const getTierColor = (tierKey: string) => {
@@ -58,8 +58,6 @@ export default function LoyaltyStatus({ compact = false }: LoyaltyStatusProps) {
   }
 
   // Full version for dedicated pages
-  const { nextTierThreshold, pointsToNextTier, transactions } = useLoyalty();
-
   return (
     <div className="bg-card rounded-2xl p-6 shadow-lg">
       <div className="flex items-center justify-between mb-6">
