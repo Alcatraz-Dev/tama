@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageCircle, X, Send } from 'lucide-react';
+import { MessageSquare, X, Send, Bot } from 'lucide-react';
 import { useTranslation } from '@/lib/translationContext';
 import Link from 'next/link';
 
@@ -121,7 +121,7 @@ export default function ChatWidget() {
         <Link
           key={match.index}
           href={linkUrl}
-          className="text-blue-600 hover:text-blue-800 underline"
+          className="text-zinc-700 dark:text-white hover:text-zinc-800 dark:hover:text-gray-200 underline"
           onClick={() => setIsOpen(false)} // Close chat when clicking link
         >
           {linkText}
@@ -153,17 +153,17 @@ export default function ChatWidget() {
         }}
         whileTap={{ scale: 0.95 }}
         onClick={() => setIsOpen(true)}
-        className={`fixed bottom-10 ${isRTL ? 'left-6' : 'right-6'} bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white p-4 rounded-full shadow-xl z-50 group`}
+        className={`fixed bottom-10 ${isRTL ? 'left-6' : 'right-6'} bg-zinc-700 dark:bg-white hover:bg-zinc-800 dark:hover:bg-gray-100 text-white dark:text-zinc-700 p-4 rounded-full shadow-xl z-50 group`}
         aria-label={getTranslation('openChat', 'Open chat')}
       >
         <motion.div
           animate={{ rotate: isOpen ? 45 : 0 }}
           transition={{ duration: 0.2 }}
         >
-          <MessageCircle className="w-6 h-6" />
+          <MessageSquare className="w-7 h-7" />
         </motion.div>
         {/* Pulse effect */}
-        <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 animate-ping opacity-20"></div>
+        <div className="absolute inset-0 rounded-full bg-zinc-700 dark:bg-white animate-ping opacity-20"></div>
       </motion.button>
 
       {/* Chat Window */}
@@ -177,10 +177,10 @@ export default function ChatWidget() {
             dir={isRTL ? "rtl" : "ltr"}
           >
             {/* Header */}
-            <div className="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-4 rounded-t-3xl flex items-center justify-between relative">
+            <div className="bg-zinc-700 dark:bg-white text-white dark:text-zinc-700 p-4 rounded-t-3xl flex items-center justify-between relative">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center ring-2 ring-white/30">
-                  <MessageCircle className="w-5 h-5" />
+                <div className="w-10 h-10 bg-zinc-800 dark:bg-gray-200 backdrop-blur-sm rounded-full flex items-center justify-center ring-2 ring-zinc-600 dark:ring-gray-400">
+                  <Bot className="w-5 h-5" />
                 </div>
                 <div>
                   <h3 className="font-bold text-base">
@@ -198,7 +198,7 @@ export default function ChatWidget() {
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={() => setIsOpen(false)}
-                className="hover:bg-white/20 rounded-full p-2 transition-colors"
+                className="hover:bg-zinc-800 dark:hover:bg-gray-200 rounded-full p-2 transition-colors"
               >
                 <X className="w-5 h-5" />
               </motion.button>
@@ -216,7 +216,7 @@ export default function ChatWidget() {
                   <div
                     className={`max-w-[80%] p-3 rounded-2xl text-sm ${
                       msg.isUser
-                        ? 'bg-blue-600 text-white'
+                        ? 'bg-zinc-700 dark:bg-white text-white dark:text-zinc-700'
                         : 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white'
                     }`}
                   >
@@ -234,9 +234,9 @@ export default function ChatWidget() {
                 >
                   <div className="bg-gray-100 dark:bg-gray-700 p-3 rounded-2xl text-sm">
                     <div className="flex space-x-1">
-                      <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce"></div>
-                      <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                      <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                      <div className="w-2 h-2 bg-zinc-500 dark:bg-gray-400 rounded-full animate-bounce"></div>
+                      <div className="w-2 h-2 bg-zinc-500 dark:bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                      <div className="w-2 h-2 bg-zinc-500 dark:bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
                     </div>
                   </div>
                 </motion.div>
@@ -252,14 +252,14 @@ export default function ChatWidget() {
                   onChange={(e) => setMessage(e.target.value)}
                   onKeyPress={handleKeyPress}
                   placeholder={getTranslation('typeMessage', 'Type your message...')}
-                  className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
+                  className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-500 dark:focus:ring-white bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
                 />
                 <button
                   onClick={handleSendMessage}
                   disabled={!message.trim()}
-                  className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white p-2 rounded-lg transition-colors"
+                  className="bg-zinc-700 dark:bg-white hover:bg-zinc-800 dark:hover:bg-gray-100 disabled:bg-gray-400 text-white dark:text-zinc-700 p-2 rounded-lg transition-colors"
                 >
-                  <Send className="w-4 h-4" />
+                  <Send className="w-5 h-5" />
                 </button>
               </div>
             </div>
