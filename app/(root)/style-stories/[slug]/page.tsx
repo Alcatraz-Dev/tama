@@ -146,7 +146,7 @@ export default function LookbookPage() {
       </section>
 
       {/* Products Grid */}
-      <section className="py-10 md:py-12 ">
+      <section className="py-10 md:py-12 mx-10 ">
         {lookbook.products && lookbook.products.length > 0 ? (
           <motion.div
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
@@ -155,7 +155,7 @@ export default function LookbookPage() {
             animate="visible"
           >
             {lookbook.products.map((product: Product) => (
-              <motion.div key={product._id} variants={itemVariants}  >
+              <motion.div key={product._id} variants={itemVariants} >
                 <ProductCard product={product} />
               </motion.div>
             ))}
