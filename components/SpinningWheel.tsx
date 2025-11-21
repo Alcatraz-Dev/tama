@@ -37,7 +37,7 @@ export default function SpinningWheelPopup({
   const wheelRef = useRef<HTMLDivElement>(null);
 
   const { points, addSpinPoints, getTier } = useLoyaltyStore();
-  const { language , t } = useTranslation();
+  const { language, t } = useTranslation();
   const { theme } = useTheme();
 
   const segments: Segment[] = [
@@ -107,16 +107,21 @@ export default function SpinningWheelPopup({
     return () => window.removeEventListener("resize", checkScreenSize);
   }, []);
 
-  // Reset spins daily
+  // Reset spins daily and load from localStorage
   useEffect(() => {
     const today = new Date().toDateString();
     const lastReset = localStorage.getItem("spinResetDate");
+    const savedSpins = localStorage.getItem("spinsLeft");
 
     if (lastReset !== today) {
+      // New day - reset spins
       setSpinsLeft(3);
       localStorage.setItem("spinResetDate", today);
+      localStorage.setItem("spinsLeft", "3");
     } else {
-      setSpinsLeft(3);
+      // Same day - load remaining spins from localStorage
+      const remainingSpins = savedSpins ? parseInt(savedSpins, 10) : 3;
+      setSpinsLeft(remainingSpins);
     }
   }, []);
 
@@ -415,17 +420,6 @@ export default function SpinningWheelPopup({
                     <span className="relative flex items-center justify-center gap-2 sm:gap-3">
                       {isSpinning ? (
                         <>
-                          <motion.div
-                            animate={{ rotate: 360 }}
-                            transition={{
-                              duration: 1,
-                              repeat: Infinity,
-                              ease: "linear",
-                            }}
-                            className="text-xl sm:text-2xl"
-                          >
-                            🎡
-                          </motion.div>
                           <motion.span
                             animate={{ opacity: [1, 0.5, 1] }}
                             transition={{ duration: 0.8, repeat: Infinity }}
@@ -435,7 +429,6 @@ export default function SpinningWheelPopup({
                         </>
                       ) : spinsLeft <= 0 ? (
                         <>
-                          <span className="text-base sm:text-lg">⏰</span>
                           <span className="text-sm sm:text-base">
                             {t("noSpinsLeft")}
                           </span>
@@ -528,7 +521,7 @@ export default function SpinningWheelPopup({
                   animate={{ opacity: 1 }}
                   transition={{ delay: 1 }}
                   className="text-center mt-4 sm:mt-6 lg:mt-2"
-                  dir={ language === "ar" ? "rtl" : "ltr"}
+                  dir={language === "ar" ? "rtl" : "ltr"}
                 >
                   <p className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm lg:text-xs flex items-center justify-center gap-2">
                     <span>{t("comeBackTomorrow")}</span>
