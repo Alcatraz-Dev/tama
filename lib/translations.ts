@@ -506,7 +506,40 @@ export type TranslationKey =
   | 'addItemsToRedeem'
   | 'redeemed100Points'
   | 'redeemed200Points'
-  | 'notEnoughPoints';
+  | 'notEnoughPoints'
+  | 'spinTheWheel'
+  | 'spinning'
+  | 'spin'
+  | 'youWon'
+  | 'spinDescription'
+  | 'comeBackTomorrow'
+  | 'pointsAdded'
+  | 'freeShippingApplied'
+  | 'spins'
+  | 'noSpinsLeft'
+  | 'discountApplied'
+  | '25Points'
+  | 'freeShippingLabel'
+  | 'tryAgain'
+  | '10PercentOff'
+  | '50Points'
+  | '20PercentOff'
+  | 'noLuck'
+  | '15Points'
+  | 'selectProducts'
+  | 'chooseUpTo3Products'
+  | 'noProductsAvailable'
+  | 'productsSelected'
+  | 'applyDiscount'
+  | 'apply'
+  | 'discounted'
+  | 'discount'
+  | 'spinDescription'
+  | 'comeBackTomorrow'
+  | 'pointsAdded'
+  | 'freeShippingApplied'
+  | 'spins'
+  | 'noSpinsLeft';
 
 export const translations = {
   en: {
@@ -991,6 +1024,33 @@ export const translations = {
     redeemed200Points: "Redeemed 200 points for 25 DT discount!",
     notEnoughPoints: "Not enough points!",
     pointsToGo: 'to achieve',
+    spinTheWheel: 'Spin the Wheel',
+    spinning: 'Spinning...',
+    spin: 'Spin',
+    youWon: 'You won',
+    selectProducts: 'Select Products',
+    noProductsAvailable: 'No products available at the moment',
+    applyDiscount: 'Apply Discount',
+    discountApplied: 'Discount applied to cart',
+    spinDescription: 'Spin to earn points and unlock amazing rewards!',
+    comeBackTomorrow: 'Come back tomorrow for more spins!',
+    pointsAdded: 'Points added to your loyalty balance!',
+    freeShippingApplied: 'Free shipping applied to your next order!',
+    spins: 'spins',
+    noSpinsLeft: 'No spins left today',
+    '25Points': '25 Points',
+    freeShippingLabel: 'Free Shipping',
+    tryAgain: 'Try Again',
+    '10PercentOff': '10% Off',
+    '50Points': '50 Points',
+    '20PercentOff': '20% Off',
+    noLuck: 'No Luck',
+    '15Points': '15 Points',
+    chooseUpTo3Products: 'Choose up to 3 products to apply your',
+    productsSelected: 'of 3 products selected',
+    apply: 'Apply',
+    discounted: 'Discounted:',
+    discount: 'discount',
   },
   fr: {
     home: 'Accueil',
@@ -1479,7 +1539,34 @@ export const translations = {
     addItemsToRedeem: 'Ajouter des articles au panier pour échanger des points',
     redeemed100Points: 'Échangé 100 points pour une réduction de 10 DT !',
     redeemed200Points: 'Échangé 200 points pour une réduction de 25 DT !',
-    notEnoughPoints: 'Pas assez de points !'
+    notEnoughPoints: 'Pas assez de points !',
+    spinTheWheel: 'Tourne la Roue',
+    spinning: 'Tourne...',
+    spin: 'Tourner',
+    youWon: 'Tu as gagné',
+    selectProducts: 'Sélectionner des Produits',
+    noProductsAvailable: 'Aucun produit disponible pour le moment',
+    applyDiscount: 'Appliquer la Remise',
+    chooseUpTo3Products: 'Choisissez jusqu\'à 3 produits pour appliquer votre',
+    productsSelected: 'sur 3 produits sélectionnés',
+    apply: 'Appliquer',
+    discounted: 'Remisé :',
+    discount: 'remise',
+    discountApplied: 'Remise appliquée au panier',
+    spinDescription: 'Tourne pour gagner des points et débloquer des récompenses incroyables !',
+    comeBackTomorrow: 'Reviens demain pour plus de tours !',
+    pointsAdded: 'Points ajoutés à votre solde de fidélité !',
+    freeShippingApplied: 'Livraison gratuite appliquée à votre prochaine commande !',
+    spins: 'tours',
+    noSpinsLeft: 'Plus de tours aujourd\'hui',
+    '25Points': '25 Points',
+    freeShippingLabel: 'Livraison Gratuite',
+    tryAgain: 'Réessayer',
+    '10PercentOff': '10% de Réduction',
+    '50Points': '50 Points',
+    '20PercentOff': '20% de Réduction',
+    noLuck: 'Pas de Chance',
+    '15Points': '15 Points',
   },
   ar: {
     home: 'الرئيسية',
@@ -1967,7 +2054,34 @@ export const translations = {
     addItemsToRedeem: 'أضف عناصر إلى السلة لاستبدال النقاط',
     redeemed100Points: 'تم استبدال 100 نقطة بخصم 10 دينار تونسي!',
     redeemed200Points: 'تم استبدال 200 نقطة بخصم 25 دينار تونسي!',
-    notEnoughPoints: 'لا توجد نقاط كافية!'
+    notEnoughPoints: 'لا توجد نقاط كافية!',
+    spinTheWheel: 'دور العجلة',
+    spinning: 'تدور...',
+    spin: 'دور',
+    youWon: 'لقد فزت',
+    selectProducts: 'اختر المنتجات',
+    noProductsAvailable: 'لا توجد منتجات متاحة في الوقت الحالي',
+    applyDiscount: 'تطبيق الخصم',
+    chooseUpTo3Products: 'اختر حتى 3 منتجات لتطبيق',
+    productsSelected: 'من 3 منتجات مختارة',
+    apply: 'تطبيق',
+    discounted: 'مخفض:',
+    discount: 'خصم',
+    discountApplied: 'تم تطبيق الخصم على السلة',
+    spinDescription: 'دور لكسب النقاط وافتح المكافآت الرائعة!',
+    comeBackTomorrow: 'عد غداً للمزيد من الدورات !',
+    pointsAdded: 'تمت إضافة النقاط إلى رصيد ولائك!',
+    freeShippingApplied: 'تم تطبيق الشحن المجاني على طلبك التالي!',
+    spins: 'دورات',
+    noSpinsLeft: 'لا توجد دورات متبقية اليوم',
+    '25Points': '25 نقطة',
+    freeShippingLabel: 'شحن مجاني',
+    tryAgain: 'حاول مرة أخرى',
+    '10PercentOff': 'خصم 10%',
+    '50Points': '50 نقطة',
+    '20PercentOff': 'خصم 20%',
+    noLuck: 'لا حظ',
+    '15Points': '15 نقطة',
 
 
   },

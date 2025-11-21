@@ -9,6 +9,8 @@ import ChatWidget from "@/components/ChatWidget";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import { ThemeProvider } from "next-themes";
 import { TranslationProvider } from "@/lib/translationContext";
+import SpinningWheelClient from "@/components/SpinningWheelClient";
+
 const jost = Jost({
   variable: "--font-jost",
   subsets: ["latin"],
@@ -52,6 +54,7 @@ export default function RootLayout({
               <Toaster />
               {/* <WhatsAppButton /> */}
               <ChatWidget />
+              <SpinningWheelClient />
             </ErrorBoundary>
           </TranslationProvider>
         </ThemeProvider>

@@ -3,7 +3,7 @@ import { persist, createJSONStorage } from "zustand/middleware";
 
 interface LoyaltyTransaction {
   id: string;
-  type: 'purchase' | 'review' | 'share' | 'signup_bonus';
+  type: 'purchase' | 'review' | 'share' | 'signup_bonus' | 'spin';
   points: number;
   description: string;
   timestamp: number;
@@ -29,6 +29,7 @@ type LoyaltyState = {
   addPurchasePoints: (orderTotal: number, orderId: string) => void;
   addReviewPoints: () => number;
   addSharePoints: () => number;
+  addSpinPoints: (points: number, reward: string) => number;
   deductPoints: (amount: number, reason: string) => boolean;
   resetLoyalty: () => void;
   getTier: (points: number) => string;
@@ -98,6 +99,23 @@ export const useLoyaltyStore = create<LoyaltyState>()(
           };
         });
         return points;
+      },
+
+      addSpinPoints: (pointsEarned: number, reward: string) => {
+        set((state) => {
+          const transaction: LoyaltyTransaction = {
+            id: crypto.randomUUID(),
+            type: 'spin',
+            points: pointsEarned,
+            description: `Earned ${pointsEarned} points from spinning wheel: ${reward}`,
+            timestamp: Date.now(),
+          };
+          return {
+            points: state.points + pointsEarned,
+            transactions: [transaction, ...state.transactions],
+          };
+        });
+        return pointsEarned;
       },
 
       deductPoints: (amount: number, reason: string) => {
