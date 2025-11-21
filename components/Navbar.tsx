@@ -59,7 +59,7 @@ export default function Navbar() {
     >
       <div className="container mx-auto py-4 px-4 lg:px-6 xl:px-8 relative">
         {/* Mobile Layout */}
-        <div className="flex items-center justify-between md:hidden px-2 py-3">
+        <div className="flex items-center justify-between md:hidden py-1">
           <div className="flex items-center gap-2">
             <Button
               onClick={() => setIsMenuOpen(!isMenuOpen)}

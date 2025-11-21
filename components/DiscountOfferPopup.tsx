@@ -21,8 +21,9 @@ export default function DiscountOfferPopup({
   const [featuredProducts, setFeaturedProducts] = useState<DiscountOfferProduct[]>([]);
   const [loading, setLoading] = useState(false);
   const [currentOffer, setCurrentOffer] = useState<any>(null);
+  const [timeRemaining, setTimeRemaining] = useState<number>(0);
   const { addToCart } = useCartStore();
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
 
   useEffect(() => {
     console.log('DiscountOfferPopup: isOpen changed to', isOpen);
@@ -32,41 +33,155 @@ export default function DiscountOfferPopup({
     }
   }, [isOpen]);
 
+  // Countdown timer effect
+  useEffect(() => {
+    if (!currentOffer || !isOpen) return;
+
+    const displayType = currentOffer.timeRemainingDisplay;
+    if (displayType === "custom") return; // No countdown for custom
+
+    // Calculate remaining time based on offer start date and duration
+    const now = new Date();
+    const startDate = currentOffer.startDate ? new Date(currentOffer.startDate) : now;
+
+    let durationMs = 0;
+    switch (displayType) {
+      case "30s":
+        durationMs = 30 * 1000; // 30 seconds
+        break;
+      case "12h":
+        durationMs = 12 * 60 * 60 * 1000; // 12 hours
+        break;
+      case "24h":
+        durationMs = 24 * 60 * 60 * 1000; // 24 hours
+        break;
+      case "48h":
+        durationMs = 48 * 60 * 60 * 1000; // 48 hours
+        break;
+      case "72h":
+        durationMs = 72 * 60 * 60 * 1000; // 72 hours
+        break;
+      default:
+        return;
+    }
+
+    const endTime = startDate.getTime() + durationMs;
+    const remainingMs = Math.max(0, endTime - now.getTime());
+    const remainingSeconds = Math.floor(remainingMs / 1000);
+
+    setTimeRemaining(remainingSeconds);
+
+    if (remainingSeconds > 0) {
+      const interval = setInterval(() => {
+        setTimeRemaining(prev => {
+          if (prev <= 1) {
+            clearInterval(interval);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+
+      return () => clearInterval(interval);
+    }
+  }, [currentOffer, isOpen]);
+
   const fetchActiveDiscountOffers = async () => {
     try {
       setLoading(true);
-      // Fetch active discount offers from Sanity
-      const query = `*[_type == "discountOffer" && isActive == "active" && (!defined(startDate) || startDate <= now()) && (!defined(endDate) || endDate > now())] | order(priority == "high" desc, priority == "normal" desc, priority == "low" desc, _createdAt desc)[0]`;
+      // Fetch active discount offers from Sanity with expanded product data
+      const query = `*[_type == "discountOffer"] {
+        ...,
+        featuredProducts[] {
+          ...,
+          product-> {
+            _id,
+            title,
+            price,
+            gallery[] {
+              ...,
+              asset-> {
+                url
+              }
+            },
+            slug
+          }
+        }
+      } | order(_createdAt desc)`;
       const response = await fetch(`/api/discount-offers?query=${encodeURIComponent(query)}`);
       const data = await response.json();
 
       console.log('DiscountOfferPopup: API response received:', data);
+      console.log('DiscountOfferPopup: Offers found:', data.offers?.length || 0);
+      console.log('DiscountOfferPopup: Full response:', JSON.stringify(data, null, 2));
+
       if (data.offers && data.offers.length > 0) {
-        const offer = data.offers[0];
-        console.log('DiscountOfferPopup: Found active offer:', offer.title);
-        console.log('DiscountOfferPopup: Offer status:', offer.isActive);
-        console.log('DiscountOfferPopup: Featured products:', offer.featuredProducts?.length || 0);
-        setCurrentOffer(offer);
+        // Find the first active offer that meets the criteria
+        const now = new Date();
+        const activeOffer = data.offers.find((offer: any) => {
+          const isActive = offer.isActive === "active";
+          const startDateValid = !offer.startDate || new Date(offer.startDate) <= now;
+          const endDateValid = !offer.endDate || new Date(offer.endDate) > now;
+
+          console.log('Checking offer:', offer.title, {
+            isActive,
+            startDateValid,
+            endDateValid,
+            startDate: offer.startDate,
+            endDate: offer.endDate
+          });
+
+          return isActive && startDateValid && endDateValid;
+        });
+
+        if (activeOffer) {
+          console.log('DiscountOfferPopup: Found active offer:', activeOffer.title);
+          console.log('DiscountOfferPopup: Offer status:', activeOffer.isActive);
+          console.log('DiscountOfferPopup: Start date:', activeOffer.startDate);
+          console.log('DiscountOfferPopup: Featured products:', activeOffer.featuredProducts?.length || 0);
+          console.log('DiscountOfferPopup: Featured products data:', activeOffer.featuredProducts);
+          setCurrentOffer(activeOffer);
+          console.log('DiscountOfferPopup: Setting current offer:', activeOffer);
+          console.log('DiscountOfferPopup: Offer title:', activeOffer.title);
+          console.log('DiscountOfferPopup: Offer description:', activeOffer.description);
+        } else {
+          console.log('DiscountOfferPopup: No offers meet active criteria, using fallback');
+          // Fallback to featured products if no active offers
+          const response = await fetch('/api/products?limit=6&featured=true');
+          const fallbackData = await response.json();
+          console.log('DiscountOfferPopup: Fallback products:', fallbackData.products?.length || 0);
+          setFeaturedProducts(fallbackData.products || []);
+          return; // Exit early, don't process further
+        }
 
         // Update popup timing based on offer settings
-        if (offer.popupDelay) {
-          const delayMs = parseInt(offer.popupDelay) * 1000;
+        if (activeOffer.popupDelay) {
+          const delayMs = parseInt(activeOffer.popupDelay) * 1000;
           // Could update timing here if needed
         }
 
         // Transform the offer data to match our component structure
-        const transformedProducts = offer.featuredProducts?.map((item: any) => {
+        console.log('DiscountOfferPopup: Raw featuredProducts:', activeOffer.featuredProducts);
+        const transformedProducts = activeOffer.featuredProducts?.map((item: any) => {
+          console.log('DiscountOfferPopup: Processing item:', item);
+          console.log('DiscountOfferPopup: Product data:', item.product);
           const product = item.product;
+          if (!product) return null;
+
           let discountedPrice = product.price;
+          let discountPercentage = 0;
 
           if (item.discountType === 'percentage') {
             const discountAmount = (product.price * item.discountValue) / 100;
             const maxDiscount = item.maxDiscountAmount || discountAmount;
             discountedPrice = product.price - Math.min(discountAmount, maxDiscount);
+            discountPercentage = item.discountValue;
           } else if (item.discountType === 'fixed') {
             discountedPrice = product.price - item.discountValue;
+            discountPercentage = Math.round((item.discountValue / product.price) * 100);
           } else if (item.discountType === 'final_price') {
             discountedPrice = item.discountValue;
+            discountPercentage = Math.round(((product.price - item.discountValue) / product.price) * 100);
           }
 
           return {
@@ -74,12 +189,14 @@ export default function DiscountOfferPopup({
             title: product.title,
             price: product.price,
             discountedPrice: Math.max(0, discountedPrice), // Ensure price doesn't go negative
-            discountPercentage: item.discountType === 'percentage' ? item.discountValue : Math.round(((product.price - discountedPrice) / product.price) * 100),
+            discountPercentage: Math.max(0, discountPercentage), // Ensure percentage doesn't go negative
             gallery: item.customImage ? [{ asset: { url: item.customImage.asset.url } }] : product.gallery,
             slug: product.slug
           };
-        }) || [];
+        }).filter(Boolean) || []; // Filter out null items
 
+        console.log('DiscountOfferPopup: Transformed products:', transformedProducts);
+        console.log('DiscountOfferPopup: First product gallery:', transformedProducts[0]?.gallery);
         setFeaturedProducts(transformedProducts);
       } else {
         console.log('DiscountOfferPopup: No active offers found, using fallback');
@@ -121,6 +238,20 @@ export default function DiscountOfferPopup({
     addToCart(cartItem);
   };
 
+  const formatTimeRemaining = (seconds: number): string => {
+    if (seconds <= 0) return "00:00:00";
+
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const secs = seconds % 60;
+
+    if (hours > 0) {
+      return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    } else {
+      return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -137,7 +268,7 @@ export default function DiscountOfferPopup({
           animate={{ scale: 1, opacity: 1, y: 0 }}
           exit={{ scale: 0.9, opacity: 0, y: 30 }}
           transition={{ type: "spring", damping: 20, stiffness: 200 }}
-          className="relative w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg mx-auto"
+          className="relative w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl mx-auto"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Modern glassmorphism background */}
@@ -146,7 +277,7 @@ export default function DiscountOfferPopup({
             <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500 opacity-20 animate-pulse"></div>
             <div className="absolute inset-[1px] rounded-3xl bg-gradient-to-br from-white/95 via-white/90 to-white/95 dark:from-gray-900/95 dark:via-gray-800/90 dark:to-gray-900/95"></div>
 
-            <div className="relative p-4 sm:p-6">
+            <div className="relative p-6 sm:p-8 lg:p-10">
               {/* Close Button */}
               <button
                 onClick={onClose}
@@ -178,12 +309,32 @@ export default function DiscountOfferPopup({
                   </div>
                 </motion.div>
 
-                <h2 className="text-xl sm:text-2xl lg:text-xl font-bold bg-gradient-to-r from-green-600 via-emerald-500 to-teal-500 bg-clip-text text-transparent mb-2 leading-tight">
-                  {t("exclusiveDeal") || "Exclusive Deal!"}
+                <h2 className="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold bg-gradient-to-r from-green-600 via-emerald-500 to-teal-500 bg-clip-text text-transparent mb-3 leading-tight">
+                  {(() => {
+                    if (!currentOffer) return t("exclusiveDeal");
+                    switch (language) {
+                      case 'fr':
+                        return currentOffer.title_fr || currentOffer.title;
+                      case 'ar':
+                        return currentOffer.title_ar || currentOffer.title;
+                      default:
+                        return currentOffer.title;
+                    }
+                  })()}
                 </h2>
 
-                <p className="text-gray-600 dark:text-gray-400 text-sm sm:text-base lg:text-sm px-2">
-                  {t("limitedTimeOffer") || "Limited time offer - Save up to 30% on selected items!"}
+                <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm lg:text-base xl:text-lg px-2 mb-4">
+                  {(() => {
+                    if (!currentOffer) return t("limitedTimeOffer");
+                    switch (language) {
+                      case 'fr':
+                        return currentOffer.description_fr || currentOffer.description;
+                      case 'ar':
+                        return currentOffer.description_ar || currentOffer.description;
+                      default:
+                        return currentOffer.description;
+                    }
+                  })()}
                 </p>
 
                 {/* Countdown Timer */}
@@ -191,20 +342,49 @@ export default function DiscountOfferPopup({
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 }}
-                  className="flex items-center justify-center gap-2 mt-3 bg-gradient-to-r from-orange-100 to-red-100 dark:from-orange-900/30 dark:to-red-900/30 px-3 py-2 rounded-full border border-orange-200 dark:border-orange-800/50"
+                  className="flex flex-col items-center gap-1 mt-3 bg-gradient-to-r from-orange-100 to-red-100 dark:from-orange-900/30 dark:to-red-900/30 px-3 py-3 rounded-full border border-orange-200 dark:border-orange-800/50"
                 >
-                  <Clock className="w-4 h-4 text-orange-600 dark:text-orange-400" />
-                  <span className="text-sm font-semibold text-orange-800 dark:text-orange-200">
-                    {currentOffer?.timeRemainingDisplay === "30s"
-                      ? "Offer ends in 30 seconds"
-                      : (t("offerEndsSoon") || "Offer ends in 24 hours")
-                    }
-                  </span>
+                  <div className="flex items-center justify-center gap-2">
+                    <Clock className="w-4 h-4 text-orange-600 dark:text-orange-400" />
+                    <span className="text-sm font-semibold text-orange-800 dark:text-orange-200">
+                      {(() => {
+                        const displayType = currentOffer?.timeRemainingDisplay;
+                        switch (displayType) {
+                          case "30s":
+                            return t("offerEndsIn30Seconds");
+                          case "12h":
+                            return t("offerEndsIn12Hours");
+                          case "24h":
+                            return t("offerEndsIn24Hours");
+                          case "48h":
+                            return t("offerEndsIn48Hours");
+                          case "72h":
+                            return t("offerEndsIn72Hours");
+                          case "custom":
+                            return t("limitedTimeOfferText");
+                          default:
+                            return t("offerEndsSoon");
+                        }
+                      })()}
+                    </span>
+                  </div>
+
+                  {/* Actual Countdown Timer */}
+                  {timeRemaining > 0 && currentOffer?.timeRemainingDisplay !== "custom" && (
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 0.5 }}
+                      className="text-orange-800 dark:text-orange-200 font-mono text-lg font-bold"
+                    >
+                      {formatTimeRemaining(timeRemaining)}
+                    </motion.div>
+                  )}
                 </motion.div>
               </div>
 
               {/* Featured Products */}
-              <div className="space-y-3 sm:space-y-4 max-h-80 overflow-y-auto">
+              <div className="space-y-4 sm:space-y-6 lg:space-y-4 xl:space-y-6 max-h-96 overflow-y-auto">
                 {loading ? (
                   <div className="flex items-center justify-center py-8">
                     <motion.div
@@ -217,12 +397,14 @@ export default function DiscountOfferPopup({
                   <div className="text-center py-8">
                     <Tag className="w-8 h-8 sm:w-12 sm:h-12 text-gray-400 mx-auto mb-3" />
                     <p className="text-gray-500 dark:text-gray-400 text-sm">
-                      {t("noOffersAvailable") || "No special offers available right now"}
+                      {t("noOffersAvailable")}
                     </p>
                   </div>
                 ) : (
                   featuredProducts.slice(0, 3).map((product, index) => {
                     const firstImage = product.gallery?.[0]?.asset?.url;
+                    console.log('DiscountOfferPopup: Product image URL:', firstImage);
+                    console.log('DiscountOfferPopup: Product gallery:', product.gallery);
 
                     return (
                       <motion.div
@@ -234,7 +416,7 @@ export default function DiscountOfferPopup({
                       >
                         <div className="flex items-center gap-3">
                           {/* Product Image */}
-                          <div className="w-16 h-16 sm:w-20 sm:h-20 relative rounded-xl overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 shadow-inner flex-shrink-0">
+                          <div className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 xl:w-28 xl:h-28 relative rounded-xl overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 shadow-inner flex-shrink-0">
                             {firstImage ? (
                               <Image
                                 src={firstImage}
@@ -251,27 +433,27 @@ export default function DiscountOfferPopup({
 
                           {/* Product Info */}
                           <div className="flex-1 min-w-0">
-                            <h3 className="font-semibold text-gray-900 dark:text-white text-sm sm:text-base mb-1 line-clamp-2 leading-tight">
+                            <h3 className="font-semibold text-gray-900 dark:text-white text-xs sm:text-sm lg:text-base xl:text-lg mb-2 line-clamp-2 leading-tight">
                               {product.title}
                             </h3>
 
-                            <div className="flex items-center gap-2 mb-2">
-                              <span className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white">
+                            <div className="flex items-center gap-1 sm:gap-2 lg:gap-3 mb-3">
+                              <span className="text-base sm:text-lg lg:text-xl xl:text-2xl font-bold text-gray-900 dark:text-white">
                                 {product.discountedPrice?.toFixed(2) || product.price} {t('currency') || 'DT'}
                               </span>
                               {product.discountedPrice && product.discountedPrice < product.price && (
-                                <span className="text-sm text-gray-500 dark:text-gray-400 line-through">
+                                <span className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 line-through">
                                   {product.price} {t('currency') || 'DT'}
                                 </span>
                               )}
                             </div>
 
-                            <div className="flex items-center gap-2">
-                              <span className="text-xs sm:text-sm font-semibold bg-green-100 dark:bg-green-800/50 text-green-700 dark:text-green-300 px-2 py-1 rounded-full">
+                            <div className="flex items-center gap-1 sm:gap-2 lg:gap-3">
+                              <span className="text-xs font-semibold bg-green-100 dark:bg-green-800/50 text-green-700 dark:text-green-300 px-1.5 sm:px-2 lg:px-3 py-0.5 sm:py-1 lg:py-1.5 rounded-full">
                                 -{product.discountPercentage || 0}% OFF
                               </span>
                               <span className="text-xs text-green-600 dark:text-green-400 font-medium">
-                                {t("save") || "Save"} {((product.price - (product.discountedPrice || product.price))).toFixed(2)} {t('currency') || 'DT'}
+                                {t("save")} {((product.price - (product.discountedPrice || product.price))).toFixed(2)} {t('currency') || 'DT'}
                               </span>
                             </div>
                           </div>
@@ -281,9 +463,9 @@ export default function DiscountOfferPopup({
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                             onClick={() => addToCartWithDiscount(product, product.discountPercentage || 20)}
-                            className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white rounded-xl flex items-center justify-center shadow-lg shadow-green-500/30 transition-all duration-200 flex-shrink-0"
+                            className="w-10 h-10 sm:w-12 sm:h-12 lg:w-12 lg:h-12 xl:w-14 xl:h-14 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white rounded-xl flex items-center justify-center shadow-lg shadow-green-500/30 transition-all duration-200 flex-shrink-0"
                           >
-                            <ShoppingCart className="w-4 h-4 sm:w-5 sm:h-5" />
+                            <ShoppingCart className="w-4 h-4 sm:w-5 sm:h-5 lg:w-5 lg:h-5 xl:w-6 xl:h-6" />
                           </motion.button>
                         </div>
                       </motion.div>
@@ -299,8 +481,8 @@ export default function DiscountOfferPopup({
                 transition={{ delay: 0.8 }}
                 className="text-center mt-4 sm:mt-6"
               >
-                <p className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm flex items-center justify-center gap-2">
-                  <span>{t("dontMissOut") || "Don't miss out on these amazing deals!"}</span>
+                <p className="text-gray-500 dark:text-gray-400 text-xs flex items-center justify-center gap-2">
+                  <span>{t("dontMissOut")}</span>
                   <motion.span
                     animate={{ scale: [1, 1.2, 1] }}
                     transition={{ duration: 2, repeat: Infinity }}
@@ -313,9 +495,9 @@ export default function DiscountOfferPopup({
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={onClose}
-                  className="mt-3 px-6 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-white/80 dark:hover:bg-gray-700/80 rounded-xl transition-all duration-200 font-medium border border-gray-200 dark:border-gray-600"
+                  className="mt-3 px-4 sm:px-6 py-2 text-xs sm:text-sm text-gray-600 dark:text-gray-400 hover:bg-white/80 dark:hover:bg-gray-700/80 rounded-xl transition-all duration-200 font-medium border border-gray-200 dark:border-gray-600"
                 >
-                  {t("maybeLater") || "Maybe Later"}
+                  {t("maybeLater")}
                 </motion.button>
               </motion.div>
             </div>
@@ -332,7 +514,7 @@ export function useDiscountOfferPopup() {
 
   useEffect(() => {
     console.log('useDiscountOfferPopup: Hook initialized');
-    // Show popup after 30 seconds or on scroll (500px) - less intrusive than spinning wheel
+    // Show popup after 5 seconds or on scroll (200px) - for testing (change back to 30000 and 500 for production)
     const timer = setTimeout(() => {
       console.log('useDiscountOfferPopup: Timer triggered');
       const hasSeenDiscountPopup = sessionStorage.getItem("discountOfferShown");
@@ -342,11 +524,11 @@ export function useDiscountOfferPopup() {
         setIsOpen(true);
         sessionStorage.setItem("discountOfferShown", "true");
       }
-    }, 30000); // 30 seconds
+    }, 5000); // 5 seconds for testing
 
     const handleScroll = () => {
       console.log('useDiscountOfferPopup: Scroll detected, Y:', window.scrollY);
-      if (window.scrollY > 500) {
+      if (window.scrollY > 200) { // Reduced for testing (change back to 500 for production)
         console.log('useDiscountOfferPopup: Scroll threshold reached');
         const hasSeenDiscountPopup = sessionStorage.getItem("discountOfferShown");
         console.log('useDiscountOfferPopup: Has seen popup:', !!hasSeenDiscountPopup);

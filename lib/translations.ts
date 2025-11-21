@@ -525,6 +525,12 @@ export type TranslationKey =
   | 'save'
   | 'dontMissOut'
   | 'maybeLater'
+  | 'offerEndsIn30Seconds'
+  | 'offerEndsIn12Hours'
+  | 'offerEndsIn24Hours'
+  | 'offerEndsIn48Hours'
+  | 'offerEndsIn72Hours'
+  | 'limitedTimeOfferText'
   | '25Points'
   | 'freeShippingLabel'
   | 'tryAgain'
@@ -1052,6 +1058,11 @@ export const translations = {
     save: 'Save',
     dontMissOut: "Don't miss out on these amazing deals!",
     maybeLater: 'Maybe Later',
+    offerEndsIn30Seconds: 'Offer ends in 30 seconds',
+    offerEndsIn12Hours: 'Offer ends in 12 hours',
+    offerEndsIn24Hours: 'Offer ends in 24 hours',
+    offerEndsIn48Hours: 'Offer ends in 48 hours',
+    offerEndsIn72Hours: 'Offer ends in 72 hours',
     '25Points': '25 Points',
     freeShippingLabel: 'Free Shipping',
     tryAgain: 'Try Again',
@@ -1580,6 +1591,11 @@ export const translations = {
     save: 'Économiser',
     dontMissOut: 'Ne manquez pas ces offres incroyables!',
     maybeLater: 'Peut-être plus tard',
+    offerEndsIn30Seconds: 'L\'offre se termine dans 30 secondes',
+    offerEndsIn12Hours: 'L\'offre se termine dans 12 heures',
+    offerEndsIn24Hours: 'L\'offre se termine dans 24 heures',
+    offerEndsIn48Hours: 'L\'offre se termine dans 48 heures',
+    offerEndsIn72Hours: 'L\'offre se termine dans 72 heures',
     '25Points': '25 Points',
     freeShippingLabel: 'Livraison Gratuite',
     tryAgain: 'Réessayer',
@@ -2102,6 +2118,11 @@ export const translations = {
     save: 'وفر',
     dontMissOut: 'لا تفوت هذه العروض الرائعة!',
     maybeLater: 'ربما لاحقاً',
+    offerEndsIn30Seconds: 'العرض ينتهي خلال 30 ثانية',
+    offerEndsIn12Hours: 'العرض ينتهي خلال 12 ساعة',
+    offerEndsIn24Hours: 'العرض ينتهي خلال 24 ساعة',
+    offerEndsIn48Hours: 'العرض ينتهي خلال 48 ساعة',
+    offerEndsIn72Hours: 'العرض ينتهي خلال 72 ساعة',
     '25Points': '25 نقطة',
     freeShippingLabel: 'شحن مجاني',
     tryAgain: 'حاول مرة أخرى',
