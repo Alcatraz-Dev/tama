@@ -518,6 +518,13 @@ export type TranslationKey =
   | 'spins'
   | 'noSpinsLeft'
   | 'discountApplied'
+  | 'exclusiveDeal'
+  | 'limitedTimeOffer'
+  | 'offerEndsSoon'
+  | 'noOffersAvailable'
+  | 'save'
+  | 'dontMissOut'
+  | 'maybeLater'
   | '25Points'
   | 'freeShippingLabel'
   | 'tryAgain'
@@ -1038,6 +1045,13 @@ export const translations = {
     freeShippingApplied: 'Free shipping applied to your next order!',
     spins: 'spins',
     noSpinsLeft: 'No spins left today',
+    exclusiveDeal: 'Exclusive Deal!',
+    limitedTimeOffer: 'Limited time offer - Save up to 30% on selected items!',
+    offerEndsSoon: 'Offer ends in 24 hours',
+    noOffersAvailable: 'No special offers available right now',
+    save: 'Save',
+    dontMissOut: "Don't miss out on these amazing deals!",
+    maybeLater: 'Maybe Later',
     '25Points': '25 Points',
     freeShippingLabel: 'Free Shipping',
     tryAgain: 'Try Again',
@@ -1559,6 +1573,13 @@ export const translations = {
     freeShippingApplied: 'Livraison gratuite appliquée à votre prochaine commande !',
     spins: 'tours',
     noSpinsLeft: 'Plus de tours aujourd\'hui',
+    exclusiveDeal: 'Offre Exclusive!',
+    limitedTimeOffer: 'Offre limitée dans le temps - Économisez jusqu\'à 30% sur les articles sélectionnés!',
+    offerEndsSoon: 'L\'offre se termine dans 24 heures',
+    noOffersAvailable: 'Aucune offre spéciale disponible pour le moment',
+    save: 'Économiser',
+    dontMissOut: 'Ne manquez pas ces offres incroyables!',
+    maybeLater: 'Peut-être plus tard',
     '25Points': '25 Points',
     freeShippingLabel: 'Livraison Gratuite',
     tryAgain: 'Réessayer',
@@ -2074,6 +2095,13 @@ export const translations = {
     freeShippingApplied: 'تم تطبيق الشحن المجاني على طلبك التالي!',
     spins: 'دورات',
     noSpinsLeft: 'لا توجد دورات متبقية اليوم',
+    exclusiveDeal: 'عرض حصري!',
+    limitedTimeOffer: 'عرض محدود الوقت - وفر حتى 30% على العناصر المختارة!',
+    offerEndsSoon: 'العرض ينتهي خلال 24 ساعة',
+    noOffersAvailable: 'لا توجد عروض خاصة متاحة الآن',
+    save: 'وفر',
+    dontMissOut: 'لا تفوت هذه العروض الرائعة!',
+    maybeLater: 'ربما لاحقاً',
     '25Points': '25 نقطة',
     freeShippingLabel: 'شحن مجاني',
     tryAgain: 'حاول مرة أخرى',

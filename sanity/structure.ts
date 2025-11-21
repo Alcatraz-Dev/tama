@@ -111,6 +111,7 @@ export const structure: StructureResolver = (S) =>
             .items([
               S.documentTypeListItem("heroCard").title("Hero Cards"),
               S.documentTypeListItem("ads").title("Ads & Promotions"),
+              S.documentTypeListItem("discountOffer").title("Discount Offers"),
             ])
         ),
 

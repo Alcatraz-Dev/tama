@@ -250,6 +250,25 @@ export interface RecentlyViewedProduct {
   };
 }
 
+export interface DiscountOfferProduct {
+  _id: string;
+  title: string;
+  price: number;
+  discountedPrice?: number;
+  discountPercentage?: number;
+  gallery: Array<{
+    _key?: string;
+    _type: string;
+    asset: {
+      url: string;
+      _ref?: string;
+    };
+  }>;
+  slug: {
+    current: string;
+  };
+}
+
 export interface FilterState {
   searchQuery: string;
   category: string;

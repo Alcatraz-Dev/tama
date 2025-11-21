@@ -10,6 +10,7 @@ import ErrorBoundary from "@/components/ErrorBoundary";
 import { ThemeProvider } from "next-themes";
 import { TranslationProvider } from "@/lib/translationContext";
 import SpinningWheelClient from "@/components/SpinningWheelClient";
+import DiscountOfferClient from "@/components/DiscountOfferClient";
 
 const jost = Jost({
   variable: "--font-jost",
@@ -55,6 +56,7 @@ export default function RootLayout({
               {/* <WhatsAppButton /> */}
               <ChatWidget />
               <SpinningWheelClient />
+              <DiscountOfferClient />
             </ErrorBoundary>
           </TranslationProvider>
         </ThemeProvider>
