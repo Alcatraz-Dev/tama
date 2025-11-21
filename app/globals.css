@@ -29,6 +29,12 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
+   /* Breakpoints */
+  --breakpoint-xs: 380px;
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
   /* Dark shades */
   --color-dark-900: #111111;
   --color-dark-700: #757575;

@@ -226,7 +226,7 @@ export default function SpinningWheelPopup({
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.9, opacity: 0, y: 30 }}
             transition={{ type: "spring", damping: 20, stiffness: 200 }}
-            className="relative w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl mx-auto"
+            className="relative w-full max-w-sm sm:max-w-sm md:max-w-md lg:max-w-lg mx-auto"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modern glassmorphism background */}
@@ -277,7 +277,7 @@ export default function SpinningWheelPopup({
                 </div>
 
                 {/* User Status & Points */}
-                <div className="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-4 lg:gap-2 mb-6 sm:mb-8 lg:mb-0">
+                <div className="flex flex-row justify-center items-center gap-2 sm:gap-3 lg:gap-2 mb-6 sm:mb-8 lg:mb-0 flex-wrap">
                   {/* Tier Badge */}
                   <motion.div
                     whileHover={{ scale: 1.05 }}
@@ -318,7 +318,7 @@ export default function SpinningWheelPopup({
 
                   {/* Triangle pointer fixed at top */}
                   <Triangle
-                    className="absolute top-[380px] sm:top-[380px] md:top-[400px] lg:top-80 left-1/2 transform -translate-x-1/2 rotate-180 w-6 h-6 sm:w-8 sm:h-8 text-red-500 z-50"
+                    className="absolute top-[285px] sm:top-[285px] md:top-[367px] lg:top-[294px] left-1/2 transform -translate-x-1/2 rotate-180 w-6 h-6 sm:w-8 sm:h-8 text-red-500 z-50"
                     fill="currentColor"
                   />
                 </div>
