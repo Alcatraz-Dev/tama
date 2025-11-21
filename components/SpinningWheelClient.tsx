@@ -24,7 +24,7 @@ export default function SpinningWheelClient() {
       <SpinningWheelPopup isOpen={isOpen} onClose={closePopup} />
       <button
         onClick={openPopup}
-        className={`fixed bottom-32 ${language === 'ar' ? 'left-4' : 'right-4'} z-40 w-12 h-12 mx-4 rounded-full border-2 border-white/50 shadow-2xl hover:scale-110 transition-all flex items-center justify-center animate-spin lg:animate-none lg:hover:animate-spin`}
+        className={`fixed bottom-[115px]  ${language === 'ar' ? 'left-4' : 'right-4'} z-40 w-12 h-12 mx-4 rounded-full border-2 border-white/50 shadow-2xl hover:scale-110 transition-all flex items-center justify-center animate-spin lg:animate-none lg:hover:animate-spin`}
         style={{
           background: `conic-gradient(${segments
             .map((seg, i) => `${seg.color} ${i * (360 / segments.length)}deg ${(i + 1) * (360 / segments.length)}deg`)
