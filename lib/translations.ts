@@ -547,6 +547,7 @@ export type TranslationKey =
   | 'apply'
   | 'discounted'
   | 'discount'
+  | 'percentOff'
   | 'spinDescription'
   | 'comeBackTomorrow'
   | 'pointsAdded'
@@ -1076,6 +1077,7 @@ export const translations = {
     apply: 'Apply',
     discounted: 'Discounted:',
     discount: 'discount',
+    percentOff:"%OFF"
   },
   fr: {
     home: 'Accueil',
@@ -1604,6 +1606,7 @@ export const translations = {
     '20PercentOff': '20% de Réduction',
     noLuck: 'Pas de Chance',
     '15Points': '15 Points',
+     percentOff:"% de réduction"
   },
   ar: {
     home: 'الرئيسية',
@@ -2131,6 +2134,7 @@ export const translations = {
     '20PercentOff': 'خصم 20%',
     noLuck: 'لا حظ',
     '15Points': '15 نقطة',
+      percentOff:"خصم"
 
 
   },

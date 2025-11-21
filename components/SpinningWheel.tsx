@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Trophy, Star, Gift, Sparkles, Triangle } from "lucide-react";
 import { useLoyaltyStore } from "@/store/loyalty";
@@ -553,8 +553,38 @@ export default function SpinningWheelPopup({
 // Hook to manage popup state and triggers
 export function useSpinningWheelPopup() {
   const [isOpen, setIsOpen] = useState(false);
+  const [hasSpinsAvailable, setHasSpinsAvailable] = useState<boolean | null>(null);
+
+  // Function to check for available spins
+  const checkSpinsAvailable = useCallback(() => {
+    const today = new Date().toDateString();
+    const lastReset = localStorage.getItem("spinResetDate");
+    const savedSpins = localStorage.getItem("spinsLeft");
+
+    let spinsLeft = 0;
+    if (lastReset !== today) {
+      // New day - reset spins
+      spinsLeft = 3;
+      localStorage.setItem("spinResetDate", today);
+      localStorage.setItem("spinsLeft", "3");
+    } else {
+      // Same day - load remaining spins from localStorage
+      spinsLeft = savedSpins ? parseInt(savedSpins, 10) : 3;
+    }
+
+    const available = spinsLeft > 0;
+    setHasSpinsAvailable(available);
+    return available;
+  }, []);
 
   useEffect(() => {
+    // Check for available spins first
+    const hasSpins = checkSpinsAvailable();
+    if (!hasSpins) {
+      console.log('useSpinningWheelPopup: No spins available, skipping popup');
+      return;
+    }
+
     // Show popup after 15 seconds or on scroll (300px)
     const timer = setTimeout(() => {
       const hasSeenPopup = sessionStorage.getItem("spinningWheelShown");
@@ -583,8 +613,27 @@ export function useSpinningWheelPopup() {
     };
   }, []);
 
+  // Listen for localStorage changes to update spin availability
+  useEffect(() => {
+    const handleStorageChange = () => {
+      checkSpinsAvailable();
+    };
+
+    // Check periodically for localStorage changes (since storage events don't fire for same-tab changes)
+    const interval = setInterval(() => {
+      checkSpinsAvailable();
+    }, 1000); // Check every second
+
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, [checkSpinsAvailable]);
+
   const openPopup = () => setIsOpen(true);
   const closePopup = () => setIsOpen(false);
 
-  return { isOpen, openPopup, closePopup };
+  return { isOpen, openPopup, closePopup, hasSpinsAvailable };
 }

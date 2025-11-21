@@ -7,7 +7,7 @@ import Image from "next/image";
 import { useCartStore } from "@/store/cart";
 import { CartItem } from "@/store/cart";
 import { useTranslation } from "@/lib/translationContext";
-import { Product, DiscountOfferProduct } from "@/lib/types";
+import { DiscountOfferProduct } from "@/lib/types";
 
 interface DiscountOfferPopupProps {
   isOpen: boolean;
@@ -155,10 +155,10 @@ export default function DiscountOfferPopup({
         }
 
         // Update popup timing based on offer settings
-        if (activeOffer.popupDelay) {
-          const delayMs = parseInt(activeOffer.popupDelay) * 1000;
-          // Could update timing here if needed
-        }
+        // if (activeOffer.popupDelay) {
+        //   const delayMs = parseInt(activeOffer.popupDelay) * 1000;
+        //   // Could update timing here if needed
+        // }
 
         // Transform the offer data to match our component structure
         console.log('DiscountOfferPopup: Raw featuredProducts:', activeOffer.featuredProducts);
@@ -262,6 +262,7 @@ export default function DiscountOfferPopup({
         exit={{ opacity: 0 }}
         className="fixed inset-0 z-40 flex items-center justify-center bg-black/60 backdrop-blur-md p-2 sm:p-4"
         onClick={onClose}
+        dir={language === 'ar' ? 'rtl' : 'ltr'}
       >
         <motion.div
           initial={{ scale: 0.9, opacity: 0, y: 30 }}
@@ -323,7 +324,7 @@ export default function DiscountOfferPopup({
                   })()}
                 </h2>
 
-                <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm lg:text-base xl:text-lg px-2 mb-4">
+                <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm lg:text-base xl:text-lg px-2 mb-4" >
                   {(() => {
                     if (!currentOffer) return t("limitedTimeOffer");
                     switch (language) {
@@ -413,6 +414,7 @@ export default function DiscountOfferPopup({
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: index * 0.1 }}
                         className="bg-gradient-to-r from-green-50/80 to-emerald-50/80 dark:from-green-900/20 dark:to-emerald-900/20 border border-green-200/50 dark:border-green-700/50 rounded-2xl p-3 sm:p-4 shadow-sm hover:shadow-md transition-all duration-300"
+                        dir={language === 'ar' ? 'ltr' : ' rtl'}
                       >
                         <div className="flex items-center gap-3">
                           {/* Product Image */}
@@ -438,7 +440,7 @@ export default function DiscountOfferPopup({
                             </h3>
 
                             <div className="flex items-center gap-1 sm:gap-2 lg:gap-3 mb-3">
-                              <span className="text-base sm:text-lg lg:text-xl xl:text-2xl font-bold text-gray-900 dark:text-white">
+                              <span className="text-sm sm:text-sm lg:text-xl xl:text-xl font-bold text-gray-900 dark:text-white">
                                 {product.discountedPrice?.toFixed(2) || product.price} {t('currency') || 'DT'}
                               </span>
                               {product.discountedPrice && product.discountedPrice < product.price && (
@@ -448,11 +450,11 @@ export default function DiscountOfferPopup({
                               )}
                             </div>
 
-                            <div className="flex items-center gap-1 sm:gap-2 lg:gap-3">
-                              <span className="text-xs font-semibold bg-green-100 dark:bg-green-800/50 text-green-700 dark:text-green-300 px-1.5 sm:px-2 lg:px-3 py-0.5 sm:py-1 lg:py-1.5 rounded-full">
-                                -{product.discountPercentage || 0}% OFF
+                            <div className="flex items-center gap-1 sm:gap-2 lg:gap-3" >
+                              <span className="lg:text-xs text-[9px] font-semibold bg-green-100 dark:bg-green-800/50 text-green-700 dark:text-green-300 px-1.5 sm:px-2 lg:px-3 py-0.5 sm:py-1 lg:py-1.5 rounded-full">
+                                -{product.discountPercentage || 0}% {t('percentOff')}
                               </span>
-                              <span className="text-xs text-green-600 dark:text-green-400 font-medium">
+                              <span className="lg:text-xs text-[9px] text-green-600 dark:text-green-400 font-medium">
                                 {t("save")} {((product.price - (product.discountedPrice || product.price))).toFixed(2)} {t('currency') || 'DT'}
                               </span>
                             </div>
@@ -511,46 +513,88 @@ export default function DiscountOfferPopup({
 // Hook to manage popup state and triggers
 export function useDiscountOfferPopup() {
   const [isOpen, setIsOpen] = useState(false);
+  const [hasActiveOffers, setHasActiveOffers] = useState(false);
+
+  // Function to check for active discount offers
+  const checkActiveOffers = async () => {
+    try {
+      const query = `*[_type == "discountOffer"] {
+        _id,
+        isActive,
+        startDate,
+        endDate
+      } | order(_createdAt desc)`;
+      const response = await fetch(`/api/discount-offers?query=${encodeURIComponent(query)}`);
+      const data = await response.json();
+
+      if (data.offers && data.offers.length > 0) {
+        const now = new Date();
+        const activeOffer = data.offers.find((offer: any) => {
+          const isActive = offer.isActive === "active";
+          const startDateValid = !offer.startDate || new Date(offer.startDate) <= now;
+          const endDateValid = !offer.endDate || new Date(offer.endDate) > now;
+          return isActive && startDateValid && endDateValid;
+        });
+        setHasActiveOffers(!!activeOffer);
+        return !!activeOffer;
+      } else {
+        setHasActiveOffers(false);
+        return false;
+      }
+    } catch (error) {
+      console.error('Failed to check active offers:', error);
+      setHasActiveOffers(false);
+      return false;
+    }
+  };
 
   useEffect(() => {
     console.log('useDiscountOfferPopup: Hook initialized');
-    // Show popup after 5 seconds or on scroll (200px) - for testing (change back to 30000 and 500 for production)
-    const timer = setTimeout(() => {
-      console.log('useDiscountOfferPopup: Timer triggered');
-      const hasSeenDiscountPopup = sessionStorage.getItem("discountOfferShown");
-      console.log('useDiscountOfferPopup: Has seen popup:', !!hasSeenDiscountPopup);
-      if (!hasSeenDiscountPopup) {
-        console.log('useDiscountOfferPopup: Opening popup');
-        setIsOpen(true);
-        sessionStorage.setItem("discountOfferShown", "true");
+    // Check for active offers first
+    checkActiveOffers().then((hasOffers) => {
+      if (!hasOffers) {
+        console.log('useDiscountOfferPopup: No active offers, skipping popup');
+        return;
       }
-    }, 5000); // 5 seconds for testing
 
-    const handleScroll = () => {
-      console.log('useDiscountOfferPopup: Scroll detected, Y:', window.scrollY);
-      if (window.scrollY > 200) { // Reduced for testing (change back to 500 for production)
-        console.log('useDiscountOfferPopup: Scroll threshold reached');
+      // Show popup after 5 seconds or on scroll (200px) - for testing (change back to 30000 and 500 for production)
+      const timer = setTimeout(() => {
+        console.log('useDiscountOfferPopup: Timer triggered');
         const hasSeenDiscountPopup = sessionStorage.getItem("discountOfferShown");
         console.log('useDiscountOfferPopup: Has seen popup:', !!hasSeenDiscountPopup);
         if (!hasSeenDiscountPopup) {
-          console.log('useDiscountOfferPopup: Opening popup via scroll');
+          console.log('useDiscountOfferPopup: Opening popup');
           setIsOpen(true);
           sessionStorage.setItem("discountOfferShown", "true");
-          window.removeEventListener("scroll", handleScroll);
         }
-      }
-    };
+      }, 5000); // 5 seconds for testing
 
-    window.addEventListener("scroll", handleScroll);
+      const handleScroll = () => {
+        console.log('useDiscountOfferPopup: Scroll detected, Y:', window.scrollY);
+        if (window.scrollY > 200) { // Reduced for testing (change back to 500 for production)
+          console.log('useDiscountOfferPopup: Scroll threshold reached');
+          const hasSeenDiscountPopup = sessionStorage.getItem("discountOfferShown");
+          console.log('useDiscountOfferPopup: Has seen popup:', !!hasSeenDiscountPopup);
+          if (!hasSeenDiscountPopup) {
+            console.log('useDiscountOfferPopup: Opening popup via scroll');
+            setIsOpen(true);
+            sessionStorage.setItem("discountOfferShown", "true");
+            window.removeEventListener("scroll", handleScroll);
+          }
+        }
+      };
 
-    return () => {
-      clearTimeout(timer);
-      window.removeEventListener("scroll", handleScroll);
-    };
+      window.addEventListener("scroll", handleScroll);
+
+      return () => {
+        clearTimeout(timer);
+        window.removeEventListener("scroll", handleScroll);
+      };
+    });
   }, []);
 
   const openPopup = () => setIsOpen(true);
   const closePopup = () => setIsOpen(false);
 
-  return { isOpen, openPopup, closePopup };
+  return { isOpen, openPopup, closePopup, hasActiveOffers };
 }
