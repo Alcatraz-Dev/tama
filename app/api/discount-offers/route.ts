@@ -1,49 +1,63 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { client } from '@/sanity/lib/client';
+import { client } from "@/sanity/lib/client";
+import { NextResponse } from "next/server";
 
-export async function GET(request: NextRequest) {
+
+// -----------------------------
+// GET — get discount offers
+// -----------------------------
+export async function GET(req: Request) {
   try {
-    const { searchParams } = new URL(request.url);
-    const query = searchParams.get('query');
+    const { searchParams } = new URL(req.url);
+    const query = searchParams.get("query");
 
-    console.log('API: Received query:', query);
-
-    if (!query) {
+    if (!query)
       return NextResponse.json(
-        { error: 'Query parameter is required' },
+        { success: false, message: "Missing query" },
         { status: 400 }
       );
-    }
 
-    // Update query to use new status field and simple ordering
-    const updatedQuery = query
-      .replace('isActive == true', 'isActive == "active"')
-      .replace('order(displayOrder asc, _createdAt desc)', 'order(_createdAt desc)');
+    const offers = await client.fetch(query);
 
-    console.log('API: Updated query:', updatedQuery);
+    return NextResponse.json({ success: true, offers });
+  } catch (error) {
+    console.error("GET discount-offers error:", error);
+    return NextResponse.json(
+      { success: false, error: "Failed to fetch discount offers" },
+      { status: 500 }
+    );
+  }
+}
 
-    const offers = await client.fetch(updatedQuery);
+// -----------------------------
+// POST — update isActive status
+// -----------------------------
+export async function POST(req: Request) {
+  try {
+    const { offerId, isActive } = await req.json();
 
-    console.log('API: Offers found:', offers?.length || 0);
-    console.log('API: Raw offers data:', JSON.stringify(offers, null, 2));
-    if (offers && offers.length > 0) {
-      console.log('API: First offer:', {
-        title: offers[0].title,
-        isActive: offers[0].isActive,
-        startDate: offers[0].startDate,
-        endDate: offers[0].endDate,
-        featuredProductsCount: offers[0].featuredProducts?.length || 0
-      });
-    }
+    if (!offerId)
+      return NextResponse.json(
+        { success: false, message: "Missing offerId" },
+        { status: 400 }
+      );
+
+    // Convert boolean into string as stored in Sanity
+    const newStatus = isActive ? "active" : "inactive";
+
+    const result = await client
+      .patch(offerId)
+      .set({ isActive: newStatus })
+      .commit();
 
     return NextResponse.json({
-      offers,
-      success: true
+      success: true,
+      message: "Offer updated successfully",
+      result,
     });
   } catch (error) {
-    console.error('Error fetching discount offers:', error);
+    console.error("POST discount-offers error:", error);
     return NextResponse.json(
-      { error: 'Failed to fetch discount offers' },
+      { success: false, error: "Failed to update discount offer" },
       { status: 500 }
     );
   }

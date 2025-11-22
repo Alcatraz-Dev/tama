@@ -1,13 +1,27 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageSquare, X, Send, Bot } from 'lucide-react';
+import { X, Send, Bot } from 'lucide-react';
 import { useTranslation } from '@/lib/translationContext';
 import Link from 'next/link';
 
-export default function ChatWidget() {
-  const { t, language } = useTranslation();
+// Hook to manage chat widget state
+export function useChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
+
+  const openChat = () => setIsOpen(true);
+  const closeChat = () => setIsOpen(false);
+
+  return { isOpen, openChat, closeChat };
+}
+
+interface ChatWidgetProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+export default function ChatWidget({ isOpen, onClose }: ChatWidgetProps) {
+  const { t, language } = useTranslation();
   const [message, setMessage] = useState('');
   const [isTyping, setIsTyping] = useState(false);
 
@@ -122,7 +136,7 @@ export default function ChatWidget() {
           key={match.index}
           href={linkUrl}
           className="text-zinc-700 dark:text-white hover:text-zinc-800 dark:hover:text-gray-200 underline"
-          onClick={() => setIsOpen(false)} // Close chat when clicking link
+          onClick={() => onClose()} // Close chat when clicking link
         >
           {linkText}
         </Link>
@@ -143,29 +157,6 @@ export default function ChatWidget() {
 
   return (
     <div key={`chat-widget-${language}`}>
-      {/* Chat Button */}
-      <motion.button
-        initial={{ scale: 0, rotate: -180 }}
-        animate={{ scale: 1, rotate: 0 }}
-        whileHover={{
-          scale: 1.1,
-          boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)"
-        }}
-        whileTap={{ scale: 0.95 }}
-        onClick={() => setIsOpen(true)}
-        className={`fixed bottom-10 ${isRTL ? 'left-6' : 'right-6'} bg-zinc-700 dark:bg-white hover:bg-zinc-800 dark:hover:bg-gray-100 text-white dark:text-zinc-700 p-4 rounded-full shadow-xl z-50 group`}
-        aria-label={getTranslation('openChat', 'Open chat')}
-      >
-        <motion.div
-          animate={{ rotate: isOpen ? 45 : 0 }}
-          transition={{ duration: 0.2 }}
-        >
-          <MessageSquare className="w-7 h-7" />
-        </motion.div>
-        {/* Pulse effect */}
-        <div className="absolute inset-0 rounded-full bg-zinc-700 dark:bg-white animate-ping opacity-20"></div>
-      </motion.button>
-
       {/* Chat Window */}
       <AnimatePresence>
         {isOpen && (
@@ -197,7 +188,7 @@ export default function ChatWidget() {
               <motion.button
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
-                onClick={() => setIsOpen(false)}
+                onClick={() => onClose()}
                 className="hover:bg-zinc-800 dark:hover:bg-gray-200 rounded-full p-2 transition-colors"
               >
                 <X className="w-5 h-5" />

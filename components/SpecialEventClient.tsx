@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useCallback } from "react";
 import SpecialEventPopup from "./SpecialEventPopup";
-import { useTranslation } from "@/lib/translationContext";
 
 interface SpecialEvent {
   _id: string;
@@ -62,11 +61,11 @@ interface SpecialEvent {
   isActive?: string;
 }
 
-export default function SpecialEventClient() {
+// Hook to manage special event popup state
+export function useSpecialEventPopup() {
   const [isOpen, setIsOpen] = useState(false);
   const [currentEvent, setCurrentEvent] = useState<SpecialEvent | null>(null);
   const [hasActiveEvent, setHasActiveEvent] = useState(false);
-  const { language } = useTranslation();
 
   // Function to check for active special events
   const checkActiveEvents = useCallback(async () => {
@@ -213,33 +212,39 @@ export default function SpecialEventClient() {
     });
   }, [checkActiveEvents]);
 
-  const handleClose = () => {
-    setIsOpen(false);
-  };
+  // Listen for localStorage changes to update event availability
+  useEffect(() => {
+    const handleStorageChange = () => {
+      checkActiveEvents();
+    };
 
-  const openPopup = () => {
-    setIsOpen(true);
-  };
+    // Check periodically for localStorage changes (since storage events don't fire for same-tab changes)
+    const interval = setInterval(() => {
+      checkActiveEvents();
+    }, 1000); // Check every second
+
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, [checkActiveEvents]);
+
+  const openPopup = () => setIsOpen(true);
+  const closePopup = () => setIsOpen(false);
+
+  return { isOpen, openPopup, closePopup, hasActiveEvent, currentEvent };
+}
+
+export default function SpecialEventClient() {
+  const { isOpen, closePopup, currentEvent } = useSpecialEventPopup();
 
   return (
-    <>
-      <SpecialEventPopup
-        isOpen={isOpen}
-        onClose={handleClose}
-        event={currentEvent}
-       
-      />
-
-      {/* Floating button for special events - only show when active event exists */}
-      {hasActiveEvent && currentEvent && (
-        <button
-          onClick={openPopup}
-          className={`fixed bottom-[130px] ${language === "ar" ? "right-4" : "left-4"} z-40 w-12 h-12 mx-4 rounded-full border-2 border-white/50 shadow-2xl hover:scale-110 transition-all flex items-center justify-center animate-bounce lg:animate-none lg:hover:animate-bounce bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500`}
-          title="Special Event"
-        >
-          <span className="text-xs text-white font-bold">🎉</span>
-        </button>
-      )}
-    </>
+    <SpecialEventPopup
+      isOpen={isOpen}
+      onClose={closePopup}
+      event={currentEvent}
+    />
   );
 }

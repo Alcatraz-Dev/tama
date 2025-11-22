@@ -139,6 +139,35 @@ export default function SpecialEventPopup({
           if (prev <= 1) {
             console.log('SpecialEventPopup: Timer reached zero, clearing interval');
             clearInterval(interval);
+            // Auto-expire the event when timer reaches 0
+            if (event?._id) {
+              console.log('SpecialEventPopup: Auto-expiring event:', event._id);
+              fetch('/api/special-events', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  action: 'expire',
+                  eventId: event._id
+                })
+              })
+              .then(response => {
+                console.log('SpecialEventPopup: Expiry API response:', response.status);
+                return response.json();
+              })
+              .then(data => {
+                console.log('SpecialEventPopup: Expiry API result:', data);
+                // Force re-check of active events after successful expiry
+                if (data.success) {
+                  console.log('SpecialEventPopup: Event expired successfully, triggering re-check');
+                  // This will cause the hooks to re-check on next interval
+                }
+              })
+              .catch(error => {
+                console.error('Failed to expire special event:', error);
+              });
+            }
             return 0;
           }
           return prev - 1;

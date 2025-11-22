@@ -4,14 +4,11 @@ import "../globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Toaster } from "@/components/ui/sonner";
-import WhatsAppButton from "@/components/WhatsAppButton";
 import ChatWidget from "@/components/ChatWidget";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import { ThemeProvider } from "next-themes";
 import { TranslationProvider } from "@/lib/translationContext";
-import SpinningWheelClient from "@/components/SpinningWheelClient";
-import DiscountOfferClient from "@/components/DiscountOfferClient";
-import SpecialEventClient from "@/components/SpecialEventClient";
+import FloatingActionButtons from "@/components/FloatingActionButtons";
 
 const jost = Jost({
   variable: "--font-jost",
@@ -55,10 +52,7 @@ export default function RootLayout({
               </div>
               <Toaster />
               {/* <WhatsAppButton /> */}
-              <ChatWidget />
-              <SpinningWheelClient />
-              <DiscountOfferClient />
-              <SpecialEventClient />
+              <FloatingActionButtons />
             </ErrorBoundary>
           </TranslationProvider>
         </ThemeProvider>

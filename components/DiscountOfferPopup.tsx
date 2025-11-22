@@ -18,7 +18,9 @@ export default function DiscountOfferPopup({
   isOpen,
   onClose,
 }: DiscountOfferPopupProps) {
-  const [featuredProducts, setFeaturedProducts] = useState<DiscountOfferProduct[]>([]);
+  const [featuredProducts, setFeaturedProducts] = useState<
+    DiscountOfferProduct[]
+  >([]);
   const [loading, setLoading] = useState(false);
   const [currentOffer, setCurrentOffer] = useState<any>(null);
   const [timeRemaining, setTimeRemaining] = useState<number>(0);
@@ -26,9 +28,9 @@ export default function DiscountOfferPopup({
   const { t, language } = useTranslation();
 
   useEffect(() => {
-    console.log('DiscountOfferPopup: isOpen changed to', isOpen);
+    console.log("DiscountOfferPopup: isOpen changed to", isOpen);
     if (isOpen) {
-      console.log('DiscountOfferPopup: Fetching discount offers...');
+      console.log("DiscountOfferPopup: Fetching discount offers...");
       fetchActiveDiscountOffers();
     }
   }, [isOpen]);
@@ -42,7 +44,9 @@ export default function DiscountOfferPopup({
 
     // Calculate remaining time based on offer start date and duration
     const now = new Date();
-    const startDate = currentOffer.startDate ? new Date(currentOffer.startDate) : now;
+    const startDate = currentOffer.startDate
+      ? new Date(currentOffer.startDate)
+      : now;
 
     let durationMs = 0;
     switch (displayType) {
@@ -73,9 +77,44 @@ export default function DiscountOfferPopup({
 
     if (remainingSeconds > 0) {
       const interval = setInterval(() => {
-        setTimeRemaining(prev => {
+        setTimeRemaining((prev) => {
           if (prev <= 1) {
             clearInterval(interval);
+            // Auto-expire the offer when timer reaches 0
+            if (currentOffer?._id) {
+              console.log(
+                "DiscountOfferPopup: Auto-expiring offer:",
+                currentOffer._id
+              );
+              fetch("/api/discount-offers", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  offerId: currentOffer._id,
+                  isActive: false,
+                }),
+              })
+                .then((response) => {
+                  console.log(
+                    "DiscountOfferPopup: Expiry API response:",
+                    response.status
+                  );
+                  return response.json();
+                })
+                .then((data) => {
+                  console.log("DiscountOfferPopup: Expiry API result:", data);
+                  // Force re-check of active offers after successful expiry
+                  if (data.success) {
+                    console.log(
+                      "DiscountOfferPopup: Offer expired successfully, triggering re-check"
+                    );
+                    // This will cause the hooks to re-check on next interval
+                  }
+                })
+                .catch((error) => {
+                  console.error("Failed to expire discount offer:", error);
+                });
+            }
             return 0;
           }
           return prev - 1;
@@ -108,48 +147,80 @@ export default function DiscountOfferPopup({
           }
         }
       } | order(_createdAt desc)`;
-      const response = await fetch(`/api/discount-offers?query=${encodeURIComponent(query)}`);
+      const response = await fetch(
+        `/api/discount-offers?query=${encodeURIComponent(query)}`
+      );
       const data = await response.json();
 
-      console.log('DiscountOfferPopup: API response received:', data);
-      console.log('DiscountOfferPopup: Offers found:', data.offers?.length || 0);
-      console.log('DiscountOfferPopup: Full response:', JSON.stringify(data, null, 2));
+      console.log("DiscountOfferPopup: API response received:", data);
+      console.log(
+        "DiscountOfferPopup: Offers found:",
+        data.offers?.length || 0
+      );
+      console.log(
+        "DiscountOfferPopup: Full response:",
+        JSON.stringify(data, null, 2)
+      );
 
       if (data.offers && data.offers.length > 0) {
         // Find the first active offer that meets the criteria
         const now = new Date();
         const activeOffer = data.offers.find((offer: any) => {
           const isActive = offer.isActive === "active";
-          const startDateValid = !offer.startDate || new Date(offer.startDate) <= now;
+          const startDateValid =
+            !offer.startDate || new Date(offer.startDate) <= now;
           const endDateValid = !offer.endDate || new Date(offer.endDate) > now;
 
-          console.log('Checking offer:', offer.title, {
+          console.log("Checking offer:", offer.title, {
             isActive,
             startDateValid,
             endDateValid,
             startDate: offer.startDate,
-            endDate: offer.endDate
+            endDate: offer.endDate,
           });
 
           return isActive && startDateValid && endDateValid;
         });
 
         if (activeOffer) {
-          console.log('DiscountOfferPopup: Found active offer:', activeOffer.title);
-          console.log('DiscountOfferPopup: Offer status:', activeOffer.isActive);
-          console.log('DiscountOfferPopup: Start date:', activeOffer.startDate);
-          console.log('DiscountOfferPopup: Featured products:', activeOffer.featuredProducts?.length || 0);
-          console.log('DiscountOfferPopup: Featured products data:', activeOffer.featuredProducts);
+          console.log(
+            "DiscountOfferPopup: Found active offer:",
+            activeOffer.title
+          );
+          console.log(
+            "DiscountOfferPopup: Offer status:",
+            activeOffer.isActive
+          );
+          console.log("DiscountOfferPopup: Start date:", activeOffer.startDate);
+          console.log(
+            "DiscountOfferPopup: Featured products:",
+            activeOffer.featuredProducts?.length || 0
+          );
+          console.log(
+            "DiscountOfferPopup: Featured products data:",
+            activeOffer.featuredProducts
+          );
           setCurrentOffer(activeOffer);
-          console.log('DiscountOfferPopup: Setting current offer:', activeOffer);
-          console.log('DiscountOfferPopup: Offer title:', activeOffer.title);
-          console.log('DiscountOfferPopup: Offer description:', activeOffer.description);
+          console.log(
+            "DiscountOfferPopup: Setting current offer:",
+            activeOffer
+          );
+          console.log("DiscountOfferPopup: Offer title:", activeOffer.title);
+          console.log(
+            "DiscountOfferPopup: Offer description:",
+            activeOffer.description
+          );
         } else {
-          console.log('DiscountOfferPopup: No offers meet active criteria, using fallback');
+          console.log(
+            "DiscountOfferPopup: No offers meet active criteria, using fallback"
+          );
           // Fallback to featured products if no active offers
-          const response = await fetch('/api/products?limit=6&featured=true');
+          const response = await fetch("/api/products?limit=6&featured=true");
           const fallbackData = await response.json();
-          console.log('DiscountOfferPopup: Fallback products:', fallbackData.products?.length || 0);
+          console.log(
+            "DiscountOfferPopup: Fallback products:",
+            fallbackData.products?.length || 0
+          );
           setFeaturedProducts(fallbackData.products || []);
           return; // Exit early, don't process further
         }
@@ -161,60 +232,85 @@ export default function DiscountOfferPopup({
         // }
 
         // Transform the offer data to match our component structure
-        console.log('DiscountOfferPopup: Raw featuredProducts:', activeOffer.featuredProducts);
-        const transformedProducts = activeOffer.featuredProducts?.map((item: any) => {
-          console.log('DiscountOfferPopup: Processing item:', item);
-          console.log('DiscountOfferPopup: Product data:', item.product);
-          const product = item.product;
-          if (!product) return null;
+        console.log(
+          "DiscountOfferPopup: Raw featuredProducts:",
+          activeOffer.featuredProducts
+        );
+        const transformedProducts =
+          activeOffer.featuredProducts
+            ?.map((item: any) => {
+              console.log("DiscountOfferPopup: Processing item:", item);
+              console.log("DiscountOfferPopup: Product data:", item.product);
+              const product = item.product;
+              if (!product) return null;
 
-          let discountedPrice = product.price;
-          let discountPercentage = 0;
+              let discountedPrice = product.price;
+              let discountPercentage = 0;
 
-          if (item.discountType === 'percentage') {
-            const discountAmount = (product.price * item.discountValue) / 100;
-            const maxDiscount = item.maxDiscountAmount || discountAmount;
-            discountedPrice = product.price - Math.min(discountAmount, maxDiscount);
-            discountPercentage = item.discountValue;
-          } else if (item.discountType === 'fixed') {
-            discountedPrice = product.price - item.discountValue;
-            discountPercentage = Math.round((item.discountValue / product.price) * 100);
-          } else if (item.discountType === 'final_price') {
-            discountedPrice = item.discountValue;
-            discountPercentage = Math.round(((product.price - item.discountValue) / product.price) * 100);
-          }
+              if (item.discountType === "percentage") {
+                const discountAmount =
+                  (product.price * item.discountValue) / 100;
+                const maxDiscount = item.maxDiscountAmount || discountAmount;
+                discountedPrice =
+                  product.price - Math.min(discountAmount, maxDiscount);
+                discountPercentage = item.discountValue;
+              } else if (item.discountType === "fixed") {
+                discountedPrice = product.price - item.discountValue;
+                discountPercentage = Math.round(
+                  (item.discountValue / product.price) * 100
+                );
+              } else if (item.discountType === "final_price") {
+                discountedPrice = item.discountValue;
+                discountPercentage = Math.round(
+                  ((product.price - item.discountValue) / product.price) * 100
+                );
+              }
 
-          return {
-            _id: product._id,
-            title: product.title,
-            price: product.price,
-            discountedPrice: Math.max(0, discountedPrice), // Ensure price doesn't go negative
-            discountPercentage: Math.max(0, discountPercentage), // Ensure percentage doesn't go negative
-            gallery: item.customImage ? [{ asset: { url: item.customImage.asset.url } }] : product.gallery,
-            slug: product.slug
-          };
-        }).filter(Boolean) || []; // Filter out null items
+              return {
+                _id: product._id,
+                title: product.title,
+                price: product.price,
+                discountedPrice: Math.max(0, discountedPrice), // Ensure price doesn't go negative
+                discountPercentage: Math.max(0, discountPercentage), // Ensure percentage doesn't go negative
+                gallery: item.customImage
+                  ? [{ asset: { url: item.customImage.asset.url } }]
+                  : product.gallery,
+                slug: product.slug,
+              };
+            })
+            .filter(Boolean) || []; // Filter out null items
 
-        console.log('DiscountOfferPopup: Transformed products:', transformedProducts);
-        console.log('DiscountOfferPopup: First product gallery:', transformedProducts[0]?.gallery);
+        console.log(
+          "DiscountOfferPopup: Transformed products:",
+          transformedProducts
+        );
+        console.log(
+          "DiscountOfferPopup: First product gallery:",
+          transformedProducts[0]?.gallery
+        );
         setFeaturedProducts(transformedProducts);
       } else {
-        console.log('DiscountOfferPopup: No active offers found, using fallback');
+        console.log(
+          "DiscountOfferPopup: No active offers found, using fallback"
+        );
         // Fallback to featured products if no active offers
-        const response = await fetch('/api/products?limit=6&featured=true');
+        const response = await fetch("/api/products?limit=6&featured=true");
         const data = await response.json();
-        console.log('DiscountOfferPopup: Fallback products:', data.products?.length || 0);
+        console.log(
+          "DiscountOfferPopup: Fallback products:",
+          data.products?.length || 0
+        );
         setFeaturedProducts(data.products || []);
       }
     } catch (error) {
-      console.error('Failed to fetch discount offers:', error);
+      console.error("Failed to fetch discount offers:", error);
       // Fallback to featured products
       try {
-        const response = await fetch('/api/products?limit=6&featured=true');
+        const response = await fetch("/api/products?limit=6&featured=true");
         const data = await response.json();
         setFeaturedProducts(data.products || []);
       } catch (fallbackError) {
-        console.error('Fallback fetch also failed:', fallbackError);
+        console.error("Fallback fetch also failed:", fallbackError);
         setFeaturedProducts([]);
       }
     } finally {
@@ -222,13 +318,21 @@ export default function DiscountOfferPopup({
     }
   };
 
-  const addToCartWithDiscount = (product: DiscountOfferProduct, discountPercentage: number = 20) => {
-    const discountedPrice = product.discountedPrice || Math.round((product.price * (1 - discountPercentage / 100)) * 100) / 100;
+  const addToCartWithDiscount = (
+    product: DiscountOfferProduct,
+    discountPercentage: number = 20
+  ) => {
+    const discountedPrice =
+      product.discountedPrice ||
+      Math.round(product.price * (1 - discountPercentage / 100) * 100) / 100;
 
     const cartItem: CartItem = {
       _id: product._id,
       title: product.title,
-      slug: typeof product.slug === 'string' ? product.slug : product.slug?.current || '',
+      slug:
+        typeof product.slug === "string"
+          ? product.slug
+          : product.slug?.current || "",
       price: discountedPrice,
       gallery: product.gallery,
       quantity: 1,
@@ -246,9 +350,9 @@ export default function DiscountOfferPopup({
     const secs = seconds % 60;
 
     if (hours > 0) {
-      return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+      return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
     } else {
-      return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+      return `${minutes.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
     }
   };
 
@@ -262,7 +366,7 @@ export default function DiscountOfferPopup({
         exit={{ opacity: 0 }}
         className="fixed inset-0 z-40 flex items-center justify-center bg-black/60 backdrop-blur-md p-2 sm:p-4"
         onClick={onClose}
-        dir={language === 'ar' ? 'rtl' : 'ltr'}
+        dir={language === "ar" ? "rtl" : "ltr"}
       >
         <motion.div
           initial={{ scale: 0.9, opacity: 0, y: 30 }}
@@ -314,9 +418,9 @@ export default function DiscountOfferPopup({
                   {(() => {
                     if (!currentOffer) return t("exclusiveDeal");
                     switch (language) {
-                      case 'fr':
+                      case "fr":
                         return currentOffer.title_fr || currentOffer.title;
-                      case 'ar':
+                      case "ar":
                         return currentOffer.title_ar || currentOffer.title;
                       default:
                         return currentOffer.title;
@@ -324,14 +428,20 @@ export default function DiscountOfferPopup({
                   })()}
                 </h2>
 
-                <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm lg:text-base xl:text-lg px-2 mb-4" >
+                <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm lg:text-base xl:text-lg px-2 mb-4">
                   {(() => {
                     if (!currentOffer) return t("limitedTimeOffer");
                     switch (language) {
-                      case 'fr':
-                        return currentOffer.description_fr || currentOffer.description;
-                      case 'ar':
-                        return currentOffer.description_ar || currentOffer.description;
+                      case "fr":
+                        return (
+                          currentOffer.description_fr ||
+                          currentOffer.description
+                        );
+                      case "ar":
+                        return (
+                          currentOffer.description_ar ||
+                          currentOffer.description
+                        );
                       default:
                         return currentOffer.description;
                     }
@@ -371,16 +481,17 @@ export default function DiscountOfferPopup({
                   </div>
 
                   {/* Actual Countdown Timer */}
-                  {timeRemaining > 0 && currentOffer?.timeRemainingDisplay !== "custom" && (
-                    <motion.div
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: 0.5 }}
-                      className="text-orange-800 dark:text-orange-200 font-mono text-lg font-bold"
-                    >
-                      {formatTimeRemaining(timeRemaining)}
-                    </motion.div>
-                  )}
+                  {timeRemaining > 0 &&
+                    currentOffer?.timeRemainingDisplay !== "custom" && (
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: 0.5 }}
+                        className="text-orange-800 dark:text-orange-200 font-mono text-lg font-bold"
+                      >
+                        {formatTimeRemaining(timeRemaining)}
+                      </motion.div>
+                    )}
                 </motion.div>
               </div>
 
@@ -390,7 +501,11 @@ export default function DiscountOfferPopup({
                   <div className="flex items-center justify-center py-8">
                     <motion.div
                       animate={{ rotate: 360 }}
-                      transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                      transition={{
+                        duration: 1,
+                        repeat: Infinity,
+                        ease: "linear",
+                      }}
                       className="w-6 h-6 sm:w-8 sm:h-8 border-4 border-green-500 border-t-transparent rounded-full"
                     ></motion.div>
                   </div>
@@ -404,8 +519,14 @@ export default function DiscountOfferPopup({
                 ) : (
                   featuredProducts.slice(0, 3).map((product, index) => {
                     const firstImage = product.gallery?.[0]?.asset?.url;
-                    console.log('DiscountOfferPopup: Product image URL:', firstImage);
-                    console.log('DiscountOfferPopup: Product gallery:', product.gallery);
+                    console.log(
+                      "DiscountOfferPopup: Product image URL:",
+                      firstImage
+                    );
+                    console.log(
+                      "DiscountOfferPopup: Product gallery:",
+                      product.gallery
+                    );
 
                     return (
                       <motion.div
@@ -414,7 +535,7 @@ export default function DiscountOfferPopup({
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: index * 0.1 }}
                         className="bg-gradient-to-r from-green-50/80 to-emerald-50/80 dark:from-green-900/20 dark:to-emerald-900/20 border border-green-200/50 dark:border-green-700/50 rounded-2xl p-3 sm:p-4 shadow-sm hover:shadow-md transition-all duration-300"
-                        dir={language === 'ar' ? 'ltr' : ' rtl'}
+                        dir={language === "ar" ? "ltr" : " rtl"}
                       >
                         <div className="flex items-center gap-3">
                           {/* Product Image */}
@@ -441,21 +562,30 @@ export default function DiscountOfferPopup({
 
                             <div className="flex items-center gap-1 sm:gap-2 lg:gap-3 mb-3">
                               <span className="text-sm sm:text-sm lg:text-xl xl:text-xl font-bold text-gray-900 dark:text-white">
-                                {product.discountedPrice?.toFixed(2) || product.price} {t('currency') || 'DT'}
+                                {product.discountedPrice?.toFixed(2) ||
+                                  product.price}{" "}
+                                {t("currency") || "DT"}
                               </span>
-                              {product.discountedPrice && product.discountedPrice < product.price && (
-                                <span className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 line-through">
-                                  {product.price} {t('currency') || 'DT'}
-                                </span>
-                              )}
+                              {product.discountedPrice &&
+                                product.discountedPrice < product.price && (
+                                  <span className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 line-through">
+                                    {product.price} {t("currency") || "DT"}
+                                  </span>
+                                )}
                             </div>
 
-                            <div className="flex items-center gap-1 sm:gap-2 lg:gap-3" >
+                            <div className="flex items-center gap-1 sm:gap-2 lg:gap-3">
                               <span className="lg:text-xs text-[9px] font-semibold bg-green-100 dark:bg-green-800/50 text-green-700 dark:text-green-300 px-1.5 sm:px-2 lg:px-3 py-0.5 sm:py-1 lg:py-1.5 rounded-full">
-                                -{product.discountPercentage || 0}% {t('percentOff')}
+                                -{product.discountPercentage || 0}%{" "}
+                                {t("percentOff")}
                               </span>
                               <span className="lg:text-xs text-[9px] text-green-600 dark:text-green-400 font-medium">
-                                {t("save")} {((product.price - (product.discountedPrice || product.price))).toFixed(2)} {t('currency') || 'DT'}
+                                {t("save")}{" "}
+                                {(
+                                  product.price -
+                                  (product.discountedPrice || product.price)
+                                ).toFixed(2)}{" "}
+                                {t("currency") || "DT"}
                               </span>
                             </div>
                           </div>
@@ -464,7 +594,12 @@ export default function DiscountOfferPopup({
                           <motion.button
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            onClick={() => addToCartWithDiscount(product, product.discountPercentage || 20)}
+                            onClick={() =>
+                              addToCartWithDiscount(
+                                product,
+                                product.discountPercentage || 20
+                              )
+                            }
                             className="w-10 h-10 sm:w-12 sm:h-12 lg:w-12 lg:h-12 xl:w-14 xl:h-14 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white rounded-xl flex items-center justify-center shadow-lg shadow-green-500/30 transition-all duration-200 flex-shrink-0"
                           >
                             <ShoppingCart className="w-4 h-4 sm:w-5 sm:h-5 lg:w-5 lg:h-5 xl:w-6 xl:h-6" />
@@ -522,18 +657,56 @@ export function useDiscountOfferPopup() {
         _id,
         isActive,
         startDate,
-        endDate
+        endDate,
+        timeRemainingDisplay
       } | order(_createdAt desc)`;
-      const response = await fetch(`/api/discount-offers?query=${encodeURIComponent(query)}`);
+      const response = await fetch(
+        `/api/discount-offers?query=${encodeURIComponent(query)}`
+      );
       const data = await response.json();
 
       if (data.offers && data.offers.length > 0) {
         const now = new Date();
         const activeOffer = data.offers.find((offer: any) => {
-          const isActive = offer.isActive === "active";
-          const startDateValid = !offer.startDate || new Date(offer.startDate) <= now;
+          // First check if manually set to active
+          if (offer.isActive !== "active") return false;
+
+          // Check date validity
+          const startDateValid =
+            !offer.startDate || new Date(offer.startDate) <= now;
           const endDateValid = !offer.endDate || new Date(offer.endDate) > now;
-          return isActive && startDateValid && endDateValid;
+
+          // Also check timer-based expiry for offers with timeRemainingDisplay
+          if (
+            offer.timeRemainingDisplay &&
+            offer.timeRemainingDisplay !== "custom"
+          ) {
+            const startDate = offer.startDate ? new Date(offer.startDate) : now;
+            let durationMs = 0;
+            switch (offer.timeRemainingDisplay) {
+              case "30s":
+                durationMs = 30 * 1000;
+                break;
+              case "12h":
+                durationMs = 12 * 60 * 60 * 1000;
+                break;
+              case "24h":
+                durationMs = 24 * 60 * 60 * 1000;
+                break;
+              case "48h":
+                durationMs = 48 * 60 * 60 * 1000;
+                break;
+              case "72h":
+                durationMs = 72 * 60 * 60 * 1000;
+                break;
+              default:
+                break;
+            }
+            const calculatedEndTime = startDate.getTime() + durationMs;
+            if (now.getTime() > calculatedEndTime) return false; // Timer expired
+          }
+
+          return startDateValid && endDateValid;
         });
         setHasActiveOffers(!!activeOffer);
         return !!activeOffer;
@@ -542,41 +715,53 @@ export function useDiscountOfferPopup() {
         return false;
       }
     } catch (error) {
-      console.error('Failed to check active offers:', error);
+      console.error("Failed to check active offers:", error);
       setHasActiveOffers(false);
       return false;
     }
   };
 
   useEffect(() => {
-    console.log('useDiscountOfferPopup: Hook initialized');
+    console.log("useDiscountOfferPopup: Hook initialized");
     // Check for active offers first
     checkActiveOffers().then((hasOffers) => {
       if (!hasOffers) {
-        console.log('useDiscountOfferPopup: No active offers, skipping popup');
+        console.log("useDiscountOfferPopup: No active offers, skipping popup");
         return;
       }
 
       // Show popup after 5 seconds or on scroll (200px) - for testing (change back to 30000 and 500 for production)
       const timer = setTimeout(() => {
-        console.log('useDiscountOfferPopup: Timer triggered');
-        const hasSeenDiscountPopup = sessionStorage.getItem("discountOfferShown");
-        console.log('useDiscountOfferPopup: Has seen popup:', !!hasSeenDiscountPopup);
+        console.log("useDiscountOfferPopup: Timer triggered");
+        const hasSeenDiscountPopup =
+          sessionStorage.getItem("discountOfferShown");
+        console.log(
+          "useDiscountOfferPopup: Has seen popup:",
+          !!hasSeenDiscountPopup
+        );
         if (!hasSeenDiscountPopup) {
-          console.log('useDiscountOfferPopup: Opening popup');
+          console.log("useDiscountOfferPopup: Opening popup");
           setIsOpen(true);
           sessionStorage.setItem("discountOfferShown", "true");
         }
       }, 5000); // 5 seconds for testing
 
       const handleScroll = () => {
-        console.log('useDiscountOfferPopup: Scroll detected, Y:', window.scrollY);
-        if (window.scrollY > 200) { // Reduced for testing (change back to 500 for production)
-          console.log('useDiscountOfferPopup: Scroll threshold reached');
-          const hasSeenDiscountPopup = sessionStorage.getItem("discountOfferShown");
-          console.log('useDiscountOfferPopup: Has seen popup:', !!hasSeenDiscountPopup);
+        console.log(
+          "useDiscountOfferPopup: Scroll detected, Y:",
+          window.scrollY
+        );
+        if (window.scrollY > 200) {
+          // Reduced for testing (change back to 500 for production)
+          console.log("useDiscountOfferPopup: Scroll threshold reached");
+          const hasSeenDiscountPopup =
+            sessionStorage.getItem("discountOfferShown");
+          console.log(
+            "useDiscountOfferPopup: Has seen popup:",
+            !!hasSeenDiscountPopup
+          );
           if (!hasSeenDiscountPopup) {
-            console.log('useDiscountOfferPopup: Opening popup via scroll');
+            console.log("useDiscountOfferPopup: Opening popup via scroll");
             setIsOpen(true);
             sessionStorage.setItem("discountOfferShown", "true");
             window.removeEventListener("scroll", handleScroll);
