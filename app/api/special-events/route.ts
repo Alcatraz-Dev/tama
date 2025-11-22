@@ -6,10 +6,10 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { action, eventId } = body;
 
-    console.log('API: POST request received:', { action, eventId });
+    // console.log('API: POST request received:', { action, eventId });
 
     if (action === 'expire' && eventId) {
-      console.log('API: Expiring event:', eventId);
+      // console.log('API: Expiring event:', eventId);
       try {
         // Update the event status to expired
         const result = await client
@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
           .set({ isActive: 'expired' })
           .commit();
 
-        console.log('API: Sanity patch result:', result);
+        // console.log('API: Sanity patch result:', result);
 
         return NextResponse.json({
           success: true,
@@ -51,7 +51,7 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const query = searchParams.get('query');
 
-    console.log('API: Received special events query:', query);
+    // console.log('API: Received special events query:', query);
 
     if (!query) {
       return NextResponse.json(
@@ -60,20 +60,20 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    console.log('API: Executing query:', query);
+    // console.log('API: Executing query:', query);
 
     const events = await client.fetch(query);
 
-    console.log('API: Events found:', events?.length || 0);
-    if (events && events.length > 0) {
-      console.log('API: First event:', {
-        eventName: events[0].eventName,
-        isActive: events[0].isActive,
-        startDate: events[0].startDate,
-        endDate: events[0].endDate,
-        eventType: events[0].eventType
-      });
-    }
+    // console.log('API: Events found:', events?.length || 0);
+    // if (events && events.length > 0) {
+    //   console.log('API: First event:', {
+    //     eventName: events[0].eventName,
+    //     isActive: events[0].isActive,
+    //     startDate: events[0].startDate,
+    //     endDate: events[0].endDate,
+    //     eventType: events[0].eventType
+    //   });
+    // }
 
     return NextResponse.json({
       events,
