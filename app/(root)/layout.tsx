@@ -11,6 +11,7 @@ import { ThemeProvider } from "next-themes";
 import { TranslationProvider } from "@/lib/translationContext";
 import SpinningWheelClient from "@/components/SpinningWheelClient";
 import DiscountOfferClient from "@/components/DiscountOfferClient";
+import SpecialEventClient from "@/components/SpecialEventClient";
 
 const jost = Jost({
   variable: "--font-jost",
@@ -57,6 +58,7 @@ export default function RootLayout({
               <ChatWidget />
               <SpinningWheelClient />
               <DiscountOfferClient />
+              <SpecialEventClient />
             </ErrorBoundary>
           </TranslationProvider>
         </ThemeProvider>

@@ -11,9 +11,10 @@ import contact from "./contact";
 import contactInfo from "./contactInfo";
 import ads from "./ads";
 import discountOffer from "./discountOffer";
+import specialEvent from "./specialEvent";
 
 
 export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [heroCard, product , category , collection , lookbook , order , socialLinks, review, contact, contactInfo, ads, discountOffer
+  types: [heroCard, product , category , collection , lookbook , order , socialLinks, review, contact, contactInfo, ads, discountOffer, specialEvent
   ],
 };

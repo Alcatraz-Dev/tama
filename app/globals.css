@@ -24,6 +24,77 @@
   .shadow-elegant {
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
   }
+
+  /* Special Event Background Patterns */
+  .bg-snowflakes {
+    background-image: radial-gradient(circle, #ffffff 1px, transparent 1px);
+    background-size: 20px 20px;
+    animation: snowfall 10s linear infinite;
+  }
+
+  .bg-hearts {
+    background-image: radial-gradient(circle, #ff69b4 2px, transparent 2px);
+    background-size: 30px 30px;
+    animation: heartbeat 2s ease-in-out infinite;
+  }
+
+  .bg-stars {
+    background-image: radial-gradient(circle, #ffd700 1px, transparent 1px);
+    background-size: 25px 25px;
+    animation: twinkle 3s ease-in-out infinite;
+  }
+
+  .bg-fireworks {
+    background-image: radial-gradient(circle, #ff4500 2px, transparent 2px);
+    background-size: 35px 35px;
+    animation: burst 4s ease-in-out infinite;
+  }
+
+  .bg-leaves {
+    background-image: radial-gradient(ellipse, #228b22 3px, transparent 3px);
+    background-size: 40px 40px;
+    animation: flutter 6s ease-in-out infinite;
+  }
+
+  .bg-flowers {
+    background-image: radial-gradient(circle, #ff69b4 2px, transparent 2px);
+    background-size: 28px 28px;
+    animation: bloom 5s ease-in-out infinite;
+  }
+}
+
+@keyframes snowfall {
+  0% { transform: translateY(-100vh); }
+  100% { transform: translateY(100vh); }
+}
+
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(1.2); opacity: 1; }
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+@keyframes burst {
+  0% { transform: scale(0); opacity: 1; }
+  50% { transform: scale(1.5); opacity: 0.8; }
+  100% { transform: scale(0); opacity: 0; }
+}
+
+@keyframes flutter {
+  0%, 100% { transform: rotate(0deg) translateY(0px); }
+  25% { transform: rotate(5deg) translateY(-5px); }
+  50% { transform: rotate(-5deg) translateY(-10px); }
+  75% { transform: rotate(3deg) translateY(-5px); }
+}
+
+@keyframes bloom {
+  0% { transform: scale(0.8); opacity: 0.5; }
+  50% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(0.8); opacity: 0.5; }
 }
 
 @custom-variant dark (&:is(.dark *));
@@ -197,6 +268,61 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(0.3 0 0);
   --sidebar-ring: oklch(0.556 0 0);
+}
+
+/* Background Patterns for Special Events */
+
+@keyframes snowfallRandom {
+  0% { transform: translateY(-20px) translateX(0) scale(0.4) ; opacity: 0.3; }
+  25% { transform: translateY(30px) translateX(15px) scale(1.6) ; opacity: 0.8; }
+  50% { transform: translateY(80px) translateX(-10px) scale(2.0) ; opacity: 0.9; }
+  75% { transform: translateY(130px) translateX(20px) scale(2.0) ; opacity: 0.9; }
+  100% { transform: translateY(180px) translateX(0) scale(2.0) ; opacity: 0.9; }
+}
+
+@keyframes heartbeatRandom {
+  0% { transform: scale(0.45) translateX(0) translateY(0) ; opacity: 0.4; }
+  20% { transform: scale(1.8) translateX(10px) translateY(-5px) ; opacity: 1; }
+  40% { transform: scale(1.8) translateX(-15px) translateY(10px) ; opacity: 0.8; }
+  60% { transform: scale(1.8) translateX(20px) translateY(-8px) ; opacity: 0.8; }
+  80% { transform: scale(1.8) translateX(-5px) translateY(15px) ; opacity: 0.8; }
+  100% { transform: scale(1.8) translateX(0) translateY(0) ; opacity: 0.8; }
+}
+
+@keyframes twinkleRandom {
+  0% { transform: scale(0.35) translateX(0) translateY(0) ; opacity: 0.2; }
+  16% { transform: scale(1.8) translateX(25px) translateY(-15px) ; opacity: 1; }
+  33% { transform: scale(1.8) translateX(-20px) translateY(20px) ; opacity: 0.9; }
+  50% { transform: scale(1.8) translateX(15px) translateY(-25px) ; opacity: 0.9; }
+  66% { transform: scale(1.8) translateX(-30px) translateY(10px) ; opacity: 0.9; }
+  83% { transform: scale(1.8) translateX(10px) translateY(15px) ; opacity: 0.9; }
+  100% { transform: scale(1.8) translateX(0) translateY(0) ; opacity: 0.9; }
+}
+
+@keyframes fireworksRandom {
+  0% { transform: scale(0.25) translateX(0) translateY(0) ; opacity: 0.8; }
+  20% { transform: scale(2.1) translateX(30px) translateY(-20px) ; opacity: 1; }
+  40% { transform: scale(2.1) translateX(-25px) translateY(35px) ; opacity: 0.9; }
+  60% { transform: scale(2.1) translateX(40px) translateY(-10px) ; opacity: 0.9; }
+  80% { transform: scale(2.1) translateX(-15px) translateY(25px) ; opacity: 0.9; }
+  100% { transform: scale(2.1) translateX(0) translateY(0) ; opacity: 0.9; }
+}
+
+@keyframes leavesRandom {
+  0% { transform: translateX(-30px) translateY(-20px) scale(0.4) ; opacity: 0.4; }
+  20% { transform: translateX(40px) translateY(15px) scale(1.7) ; opacity: 0.9; }
+  40% { transform: translateX(-50px) translateY(40px) scale(1.7) ; opacity: 0.8; }
+  60% { transform: translateX(35px) translateY(-30px) scale(1.7) ; opacity: 0.8; }
+  80% { transform: translateX(-20px) translateY(50px) scale(1.7) ; opacity: 0.8; }
+  100% { transform: translateX(-30px) translateY(-20px) scale(1.7) ; opacity: 0.8; }
+}
+
+@keyframes bloomRandom {
+  0% { transform: scale(0.3) translateX(0) translateY(0) ; opacity: 0.3; }
+  25% { transform: scale(1.8) translateX(20px) translateY(-15px) ; opacity: 1; }
+  50% { transform: scale(1.8) translateX(-25px) translateY(20px) ; opacity: 0.9; }
+  75% { transform: scale(1.8) translateX(15px) translateY(-10px) ; opacity: 0.9; }
+  100% { transform: scale(1.8) translateX(0) translateY(0) ; opacity: 0.9; }
 }
 
 @layer base {

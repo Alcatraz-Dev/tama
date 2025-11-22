@@ -549,6 +549,33 @@ export type TranslationKey =
   | 'discount'
   | 'percentOff'
   | 'spinDescription'
+  | 'specialEvent'
+  | 'eventEndsIn'
+  | 'eventFeatures'
+  | 'days'
+  | 'hours'
+  | 'minutes'
+  | 'seconds'
+  | 'blackFriday'
+  | 'blackFridayDescription'
+  | 'christmasSale'
+  | 'christmasSaleDescription'
+  | 'newYearSale'
+  | 'newYearSaleDescription'
+  | 'valentineSale'
+  | 'valentineSaleDescription'
+  | 'easterSale'
+  | 'easterSaleDescription'
+  | 'summerSale'
+  | 'summerSaleDescription'
+  | 'backToSchool'
+  | 'backToSchoolDescription'
+  | 'freeShipping'
+  | 'bonusPoints'
+  | 'exclusiveDiscount'
+  | 'specialDiscountProducts'
+  | 'addExclusiveItems'
+  | 'addToCartSpecial'
   | 'comeBackTomorrow'
   | 'pointsAdded'
   | 'freeShippingApplied'
@@ -1077,7 +1104,35 @@ export const translations = {
     apply: 'Apply',
     discounted: 'Discounted:',
     discount: 'discount',
-    percentOff:"%OFF"
+    percentOff:"%OFF",
+    // Special Events
+    specialEvent: 'Special Event',
+    eventEndsIn: 'Event ends in',
+    eventFeatures: 'Event Features',
+    days: 'days',
+    hours: 'hours',
+    minutes: 'minutes',
+    seconds: 'seconds',
+    blackFriday: 'Black Friday',
+    blackFridayDescription: 'Massive savings on all products! Up to 70% off everything.',
+    christmasSale: 'Christmas Sale',
+    christmasSaleDescription: 'Celebrate the season with amazing deals on holiday favorites.',
+    newYearSale: 'New Year Sale',
+    newYearSaleDescription: 'Start the new year with fresh savings and new beginnings.',
+    valentineSale: 'Valentine\'s Sale',
+    valentineSaleDescription: 'Show your love with special offers for you and your special someone.',
+    easterSale: 'Easter Sale',
+    easterSaleDescription: 'Spring into savings with our Easter collection deals.',
+    summerSale: 'Summer Sale',
+    summerSaleDescription: 'Beat the heat with cool deals on summer essentials.',
+    backToSchool: 'Back to School',
+    backToSchoolDescription: 'Get ready for the new school year with student discounts.',
+    freeShipping: 'Free Shipping',
+    bonusPoints: 'Bonus Points',
+    exclusiveDiscount: 'Exclusive Discount',
+    specialDiscountProducts: 'Special Discount Products',
+    addExclusiveItems: 'Add these exclusive items to your cart with discount!',
+    addToCartSpecial: 'Add to Cart'
   },
   fr: {
     home: 'Accueil',
@@ -1606,7 +1661,35 @@ export const translations = {
     '20PercentOff': '20% de Réduction',
     noLuck: 'Pas de Chance',
     '15Points': '15 Points',
-     percentOff:"% de réduction"
+     percentOff:"% de réduction",
+     // Special Events
+     specialEvent: 'Événement Spécial',
+     eventEndsIn: 'L\'événement se termine dans',
+     eventFeatures: 'Fonctionnalités de l\'Événement',
+     days: 'jours',
+     hours: 'heures',
+     minutes: 'minutes',
+     seconds: 'secondes',
+     blackFriday: 'Black Friday',
+     blackFridayDescription: 'Économies massives sur tous les produits ! Jusqu\'à 70% de réduction sur tout.',
+     christmasSale: 'Soldes de Noël',
+     christmasSaleDescription: 'Célébrez la saison avec des offres incroyables sur les favoris de Noël.',
+     newYearSale: 'Soldes du Nouvel An',
+     newYearSaleDescription: 'Commencez la nouvelle année avec des économies fraîches et de nouveaux départs.',
+     valentineSale: 'Soldes de la Saint-Valentin',
+     valentineSaleDescription: 'Montrez votre amour avec des offres spéciales pour vous et votre être cher.',
+     easterSale: 'Soldes de Pâques',
+     easterSaleDescription: 'Sautez dans les économies avec nos offres de collection de Pâques.',
+     summerSale: 'Soldes d\'Été',
+     summerSaleDescription: 'Combattez la chaleur avec des offres fraîches sur les essentiels d\'été.',
+     backToSchool: 'Retour à l\'École',
+     backToSchoolDescription: 'Préparez-vous pour la nouvelle année scolaire avec des réductions étudiantes.',
+     freeShipping: 'Livraison Gratuite',
+     bonusPoints: 'Points Bonus',
+     exclusiveDiscount: 'Remise Exclusive',
+     specialDiscountProducts: 'Produits à Prix Réduit Spéciaux',
+     addExclusiveItems: 'Ajoutez ces articles exclusifs à votre panier avec remise !',
+     addToCartSpecial: 'Ajouter au Panier'
   },
   ar: {
     home: 'الرئيسية',
@@ -2134,7 +2217,35 @@ export const translations = {
     '20PercentOff': 'خصم 20%',
     noLuck: 'لا حظ',
     '15Points': '15 نقطة',
-      percentOff:"خصم"
+      percentOff:"% خصم",
+      // Special Events
+      specialEvent: 'حدث خاص',
+      eventEndsIn: 'ينتهي الحدث في',
+      eventFeatures: 'ميزات الحدث',
+      days: 'أيام',
+      hours: 'ساعات',
+      minutes: 'دقائق',
+      seconds: 'ثواني',
+      blackFriday: 'الجمعة السوداء',
+      blackFridayDescription: 'توفيرات هائلة على جميع المنتجات! حتى 70% خصم على كل شيء.',
+      christmasSale: 'تخفيضات عيد الميلاد',
+      christmasSaleDescription: 'احتفل بالموسم مع صفقات مذهلة على مفضلات العطلات.',
+      newYearSale: 'تخفيضات العام الجديد',
+      newYearSaleDescription: 'ابدأ العام الجديد مع توفيرات جديدة وبدايات جديدة.',
+      valentineSale: 'تخفيضات عيد الحب',
+      valentineSaleDescription: 'أظهر حبك مع عروض خاصة لك ولشخصك الخاص.',
+      easterSale: 'تخفيضات عيد الفصح',
+      easterSaleDescription: 'اقفز إلى التوفيرات مع صفقات مجموعة عيد الفصح لدينا.',
+      summerSale: 'تخفيضات الصيف',
+      summerSaleDescription: 'قاتل الحرارة مع صفقات باردة على أساسيات الصيف.',
+      backToSchool: 'العودة إلى المدرسة',
+      backToSchoolDescription: 'استعد للعام الدراسي الجديد مع خصومات الطلاب.',
+      freeShipping: 'شحن مجاني',
+      bonusPoints: 'نقاط إضافية',
+      exclusiveDiscount: 'خصم حصري',
+      specialDiscountProducts: 'منتجات خصم خاصة',
+      addExclusiveItems: 'أضف هذه العناصر الحصرية إلى سلتك مع الخصم!',
+      addToCartSpecial: 'أضف إلى السلة'
 
 
   },
