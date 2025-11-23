@@ -183,7 +183,7 @@ export default function ReusablePopup({
       case "side_panel":
         return "-right-9 top-1/2 -translate-y-1/2 max-w-xs lg:max-w-sm w-full sm:w-auto max-h-[70vh] lg:max-h-[60vh] overflow-hidden";
       case "image_focus":
-        return "-top-62 left-0 right-0 w-full max-w-none max-h-[60vh] lg:max-h-[60vh] overflow-hidden";
+        return "lg:-top-62 -top-24 left-0 right-0 w-full max-w-none max-h-[80vh] lg:max-h-[60vh] overflow-hidden";
       case "product_grid":
         return "left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 max-w-3xl lg:max-w-4xl max-h-[80vh] lg:max-h-[70vh] overflow-hidden";
       default: // center_modal
