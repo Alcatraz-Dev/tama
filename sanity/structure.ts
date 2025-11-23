@@ -113,6 +113,7 @@ export const structure: StructureResolver = (S) =>
               S.documentTypeListItem("ads").title("Ads & Promotions"),
               S.documentTypeListItem("discountOffer").title("Discount Offers"),
               S.documentTypeListItem("specialEvent").title(" Special Events"),
+              S.documentTypeListItem("popup").title("Reusable Popups"),
             ])
         ),
 

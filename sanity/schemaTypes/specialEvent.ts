@@ -407,7 +407,7 @@ export default defineType({
               "#000000",
             ],
           },
-          initialValue: { hex: "#DC2626" }, // Red for Black Friday
+          // initialValue: { hex: "#DC2626" }, // Red for Black Friday
           description: "Main color for the event theme",
         }),
         defineField({
@@ -431,7 +431,7 @@ export default defineType({
               "#000000",
             ],
           },
-          initialValue: { hex: "#F59E0B" }, // Amber
+          // initialValue: { hex: "#F59E0B" }, // Amber
           description: "Secondary color for accents",
         }),
         defineField({
@@ -455,7 +455,7 @@ export default defineType({
               "#000000",
             ],
           },
-          initialValue: { hex: "#000000" }, // Black
+          // initialValue: { hex: "#000000" }, // Black
           description: "Background color for the popup",
         }),
       ],

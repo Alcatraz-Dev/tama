@@ -9,6 +9,23 @@ import ErrorBoundary from "@/components/ErrorBoundary";
 import { ThemeProvider } from "next-themes";
 import { TranslationProvider } from "@/lib/translationContext";
 import FloatingActionButtons from "@/components/FloatingActionButtons";
+import PopupManager from "@/components/PopupManager";
+
+// Suppress Sanity internal logging in development
+if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
+  const originalLog = console.log;
+  console.log = (...args: any[]) => {
+    // Filter out Sanity GROQ query logs
+    if (args.length > 0 && typeof args[0] === 'string') {
+      if (args[0].includes('GET /api/special-events') ||
+          args[0].includes('*[_type == "specialEvent"]') ||
+          args[0].includes('GROQ query')) {
+        return; // Suppress this log
+      }
+    }
+    originalLog.apply(console, args);
+  };
+}
 
 const jost = Jost({
   variable: "--font-jost",
@@ -53,6 +70,7 @@ export default function RootLayout({
               <Toaster />
               {/* <WhatsAppButton /> */}
               <FloatingActionButtons />
+              <PopupManager />
             </ErrorBoundary>
           </TranslationProvider>
         </ThemeProvider>

@@ -1,0 +1,69 @@
+{
+  "_type": "popup",
+  "popupType": "exit_intent",
+  "active": true,
+  "translations": {
+    "en": {
+      "title": "Wait! Don't Leave Yet",
+      "subtitle": "Get 20% off your entire order before you go. Use code EXIT20 at checkout.",
+      "ctaText": "Claim My 20% Off",
+      "incentive": "EXIT20 - Valid for 24 hours"
+    },
+    "fr": {
+      "title": "Attendez ! Ne partez pas encore",
+      "subtitle": "Obtenez 20% de réduction sur toute votre commande avant de partir. Utilisez le code EXIT20 à la caisse.",
+      "ctaText": "Réclamer mes 20% de réduction",
+      "incentive": "EXIT20 - Valable 24 heures"
+    },
+    "ar": {
+      "title": "انتظر! لا تذهب بعد",
+      "subtitle": "احصل على خصم 20% على طلبك بالكامل قبل أن تذهب. استخدم الكود EXIT20 عند الدفع.",
+      "ctaText": "احصل على خصمي 20%",
+      "incentive": "EXIT20 - صالح لمدة 24 ساعة"
+    }
+  },
+  "design": {
+    "layoutType": "center_modal",
+    "showImage": true,
+    "themeColors": {
+      "primaryColor": {
+        "hex": "#DC2626",
+        "_type": "color"
+      },
+      "secondaryColor": {
+        "hex": "#F59E0B",
+        "_type": "color"
+      },
+      "backgroundColor": {
+        "hex": "#000000",
+        "_type": "color"
+      }
+    }
+  },
+  "selectedProducts": [
+    {
+      "_type": "reference",
+      "_ref": "sample-product-id-1"
+    },
+    {
+      "_type": "reference",
+      "_ref": "sample-product-id-2"
+    }
+  ],
+  "animation": {
+    "entranceAnimation": "fade_scale",
+    "exitAnimation": "fade_out",
+    "duration": 300,
+    "easing": "easeInOut"
+  },
+  "trigger": {
+    "triggerType": "scroll_percentage",
+    "scrollPercentage": 50,
+    "maxDisplays": 3,
+    "displayFrequency": "once_per_session"
+  },
+  "priority": 10,
+  "targetAudience": ["new_visitors"],
+  "createdAt": "2024-01-15T10:00:00.000Z",
+  "internalNotes": "Exit intent popup for capturing leaving visitors. High priority for conversion optimization."
+}

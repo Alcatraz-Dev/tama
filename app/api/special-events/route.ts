@@ -51,8 +51,6 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const query = searchParams.get('query');
 
-    // console.log('API: Received special events query:', query);
-
     if (!query) {
       return NextResponse.json(
         { error: 'Query parameter is required' },
@@ -60,20 +58,8 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // console.log('API: Executing query:', query);
-
+    // Execute query without logging the raw query string
     const events = await client.fetch(query);
-
-    // console.log('API: Events found:', events?.length || 0);
-    // if (events && events.length > 0) {
-    //   console.log('API: First event:', {
-    //     eventName: events[0].eventName,
-    //     isActive: events[0].isActive,
-    //     startDate: events[0].startDate,
-    //     endDate: events[0].endDate,
-    //     eventType: events[0].eventType
-    //   });
-    // }
 
     return NextResponse.json({
       events,
