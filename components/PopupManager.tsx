@@ -67,6 +67,7 @@ interface PopupTranslation {
 
 export default function PopupManager() {
   const [activePopup, setActivePopup] = useState<PopupData | null>(null);
+  const [pendingTimeDelayPopup, setPendingTimeDelayPopup] = useState<PopupData | null>(null);
   const [shownPopups, setShownPopups] = useState<Set<string>>(new Set());
   const [scrollPercentage, setScrollPercentage] = useState(0);
 
@@ -106,6 +107,8 @@ export default function PopupManager() {
           }
         `);
 
+        console.log('Fetched popups:', popups);
+
         // Get session storage for shown popups
         const sessionShown = new Set<string>(
           JSON.parse(sessionStorage.getItem('shownPopups') || '[]')
@@ -132,11 +135,21 @@ export default function PopupManager() {
           return false;
         });
 
+        console.log('Available popup:', availablePopup);
+
         if (availablePopup) {
-          // Check if we should show based on trigger
-          const shouldShow = checkTrigger(availablePopup.trigger);
-          if (shouldShow) {
-            setActivePopup(availablePopup);
+          // For time_delay triggers, set as pending
+          if (availablePopup.trigger.triggerType === 'time_delay') {
+            console.log('Setting pending time-delay popup:', availablePopup);
+            setPendingTimeDelayPopup(availablePopup);
+          } else {
+            // Check if we should show based on trigger
+            const shouldShow = checkTrigger(availablePopup.trigger);
+            console.log('Should show popup:', shouldShow, 'Trigger:', availablePopup.trigger);
+            if (shouldShow) {
+              console.log('Setting active popup:', availablePopup);
+              setActivePopup(availablePopup);
+            }
           }
         }
       } catch (error) {
@@ -154,6 +167,7 @@ export default function PopupManager() {
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
       const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
       setScrollPercentage(scrollPercent);
+      console.log('Scroll percentage:', scrollPercent);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -162,41 +176,53 @@ export default function PopupManager() {
 
   // Time-based triggers
   useEffect(() => {
-    if (!activePopup) return;
+    if (!pendingTimeDelayPopup) return;
 
-    if (activePopup.trigger.triggerType === 'time_delay' && activePopup.trigger.delayMs) {
+    if (pendingTimeDelayPopup.trigger.triggerType === 'time_delay' && pendingTimeDelayPopup.trigger.delayMs) {
+      console.log('Starting time delay for popup:', pendingTimeDelayPopup.trigger.delayMs, 'ms');
       const timer = setTimeout(() => {
-        setActivePopup(activePopup);
-      }, activePopup.trigger.delayMs);
+        console.log('Time delay completed, setting active popup');
+        setActivePopup(pendingTimeDelayPopup);
+        setPendingTimeDelayPopup(null);
+      }, pendingTimeDelayPopup.trigger.delayMs);
 
       return () => clearTimeout(timer);
     }
-  }, [activePopup]);
+  }, [pendingTimeDelayPopup]);
 
   // Check if popup should be triggered
   const checkTrigger = (trigger: PopupData['trigger']): boolean => {
+    console.log('Checking trigger:', trigger, 'scrollPercentage:', scrollPercentage);
     switch (trigger.triggerType) {
       case 'scroll_percentage':
-        return scrollPercentage >= (trigger.scrollPercentage || 0);
+        const shouldShowScroll = scrollPercentage >= (trigger.scrollPercentage || 0);
+        console.log('Scroll trigger check:', shouldShowScroll, 'required:', trigger.scrollPercentage, 'current:', scrollPercentage);
+        return shouldShowScroll;
 
       case 'time_delay':
         // Handled in useEffect above
+        console.log('Time delay trigger - returning false (handled separately)');
         return false;
 
       case 'exit_intent':
         // Would need mouse tracking - for now, trigger on scroll near bottom
-        return scrollPercentage > 80;
+        const shouldShowExit = scrollPercentage > 80;
+        console.log('Exit intent trigger check:', shouldShowExit, 'scrollPercentage:', scrollPercentage);
+        return shouldShowExit;
 
       case 'cart_threshold':
         // Would need cart context - for now, return false
+        console.log('Cart threshold trigger - not implemented');
         return false;
 
       case 'purchase_complete':
         // Would need purchase tracking - for now, return false
+        console.log('Purchase complete trigger - not implemented');
         return false;
 
       case 'page_load':
       default:
+        console.log('Page load trigger - showing immediately');
         return true;
     }
   };
@@ -238,6 +264,8 @@ export default function PopupManager() {
         break;
     }
   };
+
+  console.log('PopupManager render - activePopup:', !!activePopup);
 
   if (!activePopup) return null;
 
